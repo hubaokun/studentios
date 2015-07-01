@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>06955D98-EC53-4113-95E1-10E3E8DA2A0D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>guangda_student</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>682e6c1b-d3ab-b745-a05a-f92c04a3bbaf++505</key>
+		<string>https://192.168.1.250/svn/guangda/trunk</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>worksFormal/guangda_student/guangda_student.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>682e6c1b-d3ab-b745-a05a-f92c04a3bbaf++505</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>682e6c1b-d3ab-b745-a05a-f92c04a3bbaf++505</key>
+		<string>https://192.168.1.250/svn/guangda</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://192.168.1.250/svn/guangda/trunk/worksFormal/guangda_student/guangda_student.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>682e6c1b-d3ab-b745-a05a-f92c04a3bbaf++505</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>682e6c1b-d3ab-b745-a05a-f92c04a3bbaf++505</string>
+			<key>IDESourceControlWCCName</key>
+			<string>guangda</string>
+		</dict>
+	</array>
+</dict>
+</plist>
