@@ -158,6 +158,8 @@
     NSString *avatarUrl = dic[@"avatarUrl"];
     if(![CommonUtil isEmpty:avatarUrl]){
         [cell.avatar sd_setImageWithURL:[NSURL URLWithString:avatarUrl] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
+    }else{
+        cell.avatar.image = [UIImage imageNamed:@"user_logo_default"];
     }
     
     NSString *nickname = dic[@"nickname"];
@@ -170,8 +172,11 @@
     NSString *content = dic[@"content"];
     if(![CommonUtil isEmpty:content]){
         cell.content.text = content;
+        CGSize size = [CommonUtil sizeWithString:content fontSize:14.0 sizewidth:(SCREEN_WIDTH - 55) sizeheight:CGFLOAT_MAX];
+        cell.contentHeight.constant = size.height;
     }else{
         cell.content.text = @"";
+        cell.contentHeight.constant = 25;
     }
     
     NSString *addtime = dic[@"addtime"];
@@ -186,7 +191,14 @@
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 72.0;
+    NSDictionary *dic = self.commentsList[indexPath.row];
+    NSString *content = dic[@"content"];
+    if(![CommonUtil isEmpty:content]){
+        CGSize size = [CommonUtil sizeWithString:content fontSize:14.0 sizewidth:(SCREEN_WIDTH - 55) sizeheight:CGFLOAT_MAX];
+        return size.height + 45.0;
+    }else{
+        return 72.0;
+    }
 }
 
 @end

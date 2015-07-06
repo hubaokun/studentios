@@ -10,36 +10,31 @@
 	<string>guangda_student</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>682e6c1b-d3ab-b745-a05a-f92c04a3bbaf++505</key>
-		<string>https://192.168.1.250/svn/guangda/trunk</string>
+		<key>23C656AEE883BDEBBAB71EA0C8009E302ECC617A</key>
+		<string>https://github.com/hubaokun/studentios.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>worksFormal/guangda_student/guangda_student.xcodeproj</string>
+	<string>guangda_student.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>682e6c1b-d3ab-b745-a05a-f92c04a3bbaf++505</key>
-		<string>../../../..</string>
-	</dict>
-	<key>IDESourceControlProjectRepositoryRootDictionary</key>
-	<dict>
-		<key>682e6c1b-d3ab-b745-a05a-f92c04a3bbaf++505</key>
-		<string>https://192.168.1.250/svn/guangda</string>
+		<key>23C656AEE883BDEBBAB71EA0C8009E302ECC617A</key>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://192.168.1.250/svn/guangda/trunk/worksFormal/guangda_student/guangda_student.xcodeproj</string>
+	<string>https://github.com/hubaokun/studentios.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>682e6c1b-d3ab-b745-a05a-f92c04a3bbaf++505</string>
+	<string>23C656AEE883BDEBBAB71EA0C8009E302ECC617A</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.subversion</string>
+			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>682e6c1b-d3ab-b745-a05a-f92c04a3bbaf++505</string>
+			<string>23C656AEE883BDEBBAB71EA0C8009E302ECC617A</string>
 			<key>IDESourceControlWCCName</key>
-			<string>guangda</string>
+			<string>guangda_student</string>
 		</dict>
 	</array>
 </dict>

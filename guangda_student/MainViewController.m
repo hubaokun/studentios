@@ -162,6 +162,8 @@
     }else{
         [SliderViewController sharedSliderController].isLeftViewShow = YES;
         [[SliderViewController sharedSliderController] leftItemClick];
+        //通知更新小红点显示
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"haveMessageNoRead" object:self];
     }
 }
 

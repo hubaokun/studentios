@@ -22,6 +22,7 @@
 @property (nonatomic, strong) UIView *redPoint;
 @property (strong, nonatomic) IBOutlet UIView *systemMessageView;
 @property (strong, nonatomic) IBOutlet UIImageView *messageIcon;
+@property (strong, nonatomic) IBOutlet UIImageView *messageRed;
 
 @end
 
@@ -41,19 +42,44 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshUserInfo) name:@"loginSuccess" object:nil];
     
-//    self.redPoint = [[UIView alloc] init];
-//    self.redPoint.frame = CGRectMake(71, 15, 10, 10);
-//    self.redPoint.backgroundColor = [UIColor redColor];
-//    self.redPoint.layer.cornerRadius = 5;
-//    self.redPoint.layer.masksToBounds = YES;
-//    [self.systemMessageView addSubview:self.redPoint];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showRedPoint) name:@"haveMessageNoRead" object:nil];
-    
 }
 
 - (void)showRedPoint
 {
-    self.redPoint.hidden = NO;
+    
+    if([[CommonUtil currentUtil] isLogin]){
+        
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"UserInfo"];
+        NSString *studentid = userInfo[@"studentid"];
+        if([CommonUtil isEmpty:studentid])
+            return;
+        [params setObject:studentid forKey:@"studentid"];
+        
+        NSString *uri = @"/sset?action=GetMessageCount";
+        NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:params RequestMethod:Request_POST];
+        
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+        [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            int code = [responseObject[@"code"] intValue];
+            if(code == 1){
+                int messagecount = [responseObject[@"noticecount"] intValue];
+                if(messagecount == 0){
+                    self.messageRed.hidden = YES;
+                }else{
+                    self.messageRed.hidden = NO;
+                }
+            }else{
+                self.messageRed.hidden = YES;
+            }
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            self.messageRed.hidden = YES;
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

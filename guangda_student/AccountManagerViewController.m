@@ -161,7 +161,6 @@
 }
 
 - (IBAction)clickForClearAccount:(id)sender{
-    NSString *aliaccount = [self.accountInputView.text stringByReplacingOccurrencesOfString:@" " withString:@""];
     
     NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
     

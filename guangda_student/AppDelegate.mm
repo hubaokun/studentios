@@ -100,7 +100,7 @@
     //    [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeShake];
     
     [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
-//    [[PgyManager sharedPgyManager] setEnableFeedback:NO]; //关闭用户反馈功能
+    [[PgyManager sharedPgyManager] setEnableFeedback:NO]; //关闭用户反馈功能
     
     [[PgyManager sharedPgyManager] setThemeColor:[UIColor blackColor]];
     
@@ -156,6 +156,21 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+    //AudioServicesPlaySystemSound(1007); //系统的通知声音
+    // AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);//震动
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ReceiveTopMessage" object:nil];
+    
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+//    NSString *message = [[userInfo objectForKey:@"aps"]objectForKey:@"alert"];
+//    
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+//    [alert show];
+    //通知更新小红点显示
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"haveMessageNoRead" object:self];
+}
+
 
 // 跳转主界面
 - (void)jumpToMainController {
@@ -215,12 +230,6 @@
     }
     else if ([string hasPrefix:@"tencent"])
     {
-////        //        [[NSNotificationCenter defaultCenter] postNotificationName:@"QQResp" object:nil];
-////        NSDictionary *paramDic = [MyKit GetUriParametersWithUrl:[url absoluteString]];
-////        NSInteger code = [[paramDic objectForKey:@"error"] integerValue];
-////        [self shareResultsWithStatus:(code == 0 ? 1 : 0)];
-////        NSLog(@"分享到 QQ(QQ空间) %@!",code == 0?@"成功":@"失败");
-//        return [TencentOAuth HandleOpenURL:url];
     }
     
     if ([url.host isEqualToString:@"safepay"]) {
@@ -232,14 +241,6 @@
                                          }];
         
     }
-//    if([string hasPrefix:@"alisdkdemo12345"])
-//    {
-//        [self parse:url application:application];
-//        return YES;
-//    }
-
-
-    
     return YES;
 }
 

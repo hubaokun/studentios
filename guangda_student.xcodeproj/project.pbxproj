@@ -208,6 +208,7 @@
 		B8E4ABE81AC54F6300D6B7DA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B8E4ABDF1AC54F6300D6B7DA /* Localizable.strings */; };
 		B9187BEC1B09B3C300366081 /* FindPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9187BEA1B09B3C300366081 /* FindPwdViewController.m */; };
 		B9187BED1B09B3C300366081 /* FindPwdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B9187BEB1B09B3C300366081 /* FindPwdViewController.xib */; };
+		B927D4601B4142610013478E /* PgySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B927D45F1B4142610013478E /* PgySDK.framework */; };
 		B952DCCB1B04DFD000229402 /* statedictionary.plist in Resources */ = {isa = PBXBuildFile; fileRef = B952DCCA1B04DFD000229402 /* statedictionary.plist */; };
 		B96708801B26EEE400F418EB /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = B967087F1B26EEE400F418EB /* OpenUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		B968AF691B1DC13E00806043 /* CouponListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B968AF671B1DC13E00806043 /* CouponListViewController.m */; };
@@ -226,7 +227,6 @@
 		B9BD21081B3934FF00B6B7B1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9BD21071B3934FF00B6B7B1 /* AVFoundation.framework */; };
 		D765DE921B1CAAE200381AEF /* AccountManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D765DE901B1CAAE200381AEF /* AccountManagerViewController.m */; };
 		D765DE931B1CAAE200381AEF /* AccountManagerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D765DE911B1CAAE200381AEF /* AccountManagerViewController.xib */; };
-		D780821A1B4190C000FAAA62 /* PgySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D78082191B4190C000FAAA62 /* PgySDK.framework */; };
 		D786FE201B1B3571001DBFDD /* JKCountDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D786FE1F1B1B3571001DBFDD /* JKCountDownButton.m */; };
 		D786FE241B1B387E001DBFDD /* CommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D786FE221B1B387E001DBFDD /* CommentListViewController.m */; };
 		D786FE251B1B387E001DBFDD /* CommentListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D786FE231B1B387E001DBFDD /* CommentListViewController.xib */; };
@@ -654,6 +654,7 @@
 		B9187BE91B09B3C300366081 /* FindPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPwdViewController.h; sourceTree = "<group>"; };
 		B9187BEA1B09B3C300366081 /* FindPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPwdViewController.m; sourceTree = "<group>"; };
 		B9187BEB1B09B3C300366081 /* FindPwdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FindPwdViewController.xib; sourceTree = "<group>"; };
+		B927D45F1B4142610013478E /* PgySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PgySDK.framework; path = 3rdparty/PgySDK.framework; sourceTree = "<group>"; };
 		B952DCCA1B04DFD000229402 /* statedictionary.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = statedictionary.plist; sourceTree = "<group>"; };
 		B967087E1B26EEE400F418EB /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
 		B967087F1B26EEE400F418EB /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
@@ -679,7 +680,6 @@
 		D765DE8F1B1CAAE200381AEF /* AccountManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManagerViewController.h; sourceTree = "<group>"; };
 		D765DE901B1CAAE200381AEF /* AccountManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManagerViewController.m; sourceTree = "<group>"; };
 		D765DE911B1CAAE200381AEF /* AccountManagerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccountManagerViewController.xib; sourceTree = "<group>"; };
-		D78082191B4190C000FAAA62 /* PgySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PgySDK.framework; path = 3rdparty/PgySDK.framework; sourceTree = "<group>"; };
 		D786FE1E1B1B3571001DBFDD /* JKCountDownButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKCountDownButton.h; sourceTree = "<group>"; };
 		D786FE1F1B1B3571001DBFDD /* JKCountDownButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKCountDownButton.m; sourceTree = "<group>"; };
 		D786FE211B1B387E001DBFDD /* CommentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentListViewController.h; path = guangda_student/CommentListViewController.h; sourceTree = SOURCE_ROOT; };
@@ -716,7 +716,7 @@
 				310C23BB1AD7C3B8008090BB /* BaiduMapAPI.framework in Frameworks */,
 				31C9D8F51AD66E93006A4E80 /* libcrypto.a in Frameworks */,
 				316DC6C01ACE5311007AB9DC /* libWeiboSDK.a in Frameworks */,
-				D780821A1B4190C000FAAA62 /* PgySDK.framework in Frameworks */,
+				B927D4601B4142610013478E /* PgySDK.framework in Frameworks */,
 				3168C9891AD387FE00B607C3 /* TencentOpenAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -799,7 +799,7 @@
 		3168C98A1AD3887800B607C3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D78082191B4190C000FAAA62 /* PgySDK.framework */,
+				B927D45F1B4142610013478E /* PgySDK.framework */,
 				B9BD21071B3934FF00B6B7B1 /* AVFoundation.framework */,
 				B9BD21051B3934F100B6B7B1 /* AudioToolbox.framework */,
 				B9BD21031B3934DE00B6B7B1 /* CoreMotion.framework */,
@@ -1879,8 +1879,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: yu mingdong (GUTSG2VU3P)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: yu mingdong (GUTSG2VU3P)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1905,8 +1905,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "54866074-09ff-41f3-b28e-43a51b7ceb0c";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
 		};
@@ -1927,8 +1928,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: yu mingdong (GUTSG2VU3P)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: yu mingdong (GUTSG2VU3P)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1946,9 +1947,10 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "54866074-09ff-41f3-b28e-43a51b7ceb0c";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Release;
 		};
@@ -1957,14 +1959,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: yu mingdong (GUTSG2VU3P)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/TencentOpenAPI",
 					"$(PROJECT_DIR)/guangda_student/3rdparty",
-					"$(PROJECT_DIR)/guangda_student/3rdparty/BaiduMap",
-					/Users/guok/Downloads/PgySDK/sdk,
 				);
 				GCC_PREFIX_HEADER = guangda_student/PrefixHeader.pch;
 				HEADER_SEARCH_PATHS = (
@@ -1987,7 +1987,7 @@
 					"-Objc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "526361c9-5fab-476d-878b-0f28b3f662b2";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -1996,14 +1996,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: yu mingdong (GUTSG2VU3P)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/TencentOpenAPI",
 					"$(PROJECT_DIR)/guangda_student/3rdparty",
-					"$(PROJECT_DIR)/guangda_student/3rdparty/BaiduMap",
-					/Users/guok/Downloads/PgySDK/sdk,
 				);
 				GCC_PREFIX_HEADER = guangda_student/PrefixHeader.pch;
 				HEADER_SEARCH_PATHS = (
@@ -2026,7 +2024,7 @@
 					"-Objc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "526361c9-5fab-476d-878b-0f28b3f662b2";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

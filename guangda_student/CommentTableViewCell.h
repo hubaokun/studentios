@@ -14,4 +14,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *content;
 @property (strong, nonatomic) IBOutlet UILabel *time;
 
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *contentHeight;
+
 @end

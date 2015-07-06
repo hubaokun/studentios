@@ -18,8 +18,9 @@
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
 //#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"    // 正式服
-//#define REQUEST_HOST   @"http://192.168.1.123:8080/guangda"   // 凯哥
-#define REQUEST_HOST   @"http://192.168.0.126:8080/guangda"  // 测试服120.25.236.228
+#define REQUEST_HOST   @"http://127.0.0.1:8080/guangda"   // 凯哥
+//#define REQUEST_HOST   @"http://120.55.74.241/dadmin/"  // 测试服120.25.236.228
+//#define REQUEST_HOST   @"http://192.168.1.112:8080/guangda/"  // 测试服120.25.236.228
 
 
 #define APP_VERSION    [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]

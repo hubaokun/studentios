@@ -121,11 +121,11 @@
     self.emergentPersonField.text = _urgentPerson;
     
     // 电话号码以3-4-4格式显示
-    if (![CommonUtil isEmpty:_urgentPhone] && _urgentPhone.length == 11) {
-        NSMutableString *phone = [[NSMutableString alloc] initWithString:_urgentPhone];
-        [phone insertString:@" " atIndex:3];
-        [phone insertString:@" " atIndex:8];
-        self.emergentPhoneField.text = phone;
+    if (![CommonUtil isEmpty:_urgentPhone]) {
+//        NSMutableString *phone = [[NSMutableString alloc] initWithString:_urgentPhone];
+//        [phone insertString:@" " atIndex:3];
+//        [phone insertString:@" " atIndex:8];
+        self.emergentPhoneField.text = _urgentPhone;
     }
 }
 
@@ -679,10 +679,6 @@
     NSString *studentId = [CommonUtil stringForID:USERDICT[@"studentid"]];
     [self catchInputData];
     NSString *genderStr = (_gender == 1)? @"1" : @"2";
-    if (_urgentPhone.length != 0 && _urgentPhone.length != 11) {
-        [self makeToast:@"请输入正确格式的手机号"];
-        return;
-    }
     
     [DejalBezelActivityView activityViewForView:self.view];
     

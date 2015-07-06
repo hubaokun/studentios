@@ -107,7 +107,6 @@
             complainLabel.attributedText = str;
             [self.complainContentView addSubview:complainLabel];
             y = CGRectGetMaxY(complainLabel.frame) + 15;
-            
         }
         
     } else { // 已解决
@@ -132,7 +131,6 @@
             complainLabel.attributedText = str;
             [self.complainContentView addSubview:complainLabel];
             y = CGRectGetMaxY(complainLabel.frame) + 15;
-            
         }
     }
     

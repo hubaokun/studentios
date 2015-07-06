@@ -68,6 +68,10 @@
     
     
     self.maxDate = [CommonUtil addDate2:[NSDate date] year:0 month:0 day:29];
+    NSInteger year = [CommonUtil getYearOfDate:self.maxDate];
+    NSInteger yue = [CommonUtil getMonthOfDate:self.maxDate];
+    NSInteger ri = [CommonUtil getdayOfDate:self.maxDate];
+    self.maxDate = [CommonUtil getDateForString:[NSString stringWithFormat:@"%ld-%ld-%ld 00:00:00",(long)year,(long)yue,(long)ri] format:nil];
     
     [self initWithDic];
     
@@ -437,16 +441,21 @@
         return;
     }
     
+    if(([selectedDate timeIntervalSinceDate:self.maxDate] > 0.0)){
+        [self makeToast:@"最多只能筛选30天的数据"];
+        return;
+    }
+    
     self.dateScreenBegin = selectedDate;
     self.dateBeginLabel.text = selectedDateStr;
     
-    if (([selectedDate timeIntervalSinceDate:self.maxDate] > 0.0)) {
+    if (([selectedDate timeIntervalSinceDate:self.maxDate] >= 0.0)) {
         self.rightUpBtn.enabled = NO;
     }else{
         self.rightUpBtn.enabled = YES;
     }
     
-    if(([selectedDate timeIntervalSinceDate:[NSDate date]] < 0.0)){
+    if(([selectedDate timeIntervalSinceDate:[NSDate date]] <= 0.0)){
         self.leftUpBtn.enabled = NO;
     }else{
         self.leftUpBtn.enabled = YES;
@@ -598,10 +607,10 @@
             NSString *selectedDateStr = [CommonUtil getStringForDate:selectedDate format:@"yyyy-MM-dd"];
             self.dateBeginLabel.text = selectedDateStr;
         }else{
-            NSDate *begin = [CommonUtil getDateForString:beginString format:@"yyyy-MM-dd"];
+            NSDate *begin = [CommonUtil getDateForString:[NSString stringWithFormat:@"%@ 00:00:00",beginString] format:@"yyyy-MM-dd HH:mm:ss"];
             NSDate *selectedDate = [CommonUtil addDate2:begin year:0 month:0 day:1];
             self.leftUpBtn.enabled = YES;
-            if (([selectedDate timeIntervalSinceDate:self.maxDate] > 0.0)) {
+            if ([selectedDate timeIntervalSinceDate:self.maxDate] >= 0.0) {
                 self.rightUpBtn.enabled = NO;
             }else{
                 self.rightUpBtn.enabled = YES;

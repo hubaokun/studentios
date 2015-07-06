@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SideBarViewController">
             <connections>
                 <outlet property="messageIcon" destination="6gf-tK-E6w" id="Re8-4c-OLr"/>
+                <outlet property="messageRed" destination="nyD-i5-ROq" id="a97-73-I6t"/>
                 <outlet property="phoneNumLabel" destination="zLc-FE-Qlp" id="fVX-f0-OTY"/>
                 <outlet property="systemMessageView" destination="kia-my-jrN" id="Lk6-k8-pxf"/>
                 <outlet property="userLogo" destination="htc-d2-g6q" id="eav-nA-JGY"/>
@@ -310,6 +311,13 @@
                                         <action selector="messageClick:" destination="-1" eventType="touchUpInside" id="vHH-Y2-vH0"/>
                                     </connections>
                                 </button>
+                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="red_point" translatesAutoresizingMaskIntoConstraints="NO" id="nyD-i5-ROq">
+                                    <rect key="frame" x="75" y="15" width="14" height="14"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="14" id="XLd-MJ-1X0"/>
+                                        <constraint firstAttribute="width" constant="14" id="uhs-zU-avB"/>
+                                    </constraints>
+                                </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="系统消息" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gml-L1-v0p">
                                     <rect key="frame" x="0.0" y="70" width="115" height="21"/>
                                     <constraints>
@@ -345,12 +353,14 @@
                                 <constraint firstItem="Gml-L1-v0p" firstAttribute="top" secondItem="6gf-tK-E6w" secondAttribute="bottom" constant="17" id="Kor-2D-hbI"/>
                                 <constraint firstAttribute="bottom" secondItem="f28-pL-ewU" secondAttribute="bottom" id="LZB-Yp-9tz"/>
                                 <constraint firstAttribute="centerY" secondItem="Gml-L1-v0p" secondAttribute="centerY" id="MB4-Ym-bHu"/>
+                                <constraint firstItem="nyD-i5-ROq" firstAttribute="top" secondItem="kia-my-jrN" secondAttribute="top" constant="15" id="N7W-Np-Wws"/>
                                 <constraint firstAttribute="bottom" secondItem="tEx-NQ-Meb" secondAttribute="bottom" id="T9z-sy-1sb"/>
                                 <constraint firstAttribute="width" constant="115" id="XA9-31-iSd"/>
                                 <constraint firstAttribute="centerX" secondItem="6gf-tK-E6w" secondAttribute="centerX" id="Zde-b9-pa0"/>
                                 <constraint firstAttribute="centerX" secondItem="tEx-NQ-Meb" secondAttribute="centerX" id="c28-rg-ui9"/>
                                 <constraint firstAttribute="centerX" secondItem="Gml-L1-v0p" secondAttribute="centerX" id="dbn-N4-PyK"/>
                                 <constraint firstAttribute="trailing" secondItem="f28-pL-ewU" secondAttribute="trailing" id="o6R-Tc-CBY"/>
+                                <constraint firstAttribute="trailing" secondItem="nyD-i5-ROq" secondAttribute="trailing" constant="26" id="yaI-0c-4ZJ"/>
                             </constraints>
                             <variation key="default">
                                 <mask key="constraints">
@@ -545,5 +555,6 @@
         <image name="icon_message" width="38" height="33"/>
         <image name="icon_my_order" width="38" height="38"/>
         <image name="icon_setting" width="41" height="41"/>
+        <image name="red_point" width="11" height="11"/>
     </resources>
 </document>

@@ -22,6 +22,7 @@
 @property (strong, nonatomic) NSMutableArray *dataList;
 @property (strong, nonatomic) NSMutableArray *messageHeightArray
 ;
+- (IBAction)backClick:(id)sender;
 
 @end
 
@@ -375,7 +376,6 @@
 #pragma mark - 数据处理
 // 计算message文字高度
 - (void)calculateMessageHeight {
-//    NSMutableArray *mesStrArray = [NSMutableArray array];
     CGFloat mesWidth = 0;
     for (int i = 0; i < _dataList.count; i++) {
         NSDictionary *dataDic = _dataList[i];
@@ -391,4 +391,9 @@
     }
 }
 
+- (IBAction)backClick:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+    //通知更新小红点显示
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"haveMessageNoRead" object:self];
+}
 @end

@@ -31,7 +31,7 @@
                         <color key="textColor" red="0.49411764705882355" green="0.81176470588235294" blue="0.8784313725490196" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hrH-ny-563">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hrH-ny-563">
                         <rect key="frame" x="44" y="36" width="265" height="25"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="25" id="XQ0-pX-o8T"/>
@@ -75,6 +75,7 @@
             <connections>
                 <outlet property="avatar" destination="lWV-CS-aLL" id="xDP-9l-VZs"/>
                 <outlet property="content" destination="hrH-ny-563" id="Lzr-N3-28I"/>
+                <outlet property="contentHeight" destination="XQ0-pX-o8T" id="5XD-hO-7Vt"/>
                 <outlet property="nick" destination="11G-gw-sgC" id="qqa-2A-JZE"/>
                 <outlet property="time" destination="IyN-6J-opW" id="FSw-oe-7Eq"/>
             </connections>
