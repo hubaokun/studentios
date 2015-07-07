@@ -33,7 +33,7 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="backClick:" destination="-1" eventType="touchUpInside" id="LEB-kk-9m1"/>
+                                <action selector="backButtonClick:" destination="-1" eventType="touchUpInside" id="dDd-bc-Lz8"/>
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="系统消息" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZrI-YR-3IL" userLabel="注册">

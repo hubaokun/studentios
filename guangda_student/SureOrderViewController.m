@@ -620,9 +620,11 @@
         
         NSDictionary *order;
         NSArray *couponlist = nil;
+        NSString *firstTime = [[dateDic[@"times"] objectAtIndex:0] objectForKey:@"time"];
         for(int j = 0; j < _orderArray.count; j++){
             NSDictionary *dic = _orderArray[j];
-            if([dic[@"date"] isEqualToString:dateDic[@"date"]]){
+            NSString *first = [[dic[@"times"] objectAtIndex:0] objectForKey:@"time"];
+            if([dic[@"date"] isEqualToString:dateDic[@"date"]] && [first isEqualToString:firstTime]){
                 couponlist = dic[@"couponlist"];
                 order = dic;
             }

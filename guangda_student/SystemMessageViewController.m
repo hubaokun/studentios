@@ -22,7 +22,7 @@
 @property (strong, nonatomic) NSMutableArray *dataList;
 @property (strong, nonatomic) NSMutableArray *messageHeightArray
 ;
-- (IBAction)backClick:(id)sender;
+- (IBAction)backButtonClick:(id)sender;
 
 @end
 
@@ -391,7 +391,7 @@
     }
 }
 
-- (IBAction)backClick:(id)sender {
+- (IBAction)backButtonClick:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
     //通知更新小红点显示
     [[NSNotificationCenter defaultCenter] postNotificationName:@"haveMessageNoRead" object:self];
