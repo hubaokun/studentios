@@ -590,32 +590,16 @@
 
 - (IBAction)appointCoachClick:(id)sender
 {
-    if ([[CommonUtil currentUtil] isLogin]) {
-        NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
-        NSString *realname = user_info[@"realname"];
-        if (realname.length == 0) {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"教练该如何称呼您？请设置真实姓名后再预约" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"前去设置", nil];
-            [alert show];
-        }else{
-            AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
-            nextController.coachInfoDic = self.coachDic;
-            nextController.coachId = self.coachId;
-            UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
-            navigationController.navigationBarHidden = YES;
-            [self presentViewController:navigationController animated:YES completion:nil];
-        }
-    }
+    AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
+    nextController.coachInfoDic = self.coachDic;
+    nextController.coachId = self.coachId;
+    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
+    navigationController.navigationBarHidden = YES;
+    [self presentViewController:navigationController animated:YES completion:nil];
+    
+    
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1) {
-        UserBaseInfoViewController *nextController = [[UserBaseInfoViewController alloc] initWithNibName:@"UserBaseInfoViewController" bundle:nil];
-        UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
-        navigationController.navigationBarHidden = YES;
-        [self presentViewController:navigationController animated:YES completion:nil];
-    }
-}
 
 #pragma mark - keyboard
 - (void)keyboardWillShow:(NSNotification *)notification

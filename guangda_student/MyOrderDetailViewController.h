@@ -36,6 +36,7 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *complainBtnRightSpaceCon;
 @property (strong, nonatomic) IBOutlet UIButton *cancelComplainBtn; // 取消投诉
 @property (strong, nonatomic) IBOutlet UIButton *cancelOrderBtn;    // 取消订单
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *cancelOrderBtnRightSpaceCon;
 @property (strong, nonatomic) IBOutlet UIButton *confirmOnBtn;      // 确认上车
 @property (strong, nonatomic) IBOutlet UIButton *confirmDownBtn;    // 确认下车
 @property (strong, nonatomic) IBOutlet UIButton *evaluateBtn;       // 评价

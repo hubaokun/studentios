@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -178,9 +178,9 @@
                         <constraints>
                             <constraint firstAttribute="width" constant="232" id="1FJ-aU-OKU"/>
                             <constraint firstAttribute="trailing" secondItem="Rvt-fR-7pd" secondAttribute="trailing" id="3af-bI-Dnf"/>
-                            <constraint firstItem="Rvt-fR-7pd" firstAttribute="leading" secondItem="toK-qO-XBR" secondAttribute="trailing" constant="8" id="7jw-ed-MPu"/>
                             <constraint firstAttribute="height" constant="30" id="gbH-Tn-xZN"/>
                             <constraint firstItem="toK-qO-XBR" firstAttribute="top" secondItem="yKO-10-Qdp" secondAttribute="top" id="giX-X9-uwD"/>
+                            <constraint firstAttribute="trailing" secondItem="toK-qO-XBR" secondAttribute="trailing" constant="80" id="juf-Mo-v4O"/>
                             <constraint firstAttribute="trailing" secondItem="LHZ-Ax-vnm" secondAttribute="trailing" id="lau-Av-uGc"/>
                             <constraint firstItem="Rvt-fR-7pd" firstAttribute="top" secondItem="yKO-10-Qdp" secondAttribute="top" id="oEP-az-94s"/>
                             <constraint firstItem="LHZ-Ax-vnm" firstAttribute="top" secondItem="yKO-10-Qdp" secondAttribute="top" id="wCR-4Y-Lsu"/>
@@ -265,6 +265,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="cancelComplainBtn" destination="toK-qO-XBR" id="eqE-lf-Efq"/>
+                <outlet property="cancelOrderBtnRightSpaceCon" destination="juf-Mo-v4O" id="RI7-rF-bc3"/>
                 <outlet property="coachNameLabel" destination="uM2-bQ-WHx" id="hiK-3K-8nq"/>
                 <outlet property="complainBtn" destination="Rvt-fR-7pd" id="gqJ-ma-m4E"/>
                 <outlet property="complainBtnRightSpaceCon" destination="3af-bI-Dnf" id="zoW-xG-UPg"/>

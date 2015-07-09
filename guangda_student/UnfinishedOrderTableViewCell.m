@@ -33,6 +33,10 @@
     _continueAppointBtn.layer.borderWidth = 0.6;
     _continueAppointBtn.layer.cornerRadius = 4;
     _continueAppointBtn.layer.borderColor = RGB(246, 102, 93).CGColor;
+    
+    
+    //隐藏提示的信息
+    self.remindLabel.hidden = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -68,12 +72,16 @@
         self.complainBtn.hidden = YES;
     }
     
+    self.complainBtn.hidden = YES; //在外面把投诉按钮隐藏
+    
     if (self.unfinishedOrder.needUncomplain) { // 可以取消投诉
         self.cancelComplainBtn.hidden = NO;
         [self.complainBtn setTitle:@"追加投诉" forState:UIControlStateNormal];
+        self.complainBtn.hidden = YES;
     } else {
         self.cancelComplainBtn.hidden = YES;
         [self.complainBtn setTitle:@"投诉" forState:UIControlStateNormal];
+        self.complainBtn.hidden = YES; //在外面把投诉按钮隐藏
     }
     
     if (self.unfinishedOrder.canCancel) { // 可以取消订单
@@ -84,8 +92,10 @@
     
     if (self.unfinishedOrder.canUp) { // 可以确认上车
         self.confirmOnBtn.hidden = NO;
+        self.remindLabel.hidden = NO;
     } else {
         self.confirmOnBtn.hidden = YES;
+        self.remindLabel.hidden = YES;
     }
     
     if (self.unfinishedOrder.canDown) { // 可以确认下车
@@ -103,7 +113,13 @@
     if (self.cancelOrderBtn.hidden == YES && self.confirmOnBtn.hidden == YES && self.confirmDownBtn.hidden == YES && self.evaluateBtn.hidden == YES) {
         self.complainBtnRightSpaceCon.constant = 0;
     } else {
-        self.complainBtnRightSpaceCon.constant = 80;
+        self.complainBtnRightSpaceCon.constant = 0;
+    }
+    
+    if (self.complainBtn.hidden == YES && self.evaluateBtn.hidden == YES) {
+        self.cancelOrderBtnRightSpaceCon.constant = 0;
+    }else{
+        self.cancelOrderBtnRightSpaceCon.constant = 80;
     }
     
     // 订单状态文字显示

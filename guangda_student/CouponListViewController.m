@@ -60,7 +60,6 @@
 
 - (void) getCouponDate{
     
-    
     [DejalBezelActivityView activityViewForView:self.view];
     
     NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
@@ -70,8 +69,6 @@
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     [paramDic setObject:user_info[@"studentid"] forKey:@"studentid"];
     [paramDic setObject:user_info[@"token"] forKey:@"token"];
-    
-    NSLog(@"getCouponDate : %@",paramDic);
     
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_GET];
     
@@ -85,7 +82,6 @@
         int code = [responseObject[@"code"] intValue];
         if (code == 1) {
             couponList = responseObject[@"couponlist"];
-//            NSLog(@"count:%d",couponList.count);
             if(selectIndex == 1)
                 [self.couponTableView reloadData];
         }else if(code == 95){

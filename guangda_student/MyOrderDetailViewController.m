@@ -205,12 +205,16 @@
         self.complainBtn.hidden = YES;
     }
     
+//    self.complainBtn.hidden = YES; //在外面把投诉按钮隐藏
+    
     if (self.order.needUncomplain) { // 可以取消投诉
         self.cancelComplainBtn.hidden = NO;
         [self.complainBtn setTitle:@"追加投诉" forState:UIControlStateNormal];
+        self.complainBtn.hidden = YES;
     } else {
         self.cancelComplainBtn.hidden = YES;
         [self.complainBtn setTitle:@"投诉" forState:UIControlStateNormal];
+        self.complainBtn.hidden = NO; //在外面把投诉按钮隐藏
     }
     
     if (self.order.canCancel) { // 可以取消订单
@@ -241,6 +245,12 @@
         self.complainBtnRightSpaceCon.constant = 0;
     } else {
         self.complainBtnRightSpaceCon.constant = 80;
+    }
+    
+    if (self.complainBtn.hidden == YES && self.evaluateBtn.hidden == YES) {
+        self.cancelOrderBtnRightSpaceCon.constant = 0;
+    }else{
+        self.cancelOrderBtnRightSpaceCon.constant = 80;
     }
 
 }

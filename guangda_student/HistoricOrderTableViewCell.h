@@ -26,6 +26,7 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *complainBtnRightSpaceCon;
 
 @property (strong, nonatomic) IBOutlet UIButton *cancelComplainBtn;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *cancelOrderBtnRightSpaceCon;
 
 @property (strong, nonatomic) IBOutlet UIButton *evaluateBtn;
 @property (weak, nonatomic) IBOutlet DSButton *continueAppointBtn;

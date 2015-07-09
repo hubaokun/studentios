@@ -27,6 +27,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *complainBtn;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *complainBtnRightSpaceCon;
 // 取消投诉
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *cancelOrderBtnRightSpaceCon;
 @property (strong, nonatomic) IBOutlet UIButton *cancelComplainBtn;
 // 取消订单
 @property (strong, nonatomic) IBOutlet UIButton *cancelOrderBtn;
@@ -36,6 +37,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *confirmDownBtn;
 // 评价
 @property (strong, nonatomic) IBOutlet UIButton *evaluateBtn;
+@property (strong, nonatomic) IBOutlet UILabel *remindLabel;
 
 - (void)loadData:(NSDictionary *)dataDic;
 @end

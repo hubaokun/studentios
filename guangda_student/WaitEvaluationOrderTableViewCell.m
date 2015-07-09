@@ -36,6 +36,8 @@
     // 取得教练数据
     GuangdaCoach *coach = self.waitEvaluationOrder.coach;
     
+    self.complainBtn.hidden = YES; //在外面把投诉按钮隐藏
+    
     // 显示数据
     self.coachNameLabel.text = coach.realName;
     self.learnAddrLabel.text = self.waitEvaluationOrder.detailAddr;

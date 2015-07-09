@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		310C23BB1AD7C3B8008090BB /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 310C23BA1AD7C3B8008090BB /* BaiduMapAPI.framework */; };
 		312D8DBB1AC92B3200EF7546 /* ComplaintTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 312D8DB91AC92B3200EF7546 /* ComplaintTableViewCell.m */; };
 		312D8DBC1AC92B3200EF7546 /* ComplaintTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 312D8DBA1AC92B3200EF7546 /* ComplaintTableViewCell.xib */; };
 		312D8DC01AC9508F00EF7546 /* AccountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 312D8DBE1AC9508F00EF7546 /* AccountTableViewCell.m */; };
@@ -178,6 +177,7 @@
 		37C8A4FA1AD378E0001D4DB5 /* MyDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C8A4F91AD378E0001D4DB5 /* MyDate.m */; };
 		37F77F6F1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37F77F6D1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.m */; };
 		37F77F701AC8F0A3004D6A44 /* MyOrderEvaluationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37F77F6E1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.xib */; };
+		713694851B4E3CF500F6D573 /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */; };
 		B85242291ACA3EA20032E276 /* BindingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B85242271ACA3EA20032E276 /* BindingViewController.m */; };
 		B852422A1ACA3EA20032E276 /* BindingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85242281ACA3EA20032E276 /* BindingViewController.xib */; };
 		B852422E1ACA62180032E276 /* SettingBindingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B852422C1ACA62180032E276 /* SettingBindingViewController.m */; };
@@ -234,7 +234,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		310C23BA1AD7C3B8008090BB /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = 3rdparty/BaiduMapAPI.framework; sourceTree = "<group>"; };
 		312D8DB81AC92B3200EF7546 /* ComplaintTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComplaintTableViewCell.h; sourceTree = "<group>"; };
 		312D8DB91AC92B3200EF7546 /* ComplaintTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComplaintTableViewCell.m; sourceTree = "<group>"; };
 		312D8DBA1AC92B3200EF7546 /* ComplaintTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ComplaintTableViewCell.xib; sourceTree = "<group>"; };
@@ -603,6 +602,7 @@
 		37F77F6C1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderEvaluationViewController.h; sourceTree = "<group>"; };
 		37F77F6D1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderEvaluationViewController.m; sourceTree = "<group>"; };
 		37F77F6E1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyOrderEvaluationViewController.xib; sourceTree = "<group>"; };
+		713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = 3rdparty/BaiduMapAPI.framework; sourceTree = "<group>"; };
 		B85242261ACA3EA20032E276 /* BindingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BindingViewController.h; sourceTree = "<group>"; };
 		B85242271ACA3EA20032E276 /* BindingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BindingViewController.m; sourceTree = "<group>"; };
 		B85242281ACA3EA20032E276 /* BindingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BindingViewController.xib; sourceTree = "<group>"; };
@@ -708,12 +708,12 @@
 				3177FB2A1AD61E98003050A2 /* UIKit.framework in Frameworks */,
 				3168C99C1AD393F200B607C3 /* libz.dylib in Frameworks */,
 				31C9D8F61AD66E93006A4E80 /* libssl.a in Frameworks */,
+				713694851B4E3CF500F6D573 /* BaiduMapAPI.framework in Frameworks */,
 				3168C99A1AD393E300B607C3 /* libstdc++.dylib in Frameworks */,
 				3168C9981AD393D300B607C3 /* CoreTelephony.framework in Frameworks */,
 				3168C9961AD393C400B607C3 /* libsqlite3.dylib in Frameworks */,
 				3177FA4C1AD615B3003050A2 /* AlipaySDK.framework in Frameworks */,
 				3168C9901AD3939600B607C3 /* libiconv.dylib in Frameworks */,
-				310C23BB1AD7C3B8008090BB /* BaiduMapAPI.framework in Frameworks */,
 				31C9D8F51AD66E93006A4E80 /* libcrypto.a in Frameworks */,
 				316DC6C01ACE5311007AB9DC /* libWeiboSDK.a in Frameworks */,
 				B927D4601B4142610013478E /* PgySDK.framework in Frameworks */,
@@ -799,13 +799,13 @@
 		3168C98A1AD3887800B607C3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */,
 				B927D45F1B4142610013478E /* PgySDK.framework */,
 				B9BD21071B3934FF00B6B7B1 /* AVFoundation.framework */,
 				B9BD21051B3934F100B6B7B1 /* AudioToolbox.framework */,
 				B9BD21031B3934DE00B6B7B1 /* CoreMotion.framework */,
 				B9BD21011B3934CA00B6B7B1 /* SceneKit.framework */,
 				314F4E161AEA2DF100DD8FC6 /* CoreText.framework */,
-				310C23BA1AD7C3B8008090BB /* BaiduMapAPI.framework */,
 				31564F321AD78B9F002DFEA2 /* OpenGLES.framework */,
 				31564F301AD78B98002DFEA2 /* QuartzCore.framework */,
 				31564F2E1AD78B91002DFEA2 /* CoreLocation.framework */,
@@ -1987,7 +1987,7 @@
 					"-Objc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
 			};
 			name = Debug;
 		};
@@ -2024,7 +2024,7 @@
 					"-Objc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
 			};
 			name = Release;
 		};

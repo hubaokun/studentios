@@ -307,29 +307,13 @@
 
 - (IBAction)appointCoachClick:(id)sender
 {
-    if ([[CommonUtil currentUtil] isLogin]) {
-        NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
-        NSString *realname = user_info[@"realname"];
-        if (realname.length == 0) {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"教练该如何称呼您？请设置真实姓名后再预约" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"前去设置", nil];
-            [alert show];
-        }else{
-            AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
-            nextController.coachId = self.coachId;
-            nextController.coachInfoDic = self.coachInfoDic;
-            UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
-            navigationController.navigationBarHidden = YES;
-            [self presentViewController:navigationController animated:YES completion:nil];
-        }
-    }
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1) {
-        UserBaseInfoViewController *targetViewController = [[UserBaseInfoViewController alloc] initWithNibName:@"UserBaseInfoViewController" bundle:nil];
-        [self.navigationController pushViewController:targetViewController animated:YES];
-    }
+    AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
+    nextController.coachId = self.coachId;
+    nextController.coachInfoDic = self.coachInfoDic;
+    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
+    navigationController.navigationBarHidden = YES;
+    [self presentViewController:navigationController animated:YES completion:nil];
+    
 }
 
 #pragma mark 小汽车 button 点击事件

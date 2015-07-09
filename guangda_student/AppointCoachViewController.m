@@ -19,9 +19,9 @@
 #import "SwipeView.h"
 #import "AppDelegate.h"
 #import "DNCoach.h"
-
+#import "UserBaseInfoViewController.h"
 @interface AppointCoachViewController ()
-<SwipeViewDelegate, SwipeViewDataSource>
+<SwipeViewDelegate, SwipeViewDataSource,UIAlertViewDelegate>
 {
     float _priceSum;   // 总价
     int _timeNum;    // 时间点的数量
@@ -812,11 +812,31 @@
 
 - (IBAction)sureAppointClick:(id)sender
 {
-    SureOrderViewController *viewController = [[SureOrderViewController alloc] initWithNibName:@"SureOrderViewController" bundle:nil];
-    viewController.dateTimeSelectedList = self.dateTimeSelectedList;
-    viewController.coachId = self.coachId;
-    viewController.priceSum = [NSString  stringWithFormat:@"%.1f", _priceSum];
-    [self.navigationController pushViewController:viewController animated:YES];
+    if ([[CommonUtil currentUtil] isLogin]) {
+        NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
+        NSString *realname = user_info[@"realname"];
+        if (realname.length == 0) {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"教练该如何称呼您？请设置真实姓名后再预约" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"前去设置", nil];
+            [alert show];
+        }else{
+            SureOrderViewController *viewController = [[SureOrderViewController alloc] initWithNibName:@"SureOrderViewController" bundle:nil];
+            viewController.dateTimeSelectedList = self.dateTimeSelectedList;
+            viewController.coachId = self.coachId;
+            viewController.priceSum = [NSString  stringWithFormat:@"%.1f", _priceSum];
+            [self.navigationController pushViewController:viewController animated:YES];
+        }
+    }
+}
+
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        UserBaseInfoViewController *nextController = [[UserBaseInfoViewController alloc] initWithNibName:@"UserBaseInfoViewController" bundle:nil];
+        UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
+        navigationController.navigationBarHidden = YES;
+        [self presentViewController:navigationController animated:YES completion:nil];
+    }
 }
 
 - (IBAction)phoneCallClick:(id)sender

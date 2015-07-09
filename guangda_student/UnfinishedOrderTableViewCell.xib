@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -221,9 +221,9 @@
                             <constraint firstItem="oEF-03-Ly5" firstAttribute="top" secondItem="YE6-7K-VBN" secondAttribute="top" id="Fxm-b8-bqD"/>
                             <constraint firstItem="ZqV-Ku-IxP" firstAttribute="top" secondItem="YE6-7K-VBN" secondAttribute="top" id="L2L-ZZ-na9"/>
                             <constraint firstAttribute="trailing" secondItem="ZqV-Ku-IxP" secondAttribute="trailing" id="RsL-St-aB4"/>
-                            <constraint firstItem="Vqx-IF-8ff" firstAttribute="leading" secondItem="Bp8-Bf-DXH" secondAttribute="trailing" constant="8" id="WHB-rO-pfT"/>
                             <constraint firstItem="Vqx-IF-8ff" firstAttribute="top" secondItem="YE6-7K-VBN" secondAttribute="top" id="XoX-Tb-taW"/>
                             <constraint firstAttribute="height" constant="30" id="YuG-gL-OzU"/>
+                            <constraint firstAttribute="trailing" secondItem="Bp8-Bf-DXH" secondAttribute="trailing" constant="80" id="jNI-SL-gri"/>
                             <constraint firstAttribute="trailing" secondItem="oEF-03-Ly5" secondAttribute="trailing" id="n1O-6Q-qjN"/>
                             <constraint firstAttribute="trailing" secondItem="gQK-Od-c7I" secondAttribute="trailing" id="o11-ux-KpI"/>
                             <constraint firstItem="gQK-Od-c7I" firstAttribute="top" secondItem="YE6-7K-VBN" secondAttribute="top" id="qv5-eD-kLN"/>
@@ -257,6 +257,16 @@
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="上车时请提醒教练刷学员卡" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGK-r2-yy7">
+                        <rect key="frame" x="15" y="196" width="210" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="0Aw-yV-BHb"/>
+                            <constraint firstAttribute="width" constant="210" id="s44-OI-hZA"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="YvB-76-GQY" firstAttribute="top" secondItem="hft-Zp-p8P" secondAttribute="bottom" constant="14" id="0AD-Ge-g7Z"/>
@@ -269,7 +279,9 @@
                     <constraint firstItem="R82-sL-ZjL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-8" id="5gK-ry-XBh"/>
                     <constraint firstAttribute="trailingMargin" secondItem="JW9-BL-Ovd" secondAttribute="trailing" constant="-8" id="9kM-9y-jjg"/>
                     <constraint firstItem="YvB-76-GQY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="7" id="BPI-TZ-Hv0"/>
+                    <constraint firstItem="eGK-r2-yy7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Byr-eM-9aN"/>
                     <constraint firstItem="rwu-xv-OQk" firstAttribute="top" secondItem="YvB-76-GQY" secondAttribute="bottom" constant="8" id="FyN-4C-DQf"/>
+                    <constraint firstItem="R82-sL-ZjL" firstAttribute="top" secondItem="eGK-r2-yy7" secondAttribute="bottom" constant="12" id="HDf-4t-vTL"/>
                     <constraint firstAttribute="trailingMargin" secondItem="YE6-7K-VBN" secondAttribute="trailing" constant="7" id="Jlg-gM-BX6"/>
                     <constraint firstAttribute="trailingMargin" secondItem="hft-Zp-p8P" secondAttribute="trailing" constant="7" id="Jo7-f1-Owh"/>
                     <constraint firstAttribute="trailing" secondItem="xca-X4-Tc8" secondAttribute="trailing" id="Llw-Vl-kvv"/>
@@ -304,6 +316,7 @@
             <connections>
                 <outlet property="cancelComplainBtn" destination="Bp8-Bf-DXH" id="LBq-oq-oW9"/>
                 <outlet property="cancelOrderBtn" destination="gQK-Od-c7I" id="hr2-AB-7R8"/>
+                <outlet property="cancelOrderBtnRightSpaceCon" destination="jNI-SL-gri" id="nTc-gX-4og"/>
                 <outlet property="coachNameLabel" destination="0uh-LI-CdZ" id="An6-d3-8ma"/>
                 <outlet property="complainBtn" destination="Vqx-IF-8ff" id="yzn-Wu-0Gy"/>
                 <outlet property="complainBtnRightSpaceCon" destination="xTl-mA-LPc" id="tvI-6n-T7r"/>
@@ -315,6 +328,7 @@
                 <outlet property="learnAddrLabel" destination="2wv-uV-0Po" id="kIC-7I-aeR"/>
                 <outlet property="learnDateLabel" destination="rwu-xv-OQk" id="v0p-i6-B45"/>
                 <outlet property="learnTimeLabel" destination="eN5-mn-pod" id="33H-SE-AbA"/>
+                <outlet property="remindLabel" destination="eGK-r2-yy7" id="6gO-I0-aM2"/>
                 <outlet property="statusLabel" destination="XfN-dm-Gte" id="iMU-Xr-LYY"/>
             </connections>
             <point key="canvasLocation" x="408" y="271"/>

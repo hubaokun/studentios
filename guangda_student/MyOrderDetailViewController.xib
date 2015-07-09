@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyOrderDetailViewController">
             <connections>
                 <outlet property="cancelComplainBtn" destination="fVz-ZH-OiW" id="AHW-NP-dWU"/>
                 <outlet property="cancelOrderBtn" destination="rop-5A-su6" id="SaB-ku-j1e"/>
+                <outlet property="cancelOrderBtnRightSpaceCon" destination="egv-et-R7d" id="74w-0a-LhY"/>
                 <outlet property="coachEvaluationLabel" destination="cOx-Ge-4hd" id="juo-BF-Y2a"/>
                 <outlet property="coachEvaluationLabelHeight" destination="OdL-iT-AnT" id="TK3-tz-nZW"/>
                 <outlet property="coachEvaluationView" destination="Imv-4O-z3M" id="KWc-eh-HOa"/>
@@ -339,11 +340,11 @@
                                                 <constraint firstAttribute="trailing" secondItem="y8Q-bu-VQn" secondAttribute="trailing" id="55o-a7-ZxT"/>
                                                 <constraint firstItem="jbT-Ps-RJJ" firstAttribute="top" secondItem="r7t-eX-SxY" secondAttribute="top" id="84l-2T-aXa"/>
                                                 <constraint firstItem="hmc-7S-X9C" firstAttribute="top" secondItem="r7t-eX-SxY" secondAttribute="top" id="Jz3-UY-rcP"/>
-                                                <constraint firstItem="jbT-Ps-RJJ" firstAttribute="leading" secondItem="fVz-ZH-OiW" secondAttribute="trailing" constant="8" id="RJG-fS-k6n"/>
                                                 <constraint firstAttribute="height" constant="30" id="SUT-Vf-31T"/>
                                                 <constraint firstAttribute="trailing" secondItem="rop-5A-su6" secondAttribute="trailing" id="X7h-j9-eNN"/>
                                                 <constraint firstItem="rop-5A-su6" firstAttribute="top" secondItem="r7t-eX-SxY" secondAttribute="top" id="dCb-85-bIO"/>
                                                 <constraint firstItem="fVz-ZH-OiW" firstAttribute="top" secondItem="r7t-eX-SxY" secondAttribute="top" id="dbg-bx-2oh"/>
+                                                <constraint firstAttribute="trailing" secondItem="fVz-ZH-OiW" secondAttribute="trailing" constant="80" id="egv-et-R7d"/>
                                                 <constraint firstAttribute="trailing" secondItem="jbT-Ps-RJJ" secondAttribute="trailing" id="fOf-NS-DZf"/>
                                                 <constraint firstItem="y8Q-bu-VQn" firstAttribute="top" secondItem="r7t-eX-SxY" secondAttribute="top" id="i9m-0y-XUo"/>
                                                 <constraint firstItem="3Cx-zB-qAr" firstAttribute="top" secondItem="r7t-eX-SxY" secondAttribute="top" id="rSb-Wz-Ond"/>
