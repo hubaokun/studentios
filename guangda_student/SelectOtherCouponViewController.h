@@ -10,6 +10,8 @@
 
 @interface SelectOtherCouponViewController : GreyTopViewController
 
+@property (strong, nonatomic) NSDictionary *selectedOrderList;
+
 @property (strong, nonatomic) NSMutableArray *couponArray;//小巴券列表,只包括能用的
 @property (assign, nonatomic) int canUseDiffCoupon;
 @property (assign, nonatomic) int canUsedMaxCouponCount;

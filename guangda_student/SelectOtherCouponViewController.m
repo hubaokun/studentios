@@ -10,6 +10,9 @@
 #import "SelectCouponTableViewCell.h"
 
 @interface SelectOtherCouponViewController ()<UITabBarDelegate,UITableViewDataSource>
+{
+    NSArray *timeArray;
+}
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
@@ -19,6 +22,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    timeArray = self.selectedOrderList[@"times"];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -110,6 +115,11 @@
     NSMutableDictionary *dic = [_couponArray[tag] mutableCopy];
     int used = [dic[@"used"] intValue];
     if(used == 0){
+        if (self.selectedCoupon && self.selectedCoupon.count + 1 > timeArray.count) {
+            [self makeToast:[NSString stringWithFormat:@"所选优惠券不能超过订单上限哦."]];
+            return;
+        }
+        
         //选中
         if(self.selectedCoupon && self.selectedCoupon.count + 1 > self.canUsedMaxCouponCount){
             [self makeToast:[NSString stringWithFormat:@"一个订单最多使用%d张优惠券哦.",_canUsedMaxCouponCount]];

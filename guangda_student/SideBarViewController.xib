@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SideBarViewController">
@@ -509,10 +509,26 @@
                                 </mask>
                             </variation>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7MB-0f-68W">
+                            <rect key="frame" x="38" y="513" width="155" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="RGu-1W-BJz"/>
+                                <constraint firstAttribute="width" constant="155" id="bdK-lp-Oge"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="网上报名入口">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="onlineSignUp:" destination="-1" eventType="touchUpInside" id="zhU-R0-yqC"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <constraints>
                         <constraint firstItem="XeI-9d-wuE" firstAttribute="leading" secondItem="qA3-2c-O9W" secondAttribute="leading" id="32v-a4-R2X"/>
                         <constraint firstItem="HwH-wl-qD9" firstAttribute="leading" secondItem="qA3-2c-O9W" secondAttribute="leading" id="9R8-rh-Yfd"/>
+                        <constraint firstAttribute="trailing" secondItem="7MB-0f-68W" secondAttribute="trailing" constant="37" id="Bxt-5S-Dwq"/>
                         <constraint firstAttribute="trailing" secondItem="Stp-q5-GBW" secondAttribute="trailing" id="Kvq-eI-0X3"/>
                         <constraint firstAttribute="bottom" secondItem="3ER-fc-meC" secondAttribute="bottom" id="PUb-MO-Byr"/>
                         <constraint firstItem="XeI-9d-wuE" firstAttribute="top" secondItem="E1e-WX-VJz" secondAttribute="bottom" constant="35" id="Qes-dc-g19"/>
@@ -527,12 +543,14 @@
                         <constraint firstItem="3ER-fc-meC" firstAttribute="leading" secondItem="qA3-2c-O9W" secondAttribute="leading" id="i0Z-m3-eu3"/>
                         <constraint firstItem="Stp-q5-GBW" firstAttribute="leading" secondItem="XeI-9d-wuE" secondAttribute="trailing" id="jqh-dI-hAH"/>
                         <constraint firstAttribute="trailing" secondItem="3ER-fc-meC" secondAttribute="trailing" id="k4c-Dm-S41"/>
+                        <constraint firstItem="7MB-0f-68W" firstAttribute="top" secondItem="CCZ-xa-mPi" secondAttribute="bottom" constant="13" id="p4T-4n-R9l"/>
                         <constraint firstItem="CCZ-xa-mPi" firstAttribute="top" secondItem="kia-my-jrN" secondAttribute="bottom" id="r3c-If-NAq"/>
                         <constraint firstItem="3ER-fc-meC" firstAttribute="top" secondItem="qA3-2c-O9W" secondAttribute="top" id="rc5-Gh-Yay"/>
                         <constraint firstItem="E1e-WX-VJz" firstAttribute="leading" secondItem="qA3-2c-O9W" secondAttribute="leading" id="sKH-Dm-bCt"/>
                         <constraint firstItem="qod-3D-c6W" firstAttribute="top" secondItem="Stp-q5-GBW" secondAttribute="bottom" constant="115" id="tcD-1Q-d60"/>
                         <constraint firstItem="kia-my-jrN" firstAttribute="top" secondItem="XeI-9d-wuE" secondAttribute="bottom" id="u7l-l0-vnK"/>
                         <constraint firstItem="kia-my-jrN" firstAttribute="leading" secondItem="qA3-2c-O9W" secondAttribute="leading" constant="115" id="vlg-Hh-lFz"/>
+                        <constraint firstItem="7MB-0f-68W" firstAttribute="leading" secondItem="qA3-2c-O9W" secondAttribute="leading" constant="38" id="wIp-B1-zRg"/>
                         <constraint firstItem="E1e-WX-VJz" firstAttribute="top" secondItem="qA3-2c-O9W" secondAttribute="top" constant="20" id="yU6-n1-fve"/>
                     </constraints>
                 </view>

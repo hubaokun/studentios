@@ -210,4 +210,8 @@
         [self.navigationController pushViewController:nextViewController animated:YES];
     }
 }
+- (IBAction)onlineSignUp:(id)sender { //网上报名入口
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.hzti.com:9004/drv_web/index.do"]];
+}
+
 @end

@@ -522,7 +522,9 @@
                     classLabel.textColor = RGB(52, 136, 153);
                     classLabel.hidden = button.selected;
                     priceLabel.hidden = button.selected;
-                    
+                    if ([classLabel.text isEqualToString:@"科目三"]) {
+                        classLabel.textColor = RGB(255, 127, 17);
+                    }
                     
                     if ([isBooked isEqualToString:@"1"]) {//教练被别人预约
                         // 被预约了
@@ -731,6 +733,11 @@
             [removeNum addObject:num];
         }
     }
+    
+    for (int i=0; i<removeNum.count; i++) {
+        
+    }
+    
     NSMutableIndexSet *removeIndex = [NSMutableIndexSet indexSet];
     for (int i = 0; i < removeNum.count; i++) {
         NSString *numStr = removeNum[i];
@@ -747,6 +754,59 @@
     [dateTimesDic setObject:_nowSelectedDate forKey:@"date"];
     
     NSMutableArray *timesList = [NSMutableArray array];
+    
+    NSMutableArray *selectArray = [NSMutableArray array];
+    
+    for (int i=0; i<self.timeMutableList.count; i++) {
+        // 取出本地的时间点按钮字典
+        NSDictionary *timePointDic = self.timeMutableList[i];
+        DSButton *timeButton = timePointDic[@"button"];
+        if (timeButton.selected) {
+            UILabel *timeLabel = timePointDic[@"timeLabel"];
+            NSString *time = timeLabel.text;
+            [selectArray addObject:time];
+        }
+    }
+    
+    NSDictionary *timePointDic = self.timeMutableList[button.tag-5];
+    UILabel *timeLabel = timePointDic[@"timeLabel"];
+    NSString *time = timeLabel.text; //选中的时间
+    
+    NSString *time1; //选中时间的后一小时
+    if (button.tag-5 == 18) {
+        time1 = @"0:00";
+    }else{
+        NSDictionary *timePointDic1 = self.timeMutableList[button.tag-4];
+        UILabel *timeLabel1 = timePointDic1[@"timeLabel"];
+        time1 = timeLabel1.text;
+    }
+
+    NSString *time2; //选中时间的前一小时
+    if (button.tag-5 == 0) {
+        time2 = @"0:00";
+    }else{
+        NSDictionary *timePointDic2 = self.timeMutableList[button.tag-6];
+        UILabel *timeLabel2 = timePointDic2[@"timeLabel"];
+        time2 = timeLabel2.text;
+    }
+    
+    BOOL isTwoHours = NO;
+    if ([selectArray containsObject:time]) {
+        for (int i=0; i<selectArray.count; i++) {
+            if ([selectArray containsObject:time1]) {
+                isTwoHours = YES;
+                break;
+            }
+            if ([selectArray containsObject:time2]) {
+                isTwoHours = YES;
+                break;
+            }
+        }
+    }
+    
+    if (isTwoHours) {
+        [self makeToast:[NSString stringWithFormat:@"连续上课两小时很累，慎重考虑哦亲"]];
+    }
     
     for (int i = 0; i < self.timeMutableList.count; i++) {
 

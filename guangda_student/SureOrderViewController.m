@@ -23,7 +23,9 @@
 @property (strong, nonatomic) IBOutlet UIView *appointResultView;
 @property (strong, nonatomic) IBOutlet UIImageView *resultImageView;
 @property (strong, nonatomic) IBOutlet UILabel *resultStatusLabel;
+@property (strong, nonatomic) IBOutlet UILabel *accountLabel;//账户余额
 @property (strong, nonatomic) IBOutlet UILabel *resultDetailsLabel;
+
 @property (strong, nonatomic) IBOutlet UIButton *appointResultBtn;
 @property (strong, nonatomic) IBOutlet UIView *resultContentView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *contentViewHeight;
@@ -422,6 +424,7 @@
     nextViewController.canUseDiffCoupon = self.canUseDiffCoupon;
     nextViewController.orderIndex = [NSString stringWithFormat:@"%ld",(long)tag];
     nextViewController.canUsedMaxCouponCount = self.canUsedMaxCouponCount;
+    nextViewController.selectedOrderList = self.dateTimeSelectedList[tag];
     [self.navigationController pushViewController:nextViewController animated:YES];
     
 }
@@ -747,11 +750,25 @@
     [self.view addSubview:self.appointResultView];
     self.resultContentView.layer.cornerRadius = 10;
     self.resultContentView.layer.masksToBounds = YES;
+    
+    //可用余额
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"UserInfo"];
+    NSString *money = [userInfo[@"money"] description];
+    NSString *accountMoney = [NSString stringWithFormat:@"仅剩 %@元", money];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:accountMoney];
+    
+    [string addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                           [UIFont systemFontOfSize:20],NSFontAttributeName,
+                           RGB(246, 102, 93),NSForegroundColorAttributeName,
+                           nil] range:NSMakeRange(3,money.length+1)];
+    
     switch (type) {
         case 0:
             // 余额不足
             self.resultImageView.image = [UIImage imageNamed:@"icon_no_money"];
-            self.resultStatusLabel.text = @"您的余额不足\n请充值";
+            self.resultStatusLabel.text = @"您的余额不足";
+            self.accountLabel.attributedText = string;
+            self.accountLabel.hidden = NO;
             self.resultStatusLabel.numberOfLines = 2;
             self.resultStatusHeight.constant = 45;
             self.resultDetailsLabel.hidden = YES;
@@ -767,6 +784,7 @@
             self.statusImageHeight.constant = 60;
             self.resultImageView.image = [UIImage imageNamed:@"icon_appoint_success"];
             self.resultStatusLabel.text = @"预约成功";
+            self.accountLabel.hidden = YES;
             self.resultStatusLabel.numberOfLines = 1;
             self.resultStatusHeight.constant = 21;
             self.resultDetailsLabel.hidden = YES;
@@ -783,6 +801,7 @@
             self.statusImageHeight.constant = 60;
             self.resultImageView.image = [UIImage imageNamed:@"icon_appoint_success"];
             self.resultStatusLabel.text = @"预约成功";
+            self.accountLabel.hidden = YES;
             self.resultDetailsLabel.hidden = NO;
             self.resultStatusLabel.numberOfLines = 1;
             self.resultStatusHeight.constant = 21;
@@ -797,6 +816,7 @@
             self.statusImageHeight.constant = 0;
             self.contentViewHeight.constant = 175;
             self.resultStatusLabel.text = @"您预约的时间已被\n其他学员抢走了~";
+            self.accountLabel.hidden = YES;
             self.resultDetailsLabel.hidden = YES;
             self.resultStatusLabel.numberOfLines = 2;
             self.resultStatusHeight.constant = 50;
