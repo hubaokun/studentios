@@ -516,7 +516,7 @@
                                 <constraint firstAttribute="width" constant="155" id="bdK-lp-Oge"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                            <state key="normal" title="网上报名入口">
+                            <state key="normal" title="网上预约考试">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
