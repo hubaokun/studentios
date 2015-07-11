@@ -15,4 +15,5 @@
 @property (strong, nonatomic) IBOutlet UIImageView *userLogo;
 
 - (IBAction)onlineSignUp:(id)sender;
+
 @end

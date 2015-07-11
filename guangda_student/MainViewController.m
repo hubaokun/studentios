@@ -46,6 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.carModelScrollView.hidden = YES;
     
     int _bili = SCREEN_HEIGHT/568;
     self.shangXiaWu.constant = 20*_bili;
@@ -950,10 +951,13 @@
         
         if ([responseObject[@"code"] integerValue] == 1)
         {
+            self.carModelScrollView.hidden = NO;
             NSArray *modellist = responseObject[@"modellist"];
             [self addCarModelWithList:modellist];
         }else{
             NSString *message = responseObject[@"message"];
+            self.carModelScrollView.hidden = YES;
+            [self makeToast:message];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [DejalBezelActivityView removeViewAnimated:YES];
