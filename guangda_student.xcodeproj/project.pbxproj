@@ -178,6 +178,8 @@
 		37F77F6F1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37F77F6D1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.m */; };
 		37F77F701AC8F0A3004D6A44 /* MyOrderEvaluationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37F77F6E1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.xib */; };
 		713694851B4E3CF500F6D573 /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */; };
+		713694971B51627700F6D573 /* OnlineTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 713694951B51627700F6D573 /* OnlineTestViewController.m */; };
+		713694981B51627700F6D573 /* OnlineTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 713694961B51627700F6D573 /* OnlineTestViewController.xib */; };
 		B85242291ACA3EA20032E276 /* BindingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B85242271ACA3EA20032E276 /* BindingViewController.m */; };
 		B852422A1ACA3EA20032E276 /* BindingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85242281ACA3EA20032E276 /* BindingViewController.xib */; };
 		B852422E1ACA62180032E276 /* SettingBindingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B852422C1ACA62180032E276 /* SettingBindingViewController.m */; };
@@ -603,6 +605,9 @@
 		37F77F6D1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderEvaluationViewController.m; sourceTree = "<group>"; };
 		37F77F6E1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyOrderEvaluationViewController.xib; sourceTree = "<group>"; };
 		713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = 3rdparty/BaiduMapAPI.framework; sourceTree = "<group>"; };
+		713694941B51627700F6D573 /* OnlineTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlineTestViewController.h; sourceTree = "<group>"; };
+		713694951B51627700F6D573 /* OnlineTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlineTestViewController.m; sourceTree = "<group>"; };
+		713694961B51627700F6D573 /* OnlineTestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OnlineTestViewController.xib; sourceTree = "<group>"; };
 		B85242261ACA3EA20032E276 /* BindingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BindingViewController.h; sourceTree = "<group>"; };
 		B85242271ACA3EA20032E276 /* BindingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BindingViewController.m; sourceTree = "<group>"; };
 		B85242281ACA3EA20032E276 /* BindingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BindingViewController.xib; sourceTree = "<group>"; };
@@ -1156,6 +1161,7 @@
 		3179E6A11AC2AF8A00AFCFAA /* class */ = {
 			isa = PBXGroup;
 			children = (
+				713694931B51627700F6D573 /* OnlineTest */,
 				B968AF621B1DC0E200806043 /* coupon（小巴券） */,
 				B85CA0731AC3F4E400934B22 /* login（登录） */,
 				315067B61AC3DEAF000C1C13 /* home（地图主页） */,
@@ -1517,6 +1523,16 @@
 			path = TPKeyboardAvoiding;
 			sourceTree = "<group>";
 		};
+		713694931B51627700F6D573 /* OnlineTest */ = {
+			isa = PBXGroup;
+			children = (
+				713694941B51627700F6D573 /* OnlineTestViewController.h */,
+				713694951B51627700F6D573 /* OnlineTestViewController.m */,
+				713694961B51627700F6D573 /* OnlineTestViewController.xib */,
+			);
+			path = OnlineTest;
+			sourceTree = "<group>";
+		};
 		B85CA0731AC3F4E400934B22 /* login（登录） */ = {
 			isa = PBXGroup;
 			children = (
@@ -1649,6 +1665,7 @@
 				375F9FE81AC5050E00006095 /* ImproveInfoViewController.xib in Resources */,
 				B968AF791B1E416B00806043 /* SelectCouponTableViewCell.xib in Resources */,
 				376A19CC1ADCDC2C004F1FE3 /* foregroundStar.png in Resources */,
+				713694981B51627700F6D573 /* OnlineTestViewController.xib in Resources */,
 				31608A751AEE3E2F00B0D4D8 /* SureOrderTableViewCell.xib in Resources */,
 				31824AA31B037EAD001AF41A /* mapapi.bundle in Resources */,
 				3179E66A1AC284C600AFCFAA /* TimePickerViewController.xib in Resources */,
@@ -1731,6 +1748,7 @@
 				3179E66E1AC284C600AFCFAA /* BaseViewController.m in Sources */,
 				31C9D8E91AD665AD006A4E80 /* APAuthV2Info.m in Sources */,
 				3160EEA91ADE205F00AE4DD3 /* MyAnimatedAnnotationView.m in Sources */,
+				713694971B51627700F6D573 /* OnlineTestViewController.m in Sources */,
 				3179E6621AC284C600AFCFAA /* CommonUtil.m in Sources */,
 				3179E63B1AC284C600AFCFAA /* AFURLRequestSerialization.m in Sources */,
 				37994D001AC3D95B008E30E5 /* UserBaseInfoViewController.m in Sources */,

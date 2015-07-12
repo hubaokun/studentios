@@ -240,7 +240,7 @@
 }
 
 /**
-对传过来的订单数据进行处理
+ 对传过来的订单数据进行处理
  **/
 - (void) getOrderArray{
     
@@ -508,7 +508,7 @@
 {
     NSDictionary *dic = self.dateTimeSelectedList[section];
     NSArray *timeList = dic[@"times"];
-
+    
     return timeList.count;
 }
 
@@ -579,7 +579,7 @@
 - (IBAction)goAppointClick:(id)sender
 {
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"UserInfo"];
-
+    
     CGFloat userMoney = [userInfo[@"money"] floatValue];
     if(userMoney < _payMoney && _payMoney != 0){//需付金额不为零 且余额不足的情况下
         [self letoutResultViewWithType:0];
@@ -712,6 +712,8 @@
                                            selector:@selector(backLogin)
                                            userInfo:nil
                                             repeats:NO];
+        }else if (code == -1){
+            [self makeToast:@"版本太久了哦,请退出程序后再次进入,程序将自动更新"];
         }else{
             [self letoutResultViewWithType:3];
         }

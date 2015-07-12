@@ -16,7 +16,7 @@
 #import "LoginViewController.h"
 #import "UIImageView+WebCache.h"
 #import "CouponListViewController.h"
-
+#import "OnlineTestViewController.h"
 @interface SideBarViewController ()
 
 @property (nonatomic, strong) UIView *redPoint;
@@ -184,14 +184,13 @@
     }
 }
 
-// 投诉
-- (IBAction)complaintClick:(id)sender
-{
-    if ([[CommonUtil currentUtil] isLogin]) {
-        ComplaintViewController *viewController = [[ComplaintViewController alloc] initWithNibName:@"ComplaintViewController" bundle:nil];
-        [self.navigationController pushViewController:viewController animated:YES];
-    }
+
+//在线约考
+- (IBAction)onlineSignUp:(id)sender {
+    OnlineTestViewController *viewController = [[OnlineTestViewController alloc] initWithNibName:@"OnlineTestViewController" bundle:nil];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
+
 
 // 设置
 - (IBAction)settingClick:(id)sender
@@ -209,9 +208,6 @@
         CouponListViewController *nextViewController = [[CouponListViewController alloc] initWithNibName:@"CouponListViewController" bundle:nil];
         [self.navigationController pushViewController:nextViewController animated:YES];
     }
-}
-- (IBAction)onlineSignUp:(id)sender { //网上报名入口
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.hzti.com:9004/drv_web/index.do"]];
 }
 
 @end

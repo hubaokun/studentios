@@ -7,10 +7,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SideBarViewController">
             <connections>
-                <outlet property="messageIcon" destination="6gf-tK-E6w" id="Re8-4c-OLr"/>
+                <outlet property="messageIcon" destination="spp-WR-Ixc" id="sQG-yM-CO9"/>
                 <outlet property="messageRed" destination="nyD-i5-ROq" id="a97-73-I6t"/>
                 <outlet property="phoneNumLabel" destination="zLc-FE-Qlp" id="fVX-f0-OTY"/>
-                <outlet property="systemMessageView" destination="kia-my-jrN" id="Lk6-k8-pxf"/>
+                <outlet property="systemMessageView" destination="qod-3D-c6W" id="bF5-mz-r0T"/>
                 <outlet property="userLogo" destination="htc-d2-g6q" id="eav-nA-JGY"/>
                 <outlet property="userNameLabel" destination="3vj-1U-7T8" id="XLY-z4-OLd"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -298,7 +298,7 @@
                                 </mask>
                             </variation>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kia-my-jrN" userLabel="系统消息">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kia-my-jrN" userLabel="在线约考">
                             <rect key="frame" x="115" y="270" width="115" height="115"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f28-pL-ewU">
@@ -308,17 +308,10 @@
                                     </state>
                                     <state key="highlighted" image="bg_btn_green"/>
                                     <connections>
-                                        <action selector="messageClick:" destination="-1" eventType="touchUpInside" id="vHH-Y2-vH0"/>
+                                        <action selector="onlineSignUp:" destination="-1" eventType="touchUpInside" id="SZd-Kx-hky"/>
                                     </connections>
                                 </button>
-                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="red_point" translatesAutoresizingMaskIntoConstraints="NO" id="nyD-i5-ROq">
-                                    <rect key="frame" x="75" y="15" width="14" height="14"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="14" id="XLd-MJ-1X0"/>
-                                        <constraint firstAttribute="width" constant="14" id="uhs-zU-avB"/>
-                                    </constraints>
-                                </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="系统消息" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gml-L1-v0p">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="在线约考" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gml-L1-v0p">
                                     <rect key="frame" x="0.0" y="70" width="115" height="21"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="115" id="Lhu-Oa-uih"/>
@@ -336,7 +329,7 @@
                                         <constraint firstAttribute="height" constant="1" id="aqr-dR-YyU"/>
                                     </constraints>
                                 </view>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_message" translatesAutoresizingMaskIntoConstraints="NO" id="6gf-tK-E6w">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_test" translatesAutoresizingMaskIntoConstraints="NO" id="6gf-tK-E6w">
                                     <rect key="frame" x="38" y="20" width="38" height="33"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="38" id="OQo-aP-yad"/>
@@ -353,14 +346,12 @@
                                 <constraint firstItem="Gml-L1-v0p" firstAttribute="top" secondItem="6gf-tK-E6w" secondAttribute="bottom" constant="17" id="Kor-2D-hbI"/>
                                 <constraint firstAttribute="bottom" secondItem="f28-pL-ewU" secondAttribute="bottom" id="LZB-Yp-9tz"/>
                                 <constraint firstAttribute="centerY" secondItem="Gml-L1-v0p" secondAttribute="centerY" id="MB4-Ym-bHu"/>
-                                <constraint firstItem="nyD-i5-ROq" firstAttribute="top" secondItem="kia-my-jrN" secondAttribute="top" constant="15" id="N7W-Np-Wws"/>
                                 <constraint firstAttribute="bottom" secondItem="tEx-NQ-Meb" secondAttribute="bottom" id="T9z-sy-1sb"/>
                                 <constraint firstAttribute="width" constant="115" id="XA9-31-iSd"/>
                                 <constraint firstAttribute="centerX" secondItem="6gf-tK-E6w" secondAttribute="centerX" id="Zde-b9-pa0"/>
                                 <constraint firstAttribute="centerX" secondItem="tEx-NQ-Meb" secondAttribute="centerX" id="c28-rg-ui9"/>
                                 <constraint firstAttribute="centerX" secondItem="Gml-L1-v0p" secondAttribute="centerX" id="dbn-N4-PyK"/>
                                 <constraint firstAttribute="trailing" secondItem="f28-pL-ewU" secondAttribute="trailing" id="o6R-Tc-CBY"/>
-                                <constraint firstAttribute="trailing" secondItem="nyD-i5-ROq" secondAttribute="trailing" constant="26" id="yaI-0c-4ZJ"/>
                             </constraints>
                             <variation key="default">
                                 <mask key="constraints">
@@ -368,7 +359,7 @@
                                 </mask>
                             </variation>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qod-3D-c6W" userLabel="投诉">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qod-3D-c6W" userLabel="系统消息">
                             <rect key="frame" x="0.0" y="385" width="115" height="115"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MC3-Wd-KDq">
@@ -378,10 +369,10 @@
                                     </state>
                                     <state key="highlighted" image="bg_btn_green"/>
                                     <connections>
-                                        <action selector="complaintClick:" destination="-1" eventType="touchUpInside" id="IcX-fN-ViM"/>
+                                        <action selector="messageClick:" destination="-1" eventType="touchUpInside" id="M9n-xS-aCx"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="投诉" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbC-49-Dq9">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="系统消息" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbC-49-Dq9">
                                     <rect key="frame" x="0.0" y="70" width="115" height="21"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="115" id="4EJ-If-hs7"/>
@@ -407,11 +398,18 @@
                                         <constraint firstAttribute="width" constant="70" id="yS5-pp-zq7"/>
                                     </constraints>
                                 </view>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_complaint" translatesAutoresizingMaskIntoConstraints="NO" id="spp-WR-Ixc">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_message" translatesAutoresizingMaskIntoConstraints="NO" id="spp-WR-Ixc">
                                     <rect key="frame" x="38" y="20" width="33" height="36"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="36" id="IY3-lh-9uy"/>
                                         <constraint firstAttribute="width" constant="33" id="mgc-QS-A5e"/>
+                                    </constraints>
+                                </imageView>
+                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="red_point" translatesAutoresizingMaskIntoConstraints="NO" id="nyD-i5-ROq">
+                                    <rect key="frame" x="66" y="13" width="14" height="14"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="14" id="h3H-HV-pQl"/>
+                                        <constraint firstAttribute="width" constant="14" id="t8M-hE-XcT"/>
                                     </constraints>
                                 </imageView>
                             </subviews>
@@ -420,6 +418,7 @@
                                 <constraint firstAttribute="centerX" secondItem="qbC-49-Dq9" secondAttribute="centerX" id="06Z-HE-cVB"/>
                                 <constraint firstAttribute="centerX" secondItem="spp-WR-Ixc" secondAttribute="centerX" constant="3" id="3Qs-wz-qRZ"/>
                                 <constraint firstAttribute="bottom" secondItem="MC3-Wd-KDq" secondAttribute="bottom" id="4PS-n8-Pxo"/>
+                                <constraint firstItem="dHE-1p-hNs" firstAttribute="leading" secondItem="nyD-i5-ROq" secondAttribute="trailing" constant="34" id="5eb-9J-G4m"/>
                                 <constraint firstItem="qbC-49-Dq9" firstAttribute="top" secondItem="spp-WR-Ixc" secondAttribute="bottom" constant="14" id="FSr-SK-Hlq"/>
                                 <constraint firstAttribute="centerX" secondItem="Hj9-Hb-ydS" secondAttribute="centerX" constant="0.5" id="Ffj-VF-bvA"/>
                                 <constraint firstAttribute="centerY" secondItem="qbC-49-Dq9" secondAttribute="centerY" id="SY7-40-bav"/>
@@ -427,6 +426,7 @@
                                 <constraint firstItem="MC3-Wd-KDq" firstAttribute="leading" secondItem="qod-3D-c6W" secondAttribute="leading" id="Zpg-u5-Eem"/>
                                 <constraint firstItem="MC3-Wd-KDq" firstAttribute="top" secondItem="qod-3D-c6W" secondAttribute="top" id="ZxU-KD-tkY"/>
                                 <constraint firstAttribute="height" constant="115" id="ci7-fU-DtB"/>
+                                <constraint firstItem="nyD-i5-ROq" firstAttribute="top" secondItem="qod-3D-c6W" secondAttribute="top" constant="13" id="dIf-ZU-Gfs"/>
                                 <constraint firstAttribute="trailing" secondItem="dHE-1p-hNs" secondAttribute="trailing" id="dmb-ii-MrH"/>
                                 <constraint firstAttribute="trailing" secondItem="MC3-Wd-KDq" secondAttribute="trailing" id="doF-iT-ygZ"/>
                                 <constraint firstItem="dHE-1p-hNs" firstAttribute="top" secondItem="qod-3D-c6W" secondAttribute="top" constant="23" id="hGj-07-dqZ"/>
@@ -509,26 +509,10 @@
                                 </mask>
                             </variation>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7MB-0f-68W">
-                            <rect key="frame" x="38" y="513" width="155" height="30"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="30" id="RGu-1W-BJz"/>
-                                <constraint firstAttribute="width" constant="155" id="bdK-lp-Oge"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                            <state key="normal" title="网上预约考试">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="onlineSignUp:" destination="-1" eventType="touchUpInside" id="zhU-R0-yqC"/>
-                            </connections>
-                        </button>
                     </subviews>
                     <constraints>
                         <constraint firstItem="XeI-9d-wuE" firstAttribute="leading" secondItem="qA3-2c-O9W" secondAttribute="leading" id="32v-a4-R2X"/>
                         <constraint firstItem="HwH-wl-qD9" firstAttribute="leading" secondItem="qA3-2c-O9W" secondAttribute="leading" id="9R8-rh-Yfd"/>
-                        <constraint firstAttribute="trailing" secondItem="7MB-0f-68W" secondAttribute="trailing" constant="37" id="Bxt-5S-Dwq"/>
                         <constraint firstAttribute="trailing" secondItem="Stp-q5-GBW" secondAttribute="trailing" id="Kvq-eI-0X3"/>
                         <constraint firstAttribute="bottom" secondItem="3ER-fc-meC" secondAttribute="bottom" id="PUb-MO-Byr"/>
                         <constraint firstItem="XeI-9d-wuE" firstAttribute="top" secondItem="E1e-WX-VJz" secondAttribute="bottom" constant="35" id="Qes-dc-g19"/>
@@ -543,14 +527,12 @@
                         <constraint firstItem="3ER-fc-meC" firstAttribute="leading" secondItem="qA3-2c-O9W" secondAttribute="leading" id="i0Z-m3-eu3"/>
                         <constraint firstItem="Stp-q5-GBW" firstAttribute="leading" secondItem="XeI-9d-wuE" secondAttribute="trailing" id="jqh-dI-hAH"/>
                         <constraint firstAttribute="trailing" secondItem="3ER-fc-meC" secondAttribute="trailing" id="k4c-Dm-S41"/>
-                        <constraint firstItem="7MB-0f-68W" firstAttribute="top" secondItem="CCZ-xa-mPi" secondAttribute="bottom" constant="13" id="p4T-4n-R9l"/>
                         <constraint firstItem="CCZ-xa-mPi" firstAttribute="top" secondItem="kia-my-jrN" secondAttribute="bottom" id="r3c-If-NAq"/>
                         <constraint firstItem="3ER-fc-meC" firstAttribute="top" secondItem="qA3-2c-O9W" secondAttribute="top" id="rc5-Gh-Yay"/>
                         <constraint firstItem="E1e-WX-VJz" firstAttribute="leading" secondItem="qA3-2c-O9W" secondAttribute="leading" id="sKH-Dm-bCt"/>
                         <constraint firstItem="qod-3D-c6W" firstAttribute="top" secondItem="Stp-q5-GBW" secondAttribute="bottom" constant="115" id="tcD-1Q-d60"/>
                         <constraint firstItem="kia-my-jrN" firstAttribute="top" secondItem="XeI-9d-wuE" secondAttribute="bottom" id="u7l-l0-vnK"/>
                         <constraint firstItem="kia-my-jrN" firstAttribute="leading" secondItem="qA3-2c-O9W" secondAttribute="leading" constant="115" id="vlg-Hh-lFz"/>
-                        <constraint firstItem="7MB-0f-68W" firstAttribute="leading" secondItem="qA3-2c-O9W" secondAttribute="leading" constant="38" id="wIp-B1-zRg"/>
                         <constraint firstItem="E1e-WX-VJz" firstAttribute="top" secondItem="qA3-2c-O9W" secondAttribute="top" constant="20" id="yU6-n1-fve"/>
                     </constraints>
                 </view>
@@ -569,10 +551,10 @@
         <image name="bg_my_left_slide" width="320" height="568"/>
         <image name="coupon_icon" width="38" height="30"/>
         <image name="icon_account" width="40" height="38"/>
-        <image name="icon_complaint" width="33" height="36"/>
         <image name="icon_message" width="38" height="33"/>
         <image name="icon_my_order" width="38" height="38"/>
         <image name="icon_setting" width="41" height="41"/>
+        <image name="icon_test" width="41" height="41"/>
         <image name="red_point" width="11" height="11"/>
     </resources>
 </document>

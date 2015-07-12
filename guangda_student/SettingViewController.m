@@ -13,7 +13,7 @@
 #import "SettingBindingViewController.h"
 #import "ChangePwdViewController.h"
 #import "AppDelegate.h"
-
+#import "ComplaintViewController.h"
 @interface SettingViewController ()
 @property (strong, nonatomic) IBOutlet UIView *msgView;
 @property (strong, nonatomic) IBOutlet UILabel *cacheLabel;
@@ -107,6 +107,14 @@
     self.alertView.frame = self.view.frame;
     [self.view addSubview:self.alertView];
     
+}
+
+// 投诉
+- (IBAction)MyComplaint:(id)sender {
+    if ([[CommonUtil currentUtil] isLogin]) {
+        ComplaintViewController *viewController = [[ComplaintViewController alloc] initWithNibName:@"ComplaintViewController" bundle:nil];
+        [self.navigationController pushViewController:viewController animated:YES];
+    }
 }
 
 //意见反馈
