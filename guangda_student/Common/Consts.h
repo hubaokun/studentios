@@ -17,10 +17,10 @@
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
-#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"    // 正式服
+//#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"    // 正式服
 //#define REQUEST_HOST   @"http://127.0.0.1:8080/guangda"   // 凯哥
 //#define REQUEST_HOST   @"http://120.25.236.228:8080/dadmin/"          //测试服务器
-//#define REQUEST_HOST   @"http://192.168.1.112:8080/guangda/"  // 测试服120.25.236.228
+#define REQUEST_HOST   @"http://192.168.2.100:8080/guangda/"  // 测试服120.25.236.228
 
 
 #define APP_VERSION    [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
