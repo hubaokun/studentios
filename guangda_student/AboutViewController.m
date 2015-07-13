@@ -11,6 +11,8 @@
 @interface AboutViewController ()
 
 @property (strong, nonatomic) IBOutlet UIButton *tipBtn;
+@property (strong, nonatomic) IBOutlet UILabel *versionLabel;
+
 @end
 
 @implementation AboutViewController
@@ -20,13 +22,16 @@
     // Do any additional setup after loading the view from its nib.
     
     self.tipBtn.layer.cornerRadius = 3;
-
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    // app版本
+    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    NSString *VersionText = [NSString stringWithFormat:@"版本%@",app_Version];
+    self.versionLabel.text = VersionText;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 @end

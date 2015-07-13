@@ -180,6 +180,12 @@
 		713694851B4E3CF500F6D573 /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */; };
 		713694971B51627700F6D573 /* OnlineTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 713694951B51627700F6D573 /* OnlineTestViewController.m */; };
 		713694981B51627700F6D573 /* OnlineTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 713694961B51627700F6D573 /* OnlineTestViewController.xib */; };
+		716E27221B53DD37009CE9E1 /* SelfServiceSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 716E271D1B53DD37009CE9E1 /* SelfServiceSignUpViewController.m */; };
+		716E27231B53DD37009CE9E1 /* SelfServiceSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 716E271E1B53DD37009CE9E1 /* SelfServiceSignUpViewController.xib */; };
+		716E27241B53DD37009CE9E1 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 716E27201B53DD37009CE9E1 /* SignUpViewController.m */; };
+		716E27251B53DD37009CE9E1 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 716E27211B53DD37009CE9E1 /* SignUpViewController.xib */; };
+		716E27291B53DD56009CE9E1 /* AccountListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 716E27271B53DD56009CE9E1 /* AccountListViewController.m */; };
+		716E272A1B53DD56009CE9E1 /* AccountListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 716E27281B53DD56009CE9E1 /* AccountListViewController.xib */; };
 		B85242291ACA3EA20032E276 /* BindingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B85242271ACA3EA20032E276 /* BindingViewController.m */; };
 		B852422A1ACA3EA20032E276 /* BindingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85242281ACA3EA20032E276 /* BindingViewController.xib */; };
 		B852422E1ACA62180032E276 /* SettingBindingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B852422C1ACA62180032E276 /* SettingBindingViewController.m */; };
@@ -608,6 +614,15 @@
 		713694941B51627700F6D573 /* OnlineTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlineTestViewController.h; sourceTree = "<group>"; };
 		713694951B51627700F6D573 /* OnlineTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlineTestViewController.m; sourceTree = "<group>"; };
 		713694961B51627700F6D573 /* OnlineTestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OnlineTestViewController.xib; sourceTree = "<group>"; };
+		716E271C1B53DD37009CE9E1 /* SelfServiceSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelfServiceSignUpViewController.h; sourceTree = "<group>"; };
+		716E271D1B53DD37009CE9E1 /* SelfServiceSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelfServiceSignUpViewController.m; sourceTree = "<group>"; };
+		716E271E1B53DD37009CE9E1 /* SelfServiceSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelfServiceSignUpViewController.xib; sourceTree = "<group>"; };
+		716E271F1B53DD37009CE9E1 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
+		716E27201B53DD37009CE9E1 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
+		716E27211B53DD37009CE9E1 /* SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpViewController.xib; sourceTree = "<group>"; };
+		716E27261B53DD56009CE9E1 /* AccountListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountListViewController.h; sourceTree = "<group>"; };
+		716E27271B53DD56009CE9E1 /* AccountListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountListViewController.m; sourceTree = "<group>"; };
+		716E27281B53DD56009CE9E1 /* AccountListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccountListViewController.xib; sourceTree = "<group>"; };
 		B85242261ACA3EA20032E276 /* BindingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BindingViewController.h; sourceTree = "<group>"; };
 		B85242271ACA3EA20032E276 /* BindingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BindingViewController.m; sourceTree = "<group>"; };
 		B85242281ACA3EA20032E276 /* BindingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BindingViewController.xib; sourceTree = "<group>"; };
@@ -1161,6 +1176,7 @@
 		3179E6A11AC2AF8A00AFCFAA /* class */ = {
 			isa = PBXGroup;
 			children = (
+				716E271B1B53DD37009CE9E1 /* SignUpToStudy */,
 				713694931B51627700F6D573 /* OnlineTest */,
 				B968AF621B1DC0E200806043 /* coupon（小巴券） */,
 				B85CA0731AC3F4E400934B22 /* login（登录） */,
@@ -1241,6 +1257,9 @@
 		3179E6A61AC2B05700AFCFAA /* account（账户） */ = {
 			isa = PBXGroup;
 			children = (
+				716E27261B53DD56009CE9E1 /* AccountListViewController.h */,
+				716E27271B53DD56009CE9E1 /* AccountListViewController.m */,
+				716E27281B53DD56009CE9E1 /* AccountListViewController.xib */,
 				D765DE8F1B1CAAE200381AEF /* AccountManagerViewController.h */,
 				D765DE901B1CAAE200381AEF /* AccountManagerViewController.m */,
 				D765DE911B1CAAE200381AEF /* AccountManagerViewController.xib */,
@@ -1533,6 +1552,19 @@
 			path = OnlineTest;
 			sourceTree = "<group>";
 		};
+		716E271B1B53DD37009CE9E1 /* SignUpToStudy */ = {
+			isa = PBXGroup;
+			children = (
+				716E271C1B53DD37009CE9E1 /* SelfServiceSignUpViewController.h */,
+				716E271D1B53DD37009CE9E1 /* SelfServiceSignUpViewController.m */,
+				716E271E1B53DD37009CE9E1 /* SelfServiceSignUpViewController.xib */,
+				716E271F1B53DD37009CE9E1 /* SignUpViewController.h */,
+				716E27201B53DD37009CE9E1 /* SignUpViewController.m */,
+				716E27211B53DD37009CE9E1 /* SignUpViewController.xib */,
+			);
+			path = SignUpToStudy;
+			sourceTree = "<group>";
+		};
 		B85CA0731AC3F4E400934B22 /* login（登录） */ = {
 			isa = PBXGroup;
 			children = (
@@ -1678,6 +1710,7 @@
 				3790F2371AF7035D0037D50C /* coach_star_empty@2x.png in Resources */,
 				3179E6471AC284C600AFCFAA /* DSPullToRefreshIcon@2x.png in Resources */,
 				314F4E1C1AEA39F200DD8FC6 /* CoachDetailViewController.xib in Resources */,
+				716E27251B53DD37009CE9E1 /* SignUpViewController.xib in Resources */,
 				B85CA0721AC3DE6000934B22 /* RegistViewController.xib in Resources */,
 				3179E66C1AC284C600AFCFAA /* WebViewController.xib in Resources */,
 				37994D011AC3D95B008E30E5 /* UserBaseInfoViewController.xib in Resources */,
@@ -1686,6 +1719,7 @@
 				3179E6941AC2929B00AFCFAA /* MainViewController.xib in Resources */,
 				3179E58E1AC2843400AFCFAA /* Images.xcassets in Resources */,
 				31547E5D1ACBE8C90086016A /* MessageTableViewCell.xib in Resources */,
+				716E27231B53DD37009CE9E1 /* SelfServiceSignUpViewController.xib in Resources */,
 				3179E6BF1AC2B0CB00AFCFAA /* SettingViewController.xib in Resources */,
 				31608A701AEDFFA600B0D4D8 /* SureOrderViewController.xib in Resources */,
 				D765DE931B1CAAE200381AEF /* AccountManagerViewController.xib in Resources */,
@@ -1696,6 +1730,7 @@
 				B952DCCB1B04DFD000229402 /* statedictionary.plist in Resources */,
 				B9187BED1B09B3C300366081 /* FindPwdViewController.xib in Resources */,
 				315067C11AC3DF06000C1C13 /* CoachListViewController.xib in Resources */,
+				716E272A1B53DD56009CE9E1 /* AccountListViewController.xib in Resources */,
 				B852422F1ACA62180032E276 /* SettingBindingViewController.xib in Resources */,
 				B86061191AC91A9C00555486 /* FeedbackViewController.xib in Resources */,
 				315067BC1AC3DEF9000C1C13 /* CoachListTableViewCell.xib in Resources */,
@@ -1729,6 +1764,7 @@
 			files = (
 				3179E6581AC284C600AFCFAA /* UIImage+GIF.m in Sources */,
 				3179E6511AC284C600AFCFAA /* SDWebImageDecoder.m in Sources */,
+				716E27291B53DD56009CE9E1 /* AccountListViewController.m in Sources */,
 				B86061141AC9104000555486 /* CommonUtil+Files.m in Sources */,
 				3179E6451AC284C600AFCFAA /* DSBottomPullToMoreManager.m in Sources */,
 				B968AF691B1DC13E00806043 /* CouponListViewController.m in Sources */,
@@ -1799,6 +1835,7 @@
 				3179E64A1AC284C600AFCFAA /* ScheduleModelView.m in Sources */,
 				3179E6481AC284C600AFCFAA /* DSPullToRefreshManager.m in Sources */,
 				3179E6391AC284C600AFCFAA /* AFSecurityPolicy.m in Sources */,
+				716E27241B53DD37009CE9E1 /* SignUpViewController.m in Sources */,
 				3179E68A1AC28E4300AFCFAA /* SliderViewController.m in Sources */,
 				3179E65B1AC284C600AFCFAA /* UIImageView+HighlightedWebCache.m in Sources */,
 				B860612B1AC920A600555486 /* TPKeyboardAvoidingScrollView.m in Sources */,
@@ -1827,6 +1864,7 @@
 				3179E6371AC284C600AFCFAA /* AFHTTPSessionManager.m in Sources */,
 				3179E69F1AC2AADC00AFCFAA /* SGFocusImageFrame.m in Sources */,
 				B852422E1ACA62180032E276 /* SettingBindingViewController.m in Sources */,
+				716E27221B53DD37009CE9E1 /* SelfServiceSignUpViewController.m in Sources */,
 				31824AA71B039490001AF41A /* DatePickerViewController.m in Sources */,
 				379CB7931ACBAF820051CA36 /* MyOrderComplainViewController.m in Sources */,
 				3179E6541AC284C600AFCFAA /* SDWebImageManager+MJ.m in Sources */,

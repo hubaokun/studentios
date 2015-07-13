@@ -235,7 +235,7 @@
                                     </state>
                                     <state key="highlighted" image="bg_btn_green"/>
                                     <connections>
-                                        <action selector="clickForCoupon:" destination="-1" eventType="touchUpInside" id="FjD-qB-88i"/>
+                                        <action selector="clickForSignUp:" destination="-1" eventType="touchUpInside" id="jwx-fo-x4K"/>
                                     </connections>
                                 </button>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pVK-Fl-IYP" userLabel="line">
@@ -246,7 +246,7 @@
                                         <constraint firstAttribute="height" constant="70" id="WxO-RK-X3g"/>
                                     </constraints>
                                 </view>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小巴券" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uwj-2W-FfF">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="学车报名" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uwj-2W-FfF">
                                     <rect key="frame" x="0.0" y="70" width="115" height="21"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="21" id="LQ0-IY-eMR"/>
@@ -264,7 +264,7 @@
                                         <constraint firstAttribute="height" constant="1" id="lLj-jq-V0D"/>
                                     </constraints>
                                 </view>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coupon_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Rbd-Ei-ynU">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="signUp" translatesAutoresizingMaskIntoConstraints="NO" id="Rbd-Ei-ynU">
                                     <rect key="frame" x="38" y="20" width="38" height="30"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="9Sg-hO-fLd"/>
@@ -549,12 +549,12 @@
     <resources>
         <image name="bg_btn_green" width="111" height="111"/>
         <image name="bg_my_left_slide" width="320" height="568"/>
-        <image name="coupon_icon" width="38" height="30"/>
         <image name="icon_account" width="40" height="38"/>
         <image name="icon_message" width="38" height="33"/>
         <image name="icon_my_order" width="38" height="38"/>
         <image name="icon_setting" width="41" height="41"/>
         <image name="icon_test" width="41" height="41"/>
         <image name="red_point" width="11" height="11"/>
+        <image name="signUp" width="41" height="41"/>
     </resources>
 </document>
