@@ -8,7 +8,7 @@
 
 #import "SideBarViewController.h"
 #import "MyOrderViewController.h"
-#import "AccountViewController.h"
+#import "AccountListViewController.h"
 #import "SystemMessageViewController.h"
 #import "ComplaintViewController.h"
 #import "SettingViewController.h"
@@ -17,6 +17,7 @@
 #import "UIImageView+WebCache.h"
 #import "CouponListViewController.h"
 #import "OnlineTestViewController.h"
+#import "SignUpViewController.h"
 @interface SideBarViewController ()
 
 @property (nonatomic, strong) UIView *redPoint;
@@ -170,7 +171,7 @@
 - (IBAction)accountClick:(id)sender
 {
     if ([[CommonUtil currentUtil] isLogin]) {
-        AccountViewController *viewController = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:nil];
+        AccountListViewController *viewController = [[AccountListViewController alloc] initWithNibName:@"AccountListViewController" bundle:nil];
         [self.navigationController pushViewController:viewController animated:YES];
     }
 }
@@ -203,11 +204,9 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
 }
 
-- (IBAction)clickForCoupon:(id)sender{
-    if ([[CommonUtil currentUtil] isLogin]) {
-        CouponListViewController *nextViewController = [[CouponListViewController alloc] initWithNibName:@"CouponListViewController" bundle:nil];
-        [self.navigationController pushViewController:nextViewController animated:YES];
-    }
+- (IBAction)clickForSignUp:(id)sender{
+    SignUpViewController *nextViewController = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+    [self.navigationController pushViewController:nextViewController animated:YES];
 }
 
 @end

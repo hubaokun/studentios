@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController">
@@ -37,6 +37,7 @@
                 <outlet property="detailsCocahComment" destination="Olb-1v-cyh" id="tnB-X3-fAx"/>
                 <outlet property="detailsSex" destination="cwh-y1-KHB" id="sMV-Cx-UL8"/>
                 <outlet property="driveNumLabel" destination="c0j-Nf-aHZ" id="ePA-JM-c0C"/>
+                <outlet property="footView" destination="lE4-tg-pbT" id="sFt-0p-eD4"/>
                 <outlet property="fuzzyBtnOutlet" destination="mCB-lH-WDE" id="W0I-LA-CPt"/>
                 <outlet property="mapContentView" destination="nPb-aX-GWX" id="dme-JX-x6d"/>
                 <outlet property="perPriceLabel" destination="SPl-8d-QiY" id="uOr-tU-oAQ"/>
