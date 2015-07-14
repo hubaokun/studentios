@@ -176,6 +176,15 @@
     }
 }
 
+//学车报名
+- (IBAction)clickForSignUp:(id)sender{
+    if ([[CommonUtil currentUtil] isLogin]) {
+        SignUpViewController *nextViewController = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+        [self.navigationController pushViewController:nextViewController animated:YES];
+        
+    }
+}
+
 // 系统消息
 - (IBAction)messageClick:(id)sender
 {
@@ -204,9 +213,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
 }
 
-- (IBAction)clickForSignUp:(id)sender{
-    SignUpViewController *nextViewController = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
-    [self.navigationController pushViewController:nextViewController animated:YES];
-}
+
 
 @end

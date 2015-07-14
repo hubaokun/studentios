@@ -265,10 +265,10 @@
                                     </constraints>
                                 </view>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="signUp" translatesAutoresizingMaskIntoConstraints="NO" id="Rbd-Ei-ynU">
-                                    <rect key="frame" x="38" y="20" width="38" height="30"/>
+                                    <rect key="frame" x="38" y="20" width="39" height="39"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="30" id="9Sg-hO-fLd"/>
-                                        <constraint firstAttribute="width" constant="38" id="ceW-FW-AaZ"/>
+                                        <constraint firstAttribute="width" constant="39" id="TAJ-ag-ZPl"/>
+                                        <constraint firstAttribute="height" constant="39" id="ZWn-EU-ERS"/>
                                     </constraints>
                                 </imageView>
                             </subviews>
@@ -286,6 +286,9 @@
                                 <constraint firstItem="Uwj-2W-FfF" firstAttribute="top" secondItem="Rbd-Ei-ynU" secondAttribute="bottom" constant="20" id="EM0-eQ-aq5"/>
                                 <constraint firstItem="2cS-Oe-IZ8" firstAttribute="leading" secondItem="HwH-wl-qD9" secondAttribute="leading" id="SAt-Bn-xLs"/>
                                 <constraint firstAttribute="width" constant="115" id="VGp-Oc-Z76"/>
+                                <constraint firstItem="Uwj-2W-FfF" firstAttribute="top" secondItem="Rbd-Ei-ynU" secondAttribute="bottom" constant="11" id="ZqV-Jq-tJZ"/>
+                                <constraint firstAttribute="centerX" secondItem="Rbd-Ei-ynU" secondAttribute="centerX" id="a0A-B5-ksy"/>
+                                <constraint firstItem="Rbd-Ei-ynU" firstAttribute="top" secondItem="HwH-wl-qD9" secondAttribute="top" constant="20" id="bd8-l7-Ki9"/>
                                 <constraint firstAttribute="trailing" secondItem="Uwj-2W-FfF" secondAttribute="trailing" id="gjt-57-EJw"/>
                                 <constraint firstAttribute="centerX" secondItem="Rbd-Ei-ynU" secondAttribute="centerX" id="lx7-Sh-hks"/>
                                 <constraint firstItem="Uwj-2W-FfF" firstAttribute="leading" secondItem="HwH-wl-qD9" secondAttribute="leading" id="und-gL-UqC"/>
@@ -294,7 +297,10 @@
                             </constraints>
                             <variation key="default">
                                 <mask key="constraints">
+                                    <exclude reference="EL2-Lu-J4l"/>
+                                    <exclude reference="lx7-Sh-hks"/>
                                     <exclude reference="C6c-1p-w0r"/>
+                                    <exclude reference="EM0-eQ-aq5"/>
                                 </mask>
                             </variation>
                         </view>

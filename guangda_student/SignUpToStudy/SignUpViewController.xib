@@ -117,7 +117,7 @@
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="真实姓名" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qdu-fA-Q9q">
                             <rect key="frame" x="2" y="0.0" width="538" height="32"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <textInputTraits key="textInputTraits" keyboardType="phonePad" returnKeyType="done"/>
+                            <textInputTraits key="textInputTraits" returnKeyType="done"/>
                         </textField>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f6v-yS-tLQ" userLabel="underline">
                             <rect key="frame" x="0.0" y="31" width="540" height="1"/>

@@ -222,6 +222,20 @@
                         <constraint firstItem="bvv-3y-ICJ" firstAttribute="leading" secondItem="izP-H9-Vvx" secondAttribute="leading" id="zSP-Cj-kNx"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="opq-gZ-WpY">
+                    <rect key="frame" x="214" y="305" width="173" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="173" id="TPK-fJ-CbC"/>
+                        <constraint firstAttribute="height" constant="40" id="ooo-ue-6al"/>
+                    </constraints>
+                    <state key="normal" title="退出登录">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="clickForLoginout:" destination="-1" eventType="touchUpInside" id="JKn-qX-3pr"/>
+                    </connections>
+                </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2O6-rq-1gH" userLabel="我的投诉">
                     <rect key="frame" x="0.0" y="62" width="600" height="62"/>
                     <subviews>
@@ -266,20 +280,6 @@
                         <constraint firstAttribute="trailing" secondItem="MFd-Gf-u4T" secondAttribute="trailing" id="xFm-g3-YNR"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="opq-gZ-WpY">
-                    <rect key="frame" x="214" y="305" width="173" height="40"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="173" id="TPK-fJ-CbC"/>
-                        <constraint firstAttribute="height" constant="40" id="ooo-ue-6al"/>
-                    </constraints>
-                    <state key="normal" title="退出登录">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="clickForLoginout:" destination="-1" eventType="touchUpInside" id="JKn-qX-3pr"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>

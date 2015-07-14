@@ -55,13 +55,14 @@
     
     NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
     NSString *phoneNum = [user_info[@"phone"] description];
-    NSString *realName = [user_info[@"realname"] description];
-    
-    if (realName.length > 0) {
-        self.nameField.text = realName;
-    }
+//    NSString *realName = [user_info[@"realname"] description];
+//
+//    if (realName.length > 0) {
+//        self.nameField.text = realName;
+//    }
     if (phoneNum.length > 0) {
         self.phoneNumField.text = phoneNum;
+        self.phoneNumField.enabled = NO;
     }
     
     //注册监听，防止键盘遮挡视图
@@ -211,6 +212,42 @@
     [self.phoneNumField resignFirstResponder];
 }
 
+#pragma mark - 接口方法
+// 提交用户信息一键报名
+- (void)changePsw {
+    NSString *studentId = [CommonUtil stringForID:USERDICT[@"studentid"]];
+    
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    [paramDic setObject:studentId forKey:@"studentid"];
+    NSString *uri = @"/suser?action=ENROLL";
+    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    //    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [DejalBezelActivityView activityViewForView:self.view];
+    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        [DejalBezelActivityView removeViewAnimated:YES];
+        
+        if ([responseObject[@"code"] integerValue] == 1) {
+            NSLog(@"message ===== %@", responseObject[@"message"]);
+            self.alertView.frame = self.view.frame;
+            [self.view addSubview:self.alertView];
+            [self.navigationController popViewControllerAnimated:YES];
+            
+        }else{
+            NSString *message = responseObject[@"message"];
+            [self makeToast:message];
+        
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [DejalBezelActivityView removeViewAnimated:YES];
+        NSLog(@"连接失败");
+        [self makeToast:ERR_NETWORK];
+    }];
+    
+}
+
 - (IBAction)clickForClose:(id)sender
 {
     [self.alertView removeFromSuperview];
@@ -222,8 +259,11 @@
 }
 
 - (IBAction)clickForSignUp:(id)sender {
-    self.alertView.frame = self.view.frame;
-    [self.view addSubview:self.alertView];
+    if (self.phoneNumField.text.length >0 && self.nameField.text.length >0 ) {
+        [self changePsw];
+    }else{
+        [self makeToast:@"请填写您的真实姓名和联系电话"];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
