@@ -246,7 +246,15 @@
     [cell.userLogo sd_setImageWithURL:[NSURL URLWithString:logoUrl] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
     
     cell.userName.text = coachDic[@"realname"];
-    cell.contentDetailLabel.text = coachDic[@"detail"];
+//    NSString *coachInfoStr = nil;
+    NSString *detail = coachDic[@"detail"];
+    NSString *schoolName = coachDic[@"drive_school"];
+    if ([CommonUtil isEmpty:schoolName]) {
+        cell.driveSchoolLabel.text = @"";
+    } else {
+        cell.driveSchoolLabel.text = schoolName;
+    }
+    cell.contentDetailLabel.text = detail;
     
     [cell.starView changeStarForegroundViewWithScore:[[coachDic[@"score"] description] floatValue]];
     

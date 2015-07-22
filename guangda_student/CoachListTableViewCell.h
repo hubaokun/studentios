@@ -14,6 +14,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *userLogo;
 @property (strong, nonatomic) IBOutlet UILabel *userName;
 @property (strong, nonatomic) IBOutlet UILabel *contentDetailLabel;
+@property (strong, nonatomic) IBOutlet UILabel *driveSchoolLabel;
 
 @property (strong, nonatomic) TQStarRatingView *starView;
 
