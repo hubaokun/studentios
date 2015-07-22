@@ -32,7 +32,7 @@
 @property (strong, nonatomic) NSString *wbCurrentUserID;
 
 //设备号
-@property (strong, nonatomic) NSString *deviceToken;
+@property (strong, atomic) NSString *deviceToken;
 @property (nonatomic, strong) BMKReverseGeoCodeResult *locationResult;
 
 @end
