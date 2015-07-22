@@ -113,7 +113,7 @@
 // 显示本地数据
 - (void)showLocalData {
     [self loadLocalData];
-    NSString *genderStr = (_gender == 1)? @"男" : @"女";
+    NSString *genderStr = (_gender == 2)? @"女" : @"男";
     self.sexField.text = genderStr;
     self.birthdayField.text = _birthday;
     self.cityField.text = _city;
@@ -688,9 +688,9 @@
     [paramDic setObject:genderStr forKey:@"gender"];
     [paramDic setObject:_birthday forKey:@"birthday"];
     [paramDic setObject:_city forKey:@"city"];
-    [paramDic setObject:_address forKey:@"address"];
-    [paramDic setObject:_urgentPerson forKey:@"urgentperson"];
-    [paramDic setObject:_urgentPhone forKey:@"urgentphone"];
+//    [paramDic setObject:_address forKey:@"address"];
+//    [paramDic setObject:_urgentPerson forKey:@"urgentperson"];
+//    [paramDic setObject:_urgentPhone forKey:@"urgentphone"];
     
     NSString *uri = @"/suser?action=PerfectPersonInfo";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
