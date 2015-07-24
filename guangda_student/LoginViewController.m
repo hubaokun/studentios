@@ -171,8 +171,10 @@
                 [CommonUtil saveObjectToUD:[paramDic objectForKey:@"phone"] key:@"loginusername"];
                 [CommonUtil saveObjectToUD:pwdStr key:@"loginpassword"];
                 [CommonUtil saveObjectToUD:type key:@"logintype"];
-                    
-                [self uploadDeviceToken:delegate.deviceToken];
+                
+                if (![CommonUtil isEmpty:delegate.deviceToken]) {
+                    [self uploadDeviceToken:delegate.deviceToken];
+                }
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }
             
@@ -220,9 +222,8 @@
     [paramDic setObject:userId forKey:@"userid"];
     [paramDic setObject:@"2" forKey:@"usertype"]; // 用户类型 1.教练  2 学员
     [paramDic setObject:@"1" forKey:@"devicetype"]; // 设备类型 0安卓  1IOS
-    if (deviceToken && deviceToken.length != 0) {
-        [paramDic setObject:deviceToken forKey:@"devicetoken"];
-    }
+    [paramDic setObject:deviceToken forKey:@"devicetoken"];
+
     NSString *uri = @"/system?action=UpdatePushInfo";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
     
@@ -415,7 +416,9 @@
             [CommonUtil saveObjectToUD:vcode key:@"loginpassword"];
             [CommonUtil saveObjectToUD:@"1" key:@"logintype"];
             
-            [self uploadDeviceToken:delegate.deviceToken];
+            if (![CommonUtil isEmpty:delegate.deviceToken]) {
+                [self uploadDeviceToken:delegate.deviceToken];
+            }
             
             int isregister = [[responseObject objectForKey:@"isregister"] intValue];
             
@@ -508,7 +511,7 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-
+// 点击获取验证码
 - (IBAction)clickForVcodeButton:(id)sender {
     NSString *phone = [self.loginNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if([CommonUtil isEmpty:phone]){

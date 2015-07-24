@@ -11,8 +11,7 @@
 #import "TPKeyboardAvoidingScrollView.h"
 #import "MyDate.h"
 #import "LoginViewController.h"
-
-#define MYDATE
+#import "XBProvince.h"
 
 @interface ImproveInfoViewController ()<UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource> {
     NSString    *previousTextFieldContent;
@@ -35,12 +34,10 @@
 @property (strong, nonatomic) NSString *myDay;
 
 // 地址选择器数据
-@property (strong, nonatomic) NSDictionary *stateZips;//省市
-@property (strong, nonatomic) NSArray *cityArray;
-@property (strong, nonatomic) NSArray *provinceArray;
-@property (nonatomic, strong) NSString *selectCity;
-@property (nonatomic, strong) NSString *selectPro;
-@property (strong, nonatomic) NSMutableDictionary *selectDic;
+@property (strong, nonatomic) NSArray *provinces;
+@property (strong, nonatomic) XBProvince *curProvince;
+@property (strong, nonatomic) XBCity *curCity;
+@property (strong, nonatomic) XBArea *curArea;
 
 @end
 
@@ -51,15 +48,7 @@
     [self settingView];
     
     // 日期选择
-#ifdef TEST
-    [self testDateSetting];
-#endif
-    
-#ifdef MYDATE
     self.myPickerDate = [[MyDate alloc] initWithEndYear:@"2015"];
-#endif
-    
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -113,7 +102,7 @@
 // 显示本地数据
 - (void)showLocalData {
     [self loadLocalData];
-    NSString *genderStr = (_gender == 1)? @"男" : @"女";
+    NSString *genderStr = (_gender == 2)? @"女" : @"男";
     self.sexField.text = genderStr;
     self.birthdayField.text = _birthday;
     self.cityField.text = _city;
@@ -304,19 +293,14 @@
 }
 
 - (void)initCityData {
-    NSBundle *bundle = [NSBundle mainBundle];
-    NSString *plistPath = [bundle pathForResource:@"statedictionary" ofType:@"plist"];
-    NSDictionary *dictionary = [[NSDictionary alloc ] initWithContentsOfFile :plistPath];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"china.plist" ofType:nil];
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
+    NSArray *array = dict[@"china"];
+    self.provinces = [XBProvince provincesWithArray:array];
     
-    self.stateZips = dictionary;
-    NSArray *components = [self.stateZips allKeys];
-    NSArray *sorted = [components sortedArrayUsingSelector: @selector (compare:)];
-    self.provinceArray = [sorted mutableCopy];
-    
-    NSString *selectedState = [self.provinceArray objectAtIndex :0 ];
-    
-    NSArray *array = [[NSArray alloc] initWithArray:(NSArray *)[self.stateZips objectForKey:selectedState]];
-    self.cityArray = array;
+    self.curProvince = self.provinces[0];
+    self.curCity = self.curProvince.citiesArray[0];
+    self.curArea = self.curCity.areasArray[0];
 }
 
 // 行高
@@ -330,7 +314,7 @@
         return 1;
     }
     else if ([pickerView isEqual:self.cityPicker]) {
-        return 2;
+        return 3;
     }
     else if ([pickerView isEqual:self.datePicker]) {
         return 3;
@@ -348,40 +332,20 @@
     }
     
     else if ([pickerView isEqual:self.cityPicker]) {
+        // 省
         if (component == 0) {
-            return _provinceArray.count;
-        } else {
-            return _cityArray.count;
+            return self.provinces.count;
+        }
+        // 市
+        else if (component == 1) {
+            return self.curProvince.citiesArray.count;
+        }
+        // 区
+        else {
+            return self.curCity.areasArray.count;
         }
     }
-    
-#ifdef TEST
-    else if ([pickerView isEqual:self.datePicker]) {
-        switch (component) { // component是栏目index，从0开始，后面的row也一样是从0开始
-            case 0: { // 第一栏为年，这里startDate和endDate为起始时间和截止时间，请自行指定
-                NSDateComponents *startCpts = [self.calendar components:NSYearCalendarUnit
-                                                               fromDate:self.startDate];
-                NSDateComponents *endCpts = [self.calendar components:NSYearCalendarUnit
-                                                             fromDate:self.endDate];
-                return [endCpts year] - [startCpts year] + 1;
-            }
-            case 1: // 第二栏为月份
-                return 12;
-            case 2: { // 第三栏为对应月份的天数
-                NSRange dayRange = [self.calendar rangeOfUnit:NSDayCalendarUnit
-                                                       inUnit:NSMonthCalendarUnit
-                                                      forDate:self.selectedDate];
-//                DLog(@"current month: %d, day number: %d", [[self.calendar components:NSMonthCalendarUnit fromDate:self.selectedDate] month], dayRange.length);
-                NSLog(@"selecedday === %@",self.selectedDate);
-                return dayRange.length;
-            }
-            default:
-                return 0;
-        }
-    }
-#endif
-    
-#ifdef MYDATE
+
     else if ([pickerView isEqual:self.datePicker]) {
         switch (component) { // component是栏目index，从0开始，后面的row也一样是从0开始
             case 0: { // 第一栏为年
@@ -411,7 +375,6 @@
                 return 0;
         }
     }
-#endif
     
     else {
         return 0;//如果不是就返回0
@@ -441,75 +404,30 @@
     
     // 城市选择器
     else if ([pickerView isEqual:self.cityPicker]) {
-        
         myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 100, 45)];
-        
-        myView.textAlignment = NSTextAlignmentCenter;
-        
-        if (component == 0) {
-            NSString *state = [self.provinceArray objectAtIndex:row];
-            state = [state substringFromIndex:2];
-            myView.text = state;
-        } else {
-            myView.text = [_cityArray objectAtIndex:row];
-        }
-
-        myView.font = [UIFont systemFontOfSize:21];         //用label来设置字体大小
-        
+        myView.font = [UIFont systemFontOfSize:18];         //用label来设置字体大小
         myView.textColor = [UIColor whiteColor];
-        
         myView.backgroundColor = [UIColor clearColor];
-        
+        myView.textAlignment = NSTextAlignmentCenter;
+        // 省
+        if (component == 0) {
+            XBProvince *province = [self.provinces objectAtIndex:row];
+            myView.text = province.provinceName;
+        }
+        // 市
+        else if (component == 1) {
+            XBCity *city = self.curProvince.citiesArray[row];
+            myView.text = city.cityName;
+        }
+        // 区
+        else {
+            XBArea *area = self.curCity.areasArray[row];
+            myView.text = area.areaName;
+        }
         return myView;
     }
     
     // 日期选择器
-#ifdef TEST
-    else if ([pickerView isEqual:self.datePicker]) {
-        
-        UILabel *dateLabel = (UILabel *)view;
-        if (!dateLabel) {
-            dateLabel = [[UILabel alloc] init];
-            [dateLabel setFont:[UIFont systemFontOfSize:21]];
-            [dateLabel setTextColor:[UIColor whiteColor]];
-            [dateLabel setBackgroundColor:[UIColor clearColor]];
-        }
-        
-        switch (component) {
-            case 0: {
-                NSDateComponents *components = [self.calendar components:NSYearCalendarUnit
-                                                                fromDate:self.startDate];
-                NSString *currentYear = [NSString stringWithFormat:@"%ld年", [components year] + row];
-                [dateLabel setText:currentYear];
-                dateLabel.textAlignment = NSTextAlignmentRight;
-                break;
-            }
-            case 1: { // 返回月份可以用DateFormatter，这样可以支持本地化
-                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
-                NSArray *monthSymbols = [formatter monthSymbols];
-                [dateLabel setText:[monthSymbols objectAtIndex:row]];
-                dateLabel.textAlignment = NSTextAlignmentCenter;
-                break;
-            }
-            case 2: {
-                NSRange dateRange = [self.calendar rangeOfUnit:NSDayCalendarUnit
-                                                        inUnit:NSMonthCalendarUnit
-                                                       forDate:self.selectedDate];
-                NSString *currentDay = [NSString stringWithFormat:@"%02lu", (row + 1) % (dateRange.length + 1)];
-                [dateLabel setText:currentDay];
-                dateLabel.textAlignment = NSTextAlignmentLeft;
-                break;
-            }
-            default:
-                break;
-        }
-        
-        return dateLabel;
-    }
-#endif
-    
-#ifdef MYDATE
     else if ([pickerView isEqual:self.datePicker]) {
         
         UILabel *dateLabel = (UILabel *)view;
@@ -546,79 +464,14 @@
         
         return dateLabel;
     }
-#endif
     
     else {
         return myView;
     }
-    
-//    return myView;
 }
 
 // 返回选中的行
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    
-#ifdef TEST
-    if ([pickerView isEqual:self.datePicker]) {
-        NSInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
-        switch (component) {
-            case 0: {
-//                [pickerView selectRow:0 inComponent:2 animated:YES];
-                
-                NSDateComponents *indicatorComponents = [self.calendar components:NSYearCalendarUnit
-                                                                         fromDate:self.startDate];
-                NSInteger year = [indicatorComponents year] + row;
-                NSDateComponents *targetComponents = [self.calendar components:unitFlags
-                                                                      fromDate:self.selectedDate];
-                [targetComponents setYear:year];
-                
-//                self.selectedDateComponets = targetComponents;
-                [self.selectedDateComponets setYear:year];
-                
-//                self.selectedDate = [self.calendar dateFromComponents:targetComponents]; // 获得当前选定年
-//                NSLog(@"year === %@",self.selectedDate);
-                break;
-            }
-            case 1: {
-//                [pickerView selectRow:0 inComponent:2 animated:YES];
-                
-                NSDateComponents *targetComponents = [self.calendar components:unitFlags
-                                                                      fromDate:self.selectedDate];
-                [targetComponents setMonth:row + 1];
-                
-//                self.selectedDateComponets = targetComponents;
-                [self.selectedDateComponets setMonth:row + 1];
-                
-//                self.selectedDate = [self.calendar dateFromComponents:targetComponents]; // 获得当前选定月
-//                NSLog(@"month === %@",self.selectedDate);
-                
-                break;
-            }
-            case 2: {
-                NSDateComponents *targetComponents = [self.calendar components:unitFlags
-                                                                      fromDate:self.selectedDate];
-                [targetComponents setDay:row + 1];
-                
-//                self.selectedDateComponets = targetComponents;
-                [self.selectedDateComponets setDay:row + 1];
-                
-//                self.selectedDate = [self.calendar dateFromComponents:targetComponents]; // 获得当前选定日
-//                NSLog(@"day === %@",self.selectedDate);
-
-                break;
-            }
-            default:
-                break;
-        }
-        
-        self.selectedDate = [self.calendar dateFromComponents:self.selectedDateComponets]; // 获得当前选定日期
-
-        
-        [pickerView reloadAllComponents];
-    }
-#endif
-    
-#ifdef MYDATE
     if ([pickerView isEqual:self.datePicker]) {
         switch (component) {
             case 0: {
@@ -644,32 +497,30 @@
         }
         //        [pickerView reloadAllComponents];
     }
-#endif
     
     if ([pickerView isEqual:self.cityPicker]) {
+        // 省
         if (component == 0) {
-            //省
-            NSString *pro = [self.provinceArray objectAtIndex:row];
-            self.selectPro = [pro substringFromIndex:2];
-            
-            //获取对应的市
-            NSString *selectedState = [_provinceArray objectAtIndex:row];
-            NSArray *array = [self.stateZips objectForKey:selectedState];
-            
-            self.cityArray = array;
+            self.curProvince = self.provinces[row];
+            self.curCity = self.curProvince.citiesArray[0];
+            self.curArea = self.curCity.areasArray[0];
             [pickerView reloadComponent:1];
+            [pickerView reloadComponent:2];
             [pickerView selectRow:0 inComponent:1 animated:YES];
-            if (array.count > 0){
-                NSString *city = [_cityArray objectAtIndex:0];
-                self.selectCity = city;
-            }
+            [pickerView selectRow:0 inComponent:2 animated:YES];
             
-        }else{
-            //市
-            NSString *city = [_cityArray objectAtIndex:row];
-            self.selectCity = city;
         }
-//        [pickerView reloadComponent:0];
+        // 市
+        else if (component == 1) {
+            self.curCity = self.curProvince.citiesArray[row];
+            self.curArea = self.curCity.areasArray[0];
+            [pickerView reloadComponent:2];
+            [pickerView selectRow:0 inComponent:2 animated:YES];
+        }
+        // 区
+        else {
+            self.curArea = self.curCity.areasArray[row];
+        }
     }
 }
 
@@ -687,10 +538,12 @@
     [paramDic setObject:[CommonUtil stringForID:USERDICT[@"token"]] forKey:@"token"];
     [paramDic setObject:genderStr forKey:@"gender"];
     [paramDic setObject:_birthday forKey:@"birthday"];
-    [paramDic setObject:_city forKey:@"city"];
-    [paramDic setObject:_address forKey:@"address"];
-    [paramDic setObject:_urgentPerson forKey:@"urgentperson"];
-    [paramDic setObject:_urgentPhone forKey:@"urgentphone"];
+    [paramDic setObject:self.curProvince.provinceID forKey:@"provinceid"];
+    [paramDic setObject:self.curCity.cityID forKey:@"cityid"];
+    [paramDic setObject:self.curArea.areaID forKey:@"areaid"];
+//    [paramDic setObject:_address forKey:@"address"];
+//    [paramDic setObject:_urgentPerson forKey:@"urgentperson"];
+//    [paramDic setObject:_urgentPhone forKey:@"urgentphone"];
     
     NSString *uri = @"/suser?action=PerfectPersonInfo";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
@@ -817,14 +670,13 @@
 
 // 完成城市选择
 - (IBAction)clickForCityDone:(id)sender {
-    if (_selectPro == nil){
-        NSString *pro = [self.provinceArray objectAtIndex:0];
-        self.selectPro = [pro substringFromIndex:2];
-        NSArray *array = [self.stateZips objectForKey:pro];
-        self.cityArray = array;
-        _selectCity = array[0];
+    NSString *addrStr = nil;
+    if (self.curProvince.isZxs) { // 直辖市
+        addrStr = [NSString stringWithFormat:@"%@ %@", self.curProvince.provinceName, self.curArea.areaName];
+    } else {
+        addrStr =  [NSString stringWithFormat:@"%@ %@ %@", self.curProvince.provinceName, self.curCity.cityName, self.curArea.areaName];
     }
-    self.cityField.text = [NSString stringWithFormat:@"%@ %@", _selectPro, _selectCity];
+    self.cityField.text = addrStr;
     [self.selectView removeFromSuperview];
 }
 
@@ -833,11 +685,7 @@
     self.sexView.hidden = YES;
     self.cityView.hidden = YES;
     self.dateView.hidden = NO;
-#ifdef TEST
-    self.selectedDate = [NSDate dateWithTimeIntervalSince1970:0];
-#endif
     
-#ifdef MYDATE
     _myYear = @"1975";
     _myMonth = @"01";
     _myDay = @"01";
@@ -845,21 +693,12 @@
     [self.datePicker selectRow:0 inComponent:1 animated:YES];
     [self.datePicker selectRow:0 inComponent:2 animated:YES];
     
-#endif
-    
     [self.view addSubview:self.selectView];
 }
 
 // 完成日期选择
 - (IBAction)clickForDateDone:(id)sender {
-#ifdef TEST
-    self.birthdayField.text = [self stringFromDate:self.selectedDate];
-#endif
-    
-#ifdef MYDATE
     self.birthdayField.text = [NSString stringWithFormat:@"%@-%@-%@",_myYear,_myMonth,_myDay];
-#endif
-    
     [self.selectView removeFromSuperview];
 }
 

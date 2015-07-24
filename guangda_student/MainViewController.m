@@ -776,7 +776,7 @@
     }
 //    NSMutableArray *images = [NSMutableArray array];
 //    for (int i = 1; i < 4; i++) {
-        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_car_btn"]];
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_car_pin"]];
 //    }
     annotationView.annotationImageView.image = image;
     annotationView.annotationButton.tag = [annotation.title intValue];

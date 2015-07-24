@@ -72,7 +72,7 @@
 //        [self jumpToMainController];
 //    }
     
-//    [self autoLogin];
+    [self autoLogin];
     
     [self jumpToMainController];
     
@@ -116,8 +116,7 @@
     //[self addDeviceToken:deviceToken];
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     self.deviceToken = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
-    [self autoLogin];
-    
+//    [self autoLogin];
     [self updateUserAddress];
     // NSLog(@"deviceToken:%@", _deviceToken);
     //上传设备信息
@@ -441,8 +440,16 @@
             NSDictionary *user = [responseObject objectForKey:@"UserInfo"];
             self.userid = user[@"studentid"];
             [CommonUtil saveObjectToUD:user key:@"UserInfo"];
-            [self uploadDeviceToken:self.deviceToken];
+            // 3秒后在异步线程中上传设备号
+            dispatch_queue_t queue =  dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+            dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 3*NSEC_PER_SEC);
+            dispatch_after(time, queue, ^{
+                if (![CommonUtil isEmpty:self.deviceToken]) {
+                    [self uploadDeviceToken];
+                }
+            });
         }
+        
         self.flgAutoLogin = NO;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"autologincomplete" object:nil];
         
@@ -452,7 +459,7 @@
 }
 
 // 上传设备号
-- (void)uploadDeviceToken:(NSString *)deviceToken
+- (void)uploadDeviceToken
 {
     NSString *userId = self.userid;
     
@@ -463,7 +470,7 @@
     [paramDic setObject:userId forKey:@"userid"];
     [paramDic setObject:@"2" forKey:@"usertype"]; // 用户类型 1.教练  2 学员
     [paramDic setObject:@"1" forKey:@"devicetype"]; // 设备类型 0安卓  1IOS
-    [paramDic setObject:deviceToken forKey:@"devicetoken"];
+    [paramDic setObject:self.deviceToken forKey:@"devicetoken"];
     NSString *uri = @"/system?action=UpdatePushInfo";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
     
