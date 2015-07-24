@@ -7,7 +7,7 @@
 //
 
 #import "SelfServiceSignUpViewController.h"
-
+#import "MainViewController.h"
 @interface SelfServiceSignUpViewController ()
 
 
@@ -106,6 +106,9 @@
     [self.alertView removeFromSuperview];
 }
 
+- (IBAction)clickForOrder:(id)sender {
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

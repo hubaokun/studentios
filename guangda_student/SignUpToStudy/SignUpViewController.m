@@ -233,7 +233,7 @@
             NSLog(@"message ===== %@", responseObject[@"message"]);
             self.alertView.frame = self.view.frame;
             [self.view addSubview:self.alertView];
-            [self.navigationController popViewControllerAnimated:YES];
+//            [self.navigationController popViewControllerAnimated:YES];
             
         }else{
             NSString *message = responseObject[@"message"];

@@ -833,6 +833,11 @@
     
     [paramDic setObject:pointcenter forKey:@"pointcenter"];
     [paramDic setObject:radius forKey:@"radius"];
+    // app版本
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    [paramDic setObject:app_Version forKey:@"version"];
+    
     if (![CommonUtil isEmpty:self.carModelId]) {
         [paramDic setObject:self.carModelId forKey:@"condition11"];
     }
@@ -851,6 +856,16 @@
         if ([responseObject[@"code"] integerValue] == 1)
         {
             self.coachList = responseObject[@"coachlist"];
+            
+            NSMutableArray *array = [NSMutableArray arrayWithArray:self.coachList];
+            for (int i= 0; i<self.coachList.count; i++) {
+                NSDictionary *coachDic =self.coachList[i];
+                NSString *string = coachDic[@"phone"];
+                if ([string isEqualToString:@"18888888888"]) {
+                    [array removeObjectAtIndex:i];
+                }
+            }
+            self.coachList = array;     //屏蔽特殊教练
             
             // 移除所有标注
             [_mapView removeAnnotations:_annotationsList];

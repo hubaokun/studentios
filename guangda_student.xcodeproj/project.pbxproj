@@ -186,6 +186,12 @@
 		716E27251B53DD37009CE9E1 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 716E27211B53DD37009CE9E1 /* SignUpViewController.xib */; };
 		716E27291B53DD56009CE9E1 /* AccountListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 716E27271B53DD56009CE9E1 /* AccountListViewController.m */; };
 		716E272A1B53DD56009CE9E1 /* AccountListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 716E27281B53DD56009CE9E1 /* AccountListViewController.xib */; };
+		71BA02F51B61D581004C500B /* CoinListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71BA02ED1B61D581004C500B /* CoinListTableViewCell.m */; };
+		71BA02F61B61D581004C500B /* CoinListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71BA02EE1B61D581004C500B /* CoinListTableViewCell.xib */; };
+		71BA02F71B61D581004C500B /* CoinListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71BA02F01B61D581004C500B /* CoinListViewController.m */; };
+		71BA02F81B61D581004C500B /* CoinListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71BA02F11B61D581004C500B /* CoinListViewController.xib */; };
+		71BA02F91B61D581004C500B /* UseRuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71BA02F31B61D581004C500B /* UseRuleViewController.m */; };
+		71BA02FA1B61D581004C500B /* UseRuleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71BA02F41B61D581004C500B /* UseRuleViewController.xib */; };
 		B85242291ACA3EA20032E276 /* BindingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B85242271ACA3EA20032E276 /* BindingViewController.m */; };
 		B852422A1ACA3EA20032E276 /* BindingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85242281ACA3EA20032E276 /* BindingViewController.xib */; };
 		B852422E1ACA62180032E276 /* SettingBindingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B852422C1ACA62180032E276 /* SettingBindingViewController.m */; };
@@ -623,6 +629,15 @@
 		716E27261B53DD56009CE9E1 /* AccountListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountListViewController.h; sourceTree = "<group>"; };
 		716E27271B53DD56009CE9E1 /* AccountListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountListViewController.m; sourceTree = "<group>"; };
 		716E27281B53DD56009CE9E1 /* AccountListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccountListViewController.xib; sourceTree = "<group>"; };
+		71BA02EC1B61D581004C500B /* CoinListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoinListTableViewCell.h; sourceTree = "<group>"; };
+		71BA02ED1B61D581004C500B /* CoinListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoinListTableViewCell.m; sourceTree = "<group>"; };
+		71BA02EE1B61D581004C500B /* CoinListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CoinListTableViewCell.xib; sourceTree = "<group>"; };
+		71BA02EF1B61D581004C500B /* CoinListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoinListViewController.h; sourceTree = "<group>"; };
+		71BA02F01B61D581004C500B /* CoinListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoinListViewController.m; sourceTree = "<group>"; };
+		71BA02F11B61D581004C500B /* CoinListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CoinListViewController.xib; sourceTree = "<group>"; };
+		71BA02F21B61D581004C500B /* UseRuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UseRuleViewController.h; sourceTree = "<group>"; };
+		71BA02F31B61D581004C500B /* UseRuleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UseRuleViewController.m; sourceTree = "<group>"; };
+		71BA02F41B61D581004C500B /* UseRuleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UseRuleViewController.xib; sourceTree = "<group>"; };
 		B85242261ACA3EA20032E276 /* BindingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BindingViewController.h; sourceTree = "<group>"; };
 		B85242271ACA3EA20032E276 /* BindingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BindingViewController.m; sourceTree = "<group>"; };
 		B85242281ACA3EA20032E276 /* BindingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BindingViewController.xib; sourceTree = "<group>"; };
@@ -1272,6 +1287,15 @@
 				319D3DED1ACD33850098FBFC /* TypeinNumberViewController.h */,
 				319D3DEE1ACD33850098FBFC /* TypeinNumberViewController.m */,
 				319D3DEF1ACD33850098FBFC /* TypeinNumberViewController.xib */,
+				71BA02EC1B61D581004C500B /* CoinListTableViewCell.h */,
+				71BA02ED1B61D581004C500B /* CoinListTableViewCell.m */,
+				71BA02EE1B61D581004C500B /* CoinListTableViewCell.xib */,
+				71BA02EF1B61D581004C500B /* CoinListViewController.h */,
+				71BA02F01B61D581004C500B /* CoinListViewController.m */,
+				71BA02F11B61D581004C500B /* CoinListViewController.xib */,
+				71BA02F21B61D581004C500B /* UseRuleViewController.h */,
+				71BA02F31B61D581004C500B /* UseRuleViewController.m */,
+				71BA02F41B61D581004C500B /* UseRuleViewController.xib */,
 			);
 			name = "account（账户）";
 			sourceTree = "<group>";
@@ -1698,6 +1722,7 @@
 				B968AF791B1E416B00806043 /* SelectCouponTableViewCell.xib in Resources */,
 				376A19CC1ADCDC2C004F1FE3 /* foregroundStar.png in Resources */,
 				713694981B51627700F6D573 /* OnlineTestViewController.xib in Resources */,
+				71BA02FA1B61D581004C500B /* UseRuleViewController.xib in Resources */,
 				31608A751AEE3E2F00B0D4D8 /* SureOrderTableViewCell.xib in Resources */,
 				31824AA31B037EAD001AF41A /* mapapi.bundle in Resources */,
 				3179E66A1AC284C600AFCFAA /* TimePickerViewController.xib in Resources */,
@@ -1721,6 +1746,7 @@
 				31547E5D1ACBE8C90086016A /* MessageTableViewCell.xib in Resources */,
 				716E27231B53DD37009CE9E1 /* SelfServiceSignUpViewController.xib in Resources */,
 				3179E6BF1AC2B0CB00AFCFAA /* SettingViewController.xib in Resources */,
+				71BA02F81B61D581004C500B /* CoinListViewController.xib in Resources */,
 				31608A701AEDFFA600B0D4D8 /* SureOrderViewController.xib in Resources */,
 				D765DE931B1CAAE200381AEF /* AccountManagerViewController.xib in Resources */,
 				B968AF6A1B1DC13E00806043 /* CouponListViewController.xib in Resources */,
@@ -1734,6 +1760,7 @@
 				B852422F1ACA62180032E276 /* SettingBindingViewController.xib in Resources */,
 				B86061191AC91A9C00555486 /* FeedbackViewController.xib in Resources */,
 				315067BC1AC3DEF9000C1C13 /* CoachListTableViewCell.xib in Resources */,
+				71BA02F61B61D581004C500B /* CoinListTableViewCell.xib in Resources */,
 				31824AA81B039490001AF41A /* DatePickerViewController.xib in Resources */,
 				B852422A1ACA3EA20032E276 /* BindingViewController.xib in Resources */,
 				3179E6421AC284C600AFCFAA /* WeiboSDK.bundle in Resources */,
@@ -1821,6 +1848,7 @@
 				31547E611ACBFA3B0086016A /* MessageDetailsViewController.m in Sources */,
 				D765DE921B1CAAE200381AEF /* AccountManagerViewController.m in Sources */,
 				37F77F6F1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.m in Sources */,
+				71BA02F71B61D581004C500B /* CoinListViewController.m in Sources */,
 				37C8A4FA1AD378E0001D4DB5 /* MyDate.m in Sources */,
 				31547E5C1ACBE8C90086016A /* MessageTableViewCell.m in Sources */,
 				3179E66D1AC284C600AFCFAA /* BaseTableViewCell.m in Sources */,
@@ -1869,10 +1897,12 @@
 				379CB7931ACBAF820051CA36 /* MyOrderComplainViewController.m in Sources */,
 				3179E6541AC284C600AFCFAA /* SDWebImageManager+MJ.m in Sources */,
 				3179E6561AC284C600AFCFAA /* SDWebImagePrefetcher.m in Sources */,
+				71BA02F91B61D581004C500B /* UseRuleViewController.m in Sources */,
 				3179E6361AC284C600AFCFAA /* AFHTTPRequestOperationManager.m in Sources */,
 				3179E6691AC284C600AFCFAA /* TimePickerViewController.m in Sources */,
 				31C9D8ED1AD665AD006A4E80 /* DataVerifier.m in Sources */,
 				3179E6BE1AC2B0CB00AFCFAA /* SettingViewController.m in Sources */,
+				71BA02F51B61D581004C500B /* CoinListTableViewCell.m in Sources */,
 				3179E6631AC284C600AFCFAA /* DateButton.m in Sources */,
 				B8E4ABE31AC54F6300D6B7DA /* CZCropPreviewOverlayView.m in Sources */,
 				F84840E61B253EB500156CAC /* DNCoach.m in Sources */,

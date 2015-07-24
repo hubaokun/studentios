@@ -665,6 +665,10 @@
     }
     
     [paramDic setObject:[NSString stringWithFormat:@"%ld", (long)_searchPage] forKey:@"pagenum"];
+    // app版本
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    [paramDic setObject:app_Version forKey:@"version"];
     
     NSString *uri = @"/sbook?action=GetCoachList";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
@@ -695,7 +699,17 @@
                 NSArray *array = responseObject[@"coachlist"];
                 [self.coachList addObjectsFromArray:array];
             }
-
+            
+            NSMutableArray *array = [NSMutableArray arrayWithArray:self.coachList];
+            for (int i= 0; i<self.coachList.count; i++) {
+                NSDictionary *coachDic =self.coachList[i];
+                NSString *string = coachDic[@"phone"];
+                if ([string isEqualToString:@"18888888888"]) {
+                    [array removeObjectAtIndex:i];
+                }
+            }
+            self.coachList = array;     //屏蔽特殊教练       
+            
             [self.tableView reloadData];
             
         }else{

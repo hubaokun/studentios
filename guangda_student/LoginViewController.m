@@ -130,7 +130,10 @@
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     [paramDic setObject:phoneNum forKey:@"phone"];
     [paramDic setObject:type forKey:@"type"];
-    
+    // app版本
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    [paramDic setObject:app_Version forKey:@"version"];
     if ([type isEqualToString:@"1"])
     {
         [paramDic setObject:[CommonUtil md5:pwdStr] forKey:@"password"];

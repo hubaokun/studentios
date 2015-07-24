@@ -178,7 +178,7 @@
                                         <action selector="accountClick:" destination="-1" eventType="touchUpInside" id="hg4-mf-xO8"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="账户" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LwL-OZ-8XF">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="钱包" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LwL-OZ-8XF">
                                     <rect key="frame" x="0.0" y="70" width="115" height="21"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="21" id="1HZ-HL-MdB"/>
