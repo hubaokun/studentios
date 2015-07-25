@@ -561,6 +561,6 @@
         <image name="icon_setting" width="41" height="41"/>
         <image name="icon_test" width="41" height="41"/>
         <image name="red_point" width="11" height="11"/>
-        <image name="signUp" width="41" height="41"/>
+        <image name="signUp" width="82" height="82"/>
     </resources>
 </document>

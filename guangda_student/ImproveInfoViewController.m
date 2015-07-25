@@ -541,7 +541,7 @@
     [paramDic setObject:self.curProvince.provinceID forKey:@"provinceid"];
     [paramDic setObject:self.curCity.cityID forKey:@"cityid"];
     [paramDic setObject:self.curArea.areaID forKey:@"areaid"];
-//    [paramDic setObject:_address forKey:@"address"];
+    [paramDic setObject:self.cityField.text forKey:@"locationname"];
 //    [paramDic setObject:_urgentPerson forKey:@"urgentperson"];
 //    [paramDic setObject:_urgentPhone forKey:@"urgentphone"];
     
@@ -634,7 +634,7 @@
     NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
     _gender = [[user_info objectForKey:@"gender"] intValue];
     _birthday = [user_info objectForKey:@"birthday"];
-    _city = [user_info objectForKey:@"city"];
+    _city = [user_info objectForKey:@"locationname"];
     _address = [user_info objectForKey:@"address"];
     _urgentPerson = [user_info objectForKey:@"urgent_person"];
     _urgentPhone = [user_info objectForKey:@"urgent_phone"];

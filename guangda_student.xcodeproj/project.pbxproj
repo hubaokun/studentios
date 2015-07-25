@@ -52,7 +52,6 @@
 		3177FB2A1AD61E98003050A2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3177FB291AD61E98003050A2 /* UIKit.framework */; };
 		3179E5831AC2843400AFCFAA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3179E5821AC2843400AFCFAA /* main.m */; };
 		3179E5861AC2843400AFCFAA /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3179E5851AC2843400AFCFAA /* AppDelegate.mm */; };
-		3179E58E1AC2843400AFCFAA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3179E58D1AC2843400AFCFAA /* Images.xcassets */; };
 		3179E6351AC284C600AFCFAA /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3179E5A91AC284C600AFCFAA /* AFHTTPRequestOperation.m */; };
 		3179E6361AC284C600AFCFAA /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3179E5AB1AC284C600AFCFAA /* AFHTTPRequestOperationManager.m */; };
 		3179E6371AC284C600AFCFAA /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3179E5AD1AC284C600AFCFAA /* AFHTTPSessionManager.m */; };
@@ -196,6 +195,7 @@
 		71BA02F81B61D581004C500B /* CoinListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71BA02F11B61D581004C500B /* CoinListViewController.xib */; };
 		71BA02F91B61D581004C500B /* UseRuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71BA02F31B61D581004C500B /* UseRuleViewController.m */; };
 		71BA02FA1B61D581004C500B /* UseRuleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71BA02F41B61D581004C500B /* UseRuleViewController.xib */; };
+		71BA03131B61E948004C500B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71BA03121B61E948004C500B /* Images.xcassets */; };
 		B85242291ACA3EA20032E276 /* BindingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B85242271ACA3EA20032E276 /* BindingViewController.m */; };
 		B852422A1ACA3EA20032E276 /* BindingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85242281ACA3EA20032E276 /* BindingViewController.xib */; };
 		B852422E1ACA62180032E276 /* SettingBindingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B852422C1ACA62180032E276 /* SettingBindingViewController.m */; };
@@ -314,7 +314,6 @@
 		3179E5821AC2843400AFCFAA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3179E5841AC2843400AFCFAA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3179E5851AC2843400AFCFAA /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
-		3179E58D1AC2843400AFCFAA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3179E59B1AC2843400AFCFAA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3179E59C1AC2843400AFCFAA /* guangda_studentTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = guangda_studentTests.m; sourceTree = "<group>"; };
 		3179E5A81AC284C600AFCFAA /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -649,6 +648,7 @@
 		71BA02F21B61D581004C500B /* UseRuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UseRuleViewController.h; sourceTree = "<group>"; };
 		71BA02F31B61D581004C500B /* UseRuleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UseRuleViewController.m; sourceTree = "<group>"; };
 		71BA02F41B61D581004C500B /* UseRuleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UseRuleViewController.xib; sourceTree = "<group>"; };
+		71BA03121B61E948004C500B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B85242261ACA3EA20032E276 /* BindingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BindingViewController.h; sourceTree = "<group>"; };
 		B85242271ACA3EA20032E276 /* BindingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BindingViewController.m; sourceTree = "<group>"; };
 		B85242281ACA3EA20032E276 /* BindingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BindingViewController.xib; sourceTree = "<group>"; };
@@ -910,7 +910,7 @@
 				3179E6921AC2929B00AFCFAA /* MainViewController.xib */,
 				3179E6951AC2AAB000AFCFAA /* RightViewController.h */,
 				3179E6961AC2AAB000AFCFAA /* RightViewController.m */,
-				3179E58D1AC2843400AFCFAA /* Images.xcassets */,
+				71BA03121B61E948004C500B /* Images.xcassets */,
 				3179E5801AC2843400AFCFAA /* Supporting Files */,
 			);
 			path = guangda_student;
@@ -1731,6 +1731,7 @@
 				37752C591AC8DE0200A8A746 /* MyOrderViewController.xib in Resources */,
 				3166B5471B0B47290017C10B /* SwipTimeView.xib in Resources */,
 				370CF6551ACA907F002AA1BB /* UnfinishedOrderTableViewCell.xib in Resources */,
+				71BA03131B61E948004C500B /* Images.xcassets in Resources */,
 				37632F831ACE8562005BAD55 /* WaitEvaluationOrderTableViewCell.xib in Resources */,
 				D786FE251B1B387E001DBFDD /* CommentListViewController.xib in Resources */,
 				316485111AE8E2C300887A18 /* AppointCoachViewController.xib in Resources */,
@@ -1761,7 +1762,6 @@
 				3179E6441AC284C600AFCFAA /* DSBottomPullToMoreArrow@2x.png in Resources */,
 				375F9FE21AC4F9A900006095 /* LearnDriveInfoViewController.xib in Resources */,
 				3179E6941AC2929B00AFCFAA /* MainViewController.xib in Resources */,
-				3179E58E1AC2843400AFCFAA /* Images.xcassets in Resources */,
 				31547E5D1ACBE8C90086016A /* MessageTableViewCell.xib in Resources */,
 				716E27231B53DD37009CE9E1 /* SelfServiceSignUpViewController.xib in Resources */,
 				3179E6BF1AC2B0CB00AFCFAA /* SettingViewController.xib in Resources */,
@@ -1987,8 +1987,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2013,7 +2013,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "98ba69c9-4ed1-415b-ab32-7d20975071de";
+				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
@@ -2036,8 +2036,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2055,7 +2055,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "98ba69c9-4ed1-415b-ab32-7d20975071de";
+				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -2067,8 +2067,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/TencentOpenAPI",
@@ -2095,7 +2095,7 @@
 					"-Objc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "98ba69c9-4ed1-415b-ab32-7d20975071de";
+				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
 			};
 			name = Debug;
 		};
@@ -2104,8 +2104,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/TencentOpenAPI",
@@ -2132,7 +2132,7 @@
 					"-Objc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "98ba69c9-4ed1-415b-ab32-7d20975071de";
+				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
 			};
 			name = Release;
 		};
