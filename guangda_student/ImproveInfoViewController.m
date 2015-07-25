@@ -38,6 +38,9 @@
 @property (strong, nonatomic) XBProvince *curProvince;
 @property (strong, nonatomic) XBCity *curCity;
 @property (strong, nonatomic) XBArea *curArea;
+@property (copy, nonatomic) NSString *selectProvinceID;
+@property (copy, nonatomic) NSString *selectCityID;
+@property (copy, nonatomic) NSString *selectAreaID;
 
 @end
 
@@ -538,10 +541,16 @@
     [paramDic setObject:[CommonUtil stringForID:USERDICT[@"token"]] forKey:@"token"];
     [paramDic setObject:genderStr forKey:@"gender"];
     [paramDic setObject:_birthday forKey:@"birthday"];
-    [paramDic setObject:self.curProvince.provinceID forKey:@"provinceid"];
-    [paramDic setObject:self.curCity.cityID forKey:@"cityid"];
-    [paramDic setObject:self.curArea.areaID forKey:@"areaid"];
-    [paramDic setObject:self.cityField.text forKey:@"locationname"];
+    if (![CommonUtil isEmpty:self.selectProvinceID]) {
+        [paramDic setObject:self.selectProvinceID forKey:@"provinceid"];
+    }
+    if (![CommonUtil isEmpty:self.selectCityID]) {
+        [paramDic setObject:self.selectCityID forKey:@"cityid"];
+    }
+    if (![CommonUtil isEmpty:self.selectAreaID]) {
+        [paramDic setObject:self.selectAreaID forKey:@"areaid"];
+    }
+//    [paramDic setObject:_address forKey:@"address"];
 //    [paramDic setObject:_urgentPerson forKey:@"urgentperson"];
 //    [paramDic setObject:_urgentPhone forKey:@"urgentphone"];
     
@@ -622,7 +631,7 @@
     NSMutableDictionary *new_user_info = [NSMutableDictionary dictionaryWithDictionary:user_info];
     [new_user_info setObject:[NSNumber numberWithInt:_gender] forKey:@"gender"];
     [new_user_info setObject:_birthday forKey:@"birthday"];
-    [new_user_info setObject:_city forKey:@"city"];
+    [new_user_info setObject:_city forKey:@"locationname"];
     [new_user_info setObject:_address forKey:@"address"];
     [new_user_info setObject:_urgentPerson forKey:@"urgent_person"];
     [new_user_info setObject:_urgentPhone forKey:@"urgent_phone"];
@@ -671,12 +680,21 @@
 // 完成城市选择
 - (IBAction)clickForCityDone:(id)sender {
     NSString *addrStr = nil;
+    NSString *areaStr = [self.curArea.areaName stringByReplacingOccurrencesOfString:@"  " withString:@""];
+    NSMutableString *origin = [NSMutableString stringWithString:self.curArea.areaName];
+    NSLog(@"%lu", (unsigned long)origin.length);
+    NSString *changed =  [origin stringByReplacingOccurrencesOfString:@" " withString:@"" options:NSLiteralSearch range:NSMakeRange(0,origin.length)];
+    NSLog(@"area === %@", changed);
     if (self.curProvince.isZxs) { // 直辖市
-        addrStr = [NSString stringWithFormat:@"%@ %@", self.curProvince.provinceName, self.curArea.areaName];
+        addrStr = [NSString stringWithFormat:@"%@ - %@", self.curProvince.provinceName, areaStr];
     } else {
-        addrStr =  [NSString stringWithFormat:@"%@ %@ %@", self.curProvince.provinceName, self.curCity.cityName, self.curArea.areaName];
+        addrStr =  [NSString stringWithFormat:@"%@ - %@ - %@", self.curProvince.provinceName, self.curCity.cityName, areaStr];
     }
     self.cityField.text = addrStr;
+    self.selectProvinceID = self.curProvince.provinceID;
+    self.selectCityID = self.curCity.cityID;
+    self.selectAreaID = self.curArea.areaID;
+    
     [self.selectView removeFromSuperview];
 }
 
