@@ -182,6 +182,41 @@
 					<key>provinceid</key>
 					<integer>110000</integer>
 				</dict>
+				<dict>
+					<key>areas</key>
+					<array>
+						<dict>
+							<key>area</key>
+							<string>密云县</string>
+							<key>areaid</key>
+							<integer>110228</integer>
+							<key>cityid</key>
+							<integer>110200</integer>
+							<key>id</key>
+							<integer>17</integer>
+						</dict>
+						<dict>
+							<key>area</key>
+							<string>延庆县</string>
+							<key>areaid</key>
+							<integer>110229</integer>
+							<key>cityid</key>
+							<integer>110200</integer>
+							<key>id</key>
+							<integer>18</integer>
+						</dict>
+					</array>
+					<key>city</key>
+					<string>北京</string>
+					<key>cityid</key>
+					<integer>110200</integer>
+					<key>hotkey</key>
+					<string>X</string>
+					<key>id</key>
+					<integer>2</integer>
+					<key>provinceid</key>
+					<integer>110000</integer>
+				</dict>
 			</array>
 			<key>id</key>
 			<integer>1</integer>
@@ -355,6 +390,51 @@
 					<string>S</string>
 					<key>id</key>
 					<integer>3</integer>
+					<key>provinceid</key>
+					<integer>120000</integer>
+				</dict>
+				<dict>
+					<key>areas</key>
+					<array>
+						<dict>
+							<key>area</key>
+							<string>宁河县</string>
+							<key>areaid</key>
+							<integer>120221</integer>
+							<key>cityid</key>
+							<integer>120200</integer>
+							<key>id</key>
+							<integer>34</integer>
+						</dict>
+						<dict>
+							<key>area</key>
+							<string>静海县</string>
+							<key>areaid</key>
+							<integer>120223</integer>
+							<key>cityid</key>
+							<integer>120200</integer>
+							<key>id</key>
+							<integer>35</integer>
+						</dict>
+						<dict>
+							<key>area</key>
+							<string>蓟　县</string>
+							<key>areaid</key>
+							<integer>120225</integer>
+							<key>cityid</key>
+							<integer>120200</integer>
+							<key>id</key>
+							<integer>36</integer>
+						</dict>
+					</array>
+					<key>city</key>
+					<string>天津</string>
+					<key>cityid</key>
+					<integer>120200</integer>
+					<key>hotkey</key>
+					<string>X</string>
+					<key>id</key>
+					<integer>4</integer>
 					<key>provinceid</key>
 					<integer>120000</integer>
 				</dict>
@@ -9130,13 +9210,38 @@
 						</dict>
 					</array>
 					<key>city</key>
-					<string>上海市</string>
+					<string>市辖区</string>
 					<key>cityid</key>
-					<real>310100</real>
+					<integer>310100</integer>
 					<key>hotkey</key>
 					<string>S</string>
 					<key>id</key>
 					<integer>75</integer>
+					<key>provinceid</key>
+					<integer>310000</integer>
+				</dict>
+				<dict>
+					<key>areas</key>
+					<array>
+						<dict>
+							<key>area</key>
+							<string>崇明县</string>
+							<key>areaid</key>
+							<integer>310230</integer>
+							<key>cityid</key>
+							<integer>310200</integer>
+							<key>id</key>
+							<integer>801</integer>
+						</dict>
+					</array>
+					<key>city</key>
+					<string>县</string>
+					<key>cityid</key>
+					<integer>310200</integer>
+					<key>hotkey</key>
+					<string>X</string>
+					<key>id</key>
+					<integer>76</integer>
 					<key>provinceid</key>
 					<integer>310000</integer>
 				</dict>
@@ -11692,7 +11797,7 @@
 						</dict>
 						<dict>
 							<key>area</key>
-							<string>景宁县</string>
+							<string>景宁畲族自治县</string>
 							<key>areaid</key>
 							<integer>331127</integer>
 							<key>cityid</key>
@@ -25545,7 +25650,7 @@
 			<key>province</key>
 			<string>广西</string>
 			<key>provinceid</key>
-			<integer>450000</integer>
+			<real>450000</real>
 		</dict>
 		<dict>
 			<key>cities</key>
