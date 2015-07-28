@@ -841,16 +841,15 @@
             [timePriceDic setObject:addressDetail forKey:@"addressdetail"];
             [timePriceDic setObject:subject forKey:@"subject"];
             
-            
             [timesList addObject:timePriceDic];
-            if (i == 18) {
-                NSArray *array = [NSArray arrayWithArray:timesList];
-                [dateTimesDic setObject:array forKey:@"times"];
-                
-                NSDictionary *dic = [NSDictionary dictionaryWithDictionary:dateTimesDic];
-                [self.dateTimeSelectedList addObject:dic];
-            }
-        }else{
+//            if (i == 18) {
+//                NSArray *array = [NSArray arrayWithArray:timesList];
+//                [dateTimesDic setObject:array forKey:@"times"];
+//                
+//                NSDictionary *dic = [NSDictionary dictionaryWithDictionary:dateTimesDic];
+//                [self.dateTimeSelectedList addObject:dic];
+//            }
+//        }else{
             if (timesList.count != 0) {
                 NSArray *array = [NSArray arrayWithArray:timesList];
                 [dateTimesDic setObject:array forKey:@"times"];
