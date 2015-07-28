@@ -189,6 +189,10 @@
 		716E27251B53DD37009CE9E1 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 716E27211B53DD37009CE9E1 /* SignUpViewController.xib */; };
 		716E27291B53DD56009CE9E1 /* AccountListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 716E27271B53DD56009CE9E1 /* AccountListViewController.m */; };
 		716E272A1B53DD56009CE9E1 /* AccountListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 716E27281B53DD56009CE9E1 /* AccountListViewController.xib */; };
+		719889091B637691000940D3 /* UserRuleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 719889071B637691000940D3 /* UserRuleTableViewCell.m */; };
+		7198890A1B637691000940D3 /* UserRuleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 719889081B637691000940D3 /* UserRuleTableViewCell.xib */; };
+		7198890F1B639C72000940D3 /* XiaobaServeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7198890D1B639C72000940D3 /* XiaobaServeViewController.m */; };
+		719889101B639C72000940D3 /* XiaobaServeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7198890E1B639C72000940D3 /* XiaobaServeViewController.xib */; };
 		71BA02F51B61D581004C500B /* CoinListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71BA02ED1B61D581004C500B /* CoinListTableViewCell.m */; };
 		71BA02F61B61D581004C500B /* CoinListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71BA02EE1B61D581004C500B /* CoinListTableViewCell.xib */; };
 		71BA02F71B61D581004C500B /* CoinListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71BA02F01B61D581004C500B /* CoinListViewController.m */; };
@@ -639,6 +643,12 @@
 		716E27261B53DD56009CE9E1 /* AccountListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountListViewController.h; sourceTree = "<group>"; };
 		716E27271B53DD56009CE9E1 /* AccountListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountListViewController.m; sourceTree = "<group>"; };
 		716E27281B53DD56009CE9E1 /* AccountListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccountListViewController.xib; sourceTree = "<group>"; };
+		719889061B637691000940D3 /* UserRuleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserRuleTableViewCell.h; sourceTree = "<group>"; };
+		719889071B637691000940D3 /* UserRuleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserRuleTableViewCell.m; sourceTree = "<group>"; };
+		719889081B637691000940D3 /* UserRuleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserRuleTableViewCell.xib; sourceTree = "<group>"; };
+		7198890C1B639C72000940D3 /* XiaobaServeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XiaobaServeViewController.h; sourceTree = "<group>"; };
+		7198890D1B639C72000940D3 /* XiaobaServeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XiaobaServeViewController.m; sourceTree = "<group>"; };
+		7198890E1B639C72000940D3 /* XiaobaServeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XiaobaServeViewController.xib; sourceTree = "<group>"; };
 		71BA02EC1B61D581004C500B /* CoinListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoinListTableViewCell.h; sourceTree = "<group>"; };
 		71BA02ED1B61D581004C500B /* CoinListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoinListTableViewCell.m; sourceTree = "<group>"; };
 		71BA02EE1B61D581004C500B /* CoinListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CoinListTableViewCell.xib; sourceTree = "<group>"; };
@@ -1203,6 +1213,7 @@
 		3179E6A11AC2AF8A00AFCFAA /* class */ = {
 			isa = PBXGroup;
 			children = (
+				7198890B1B639C55000940D3 /* XiaobaServe */,
 				716E271B1B53DD37009CE9E1 /* SignUpToStudy */,
 				713694931B51627700F6D573 /* OnlineTest */,
 				B968AF621B1DC0E200806043 /* coupon（小巴券） */,
@@ -1308,6 +1319,9 @@
 				71BA02F21B61D581004C500B /* UseRuleViewController.h */,
 				71BA02F31B61D581004C500B /* UseRuleViewController.m */,
 				71BA02F41B61D581004C500B /* UseRuleViewController.xib */,
+				719889061B637691000940D3 /* UserRuleTableViewCell.h */,
+				719889071B637691000940D3 /* UserRuleTableViewCell.m */,
+				719889081B637691000940D3 /* UserRuleTableViewCell.xib */,
 			);
 			name = "account（账户）";
 			sourceTree = "<group>";
@@ -1607,6 +1621,16 @@
 			path = SignUpToStudy;
 			sourceTree = "<group>";
 		};
+		7198890B1B639C55000940D3 /* XiaobaServe */ = {
+			isa = PBXGroup;
+			children = (
+				7198890C1B639C72000940D3 /* XiaobaServeViewController.h */,
+				7198890D1B639C72000940D3 /* XiaobaServeViewController.m */,
+				7198890E1B639C72000940D3 /* XiaobaServeViewController.xib */,
+			);
+			path = XiaobaServe;
+			sourceTree = "<group>";
+		};
 		B85CA0731AC3F4E400934B22 /* login（登录） */ = {
 			isa = PBXGroup;
 			children = (
@@ -1770,6 +1794,7 @@
 				D765DE931B1CAAE200381AEF /* AccountManagerViewController.xib in Resources */,
 				B968AF6A1B1DC13E00806043 /* CouponListViewController.xib in Resources */,
 				37752C541AC8DDAD00A8A746 /* MyOrderDetailViewController.xib in Resources */,
+				719889101B639C72000940D3 /* XiaobaServeViewController.xib in Resources */,
 				37F77F701AC8F0A3004D6A44 /* MyOrderEvaluationViewController.xib in Resources */,
 				B85CA06D1AC3A04100934B22 /* LoginViewController.xib in Resources */,
 				B952DCCB1B04DFD000229402 /* statedictionary.plist in Resources */,
@@ -1778,6 +1803,7 @@
 				716E272A1B53DD56009CE9E1 /* AccountListViewController.xib in Resources */,
 				B852422F1ACA62180032E276 /* SettingBindingViewController.xib in Resources */,
 				B86061191AC91A9C00555486 /* FeedbackViewController.xib in Resources */,
+				7198890A1B637691000940D3 /* UserRuleTableViewCell.xib in Resources */,
 				315067BC1AC3DEF9000C1C13 /* CoachListTableViewCell.xib in Resources */,
 				71BA02F61B61D581004C500B /* CoinListTableViewCell.xib in Resources */,
 				31824AA81B039490001AF41A /* DatePickerViewController.xib in Resources */,
@@ -1900,6 +1926,7 @@
 				31C9D8F01AD665AD006A4E80 /* openssl_wrapper.m in Sources */,
 				3179E6671AC284C600AFCFAA /* DSButton.m in Sources */,
 				370CF6541ACA907F002AA1BB /* UnfinishedOrderTableViewCell.m in Sources */,
+				7198890F1B639C72000940D3 /* XiaobaServeViewController.m in Sources */,
 				31C9D8EC1AD665AD006A4E80 /* DataSigner.m in Sources */,
 				3179E63C1AC284C600AFCFAA /* AFURLResponseSerialization.m in Sources */,
 				3179E6B41AC2B0A300AFCFAA /* SystemMessageViewController.m in Sources */,
@@ -1922,6 +1949,7 @@
 				3179E6691AC284C600AFCFAA /* TimePickerViewController.m in Sources */,
 				31C9D8ED1AD665AD006A4E80 /* DataVerifier.m in Sources */,
 				702BB46E1B610B470023D993 /* XBArea.m in Sources */,
+				719889091B637691000940D3 /* UserRuleTableViewCell.m in Sources */,
 				3179E6BE1AC2B0CB00AFCFAA /* SettingViewController.m in Sources */,
 				71BA02F51B61D581004C500B /* CoinListTableViewCell.m in Sources */,
 				3179E6631AC284C600AFCFAA /* DateButton.m in Sources */,

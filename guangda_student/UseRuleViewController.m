@@ -7,8 +7,9 @@
 //
 
 #import "UseRuleViewController.h"
-
-@interface UseRuleViewController ()
+#import "UserRuleTableViewCell.h"
+@interface UseRuleViewController ()<UITableViewDataSource,UITableViewDelegate>
+@property (strong, nonatomic) IBOutlet UITableView *mainTableview;
 
 @end
 
@@ -17,7 +18,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.mainTableview.delegate = self;
+    self.mainTableview.dataSource = self;
 }
+#pragma mark - UITableView
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 3;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *indentifier = @"UserRuleTableViewCell";
+    UserRuleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:indentifier];
+    if (!cell) {
+        [tableView registerNib:[UINib nibWithNibName:@"UserRuleTableViewCell" bundle:nil] forCellReuseIdentifier:indentifier];
+        cell = [tableView dequeueReusableCellWithIdentifier:indentifier];
+    }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

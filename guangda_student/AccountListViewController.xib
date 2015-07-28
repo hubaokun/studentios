@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AccountListViewController">
             <connections>
                 <outlet property="coinLabel" destination="UP9-Y3-R0J" id="sIq-ty-NUB"/>
+                <outlet property="coinView" destination="4TP-8a-ASg" id="Yud-Ws-4Qy"/>
                 <outlet property="couponLabel" destination="kqd-ta-xHU" id="Fgr-j1-UOo"/>
                 <outlet property="mainScrollView" destination="Akx-eH-qBZ" id="cCp-FB-1kN"/>
                 <outlet property="moneyLabel" destination="5uk-JB-JaQ" id="aod-6Z-K9O"/>
@@ -200,7 +201,7 @@
                         <constraint firstAttribute="centerY" secondItem="7vX-Nj-dTp" secondAttribute="centerY" constant="0.5" id="zgt-0Z-h0Y"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4TP-8a-ASg" userLabel="小巴券">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4TP-8a-ASg" userLabel="小巴币">
                     <rect key="frame" x="0.0" y="124" width="600" height="62"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hdB-nK-xTx" userLabel="underline">
