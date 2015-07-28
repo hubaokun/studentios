@@ -37,7 +37,7 @@
     // Do any additional setup after loading the view from its nib.
     [self performSelector:@selector(showMainView) withObject:nil afterDelay:0.1f];
     [self GETWALLETINFO];
-    self.coinView.hidden = YES;
+//    self.coinView.hidden = YES;
 
 }
 
