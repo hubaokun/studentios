@@ -671,10 +671,11 @@
 // 完成城市选择
 - (IBAction)clickForCityDone:(id)sender {
     NSString *addrStr = nil;
+    NSString *areaStr = [self.curArea.areaName stringByReplacingOccurrencesOfString:@" " withString:@""];
     if (self.curProvince.isZxs) { // 直辖市
-        addrStr = [NSString stringWithFormat:@"%@ %@", self.curProvince.provinceName, self.curArea.areaName];
+        addrStr = [NSString stringWithFormat:@"%@ - %@", self.curProvince.provinceName, areaStr];
     } else {
-        addrStr =  [NSString stringWithFormat:@"%@ %@ %@", self.curProvince.provinceName, self.curCity.cityName, self.curArea.areaName];
+        addrStr =  [NSString stringWithFormat:@"%@ - %@ - %@", self.curProvince.provinceName, self.curCity.cityName, areaStr];
     }
     self.cityField.text = addrStr;
     [self.selectView removeFromSuperview];

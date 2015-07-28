@@ -687,7 +687,6 @@
     manager.requestSerializer.timeoutInterval = 20;     // 网络超时时长设置
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
         [DejalBezelActivityView removeViewAnimated:YES];
         
         if ([responseObject[@"code"] integerValue] == 1)
