@@ -48,7 +48,6 @@
 
 - (IBAction)clickForOtherCoupon:(id)sender;
 
-
 @end
 
 @implementation SureOrderViewController
@@ -583,6 +582,10 @@
     CGFloat userMoney = [userInfo[@"money"] floatValue];
     if(userMoney < _payMoney && _payMoney != 0){//需付金额不为零 且余额不足的情况下
         [self letoutResultViewWithType:0];
+        return;
+    }
+    if (userMoney < 0) {
+        [self makeToast:@"您的账户已欠费!"];
         return;
     }
     [self requestBookCoach];
