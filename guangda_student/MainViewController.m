@@ -144,6 +144,14 @@
     [self setMapLocation];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [_mapView setZoomLevel:14.5];
+    });
+}
+
 -(void)viewWillDisappear:(BOOL)animated {
     [_mapView viewWillDisappear];
     _mapView.delegate = nil; // 不用时，置nil
@@ -800,7 +808,7 @@
     //地图初始位置设定
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [_mapView setCenterCoordinate:appDelegate.userCoordinate animated:YES];
-    [_mapView setZoomLevel:12];
+    [_mapView setZoomLevel:13.5];
 
     
     CLLocationCoordinate2D zuobiao = [_mapView convertPoint:CGPointMake(0, 0) toCoordinateFromView:_mapView];
