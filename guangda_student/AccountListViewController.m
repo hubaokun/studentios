@@ -21,6 +21,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *moneyLabel;
 @property (strong, nonatomic) IBOutlet UILabel *couponLabel;
 @property (strong, nonatomic) IBOutlet UILabel *coinLabel;
+@property (strong, nonatomic) IBOutlet UIView *coinView;
 
 - (IBAction)clickForAccount:(id)sender;
 - (IBAction)clickForCoupon:(id)sender;
@@ -36,6 +37,7 @@
     // Do any additional setup after loading the view from its nib.
     [self performSelector:@selector(showMainView) withObject:nil afterDelay:0.1f];
     [self GETWALLETINFO];
+    self.coinView.hidden = YES;
 
 }
 

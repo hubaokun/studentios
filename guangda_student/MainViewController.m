@@ -19,6 +19,7 @@
 #import "TQStarRatingView.h"
 #import "CoachScreenViewController.h"
 #import "UserBaseInfoViewController.h"
+#import "XiaobaServeViewController.h"
 @interface MainViewController ()<UIGestureRecognizerDelegate, UIScrollViewDelegate, BMKMapViewDelegate, BMKLocationServiceDelegate,UIAlertViewDelegate>
 {
     UITapGestureRecognizer *_tapGestureRec2;
@@ -223,6 +224,13 @@
 
 #pragma mark - actions
 #pragma mark 小汽车 button 点击事件
+- (IBAction)clickForServe:(id)sender {
+    XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
+    [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
+}
+
+
+
 // 旧需求的汽车点击事件
 - (IBAction)carBtnClick:(id)sender
 {
@@ -850,8 +858,7 @@
     manager.requestSerializer.timeoutInterval = 20;     // 网络超时时长设置
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        if (need) {
+        if(need){
             [DejalBezelActivityView removeViewAnimated:YES];
         }
         self.isGetData = NO;
@@ -867,7 +874,17 @@
                     [array removeObjectAtIndex:i];
                 }
             }
-            self.coachList = array;     //屏蔽特殊教练
+            NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
+            if (user_info) {
+                if ([[user_info[@"phone"] description] isEqualToString:@"18888888888"]) {
+                    
+                }else{
+                    self.coachList = array;
+                }
+            }else{
+               self.coachList = array;
+            }
+//            self.coachList = array;     //屏蔽特殊教练
             
             // 移除所有标注
             [_mapView removeAnnotations:_annotationsList];

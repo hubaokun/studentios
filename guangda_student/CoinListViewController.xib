@@ -7,8 +7,15 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CoinListViewController">
             <connections>
+                <outlet property="coinCount1" destination="r40-nw-GvN" id="JHx-gD-mD6"/>
+                <outlet property="coinCount2" destination="FJI-34-N0E" id="a7d-De-c9x"/>
+                <outlet property="coinCount3" destination="3wl-KH-61W" id="hid-yU-sx6"/>
+                <outlet property="coinName1" destination="QQJ-c7-sgJ" id="SOI-gJ-k9s"/>
+                <outlet property="coinName2" destination="JXC-yx-IgZ" id="U2O-tH-lv3"/>
+                <outlet property="coinName3" destination="tBT-Ag-B3p" id="IX8-Tp-wnK"/>
                 <outlet property="headView" destination="irj-Mw-Jni" id="KxE-kA-luR"/>
                 <outlet property="mainTableview" destination="aBh-LB-JUf" id="b3L-6L-2wb"/>
+                <outlet property="totalCoinLabel" destination="1s4-GZ-QAn" id="3yk-lu-LO9"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -276,7 +283,6 @@
                         <constraint firstAttribute="height" constant="62" id="noB-Gg-OSR"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.96470588239999999" green="0.2156862745" blue="0.25098039220000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ENB-Qp-rtm">

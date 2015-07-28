@@ -69,7 +69,7 @@
     self.orderCreateDateLabel.text = self.order.creatTime;
     self.coachNameLabel.text = [NSString stringWithFormat:@"%@ 教练", self.coach.realName];
     self.orderAddrLabel.text = self.order.detailAddr;
-    self.costLabel.text = [NSString stringWithFormat:@"%@元(%@元/小时)", self.order.cost, self.coach.price];
+    self.costLabel.text = [NSString stringWithFormat:@"%@元", self.order.cost];
     
     NSArray *startTimeArray = [self.order.startTime componentsSeparatedByString:@" "];
     NSString *startDateStr = startTimeArray[0];

@@ -13,7 +13,7 @@
 #import "SelectOtherCouponViewController.h"
 #import "TypeinNumberViewController.h"
 #import "LoginViewController.h"
-
+#import "MyOrderViewController.h"
 @interface SureOrderViewController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -591,9 +591,9 @@
 - (IBAction)orderDetailClick:(id)sender
 {
     if (self.orderId) {
-        MyOrderDetailViewController *viewController = [[MyOrderDetailViewController alloc] initWithNibName:@"MyOrderDetailViewController" bundle:nil];
-        viewController.orderid = self.orderId;
-        viewController.isSkip = @"1";
+        MyOrderViewController *viewController = [[MyOrderViewController alloc] initWithNibName:@"MyOrderViewController" bundle:nil];
+//        viewController.orderid = self.orderId;
+//        viewController.isSkip = @"1";
         [self.navigationController pushViewController:viewController animated:YES];
     }else{
         [self.navigationController popToRootViewControllerAnimated:YES];

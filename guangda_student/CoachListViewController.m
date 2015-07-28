@@ -715,7 +715,17 @@
                     [array removeObjectAtIndex:i];
                 }
             }
-            self.coachList = array;     //屏蔽特殊教练       
+            NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
+            if (user_info) {
+                if ([[user_info[@"phone"] description] isEqualToString:@"18888888888"]) {
+                    
+                }else{
+                    self.coachList = array;
+                }
+            }else{
+                self.coachList = array;
+            }
+//            self.coachList = array;     //屏蔽特殊教练       
             
             [self.tableView reloadData];
             
