@@ -385,7 +385,7 @@
                                                 <action selector="appointCoachClick:" destination="-1" eventType="touchUpInside" id="sFv-OE-4KZ"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已提交取消订单申请，等待教练确认中。" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jC3-m0-uyl">
+                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已提交取消订单申请，等待教练确认中。" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jC3-m0-uyl">
                                             <rect key="frame" x="10" y="216" width="580" height="30"/>
                                             <color key="backgroundColor" red="0.97647058823529409" green="0.30588235294117649" blue="0.10196078431372549" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>

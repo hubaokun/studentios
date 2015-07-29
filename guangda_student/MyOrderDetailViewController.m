@@ -24,8 +24,7 @@
 
 @property (strong, nonatomic) IBOutlet UIView *moreOperationView; // 更多操作
 @property (strong, nonatomic) IBOutlet UIView *sureCancelOrderView; // 确认取消订单
-@property (strong, nonatomic) IBOutlet UILabel *cancelOrderBannerLabel;
-
+@property (strong, nonatomic) IBOutlet UILabel *cancelOrderBannerLabel; // 提示订单正在确认取消中
 
 @property (strong, nonatomic) TQStarRatingView *coachStarView;
 @property (strong, nonatomic) TQStarRatingView *myEvaluationStarView;
@@ -303,7 +302,8 @@
 
 // 请求取消订单后的界面设置
 - (void)orderConfigAfterRequestCanceled {
-    
+ [self clickForCloseSureCancelOrder:nil];
+    self.cancelOrderBannerLabel.hidden = NO;
 }
 
 #pragma mark - 网络请求
