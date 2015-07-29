@@ -22,6 +22,11 @@
     BMKLocationService *_locService;
 }
 
+@property (strong, nonatomic) IBOutlet UIView *moreOperationView; // 更多操作
+@property (strong, nonatomic) IBOutlet UIView *sureCancelOrderView; // 确认取消订单
+@property (strong, nonatomic) IBOutlet UILabel *cancelOrderBannerLabel; // 提示订单正在确认取消中
+
+
 @property (strong, nonatomic) TQStarRatingView *coachStarView;
 @property (strong, nonatomic) TQStarRatingView *myEvaluationStarView;
 @property (strong, nonatomic) TQStarRatingView *coachEvaluationStarView;
@@ -114,6 +119,13 @@
     _continueAppointBtn.layer.borderWidth = 0.6;
     _continueAppointBtn.layer.cornerRadius = 4;
     _continueAppointBtn.layer.borderColor = RGB(246, 102, 93).CGColor;
+    
+    // 更多操作页
+    self.moreOperationView.frame = [UIScreen mainScreen].bounds;
+    
+    // 确定取消订单弹框
+    self.sureCancelOrderView.bounds = CGRectMake(0, 0, 300, 150);
+    self.sureCancelOrderView.center = CGPointMake(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
 }
 
 - (void)showData {
@@ -199,23 +211,25 @@
     _mainViewHeight.constant = _mainViewHeight.constant - 13 + addrStrHeight - 26 + strHeight1 + strHeight2 - 13 + priceViewHeight;
     
     // button的显示
-    if (self.order.canComplain) { // 可以投诉
-        self.complainBtn.hidden = NO;
-    } else {
-        self.complainBtn.hidden = YES;
-    }
+//    if (self.order.canComplain) { // 可以投诉
+//        self.complainBtn.hidden = NO;
+//    } else {
+//        self.complainBtn.hidden = YES;
+//    }
+//    
+//
+//    
+//    if (self.order.needUncomplain) { // 可以取消投诉
+//        self.cancelComplainBtn.hidden = NO;
+//        [self.complainBtn setTitle:@"追加投诉" forState:UIControlStateNormal];
+//        self.complainBtn.hidden = YES;
+//    } else {
+//        self.cancelComplainBtn.hidden = YES;
+//        [self.complainBtn setTitle:@"投诉" forState:UIControlStateNormal];
+//        self.complainBtn.hidden = NO;
+//    }
     
-//    self.complainBtn.hidden = YES; //在外面把投诉按钮隐藏
-    
-    if (self.order.needUncomplain) { // 可以取消投诉
-        self.cancelComplainBtn.hidden = NO;
-        [self.complainBtn setTitle:@"追加投诉" forState:UIControlStateNormal];
-        self.complainBtn.hidden = YES;
-    } else {
-        self.cancelComplainBtn.hidden = YES;
-        [self.complainBtn setTitle:@"投诉" forState:UIControlStateNormal];
-        self.complainBtn.hidden = NO; //在外面把投诉按钮隐藏
-    }
+    self.complainBtn.hidden = YES; // 新需求：投诉按钮不直接显示在订单详情里
     
     if (self.order.canCancel) { // 可以取消订单
         self.cancelOrderBtn.hidden = NO;
@@ -241,11 +255,11 @@
         self.evaluateBtn.hidden = YES;
     }
     
-    if (self.cancelOrderBtn.hidden == YES && self.confirmOnBtn.hidden == YES && self.confirmDownBtn.hidden == YES && self.evaluateBtn.hidden == YES) {
-        self.complainBtnRightSpaceCon.constant = 0;
-    } else {
-        self.complainBtnRightSpaceCon.constant = 80;
-    }
+//    if (self.cancelOrderBtn.hidden == YES && self.confirmOnBtn.hidden == YES && self.confirmDownBtn.hidden == YES && self.evaluateBtn.hidden == YES) {
+//        self.complainBtnRightSpaceCon.constant = 0;
+//    } else {
+//        self.complainBtnRightSpaceCon.constant = 80;
+//    }
     
     if (self.complainBtn.hidden == YES && self.evaluateBtn.hidden == YES) {
         self.cancelOrderBtnRightSpaceCon.constant = 0;
@@ -285,6 +299,12 @@
     
     self.priceViewHeightCon.constant = y;
     return y;
+}
+
+// 请求取消订单后的界面设置
+- (void)orderConfigAfterRequestCanceled {
+    [self clickForCloseSureCancelOrder:nil];
+    self.cancelOrderBannerLabel.hidden = NO;
 }
 
 #pragma mark - 网络请求
@@ -374,12 +394,13 @@
         int code = [responseObject[@"code"] intValue];
         if (code == 1) {
             [self printDic:responseObject withTitle:@"订单详细-取消订单"];
-            [self makeToast:@"订单已取消"];
-            if ([self.isSkip isEqualToString:@"1"]) {
-                [self.navigationController popToRootViewControllerAnimated:YES];
-            } else {
-                [self.navigationController popViewControllerAnimated:YES];
-            }
+//            [self makeToast:@"订单已取消"];
+//            if ([self.isSkip isEqualToString:@"1"]) {
+//                [self.navigationController popToRootViewControllerAnimated:YES];
+//            } else {
+//                [self.navigationController popViewControllerAnimated:YES];
+//            }
+            [self orderConfigAfterRequestCanceled];
         }else if(code == 95){
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
@@ -657,9 +678,30 @@
 }
 
 #pragma mark - 点击事件
-// 取消订单
-- (void)clickForCancelOrder:(UIButton *)sender {
+// 更多操作页
+- (IBAction)clickForMoreOperation:(UIButton *)sender {
+    [self.view addSubview:self.moreOperationView];
+}
+
+// 关闭更多操作页
+- (IBAction)clickForCloseMoreOperation:(UIButton *)sender {
+    [self.moreOperationView removeFromSuperview];
+}
+
+// 取消订单弹框
+- (IBAction)clickForCancelOrder:(UIButton *)sender {
+    [self.view addSubview:self.sureCancelOrderView];
+}
+
+// 确认取消订单
+- (IBAction)clickForSureCancelOrder:(UIButton *)sender {
     [self postCancelOrder];
+}
+
+// 关闭取消订单弹框
+- (IBAction)clickForCloseSureCancelOrder:(UIButton *)sender {
+    [self.sureCancelOrderView removeFromSuperview];
+    [self.moreOperationView removeFromSuperview];
 }
 
 // 投诉
@@ -731,11 +773,6 @@
 - (IBAction)appointCoachClick:(DSButton *)sender
 {
     // 预约教练
-//    AppointCoachViewController *viewcontroller = [[AppointCoachViewController alloc] init];
-//    viewcontroller.coachId = [sender.data [@"coachid"] description];
-//    viewcontroller.coachInfoDic = sender.data;
-//    [self presentViewController:viewcontroller animated:YES completion:nil];
-    
     AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
     nextController.coachInfoDic = sender.data;
     nextController.coachId = [sender.data [@"coachid"] description];
