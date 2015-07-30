@@ -24,6 +24,8 @@
         _cost = [dict[@"total"] description];
         _minutes = [dict[@"hours"] intValue];
         _hourArray = dict[@"orderprice"];
+        _studentState = [dict[@"studentstate"] intValue];
+        _coachState = [dict[@"coachstate"] intValue];
         // 按钮信息
         _canComplain = [dict[@"can_complaint"] intValue];
         _needUncomplain = [dict[@"need_uncomplaint"] intValue];
@@ -38,6 +40,17 @@
 + (instancetype)orderWithDict:(NSDictionary *)dict
 {
     return [[self alloc] initWithDict:dict];
+}
+
++ (NSMutableArray *)ordersWithArray:(NSArray *)array
+{
+    NSMutableArray *outcomeArray = [NSMutableArray array];
+    if (array.count > 0) {
+        for (NSDictionary *dict in array) {
+            [outcomeArray addObject:[GuangdaOrder orderWithDict:dict]];
+        }
+    }
+    return outcomeArray;
 }
 
 @end

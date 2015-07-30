@@ -267,6 +267,16 @@
                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已提交取消订单申请，等待教练确认中。" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ie9-ky-h2q">
+                        <rect key="frame" x="15" y="196" width="290" height="30"/>
+                        <color key="backgroundColor" red="0.97647058819999999" green="0.30588235289999999" blue="0.1019607843" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="zpA-Pj-SgL"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="YvB-76-GQY" firstAttribute="top" secondItem="hft-Zp-p8P" secondAttribute="bottom" constant="14" id="0AD-Ge-g7Z"/>
@@ -307,14 +317,18 @@
                     <constraint firstItem="phX-s9-v6o" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="7" id="omr-S0-0GG"/>
                     <constraint firstItem="2ih-EK-MdK" firstAttribute="leading" secondItem="phX-s9-v6o" secondAttribute="trailing" id="orC-5r-qzW"/>
                     <constraint firstItem="xca-X4-Tc8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="tOv-l1-w9e"/>
+                    <constraint firstItem="ie9-ky-h2q" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="7" id="vUG-a3-HYE"/>
                     <constraint firstItem="Z57-rf-gGX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="7" id="xw7-CL-2wV"/>
                     <constraint firstItem="2wv-uV-0Po" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="7" id="yAY-i7-mdh"/>
+                    <constraint firstItem="R82-sL-ZjL" firstAttribute="top" secondItem="ie9-ky-h2q" secondAttribute="bottom" constant="12" id="yH9-H8-T5H"/>
                     <constraint firstItem="cPe-4T-2G5" firstAttribute="top" secondItem="hft-Zp-p8P" secondAttribute="bottom" constant="8" id="yRG-Kk-ELR"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="ie9-ky-h2q" secondAttribute="trailing" constant="7" id="zPE-nq-RC8"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="cancelComplainBtn" destination="Bp8-Bf-DXH" id="LBq-oq-oW9"/>
+                <outlet property="cancelOrderBannerLabel" destination="ie9-ky-h2q" id="TjL-1L-sdR"/>
                 <outlet property="cancelOrderBtn" destination="gQK-Od-c7I" id="hr2-AB-7R8"/>
                 <outlet property="cancelOrderBtnRightSpaceCon" destination="jNI-SL-gri" id="nTc-gX-4og"/>
                 <outlet property="coachNameLabel" destination="0uh-LI-CdZ" id="An6-d3-8ma"/>

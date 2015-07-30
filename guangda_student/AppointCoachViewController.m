@@ -878,6 +878,10 @@
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"教练该如何称呼您？请设置真实姓名后再预约" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"前去设置", nil];
             [alert show];
         }else{
+            if (self.dateTimeSelectedList.count > 6) {
+                [self makeToast:@"抱歉，您一天最多只能预定6小时课程"];
+                return;
+            }
             SureOrderViewController *viewController = [[SureOrderViewController alloc] initWithNibName:@"SureOrderViewController" bundle:nil];
             viewController.dateTimeSelectedList = self.dateTimeSelectedList;
             viewController.coachId = self.coachId;

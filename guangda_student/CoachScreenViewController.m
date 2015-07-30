@@ -53,7 +53,7 @@
     // 点击背景退出键盘
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboardClick:)];
     tapGestureRecognizer.numberOfTapsRequired = 1;
-    [self.view addGestureRecognizer: tapGestureRecognizer];   // 只需要点击非文字输入区域就会响应
+    [self.selectContentView addGestureRecognizer: tapGestureRecognizer];   // 只需要点击非文字输入区域就会响应
     [tapGestureRecognizer setCancelsTouchesInView:NO];
     
     //注册监听，防止键盘遮挡视图
@@ -508,7 +508,7 @@
 #pragma mark 去筛选
 - (IBAction)goSearchClick:(id)sender
 {
-    
+    [self.searchTextField resignFirstResponder];
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     NSString *searchStr = self.searchTextField.text;
     if (searchStr.length > 0) {
@@ -865,7 +865,7 @@
                 _x += _width + 20 + 10;
             }
             self.carViewHeight.constant = _y + 50;
-            CGFloat _maxHeight = 540 + self.subjectView.frame.size.height + self.carTypeView.frame.size.height;
+//            CGFloat _maxHeight = 540 + self.subjectView.frame.size.height + self.carTypeView.frame.size.height;
             
             self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH - 110);
         }

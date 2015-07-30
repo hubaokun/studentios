@@ -155,6 +155,13 @@
         self.statusLabel.textColor = RGB(246, 102, 93);
         self.statusLabel.text = @"等待确认下车";
     }
+    
+    // 是否正在取消订单中
+    if ((self.unfinishedOrder.studentState == 4) && (self.unfinishedOrder.coachState != 4)) {
+        self.cancelOrderBannerLabel.hidden = NO;
+    } else {
+        self.cancelOrderBannerLabel.hidden = YES;
+    }
 }
 
 @end
