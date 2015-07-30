@@ -794,7 +794,7 @@
     }
 //    NSMutableArray *images = [NSMutableArray array];
 //    for (int i = 1; i < 4; i++) {
-        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ico_cargr@2x"]];
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ico_cargr"]];
 //    }
     annotationView.annotationImageView.image = image;
     annotationView.annotationButton.tag = [annotation.title intValue];
