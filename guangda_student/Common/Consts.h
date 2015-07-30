@@ -19,7 +19,9 @@
 
 //#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"    // 正式服
 #define REQUEST_HOST   @"http://120.25.236.228:8080/dadmin/"          //测试服务器
-//#define REQUEST_HOST   @"http://192.168.1.123:8080/xiaoba"   // 佳瑞
+//#define REQUEST_HOST   @"http://192.168.1.121:8080/xb/"       // 卢磊
+//#define REQUEST_HOST   @"http://192.168.1.100:8080/guangda/"   // 佳瑞
+
 
 /* 道顺 */
 //#define REQUEST_HOST   @"http://192.168.1.113:8080/guangda/"

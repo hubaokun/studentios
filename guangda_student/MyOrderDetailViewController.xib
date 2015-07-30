@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyOrderDetailViewController">
             <connections>
                 <outlet property="cancelComplainBtn" destination="fVz-ZH-OiW" id="AHW-NP-dWU"/>
+                <outlet property="cancelOrderBannerLabel" destination="jC3-m0-uyl" id="Jta-rh-9et"/>
                 <outlet property="cancelOrderBtn" destination="rop-5A-su6" id="SaB-ku-j1e"/>
                 <outlet property="cancelOrderBtnRightSpaceCon" destination="egv-et-R7d" id="74w-0a-LhY"/>
                 <outlet property="coachEvaluationLabel" destination="cOx-Ge-4hd" id="juo-BF-Y2a"/>
@@ -25,6 +26,7 @@
                 <outlet property="costLabel" destination="zIp-0I-O7G" id="5ON-BU-E31"/>
                 <outlet property="evaluateBtn" destination="3Cx-zB-qAr" id="TDj-lJ-Ckr"/>
                 <outlet property="mainViewHeight" destination="2oS-Cd-UvR" id="u7s-JR-nR7"/>
+                <outlet property="moreOperationView" destination="T1l-QF-4iS" id="DQ0-eV-v5k"/>
                 <outlet property="myEvaluationLabel" destination="er6-oc-MlU" id="Z1c-0l-VeV"/>
                 <outlet property="myEvaluationLabelHeight" destination="58e-fV-UMh" id="dwF-s5-qgs"/>
                 <outlet property="myEvaluationView" destination="t7t-PJ-KB4" id="L3s-Hw-JsH"/>
@@ -42,6 +44,7 @@
                 <outlet property="seperateView1" destination="dBc-wW-1Bl" id="hpL-aR-NHt"/>
                 <outlet property="seperateView1HeightCon" destination="fWu-H7-1Td" id="AHE-tr-zwz"/>
                 <outlet property="seperateView2" destination="FZG-5b-CgD" id="qKM-1D-iKH"/>
+                <outlet property="sureCancelOrderView" destination="gDB-XV-e68" id="f4s-Sj-1Jd"/>
                 <outlet property="view" destination="bEU-aj-oXp" id="hqf-HH-uAq"/>
             </connections>
         </placeholder>
@@ -84,6 +87,19 @@
                             <color key="textColor" red="0.23921568630000001" green="0.23921568630000001" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s2V-M1-dph">
+                            <rect key="frame" x="534" y="20" width="66" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="2KO-ws-6zo"/>
+                                <constraint firstAttribute="width" constant="66" id="Tyw-Iw-6dU"/>
+                            </constraints>
+                            <state key="normal" title="More">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="clickForMoreOperation:" destination="-1" eventType="touchUpInside" id="1rP-2P-Kzi"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -91,6 +107,8 @@
                         <constraint firstItem="gkR-LO-bbI" firstAttribute="top" secondItem="Yen-Lq-Qlb" secondAttribute="top" constant="20" id="BKI-kH-2sc"/>
                         <constraint firstItem="j0a-wp-dP7" firstAttribute="leading" secondItem="Yen-Lq-Qlb" secondAttribute="leading" id="FoQ-GC-qek"/>
                         <constraint firstItem="gkR-LO-bbI" firstAttribute="leading" secondItem="Yen-Lq-Qlb" secondAttribute="leading" id="Yjp-7g-ytz"/>
+                        <constraint firstAttribute="trailing" secondItem="s2V-M1-dph" secondAttribute="trailing" id="ZwF-nh-eMv"/>
+                        <constraint firstAttribute="bottom" secondItem="s2V-M1-dph" secondAttribute="bottom" id="fHM-Dd-cRl"/>
                         <constraint firstAttribute="centerX" secondItem="WWj-cW-baJ" secondAttribute="centerX" id="fzT-GZ-2Sc"/>
                         <constraint firstItem="WWj-cW-baJ" firstAttribute="top" secondItem="Yen-Lq-Qlb" secondAttribute="top" constant="20" id="jlK-So-zZ3"/>
                         <constraint firstAttribute="height" constant="64" id="nSp-xD-wNd"/>
@@ -268,19 +286,6 @@
                                                         <color key="titleColor" red="0.23921568630000001" green="0.23921568630000001" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                 </button>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fVz-ZH-OiW" userLabel="取消投诉">
-                                                    <rect key="frame" x="80" y="0.0" width="72" height="30"/>
-                                                    <color key="backgroundColor" red="0.43137254899999999" green="0.7725490196" blue="0.85098039219999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="72" id="iIb-zz-UUH"/>
-                                                        <constraint firstAttribute="height" constant="30" id="xyt-09-xee"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <state key="normal" title="取消投诉">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                </button>
                                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rop-5A-su6">
                                                     <rect key="frame" x="160" y="0.0" width="72" height="30"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -333,6 +338,19 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fVz-ZH-OiW" userLabel="取消投诉">
+                                                    <rect key="frame" x="80" y="0.0" width="72" height="30"/>
+                                                    <color key="backgroundColor" red="0.43137254899999999" green="0.7725490196" blue="0.85098039219999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="72" id="iIb-zz-UUH"/>
+                                                        <constraint firstAttribute="height" constant="30" id="xyt-09-xee"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <state key="normal" title="取消投诉">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
@@ -367,6 +385,13 @@
                                                 <action selector="appointCoachClick:" destination="-1" eventType="touchUpInside" id="sFv-OE-4KZ"/>
                                             </connections>
                                         </button>
+                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已提交取消订单申请，等待教练确认中。" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jC3-m0-uyl">
+                                            <rect key="frame" x="10" y="216" width="580" height="30"/>
+                                            <color key="backgroundColor" red="0.97647058823529409" green="0.30588235294117649" blue="0.10196078431372549" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
@@ -379,12 +404,14 @@
                                         <constraint firstItem="2Z7-uU-leM" firstAttribute="top" secondItem="Imh-6w-9qq" secondAttribute="bottom" constant="10" id="949-ZR-GLa"/>
                                         <constraint firstItem="Mgl-jR-rcl" firstAttribute="leading" secondItem="Xtv-Wp-EDX" secondAttribute="trailing" id="Anv-d5-tZf"/>
                                         <constraint firstItem="8w8-n7-3vc" firstAttribute="top" secondItem="Yd4-Lg-PAD" secondAttribute="top" id="B5y-8c-NE9"/>
+                                        <constraint firstItem="jC3-m0-uyl" firstAttribute="top" secondItem="0hR-V5-ORz" secondAttribute="bottom" constant="12" id="BoR-nW-Pi5"/>
                                         <constraint firstItem="ibh-Wl-of1" firstAttribute="leading" secondItem="ANV-r0-Ok8" secondAttribute="trailing" id="Dj3-Ki-qB4"/>
                                         <constraint firstItem="ANV-r0-Ok8" firstAttribute="leading" secondItem="EWW-R3-nro" secondAttribute="leading" constant="10" id="Dup-7C-ezv"/>
                                         <constraint firstItem="zIp-0I-O7G" firstAttribute="leading" secondItem="KvM-95-Hwf" secondAttribute="trailing" id="FRB-aZ-uUn"/>
                                         <constraint firstAttribute="trailing" secondItem="Yd4-Lg-PAD" secondAttribute="trailing" constant="10" id="Fwg-gg-QtV"/>
                                         <constraint firstItem="Imh-6w-9qq" firstAttribute="top" secondItem="WXN-1r-WAM" secondAttribute="top" id="GdH-2k-Dnk"/>
                                         <constraint firstItem="Imh-6w-9qq" firstAttribute="leading" secondItem="EWW-R3-nro" secondAttribute="leading" constant="10" id="Ikj-kA-rz3"/>
+                                        <constraint firstItem="jC3-m0-uyl" firstAttribute="leading" secondItem="EWW-R3-nro" secondAttribute="leading" constant="10" id="Iwn-ZC-OI8"/>
                                         <constraint firstAttribute="trailing" secondItem="ibh-Wl-of1" secondAttribute="trailing" constant="10" id="N6z-ws-RKq"/>
                                         <constraint firstAttribute="trailing" secondItem="wLB-XH-IiN" secondAttribute="trailing" constant="10" id="NFd-kC-zAn"/>
                                         <constraint firstItem="2Z7-uU-leM" firstAttribute="top" secondItem="wLB-XH-IiN" secondAttribute="top" id="Nys-hT-vz4"/>
@@ -410,9 +437,11 @@
                                         <constraint firstItem="MHx-DL-8y8" firstAttribute="top" secondItem="EWW-R3-nro" secondAttribute="top" constant="32" id="qe1-ir-Yud"/>
                                         <constraint firstItem="A5P-iX-HyV" firstAttribute="leading" secondItem="a7E-uR-G99" secondAttribute="trailing" id="r5a-C6-ZOn"/>
                                         <constraint firstItem="a7E-uR-G99" firstAttribute="leading" secondItem="EWW-R3-nro" secondAttribute="leading" constant="10" id="rPj-9i-yi5"/>
+                                        <constraint firstAttribute="trailing" secondItem="jC3-m0-uyl" secondAttribute="trailing" constant="10" id="sA2-FU-d2b"/>
                                         <constraint firstItem="A5P-iX-HyV" firstAttribute="top" secondItem="a7E-uR-G99" secondAttribute="top" id="sXA-BE-bcR"/>
                                         <constraint firstItem="ANV-r0-Ok8" firstAttribute="top" secondItem="8w8-n7-3vc" secondAttribute="bottom" constant="10" id="slS-49-xV8"/>
                                         <constraint firstItem="r7t-eX-SxY" firstAttribute="top" secondItem="0hR-V5-ORz" secondAttribute="bottom" constant="12" id="tUt-se-Zo7"/>
+                                        <constraint firstAttribute="bottom" secondItem="jC3-m0-uyl" secondAttribute="bottom" constant="12" id="wA8-Qa-ER8"/>
                                         <constraint firstItem="zIp-0I-O7G" firstAttribute="top" secondItem="KvM-95-Hwf" secondAttribute="top" id="x4j-rD-Ip4"/>
                                         <constraint firstItem="2Z7-uU-leM" firstAttribute="leading" secondItem="EWW-R3-nro" secondAttribute="leading" constant="10" id="xqc-s0-3BX"/>
                                     </constraints>
@@ -682,6 +711,180 @@
                 <constraint firstItem="Yen-Lq-Qlb" firstAttribute="top" secondItem="bEU-aj-oXp" secondAttribute="top" id="uQt-aV-lNx"/>
             </constraints>
             <point key="canvasLocation" x="31" y="265"/>
+        </view>
+        <view contentMode="scaleToFill" id="T1l-QF-4iS" userLabel="MoreOperation">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view alpha="0.69999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NPg-0f-vaU" userLabel="Cover">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="480"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6pK-Gh-iiC" userLabel="Close">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="480"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <state key="normal">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="clickForCloseMoreOperation:" destination="-1" eventType="touchUpInside" id="5ty-22-r0c"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="6pK-Gh-iiC" secondAttribute="bottom" id="FyU-dc-1Mw"/>
+                        <constraint firstItem="6pK-Gh-iiC" firstAttribute="top" secondItem="NPg-0f-vaU" secondAttribute="top" id="Yxz-Ay-Eaq"/>
+                        <constraint firstAttribute="trailing" secondItem="6pK-Gh-iiC" secondAttribute="trailing" id="anY-iS-apa"/>
+                        <constraint firstItem="6pK-Gh-iiC" firstAttribute="leading" secondItem="NPg-0f-vaU" secondAttribute="leading" id="bbm-Z8-on3"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jXa-vB-ylE" userLabel="OperationItems">
+                    <rect key="frame" x="0.0" y="480" width="600" height="120"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LNg-97-WFg">
+                            <rect key="frame" x="30" y="15" width="540" height="30"/>
+                            <color key="backgroundColor" red="0.40000000600000002" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="qnh-oi-CcM"/>
+                            </constraints>
+                            <state key="normal" title="取消订单">
+                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="clickForCancelOrder:" destination="-1" eventType="touchUpInside" id="QhO-b0-kDu"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hwe-Bc-PhA">
+                            <rect key="frame" x="225" y="62" width="150" height="30"/>
+                            <color key="backgroundColor" red="0.40000000600000002" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="MW7-d6-Yfy"/>
+                                <constraint firstAttribute="width" constant="150" id="Yig-bX-aue"/>
+                            </constraints>
+                            <state key="normal" title="关闭">
+                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="clickForCloseMoreOperation:" destination="-1" eventType="touchUpInside" id="7FT-ub-Eta"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="centerX" secondItem="hwe-Bc-PhA" secondAttribute="centerX" id="Ayj-YT-GIX"/>
+                        <constraint firstAttribute="trailing" secondItem="LNg-97-WFg" secondAttribute="trailing" constant="30" id="Iqm-eB-ZKj"/>
+                        <constraint firstItem="LNg-97-WFg" firstAttribute="leading" secondItem="jXa-vB-ylE" secondAttribute="leading" constant="30" id="Ks7-Ef-JCR"/>
+                        <constraint firstAttribute="height" constant="120" id="bGH-z0-ghC"/>
+                        <constraint firstAttribute="bottom" secondItem="hwe-Bc-PhA" secondAttribute="bottom" constant="28" id="j7y-wV-kUv"/>
+                        <constraint firstItem="LNg-97-WFg" firstAttribute="top" secondItem="jXa-vB-ylE" secondAttribute="top" constant="15" id="zsC-Vg-bJh"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="NPg-0f-vaU" firstAttribute="leading" secondItem="T1l-QF-4iS" secondAttribute="leading" id="4NO-UJ-hCk"/>
+                <constraint firstItem="NPg-0f-vaU" firstAttribute="top" secondItem="T1l-QF-4iS" secondAttribute="top" id="Ba9-qT-fpM"/>
+                <constraint firstAttribute="trailing" secondItem="jXa-vB-ylE" secondAttribute="trailing" id="NCP-Wd-cW8"/>
+                <constraint firstAttribute="bottom" secondItem="jXa-vB-ylE" secondAttribute="bottom" id="XLc-qD-Ygd"/>
+                <constraint firstItem="jXa-vB-ylE" firstAttribute="leading" secondItem="T1l-QF-4iS" secondAttribute="leading" id="ahd-dJ-WTe"/>
+                <constraint firstItem="jXa-vB-ylE" firstAttribute="top" secondItem="NPg-0f-vaU" secondAttribute="bottom" id="pIy-iK-4xd"/>
+                <constraint firstAttribute="trailing" secondItem="NPg-0f-vaU" secondAttribute="trailing" id="x1O-lN-1Ze"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="31" y="921"/>
+        </view>
+        <view contentMode="scaleToFill" id="gDB-XV-e68" userLabel="SureCancelOrder">
+            <rect key="frame" x="0.0" y="0.0" width="300" height="150"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="教练确认后才能成功取消" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hXw-kT-plG" userLabel="tip1">
+                    <rect key="frame" x="20" y="30" width="260" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="fyP-OL-m6p"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击确认后请与教练电话联系！" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NSK-9l-k5u" userLabel="tip2">
+                    <rect key="frame" x="20" y="59" width="260" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="PDR-So-HsR"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C48-ju-0bc" userLabel="close">
+                    <rect key="frame" x="260" y="0.0" width="40" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="UOi-Se-RnI"/>
+                        <constraint firstAttribute="height" constant="30" id="qSA-Vz-9K8"/>
+                    </constraints>
+                    <state key="normal" title="X">
+                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="clickForCloseSureCancelOrder:" destination="-1" eventType="touchUpInside" id="WZb-Yh-Kbo"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PbZ-at-d3x">
+                    <rect key="frame" x="20" y="95" width="120" height="30"/>
+                    <color key="backgroundColor" red="0.82745098039999998" green="0.82745098039999998" blue="0.82745098039999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="120" id="6Jd-qM-dbO"/>
+                        <constraint firstAttribute="height" constant="30" id="NMH-z1-svh"/>
+                    </constraints>
+                    <state key="normal" title="取消">
+                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="clickForCloseSureCancelOrder:" destination="-1" eventType="touchUpInside" id="1rW-hs-OKE"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gaS-3E-3uJ">
+                    <rect key="frame" x="160" y="95" width="120" height="30"/>
+                    <color key="backgroundColor" red="0.98431372549019602" green="0.30588235294117649" blue="0.035294117647058823" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="KCb-uJ-zO2"/>
+                        <constraint firstAttribute="width" constant="120" id="g6t-Pe-Dll"/>
+                    </constraints>
+                    <state key="normal" title="请教练确认">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="clickForSureCancelOrder:" destination="-1" eventType="touchUpInside" id="iZg-hb-Tdp"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="hXw-kT-plG" firstAttribute="top" secondItem="gDB-XV-e68" secondAttribute="top" constant="30" id="9HU-lv-FbW"/>
+                <constraint firstItem="PbZ-at-d3x" firstAttribute="leading" secondItem="gDB-XV-e68" secondAttribute="leading" constant="20" id="Dke-ZW-zfj"/>
+                <constraint firstAttribute="trailing" secondItem="hXw-kT-plG" secondAttribute="trailing" constant="20" id="Ixm-6F-8Bw"/>
+                <constraint firstItem="C48-ju-0bc" firstAttribute="top" secondItem="gDB-XV-e68" secondAttribute="top" id="R48-ki-Yi8"/>
+                <constraint firstAttribute="trailing" secondItem="gaS-3E-3uJ" secondAttribute="trailing" constant="20" id="Vwp-u3-wpU"/>
+                <constraint firstItem="NSK-9l-k5u" firstAttribute="leading" secondItem="gDB-XV-e68" secondAttribute="leading" constant="20" id="bVT-o8-usA"/>
+                <constraint firstItem="PbZ-at-d3x" firstAttribute="top" secondItem="NSK-9l-k5u" secondAttribute="bottom" constant="15" id="h1L-8q-0XM"/>
+                <constraint firstAttribute="trailing" secondItem="NSK-9l-k5u" secondAttribute="trailing" constant="20" id="lkP-wB-wf2"/>
+                <constraint firstItem="gaS-3E-3uJ" firstAttribute="top" secondItem="NSK-9l-k5u" secondAttribute="bottom" constant="15" id="u3V-5f-mpU"/>
+                <constraint firstItem="hXw-kT-plG" firstAttribute="leading" secondItem="gDB-XV-e68" secondAttribute="leading" constant="20" id="v74-mj-hIG"/>
+                <constraint firstAttribute="trailing" secondItem="C48-ju-0bc" secondAttribute="trailing" id="wUB-ib-wDW"/>
+                <constraint firstItem="NSK-9l-k5u" firstAttribute="top" secondItem="hXw-kT-plG" secondAttribute="bottom" constant="8" id="ywM-C7-vtB"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="31" y="1367"/>
         </view>
     </objects>
     <resources>

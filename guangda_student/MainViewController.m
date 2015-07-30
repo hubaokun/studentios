@@ -93,6 +93,7 @@
 //    self.mapContentView = mapView;
     _locService = [[BMKLocationService alloc] init];
     _locService.delegate = self;
+    self.mapView.compassPosition = CGPointMake(8, 88);
     
     //设置地图缩放级别
     [_mapView setZoomLevel:12];
@@ -232,6 +233,7 @@
 
 #pragma mark - actions
 #pragma mark 小汽车 button 点击事件
+// 在线报名、预约考试等服务
 - (IBAction)clickForServe:(id)sender {
     XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
     [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
@@ -792,7 +794,7 @@
     }
 //    NSMutableArray *images = [NSMutableArray array];
 //    for (int i = 1; i < 4; i++) {
-        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_car_pin"]];
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ico_cargr@2x"]];
 //    }
     annotationView.annotationImageView.image = image;
     annotationView.annotationButton.tag = [annotation.title intValue];
