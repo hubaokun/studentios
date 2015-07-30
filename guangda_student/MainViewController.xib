@@ -77,7 +77,7 @@
                         <constraint firstAttribute="height" constant="52" id="Ku9-Jz-jes"/>
                         <constraint firstAttribute="width" constant="52" id="w9C-B2-JgP"/>
                     </constraints>
-                    <state key="normal" image="icon_my_btn">
+                    <state key="normal" image="ic_我的">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -215,7 +215,7 @@
                         <constraint firstAttribute="width" constant="60" id="R6p-Ea-a8S"/>
                         <constraint firstAttribute="height" constant="60" id="WCB-XL-UFM"/>
                     </constraints>
-                    <state key="normal" image="ico_小巴服务">
+                    <state key="normal" image="ic_小巴服务">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -2299,7 +2299,8 @@ MjAxNQMDIDAxLzE5A
         <image name="coach_details_btn" width="143" height="35"/>
         <image name="coach_star_empty" width="14" height="14"/>
         <image name="coach_star_full" width="14" height="14"/>
-        <image name="ico_小巴服务" width="60" height="60"/>
+        <image name="ic_小巴服务" width="66" height="66"/>
+        <image name="ic_我的" width="52" height="52"/>
         <image name="icon_appoint_success" width="59" height="59"/>
         <image name="icon_coach_mobile" width="11" height="16"/>
         <image name="icon_coach_telephone" width="16" height="16"/>
@@ -2309,7 +2310,6 @@ MjAxNQMDIDAxLzE5A
         <image name="icon_date_updown" width="44" height="44"/>
         <image name="icon_fork_grey" width="11" height="11"/>
         <image name="icon_map_time" width="24" height="24"/>
-        <image name="icon_my_btn" width="52" height="52"/>
         <image name="icon_red_v" width="7" height="5"/>
         <image name="lesson_appoint_btn" width="143" height="35"/>
         <image name="list_btn" width="52" height="52"/>
