@@ -508,7 +508,7 @@
 #pragma mark 去筛选
 - (IBAction)goSearchClick:(id)sender
 {
-    
+    [self.searchTextField resignFirstResponder];
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     NSString *searchStr = self.searchTextField.text;
     if (searchStr.length > 0) {
@@ -865,7 +865,7 @@
                 _x += _width + 20 + 10;
             }
             self.carViewHeight.constant = _y + 50;
-            CGFloat _maxHeight = 540 + self.subjectView.frame.size.height + self.carTypeView.frame.size.height;
+//            CGFloat _maxHeight = 540 + self.subjectView.frame.size.height + self.carTypeView.frame.size.height;
             
             self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH - 110);
         }
