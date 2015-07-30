@@ -619,6 +619,11 @@
     NSString *studentId = studentDic[@"studentid"];
     [paramDic setObject:studentId forKey:@"studentid"];
     [paramDic setObject:studentDic[@"token"] forKey:@"token"];
+    // app版本
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    [paramDic setObject:app_Version forKey:@"version"];
+    
     
     NSMutableArray *times = [NSMutableArray array];
     for (int i = 0; i < self.dateTimeSelectedList.count; i++) {
