@@ -156,6 +156,7 @@
     }
 }
 
+// 显示订单信息
 - (void)orderInfoViewShowData {
     self.coachNameLabel.text = [NSString stringWithFormat:@"%@ 教练", self.coach.realName];
     self.orderCreateDateLabel.text = self.order.creatTime;
@@ -267,6 +268,12 @@
         self.cancelOrderBtnRightSpaceCon.constant = 80;
     }
 
+    // 订单是否正在取消中
+    if ((self.order.studentState == 4) && (self.order.coachState != 4)) {
+        self.cancelOrderBannerLabel.hidden = NO;
+    } else {
+        self.cancelOrderBannerLabel.hidden = YES;
+    }
 }
 
 - (CGFloat)showPriceList:(NSArray *)priceArray {

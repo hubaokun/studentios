@@ -53,7 +53,7 @@
     // 点击背景退出键盘
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboardClick:)];
     tapGestureRecognizer.numberOfTapsRequired = 1;
-    [self.view addGestureRecognizer: tapGestureRecognizer];   // 只需要点击非文字输入区域就会响应
+    [self.selectContentView addGestureRecognizer: tapGestureRecognizer];   // 只需要点击非文字输入区域就会响应
     [tapGestureRecognizer setCancelsTouchesInView:NO];
     
     //注册监听，防止键盘遮挡视图

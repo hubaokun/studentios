@@ -38,6 +38,7 @@
 // 评价
 @property (strong, nonatomic) IBOutlet UIButton *evaluateBtn;
 @property (strong, nonatomic) IBOutlet UILabel *remindLabel;
-
+// 提示订单正在确认取消中
+@property (strong, nonatomic) IBOutlet UILabel *cancelOrderBannerLabel;
 - (void)loadData:(NSDictionary *)dataDic;
 @end

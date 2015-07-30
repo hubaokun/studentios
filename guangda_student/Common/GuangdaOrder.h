@@ -24,6 +24,8 @@
 @property (copy, nonatomic) NSString *detailAddr;   // 订单上车地址
 @property (copy, nonatomic) NSString *cost;         // 订单总价
 @property (assign, nonatomic) int minutes;          // 距离订单开始的分钟数
+@property (assign, nonatomic) int studentState;     // 学员状态
+@property (assign, nonatomic) int coachState;       // 教练状态
 
 @property (assign, nonatomic) int canComplain;      // 订单是否可以投诉 0不可以 1可以
 @property (assign, nonatomic) int needUncomplain;   // 订单是否需要取消投诉 0不需要 1需要
@@ -34,5 +36,6 @@
 
 - (instancetype)initWithDict:(NSDictionary *)dict;
 + (instancetype)orderWithDict:(NSDictionary *)dict;
++ (NSMutableArray *)ordersWithArray:(NSArray *)array;
 
 @end
