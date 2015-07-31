@@ -468,6 +468,10 @@
     if (userId) {
         [paramDic setObject:userId forKey:@"studentid"];
     }
+    // 版本号
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    [paramDic setObject:app_Version forKey:@"version"];
     
     NSString *uri = @"/sbook?action=RefreshCoachSchedule";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];

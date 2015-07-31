@@ -12,8 +12,8 @@
 #import "CoinListViewController.h"
 @interface AccountListViewController ()
 {
-    NSString *couponsum;
-    NSString *coinsum;
+    NSString *_couponsum;
+    NSString *_coinsum;
 }
 @property (strong, nonatomic) IBOutlet UIView *msgView;
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
@@ -91,8 +91,8 @@
         
         if ([responseObject[@"code"] integerValue] == 1) {
             NSLog(@"message ===== %@", responseObject[@"message"]);
-            coinsum = [responseObject[@"coinsum"] description];
-            couponsum = [responseObject[@"couponsum"] description];
+            _coinsum = [responseObject[@"coinsum"] description];
+            _couponsum = [responseObject[@"couponsum"] description];
 //            self.alertView.frame = self.view.frame;
 //            [self.view addSubview:self.alertView];
 //            [self.navigationController popViewControllerAnimated:YES];
@@ -121,15 +121,14 @@
     [string1 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0,money.length)];
     self.moneyLabel.attributedText = string1;
     
-    NSString *couponStr = [NSString stringWithFormat:@"%@ 张", couponsum];
+    NSString *couponStr = [NSString stringWithFormat:@"%@ 张", _couponsum];
     NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:couponStr];
-    [string2 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0,couponsum.length)];
+    [string2 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0,_couponsum.length)];
     self.couponLabel.attributedText = string2;
     
-    couponsum = @"0";
-    NSString *coinStr = [NSString stringWithFormat:@"%@ 个", couponsum];
+    NSString *coinStr = [NSString stringWithFormat:@"%@ 个", _coinsum];
     NSMutableAttributedString *string3 = [[NSMutableAttributedString alloc] initWithString:coinStr];
-    [string3 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0,coinsum.length)];
+    [string3 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0,_coinsum.length)];
     self.coinLabel.attributedText = string3;
 }
 

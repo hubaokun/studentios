@@ -25,6 +25,10 @@
 @property (strong, nonatomic) IBOutlet UIView *moreOperationView; // 更多操作
 @property (strong, nonatomic) IBOutlet UIView *sureCancelOrderView; // 确认取消订单
 @property (strong, nonatomic) IBOutlet UILabel *cancelOrderBannerLabel; // 提示订单正在确认取消中
+@property (weak, nonatomic) IBOutlet UIButton *cancelOrderAlertBtn; // 取消订单
+@property (weak, nonatomic) IBOutlet UIButton *closeMoreOperationViewBtn; // 关闭
+@property (weak, nonatomic) IBOutlet UIButton *closeSureCancelOrderViewBtn; // 取消取消订单
+@property (weak, nonatomic) IBOutlet UIButton *postCancelOrderBtn; // 请教练确认
 
 @property (strong, nonatomic) TQStarRatingView *coachStarView;
 @property (strong, nonatomic) TQStarRatingView *myEvaluationStarView;
@@ -120,11 +124,44 @@
     _continueAppointBtn.layer.borderColor = RGB(246, 102, 93).CGColor;
     
     // 更多操作页
-    self.moreOperationView.frame = [UIScreen mainScreen].bounds;
+    [self moreOperationViewConfig];
     
     // 确定取消订单弹框
+    [self sureCancelOrderViewConfig];
+}
+
+// 更多操作页
+- (void)moreOperationViewConfig {
+    self.moreOperationView.frame = [UIScreen mainScreen].bounds;
+    
+    // 取消订单按钮
+    self.cancelOrderAlertBtn.layer.borderWidth = 0.8;
+    self.cancelOrderAlertBtn.layer.borderColor = [RGB(204, 204, 204) CGColor];
+    self.cancelOrderAlertBtn.layer.cornerRadius = 3;
+    
+    // 关闭按钮
+    self.closeMoreOperationViewBtn.layer.borderWidth = 1;
+    self.closeMoreOperationViewBtn.layer.borderColor = [RGB(204, 204, 204) CGColor];
+    self.closeMoreOperationViewBtn.layer.cornerRadius = self.closeMoreOperationViewBtn.bounds.size.width/2;
+}
+
+// 确定取消订单弹框
+- (void)sureCancelOrderViewConfig {
     self.sureCancelOrderView.bounds = CGRectMake(0, 0, 300, 150);
     self.sureCancelOrderView.center = CGPointMake(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+    self.sureCancelOrderView.layer.borderWidth = 1;
+    self.sureCancelOrderView.layer.borderColor = [RGB(204, 204, 204) CGColor];
+    self.sureCancelOrderView.layer.cornerRadius = 4;
+
+    // 取消
+    self.closeSureCancelOrderViewBtn.layer.borderWidth = 0.8;
+    self.closeSureCancelOrderViewBtn.layer.borderColor = [RGB(204, 204, 204) CGColor];
+    self.closeSureCancelOrderViewBtn.layer.cornerRadius = 3;
+    
+    // 请教练确认
+    self.postCancelOrderBtn.layer.borderWidth = 0.8;
+    self.postCancelOrderBtn.layer.borderColor = [RGB(204, 204, 204) CGColor];
+    self.postCancelOrderBtn.layer.cornerRadius = 3;
 }
 
 - (void)showData {
@@ -691,10 +728,11 @@
 
 // 关闭更多操作页
 - (IBAction)clickForCloseMoreOperation:(UIButton *)sender {
+    [self.sureCancelOrderView removeFromSuperview];
     [self.moreOperationView removeFromSuperview];
 }
 
-// 取消订单弹框
+// "取消订单"弹框
 - (IBAction)clickForCancelOrder:(UIButton *)sender {
     [self.view addSubview:self.sureCancelOrderView];
 }
@@ -704,7 +742,7 @@
     [self postCancelOrder];
 }
 
-// 关闭取消订单弹框
+// 关闭"取消订单"弹框
 - (IBAction)clickForCloseSureCancelOrder:(UIButton *)sender {
     [self.sureCancelOrderView removeFromSuperview];
     [self.moreOperationView removeFromSuperview];

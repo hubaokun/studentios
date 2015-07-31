@@ -14,7 +14,17 @@
 #import "TypeinNumberViewController.h"
 #import "LoginViewController.h"
 #import "MyOrderViewController.h"
-@interface SureOrderViewController ()<UITableViewDataSource, UITableViewDelegate>
+#import "XBBookOrder.h"
+
+#define FOOTVIEW_HEIGHT 48
+@interface SureOrderViewController ()<UITableViewDataSource, UITableViewDelegate> {
+    int _validCouponNum; // 可用学时券总数
+    int _validCoinNum; // 可用小巴币总数
+    float _validMoney; // 余额总数
+    int _remainderCouponNum; // 剩余学时券数
+    int _remainderCoinNum; // 剩余学时币数
+    float _remainderMoney; // 剩余余额
+}
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UILabel *priceSumLabel;
@@ -46,6 +56,19 @@
 @property (assign, nonatomic) int canUseDiffCoupon;
 @property (assign, nonatomic) int canUsedMaxCouponCount;
 
+// 选择支付方式
+@property (strong, nonatomic) IBOutlet UIView *payTypeSelectView;
+@property (weak, nonatomic) IBOutlet UIControl *coverView;
+@property (weak, nonatomic) IBOutlet UIButton *couponSelectBtn;
+@property (weak, nonatomic) IBOutlet UIButton *coinSelectBtn;
+@property (weak, nonatomic) IBOutlet UIButton *moneySelectBtn;
+@property (strong, nonatomic) UIButton *selectedBtn;
+
+// 页面数据
+@property (strong, nonatomic) NSMutableArray *bookOrdersArray;  // 预约订单数组
+@property (strong, nonatomic) XBBookOrder *targetBookOrder;     // 当前操作订单
+@property (assign, nonatomic) BOOL moneyIsDeficit;              // 余额是否不足
+
 - (IBAction)clickForOtherCoupon:(id)sender;
 
 @end
@@ -54,7 +77,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    self.bookOrdersArray = [XBBookOrder bookOrdersWithArray:self.dateTimeSelectedList];
     self.priceSumLabel.text = [NSString stringWithFormat:@"应付金额%@元", self.priceSum];
     
     _orderArray = [NSMutableArray array];
@@ -68,9 +91,7 @@
     
     [self getOrderArray];
     
-    //获取可以使用的小巴券
-    [self getCanUseCouponList];
-    
+    // 注册通知，选择小巴券后的操作
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeSelectCoupon:) name:@"changeSelectCoupon" object:nil];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
@@ -87,60 +108,62 @@
     label.frame = CGRectMake(10, 0, SCREEN_WIDTH - 20, size.height + 20);
     [view addSubview:label];
     self.tableView.tableHeaderView = view;
+    
+    self.payTypeSelectView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+    [self.view addSubview:self.payTypeSelectView];
+    
+    
 }
 
 //刷新余额
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self refreshUserMoney];
+    // 获取可以使用的小巴券、小巴币数目、账户余额并配置界面
+    [self getCanUseCouponList];
 }
 
-// 刷新用户余额
-- (void)refreshUserMoney
-{
-    NSMutableDictionary *userInfoDic = [[CommonUtil getObjectFromUD:@"UserInfo"] mutableCopy];
-    NSString *userId = [userInfoDic objectForKey:@"studentid"];
+#pragma mark - 配置支付方式选择view
+- (void)payTypeSelectViewConfig:(XBBookOrder *)bookOrder {
+    [self allSelectBtnConfig:bookOrder];
     
-    
-    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
-    if (!userId) {
-        return;
+    if (bookOrder.payType == payTypeCoupon) {
+        [self choosePayType:self.couponSelectBtn];
     }
-    [paramDic setObject:userId forKey:@"userid"];
-    [paramDic setObject:userInfoDic[@"token"] forKey:@"token"];
-    [paramDic setObject:@"2" forKey:@"usertype"];
     
-    NSString *uri = @"/system?action=refreshUserMoney";
-    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
+    else if (bookOrder.payType == payTypeCoin) {
+        [self choosePayType:self.coinSelectBtn];
+    }
     
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        int code = [responseObject[@"code"] intValue];
-        if (code == 1)
-        {
-            NSString *money = [responseObject[@"money"] description];
-            NSString *fmoney = [responseObject[@"fmoney"] description];
-            
-            [userInfoDic setObject:money forKey:@"money"];
-            [userInfoDic setObject:fmoney forKey:@"fmoney"];
-            
-            [CommonUtil saveObjectToUD:userInfoDic key:@"UserInfo"];
-            
-        }else if(code == 95){
-            NSString *message = responseObject[@"message"];
-            [self makeToast:message];
-            [CommonUtil logout];
-            [NSTimer scheduledTimerWithTimeInterval:0.5
-                                             target:self
-                                           selector:@selector(backLogin)
-                                           userInfo:nil
-                                            repeats:NO];
-        }
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-    }];
+    else if (bookOrder.payType == payTypeMoney) {
+        [self choosePayType:self.moneySelectBtn];
+    }
+}
+
+// 配置所有选择按钮的状态
+- (void)allSelectBtnConfig:(XBBookOrder *)bookOrder {
+    if (_remainderCouponNum == 0 && self.couponSelectBtn.selected == NO) { // 已无更多学时券
+        [self invalidSelectBtn:self.couponSelectBtn];
+    } else {
+        [self validSelectBtn:self.couponSelectBtn];
+    }
+    
+    if (_remainderCoinNum < [bookOrder.price intValue] && self.couponSelectBtn.selected == NO) { // 已无更多学时券
+        [self invalidSelectBtn:self.coinSelectBtn];
+    } else {
+        [self validSelectBtn:self.coinSelectBtn];
+    }
+}
+
+// 设置支付方式按钮为不可选
+- (void)invalidSelectBtn:(UIButton *)button {
+    [button setImage:[UIImage imageNamed:@"coupon_invalid"] forState:UIControlStateNormal];
+    button.enabled = NO;
+}
+
+// 设置支付方式按钮为可选
+- (void)validSelectBtn:(UIButton *)button {
+    [button setImage:[UIImage imageNamed:@"coupon_unselected"] forState:UIControlStateNormal];
+    button.enabled = YES;
 }
 
 - (void) backLogin{
@@ -285,117 +308,183 @@
 }
 
 #pragma mark - UITableView
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 66)];
-    view.backgroundColor = RGB(246, 246, 246);
-    //还有可用的小巴券
-    int count = 0;
-    for(int i = 0; i < _couponArray.count; i++){
-        NSDictionary *dic = _couponArray[i];
-        int used = [dic[@"used"] intValue];
-        if(used == 0)
-            count++;
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    // 取得数据
+    XBBookOrder *bookOrder = self.bookOrdersArray[section];
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, FOOTVIEW_HEIGHT)];
+//    view.backgroundColor = RGB(246, 246, 246);
+    view.backgroundColor = [UIColor whiteColor];
+    
+    UILabel *leftLabel = [[UILabel alloc] init];
+    [view addSubview:leftLabel];
+    CGFloat leftLabelW = 100;
+    CGFloat leftLabelH = 16;
+    CGFloat leftLabelX = 18;
+    CGFloat leftLabelY = (FOOTVIEW_HEIGHT - leftLabelH)/2;
+    leftLabel.frame = CGRectMake(leftLabelX, leftLabelY, leftLabelW, leftLabelH);
+    leftLabel.backgroundColor = [UIColor clearColor];
+    leftLabel.font = [UIFont systemFontOfSize:14];
+    leftLabel.textColor = [UIColor blackColor];
+    leftLabel.textAlignment = NSTextAlignmentLeft;
+    leftLabel.text = @"选择支付方式";
+    
+    UIView *bottomLine = [[UIView alloc] init];
+    [view addSubview:bottomLine];
+    CGFloat bottomLineW = SCREEN_WIDTH;
+    CGFloat bottomLineH = 1;
+    CGFloat bottomLineX = 0;
+    CGFloat bottomLineY = FOOTVIEW_HEIGHT - 1;
+    bottomLine.frame = CGRectMake(bottomLineX, bottomLineY, bottomLineW, bottomLineH);
+    bottomLine.backgroundColor = RGB(219, 220, 223);
+    
+    UIImageView *arrowIcon = [[UIImageView alloc] init];
+    [view addSubview:arrowIcon];
+    CGFloat arrowIconW = 7;
+    CGFloat arrowIconH = 12;
+    CGFloat arrowIconX = SCREEN_WIDTH - arrowIconW -18;
+    CGFloat arrowIconY = (FOOTVIEW_HEIGHT - arrowIconH)/2;
+    arrowIcon.frame = CGRectMake(arrowIconX, arrowIconY, arrowIconW, arrowIconH);
+    arrowIcon.backgroundColor = [UIColor clearColor];
+    [arrowIcon setImage:[UIImage imageNamed:@"arrow_userinfohome"]];
+    
+    UILabel *payTypeLabel = [[UILabel alloc] init];
+    [view addSubview:payTypeLabel];
+    CGFloat payTypeLabelW = 80;
+    CGFloat payTypeLabelH = leftLabelH;
+    CGFloat payTypeLabelX = arrowIconX - payTypeLabelW - 8;
+    CGFloat payTypeLabelY = leftLabelY;
+    payTypeLabel.frame = CGRectMake(payTypeLabelX, payTypeLabelY, payTypeLabelW, payTypeLabelH);
+    payTypeLabel.backgroundColor = [UIColor clearColor];
+    payTypeLabel.font = [UIFont systemFontOfSize:14];
+    payTypeLabel.textColor = [UIColor blackColor];
+    payTypeLabel.textAlignment = NSTextAlignmentRight;
+    // 根据订单的payType显示支付方式
+    if (bookOrder.payType == payTypeCoupon) {
+        payTypeLabel.text = @"学时券";
+    }
+    else if (bookOrder.payType == payTypeCoin) {
+        payTypeLabel.text = @"小巴币";
+    }
+    else if (bookOrder.payType == payTypeMoney) {
+        payTypeLabel.text = @"账户余额";
     }
     
-    if(section < _orderArray.count){
-        NSDictionary *dic = _orderArray[section];
-        if([[dic allKeys] containsObject:@"couponlist"]){
-            NSArray *usedcoupon = dic[@"couponlist"];
-            if(usedcoupon && usedcoupon.count > 0){
-                
-                UIView *View1 = [[UIView alloc] initWithFrame:CGRectMake(0, 7, SCREEN_WIDTH, 52)];
-                View1.backgroundColor = [UIColor whiteColor];
-                [view addSubview:View1];
-                
-                UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(0, 7, SCREEN_WIDTH, 1)];
-                line1.backgroundColor = RGB(219, 220, 223);
-                [view addSubview:line1];
-                
-                UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(0, 58, SCREEN_WIDTH, 1)];
-                line2.backgroundColor = RGB(219, 220, 223);
-                [view addSubview:line2];
-                
-                NSString *inString = [NSString stringWithFormat:@"%lu",(unsigned long)usedcoupon.count];
-                
-                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 8, 150, 50)];
-                NSString *text = [NSString stringWithFormat:@"已使用%@张优惠券",inString];
-                NSMutableAttributedString *attributeDateStr = [[NSMutableAttributedString alloc] initWithString:text];
-                [attributeDateStr addAttribute:NSForegroundColorAttributeName value:RGB(60, 60, 60) range:NSMakeRange(0, 3)];
-                [attributeDateStr addAttribute:NSForegroundColorAttributeName value:RGB(247, 100, 92) range:NSMakeRange(3, inString.length)];
-                [attributeDateStr addAttribute:NSForegroundColorAttributeName value:RGB(60, 60, 60) range:NSMakeRange(inString.length + 3, text.length - 3 - inString.length)];
-                [attributeDateStr addAttribute:(NSString *)kCTFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(0, text.length)];
-                label.attributedText = attributeDateStr;
-                [view addSubview:label];
-                
-                UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-                button.frame = CGRectMake(SCREEN_WIDTH - 130, 8, 120, 50);
-                button.titleLabel.font = [UIFont systemFontOfSize:14.0];
-                [button setTitle:@"[选择其它优惠券]" forState:UIControlStateNormal];
-                [button setTitleColor:RGB(60, 60, 60) forState:UIControlStateNormal];
-                button.tag = section;
-                [button addTarget:self action:@selector(clickForSelectOther:) forControlEvents:UIControlEventTouchUpInside];
-                [view addSubview:button];
-            }else{
-                if(count > 0){
-                    UIView *View1 = [[UIView alloc] initWithFrame:CGRectMake(0, 7, SCREEN_WIDTH, 52)];
-                    View1.backgroundColor = [UIColor whiteColor];
-                    [view addSubview:View1];
-                    
-                    UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(0, 7, SCREEN_WIDTH, 1)];
-                    line1.backgroundColor = RGB(219, 220, 223);
-                    [view addSubview:line1];
-                    
-                    UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(0, 58, SCREEN_WIDTH, 1)];
-                    line2.backgroundColor = RGB(219, 220, 223);
-                    [view addSubview:line2];
-                    
-                    
-                    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 8, 150, 50)];
-                    label.text = @"有可用的优惠券";
-                    [view addSubview:label];
-                    
-                    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-                    button.frame = CGRectMake(SCREEN_WIDTH - 130, 8, 120, 50);
-                    button.titleLabel.font = [UIFont systemFontOfSize:14.0];
-                    [button setTitle:@"[选择优惠券]" forState:UIControlStateNormal];
-                    [button setTitleColor:RGB(60, 60, 60) forState:UIControlStateNormal];
-                    button.tag = section;
-                    [button addTarget:self action:@selector(clickForSelectOther:) forControlEvents:UIControlEventTouchUpInside];
-                    [view addSubview:button];
-                }
-            }
-        }else{
-            if(count > 0){
-                
-                UIView *View1 = [[UIView alloc] initWithFrame:CGRectMake(0, 7, SCREEN_WIDTH, 52)];
-                View1.backgroundColor = [UIColor whiteColor];
-                [view addSubview:View1];
-                
-                UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(0, 7, SCREEN_WIDTH, 1)];
-                line1.backgroundColor = RGB(219, 220, 223);
-                [view addSubview:line1];
-                
-                UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(0, 58, SCREEN_WIDTH, 1)];
-                line2.backgroundColor = RGB(219, 220, 223);
-                [view addSubview:line2];
-                
-                
-                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 8, 150, 50)];
-                label.text = @"有可用的优惠券";
-                [view addSubview:label];
-                
-                UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-                button.frame = CGRectMake(SCREEN_WIDTH - 130, 8, 120, 50);
-                button.titleLabel.font = [UIFont systemFontOfSize:14.0];
-                [button setTitle:@"[选择优惠券]" forState:UIControlStateNormal];
-                [button setTitleColor:RGB(60, 60, 60) forState:UIControlStateNormal];
-                button.tag = section;
-                [button addTarget:self action:@selector(clickForSelectOther:) forControlEvents:UIControlEventTouchUpInside];
-                [view addSubview:button];
-            }
-        }
-    }
+    // 选择支付方式
+    UIButton *selectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [view addSubview:selectBtn];
+    selectBtn.frame = view.bounds;
+    selectBtn.backgroundColor = [UIColor clearColor];
+    selectBtn.tag = section;
+    [selectBtn addTarget:self action:@selector(clickForSelectionView:) forControlEvents:UIControlEventTouchUpInside];
+    
+    //还有可用的小巴券
+//    int count = 0;
+//    for(int i = 0; i < _couponArray.count; i++){
+//        NSDictionary *dic = _couponArray[i];
+//        int used = [dic[@"used"] intValue];
+//        if(used == 0)
+//            count++;
+//    }
+//    
+//    if(section < _orderArray.count){
+//        NSDictionary *dic = _orderArray[section];
+//        if([[dic allKeys] containsObject:@"couponlist"]){
+//            NSArray *usedcoupon = dic[@"couponlist"];
+//            if(usedcoupon && usedcoupon.count > 0){
+//                
+//                UIView *View1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, FOOTVIEW_HEIGHT)];
+//                View1.backgroundColor = [UIColor whiteColor];
+//                [view addSubview:View1];
+//                
+////                UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(0, 7, SCREEN_WIDTH, 1)];
+////                line1.backgroundColor = RGB(219, 220, 223);
+////                [view addSubview:line1];
+//                
+//                UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(0, FOOTVIEW_HEIGHT - 1, SCREEN_WIDTH, 1)];
+//                line2.backgroundColor = RGB(219, 220, 223);
+//                [view addSubview:line2];
+//                
+//                NSString *inString = [NSString stringWithFormat:@"%lu",(unsigned long)usedcoupon.count];
+//                
+//                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 8, 150, 50)];
+//                NSString *text = [NSString stringWithFormat:@"已使用%@张优惠券",inString];
+//                NSMutableAttributedString *attributeDateStr = [[NSMutableAttributedString alloc] initWithString:text];
+//                [attributeDateStr addAttribute:NSForegroundColorAttributeName value:RGB(60, 60, 60) range:NSMakeRange(0, 3)];
+//                [attributeDateStr addAttribute:NSForegroundColorAttributeName value:RGB(247, 100, 92) range:NSMakeRange(3, inString.length)];
+//                [attributeDateStr addAttribute:NSForegroundColorAttributeName value:RGB(60, 60, 60) range:NSMakeRange(inString.length + 3, text.length - 3 - inString.length)];
+//                [attributeDateStr addAttribute:(NSString *)kCTFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(0, text.length)];
+//                label.attributedText = attributeDateStr;
+//                [view addSubview:label];
+//                
+//                UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+//                button.frame = CGRectMake(SCREEN_WIDTH - 130, 8, 120, 50);
+//                button.titleLabel.font = [UIFont systemFontOfSize:14.0];
+//                [button setTitle:@"[选择其它优惠券]" forState:UIControlStateNormal];
+//                [button setTitleColor:RGB(60, 60, 60) forState:UIControlStateNormal];
+//                button.tag = section;
+//                [button addTarget:self action:@selector(clickForSelectOther:) forControlEvents:UIControlEventTouchUpInside];
+//                [view addSubview:button];
+//            }else{
+//                if(count > 0){
+//                    UIView *View1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, FOOTVIEW_HEIGHT)];
+//                    View1.backgroundColor = [UIColor whiteColor];
+//                    [view addSubview:View1];
+//                    
+////                    UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
+////                    line1.backgroundColor = RGB(219, 220, 223);
+////                    [view addSubview:line1];
+//                    
+//                    UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(0, FOOTVIEW_HEIGHT - 1, SCREEN_WIDTH, 1)];
+//                    line2.backgroundColor = RGB(219, 220, 223);
+//                    [view addSubview:line2];
+//                    
+//                    
+//                    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 8, 150, 50)];
+//                    label.text = @"有可用的优惠券";
+//                    [view addSubview:label];
+//                    
+//                    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+//                    button.frame = CGRectMake(SCREEN_WIDTH - 130, 8, 120, 50);
+//                    button.titleLabel.font = [UIFont systemFontOfSize:14.0];
+//                    [button setTitle:@"[选择优惠券]" forState:UIControlStateNormal];
+//                    [button setTitleColor:RGB(60, 60, 60) forState:UIControlStateNormal];
+//                    button.tag = section;
+//                    [button addTarget:self action:@selector(clickForSelectOther:) forControlEvents:UIControlEventTouchUpInside];
+//                    [view addSubview:button];
+//                }
+//            }
+//        }else{
+//            if(count > 0){
+//                
+//                UIView *View1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, FOOTVIEW_HEIGHT)];
+//                View1.backgroundColor = [UIColor whiteColor];
+//                [view addSubview:View1];
+//                
+////                UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
+////                line1.backgroundColor = RGB(219, 220, 223);
+////                [view addSubview:line1];
+//                
+//                UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(0, FOOTVIEW_HEIGHT - 1, SCREEN_WIDTH, 1)];
+//                line2.backgroundColor = RGB(219, 220, 223);
+//                [view addSubview:line2];
+//                
+//                
+//                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 8, 150, 50)];
+//                label.text = @"有可用的优惠券";
+//                [view addSubview:label];
+//                
+//                UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+//                button.frame = CGRectMake(SCREEN_WIDTH - 130, 8, 120, 50);
+//                button.titleLabel.font = [UIFont systemFontOfSize:14.0];
+//                [button setTitle:@"[选择优惠券]" forState:UIControlStateNormal];
+//                [button setTitleColor:RGB(60, 60, 60) forState:UIControlStateNormal];
+//                button.tag = section;
+//                [button addTarget:self action:@selector(clickForSelectOther:) forControlEvents:UIControlEventTouchUpInside];
+//                [view addSubview:button];
+//            }
+//        }
+//    }
     return view;
 }
 
@@ -430,27 +519,28 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if(section >= _orderArray.count)
-        return 0;
-    //已经选择了小巴券
-    NSDictionary *dic = _orderArray[section];
-    if([[dic allKeys] containsObject:@"couponlist"]){
-        NSArray *usedcoupon = dic[@"couponlist"];
-        if(usedcoupon && usedcoupon.count > 0){
-            return 66;
-        }
-    }
-    //还有可用的小巴券
-    int count = 0;
-    for(int i = 0; i < _couponArray.count; i++){
-        NSDictionary *dic = _couponArray[i];
-        int used = [dic[@"used"] intValue];
-        if(used == 0)
-            count++;
-    }
-    if(count > 0)
-        return 66;
-    return 0;
+//    if(section >= _orderArray.count)
+//        return 0;
+//    //已经选择了小巴券
+//    NSDictionary *dic = _orderArray[section];
+//    if([[dic allKeys] containsObject:@"couponlist"]){
+//        NSArray *usedcoupon = dic[@"couponlist"];
+//        if(usedcoupon && usedcoupon.count > 0){
+//            return FOOTVIEW_HEIGHT;
+//        }
+//    }
+//    //还有可用的小巴券
+//    int count = 0;
+//    for(int i = 0; i < _couponArray.count; i++){
+//        NSDictionary *dic = _couponArray[i];
+//        int used = [dic[@"used"] intValue];
+//        if(used == 0)
+//            count++;
+//    }
+//    if(count > 0)
+//        return FOOTVIEW_HEIGHT;
+//    return 0;
+    return FOOTVIEW_HEIGHT;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -518,6 +608,7 @@
     if (!cell) {
         [tableView registerNib:[UINib nibWithNibName:@"SureOrderTableViewCell" bundle:nil] forCellReuseIdentifier:indentifier];
         cell = [tableView dequeueReusableCellWithIdentifier:indentifier];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     NSDictionary *dic = self.dateTimeSelectedList[indexPath.section];
@@ -584,7 +675,8 @@
         [self makeToast:@"您的账户已欠费!"];
         return;
     }
-    if(userMoney < _payMoney && _payMoney != 0){//需付金额不为零 且余额不足的情况下
+//    if(userMoney < _payMoney && _payMoney != 0){//需付金额不为零 且余额不足的情况下
+    if(self.moneyIsDeficit){ // 余额不足
         [self letoutResultViewWithType:0];
         return;
     }
@@ -620,62 +712,63 @@
     [paramDic setObject:studentId forKey:@"studentid"];
     [paramDic setObject:studentDic[@"token"] forKey:@"token"];
     
-    NSMutableArray *times = [NSMutableArray array];
-    for (int i = 0; i < self.dateTimeSelectedList.count; i++) {
-        NSDictionary *dateDic = self.dateTimeSelectedList[i];
-        
-        NSDictionary *order;
-        NSArray *couponlist = nil;
-        NSString *firstTime = [[dateDic[@"times"] objectAtIndex:0] objectForKey:@"time"];
-        for(int j = 0; j < _orderArray.count; j++){
-            NSDictionary *dic = _orderArray[j];
-            NSString *first = [[dic[@"times"] objectAtIndex:0] objectForKey:@"time"];
-            if([dic[@"date"] isEqualToString:dateDic[@"date"]] && [first isEqualToString:firstTime]){
-                couponlist = dic[@"couponlist"];
-                order = dic;
-            }
-        }
-        
-        NSMutableDictionary *mutableDic = [NSMutableDictionary dictionary];
-        // 取出日期
-        NSString *date = dateDic[@"date"];
-        // 取出日期的时间点字典
-        NSArray *timesList = dateDic[@"times"];
-        NSMutableArray *array = [NSMutableArray array];
-        for (int j = 0; j < timesList.count; j++) {
-            NSString *timeStr = timesList[j][@"time"];
-            int time = [timeStr intValue];
-            [array addObject:[NSString stringWithFormat:@"%d", time]];
-        }
-        
-        NSString *recordid = @"";
-        if(couponlist){
-            for(int j = 0; j < couponlist.count; j++){
-                NSDictionary *coupon = couponlist[j];
-                int cid = [coupon[@"recordid"] intValue];
-                if(recordid.length == 0)
-                    recordid = [NSString stringWithFormat:@"%d",cid];
-                else{
-                    recordid = [NSString stringWithFormat: @"%@,%d",recordid,cid];
-                }
-            }
-        }
-        if (recordid.length > 0) {
-            [mutableDic setObject:recordid forKey:@"recordid"];
-        }else{
-            [mutableDic setObject:@"0" forKey:@"recordid"];
-        }
-        NSString *delmoney = order[@"delmoney"];
-        if([CommonUtil isEmpty:delmoney]){
-            [mutableDic setObject:@"0" forKey:@"delmoney"];
-        }else{
-            [mutableDic setObject:delmoney forKey:@"delmoney"];
-        }
-        
-        [mutableDic setObject:date forKey:@"date"];
-        [mutableDic setObject:array forKey:@"time"];
-        [times addObject:mutableDic];
-    }
+//    NSMutableArray *times = [NSMutableArray array];
+//    for (int i = 0; i < self.dateTimeSelectedList.count; i++) {
+//        NSDictionary *dateDic = self.dateTimeSelectedList[i];
+//        
+//        NSDictionary *order;
+//        NSArray *couponlist = nil;
+//        NSString *firstTime = [[dateDic[@"times"] objectAtIndex:0] objectForKey:@"time"];
+//        for(int j = 0; j < _orderArray.count; j++){
+//            NSDictionary *dic = _orderArray[j];
+//            NSString *first = [[dic[@"times"] objectAtIndex:0] objectForKey:@"time"];
+//            if([dic[@"date"] isEqualToString:dateDic[@"date"]] && [first isEqualToString:firstTime]){
+//                couponlist = dic[@"couponlist"];
+//                order = dic;
+//            }
+//        }
+//        
+//        NSMutableDictionary *mutableDic = [NSMutableDictionary dictionary];
+//        // 取出日期
+//        NSString *date = dateDic[@"date"];
+//        // 取出日期的时间点字典
+//        NSArray *timesList = dateDic[@"times"];
+//        NSMutableArray *array = [NSMutableArray array];
+//        for (int j = 0; j < timesList.count; j++) {
+//            NSString *timeStr = timesList[j][@"time"];
+//            int time = [timeStr intValue];
+//            [array addObject:[NSString stringWithFormat:@"%d", time]];
+//        }
+//        
+//        NSString *recordid = @"";
+//        if(couponlist){
+//            for(int j = 0; j < couponlist.count; j++){
+//                NSDictionary *coupon = couponlist[j];
+//                int cid = [coupon[@"recordid"] intValue];
+//                if(recordid.length == 0)
+//                    recordid = [NSString stringWithFormat:@"%d",cid];
+//                else{
+//                    recordid = [NSString stringWithFormat: @"%@,%d",recordid,cid];
+//                }
+//            }
+//        }
+//        if (recordid.length > 0) {
+//            [mutableDic setObject:recordid forKey:@"recordid"];
+//        }else{
+//            [mutableDic setObject:@"0" forKey:@"recordid"];
+//        }
+//        NSString *delmoney = order[@"delmoney"];
+//        if([CommonUtil isEmpty:delmoney]){
+//            [mutableDic setObject:@"0" forKey:@"delmoney"];
+//        }else{
+//            [mutableDic setObject:delmoney forKey:@"delmoney"];
+//        }
+//        
+//        [mutableDic setObject:date forKey:@"date"];
+//        [mutableDic setObject:array forKey:@"time"];
+//        [times addObject:mutableDic];
+//    }
+    NSMutableArray *times = [self postParamConfig];
     
     NSData *jsonData = [self toJSONData:times];
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -726,6 +819,324 @@
         NSLog(@"GetNearByCoach == %@", ERR_NETWORK);
         [self makeToast:ERR_NETWORK];
     }];
+}
+
+// 获取可用的小巴券
+- (void) getCanUseCouponList {
+    [DejalBezelActivityView activityViewForView:self.view];
+    
+    NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
+    
+    NSString *uri = @"/sbook?action=GetCanUseCouponList";
+    
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    [paramDic setObject:user_info[@"studentid"] forKey:@"studentid"];
+    [paramDic setObject:user_info[@"token"] forKey:@"token"];
+    [paramDic setObject:self.coachId forKey:@"coachid"];
+    
+    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_GET];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [manager GET:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        int code = [responseObject[@"code"] intValue];
+        if (code == 1) {
+            _couponArray = [responseObject[@"couponlist"] mutableCopy];
+            _validCouponNum = (int)_couponArray.count;
+            _remainderCouponNum = _validCouponNum;
+            [self getValidCoinNum];
+            
+            if(_couponArray && _couponArray.count > 0){
+                if([[responseObject allKeys] containsObject:@"canUseDiff"])
+                    self.canUseDiffCoupon = [responseObject[@"canUseDiff"] intValue];
+                
+                if([[responseObject allKeys] containsObject:@"canUseMaxCount"])
+                    self.canUsedMaxCouponCount = [responseObject[@"canUseMaxCount"] intValue];
+                
+//                [self.tableView reloadData];
+            }
+        }else if(code == 95){
+            [DejalBezelActivityView removeViewAnimated:YES];
+            NSString *message = responseObject[@"message"];
+            [self makeToast:message];
+            [CommonUtil logout];
+            [NSTimer scheduledTimerWithTimeInterval:0.5
+                                             target:self
+                                           selector:@selector(backLogin)
+                                           userInfo:nil
+                                            repeats:NO];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [DejalBezelActivityView removeViewAnimated:YES];
+    }];
+}
+
+// 获取可用的小巴币数目
+- (void) getValidCoinNum {
+    
+    NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
+    
+    NSString *uri = @"/sbook?action=GETCANUSECOINSUM";
+    
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    [paramDic setObject:user_info[@"studentid"] forKey:@"studentid"];
+    [paramDic setObject:self.coachId forKey:@"coachid"];
+    
+    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_GET];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [manager GET:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        int code = [responseObject[@"code"] intValue];
+        if (code == 1) {
+            _validCoinNum = [responseObject[@"coinnum"] intValue];
+            _remainderCoinNum = _validCoinNum;
+            [self refreshUserMoney];
+        }else if(code == 95){
+            NSString *message = responseObject[@"message"];
+            [self makeToast:message];
+            [CommonUtil logout];
+            [NSTimer scheduledTimerWithTimeInterval:0.5
+                                             target:self
+                                           selector:@selector(backLogin)
+                                           userInfo:nil
+                                            repeats:NO];
+            [DejalBezelActivityView removeViewAnimated:YES];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [DejalBezelActivityView removeViewAnimated:YES];
+    }];
+}
+
+// 刷新用户余额
+- (void)refreshUserMoney
+{
+    NSMutableDictionary *userInfoDic = [[CommonUtil getObjectFromUD:@"UserInfo"] mutableCopy];
+    NSString *userId = [userInfoDic objectForKey:@"studentid"];
+    
+    
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    if (!userId) {
+        return;
+    }
+    [paramDic setObject:userId forKey:@"userid"];
+    [paramDic setObject:userInfoDic[@"token"] forKey:@"token"];
+    [paramDic setObject:@"2" forKey:@"usertype"];
+    
+    NSString *uri = @"/system?action=refreshUserMoney";
+    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [DejalBezelActivityView removeViewAnimated:YES];
+        int code = [responseObject[@"code"] intValue];
+        if (code == 1) {
+            NSString *money = [responseObject[@"money"] description];
+            NSString *fmoney = [responseObject[@"fmoney"] description];
+            [userInfoDic setObject:money forKey:@"money"];
+            [userInfoDic setObject:fmoney forKey:@"fmoney"];
+            [CommonUtil saveObjectToUD:userInfoDic key:@"UserInfo"];
+            
+            _validMoney = [money floatValue];
+            _remainderMoney = _validMoney;
+            [self defaultPayConfig];
+            [self.tableView reloadData];
+            self.couponCountLabel.text = [self payDetailDescribe];
+            
+        }else if(code == 95){
+            NSString *message = responseObject[@"message"];
+            [self makeToast:message];
+            [CommonUtil logout];
+            [NSTimer scheduledTimerWithTimeInterval:0.5
+                                             target:self
+                                           selector:@selector(backLogin)
+                                           userInfo:nil
+                                            repeats:NO];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    }];
+}
+
+#pragma mark - 配置默认支付方式
+- (void)defaultPayConfig {
+    int orderNum = (int)self.bookOrdersArray.count; // 总订单数
+    int orderIndex = 0; // 订单索引
+    XBBookOrder *curBookOrder = nil; // 索引对应的当前订单
+    
+    if (_validCouponNum >= orderNum) { // 可用学时券数目大于等于订单数
+        for (XBBookOrder *bookOrder in self.bookOrdersArray) {
+            bookOrder.payType = payTypeCoupon;
+            _remainderCouponNum--;
+        }
+    }
+    else {
+        // 将_validCouponNum张学时券都用上
+        for (orderIndex = 0; orderIndex < _validCouponNum; orderIndex++) {
+            XBBookOrder *bookOrder = self.bookOrdersArray[orderIndex];
+            bookOrder.payType = payTypeCoupon;
+            _remainderCouponNum--;
+        }
+        
+        // 剩余订单默认用小巴币支付
+        int coinNeedCost = 0;
+        if (_validCoinNum > 0) {
+            // 一一提取剩下的订单
+            for (; orderIndex < orderNum; orderIndex++) {
+                curBookOrder = self.bookOrdersArray[orderIndex];
+                coinNeedCost += [curBookOrder.price intValue];
+                if (_validCoinNum >= coinNeedCost) { // 当小巴币足以支付剩下订单时
+                    curBookOrder.payType = payTypeCoin;
+                    _remainderCoinNum -= [curBookOrder.price intValue];
+                } else {
+                    break;
+                }
+            }
+        }
+        
+        // 再剩余订单默认用余额支付
+        float moneyNeedCost = 0.0;
+        for (; orderIndex < orderNum; orderIndex++) {
+            curBookOrder = self.bookOrdersArray[orderIndex];
+            curBookOrder.payType = payTypeMoney;
+            moneyNeedCost += [curBookOrder.price floatValue];
+            if (_validMoney < moneyNeedCost) { // 当余额不足时
+                curBookOrder.isDeficit = YES;
+            } else {
+                curBookOrder.isDeficit = NO;
+            }
+        }
+    }
+}
+
+// 统计订单支付方式
+- (NSString *)payDetailDescribe {
+    NSString *payStr = nil;
+    
+    // 学时券支付统计
+    NSString *couponPayStr = @"";
+    int useCouponNum = _validCouponNum - _remainderCouponNum;
+    int couponCost = 0;
+    if (useCouponNum > 0) {
+        for (XBBookOrder *bookOrder in self.bookOrdersArray) {
+            if (bookOrder.payType == payTypeCoupon) {
+                couponCost += [bookOrder.price intValue];
+            }
+        }
+        couponPayStr = [NSString stringWithFormat:@"使用%d张学时券，抵%d元。", useCouponNum, couponCost];
+    }
+    
+    // 小巴币支付统计
+    NSString *coinPayStr = @"";
+    int useCoinNum = _validCoinNum - _remainderCoinNum;
+    int coinCost = 0;
+    if (useCoinNum > 0) {
+        coinCost = useCoinNum;
+        coinPayStr = [NSString stringWithFormat:@"使用%d个小巴币，抵%d元。", useCoinNum, coinCost];
+    }
+    
+    // 余额支付统计
+    NSString *moneyPayStr = @"";
+    int needMoney = [self.priceSum intValue] - couponCost - coinCost;// 需要用余额支付的数目
+    if (_validMoney >= (float)needMoney) { // 余额充足
+        moneyPayStr = [NSString stringWithFormat:@"使用余额支付%d元。", needMoney];
+        self.moneyIsDeficit = NO;
+    } else {
+        moneyPayStr = [NSString stringWithFormat:@"需用余额支付%d元,余额不足请充值！", needMoney];
+        self.moneyIsDeficit = YES;
+    }
+    
+    payStr = [NSString stringWithFormat:@"%@%@%@", couponPayStr, coinPayStr, moneyPayStr];
+    return payStr;
+}
+
+// 生成订单请求参数
+- (NSMutableArray *)postParamConfig {
+    NSMutableArray *times = [NSMutableArray array];
+    for (int i = 0; i < self.dateTimeSelectedList.count; i++) {
+        NSDictionary *dateDic = self.dateTimeSelectedList[i];
+        XBBookOrder *bookOrder = self.bookOrdersArray[i];
+        
+        NSDictionary *order;
+        NSArray *couponlist = nil;
+        NSString *firstTime = [[dateDic[@"times"] objectAtIndex:0] objectForKey:@"time"];
+        for(int j = 0; j < _orderArray.count; j++){
+            NSDictionary *dic = _orderArray[j];
+            NSString *first = [[dic[@"times"] objectAtIndex:0] objectForKey:@"time"];
+            if([dic[@"date"] isEqualToString:dateDic[@"date"]] && [first isEqualToString:firstTime]){
+                couponlist = dic[@"couponlist"];
+                order = dic;
+            }
+        }
+        
+        NSMutableDictionary *mutableDic = [NSMutableDictionary dictionary];
+        // 取出日期
+        NSString *date = dateDic[@"date"];
+        // 取出日期的时间点字典
+        NSArray *timesList = dateDic[@"times"];
+        NSMutableArray *array = [NSMutableArray array];
+        for (int j = 0; j < timesList.count; j++) {
+            NSString *timeStr = timesList[j][@"time"];
+            int time = [timeStr intValue];
+            [array addObject:[NSString stringWithFormat:@"%d", time]];
+        }
+        
+        // 支付方式
+        NSString *payType = @"0";
+        NSString *delMoney = @"0"; // 抵扣金额
+        NSString *recordid = @"0"; // 学时券记录id
+        // 学时券
+        if (bookOrder.payType == payTypeCoupon) {
+            NSDictionary *couponDict = self.couponArray[i];
+            int cid = [couponDict[@"recordid"] intValue];
+            recordid = [NSString stringWithFormat:@"%d",cid];
+            delMoney = [NSString stringWithFormat:@"%d", [bookOrder.price intValue]];
+            payType = @"2";
+        }
+        // 小巴币
+        else if (bookOrder.payType == payTypeCoin) {
+            delMoney = [NSString stringWithFormat:@"%d", [bookOrder.price intValue]];
+            payType = @"3";
+        }
+        // 余额
+        else if (bookOrder.payType == payTypeMoney) {
+            payType = @"1";
+        }
+        
+        [mutableDic setObject:recordid forKey:@"recordid"];
+        [mutableDic setObject:delMoney forKey:@"delmoney"];
+        [mutableDic setObject:payType forKey:@"paytype"];
+//        NSString *recordid = @"";
+//        if(couponlist){
+//            for(int j = 0; j < couponlist.count; j++){
+//                NSDictionary *coupon = couponlist[j];
+//                int cid = [coupon[@"recordid"] intValue];
+//                if(recordid.length == 0)
+//                    recordid = [NSString stringWithFormat:@"%d",cid];
+//                else{
+//                    recordid = [NSString stringWithFormat: @"%@,%d",recordid,cid];
+//                }
+//            }
+//        }
+//        if (recordid.length > 0) {
+//            [mutableDic setObject:recordid forKey:@"recordid"];
+//        }else{
+//            [mutableDic setObject:@"0" forKey:@"recordid"];
+//        }
+//        NSString *delmoney = order[@"delmoney"];
+//        if([CommonUtil isEmpty:delmoney]){
+//            [mutableDic setObject:@"0" forKey:@"delmoney"];
+//        }else{
+//            [mutableDic setObject:delmoney forKey:@"delmoney"];
+//        }
+        
+        [mutableDic setObject:date forKey:@"date"];
+        [mutableDic setObject:array forKey:@"time"];
+        [times addObject:mutableDic];
+    }
+    return times;
 }
 
 // 将数组转JSON
@@ -836,6 +1247,7 @@
     }
 }
 
+#pragma mark - 点击事件
 // 充值
 - (IBAction)rechargeClick:(id)sender {
     [self.appointResultView removeFromSuperview];
@@ -850,57 +1262,70 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (void) getCanUseCouponList{
-    [DejalBezelActivityView activityViewForView:self.view];
-    
-    NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
-    
-    NSString *uri = @"/sbook?action=GetCanUseCouponList";
-    
-    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
-    [paramDic setObject:user_info[@"studentid"] forKey:@"studentid"];
-    [paramDic setObject:user_info[@"token"] forKey:@"token"];
-    [paramDic setObject:self.coachId forKey:@"coachid"];
-    
-    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_GET];
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    [manager GET:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [DejalBezelActivityView removeViewAnimated:YES];
-        
-        int code = [responseObject[@"code"] intValue];
-        if (code == 1) {
-            _couponArray = [responseObject[@"couponlist"] mutableCopy];
-            
-            if(_couponArray && _couponArray.count > 0){
-                if([[responseObject allKeys] containsObject:@"canUseDiff"])
-                    self.canUseDiffCoupon = [responseObject[@"canUseDiff"] intValue];
-                
-                if([[responseObject allKeys] containsObject:@"canUseMaxCount"])
-                    self.canUsedMaxCouponCount = [responseObject[@"canUseMaxCount"] intValue];
-                
-                [self.tableView reloadData];
-            }
-        }else if(code == 95){
-            NSString *message = responseObject[@"message"];
-            [self makeToast:message];
-            [CommonUtil logout];
-            [NSTimer scheduledTimerWithTimeInterval:0.5
-                                             target:self
-                                           selector:@selector(backLogin)
-                                           userInfo:nil
-                                            repeats:NO];
-        }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [DejalBezelActivityView removeViewAnimated:YES];
-    }];
-}
-
-
 - (IBAction)clickForOtherCoupon:(id)sender {
     SelectOtherCouponViewController *nextViewController = [[SelectOtherCouponViewController alloc] initWithNibName:@"SelectOtherCouponViewController" bundle:nil];
     nextViewController.couponArray = [_couponArray mutableCopy];
     [self.navigationController pushViewController:nextViewController animated:YES];
+}
+
+// 弹出选择支付方式view
+- (void)clickForSelectionView:(UIButton *)sender {
+    // 取得目标订单
+    self.targetBookOrder = self.bookOrdersArray[sender.tag];
+    // 根据订单配置view
+    [self payTypeSelectViewConfig:self.targetBookOrder];
+    [UIView animateWithDuration:0.35 animations:^{
+        self.coverView.alpha = 0.7;
+        self.payTypeSelectView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    }];
+}
+
+// 确认并隐藏选择支付方式view
+- (IBAction)clickForHideSelectionView:(id)sender {
+    [UIView animateWithDuration:0.35 animations:^{
+        self.coverView.alpha = 0;
+        self.payTypeSelectView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+    }];
+    [self.tableView reloadData];
+    self.couponCountLabel.text = [self payDetailDescribe];
+}
+
+// 选择支付方式
+- (IBAction)choosePayType:(UIButton *)sender {
+    // 取消原选项
+    if (self.selectedBtn) {
+        if ([sender isEqual:self.selectedBtn]) {
+            return;
+        }
+        self.selectedBtn.selected = NO;
+        // 返还原选项的支付物
+        if ([self.selectedBtn isEqual:self.couponSelectBtn]) {
+            _remainderCouponNum++;
+        }
+        else if ([self.selectedBtn isEqual:self.coinSelectBtn]) {
+            _remainderCoinNum += [self.targetBookOrder.price intValue];
+        }
+        else if ([self.selectedBtn isEqual:self.moneySelectBtn]) {
+            _remainderMoney += [self.targetBookOrder.price floatValue];
+        }
+    }
+    
+    // 选择新选项
+    sender.selected = YES;
+    self.selectedBtn = sender;
+    // 选中支付方式并扣除对应支付物
+    if ([sender isEqual:self.couponSelectBtn]) {
+        self.targetBookOrder.payType = payTypeCoupon;
+        _remainderCouponNum--;
+    }
+    else if ([sender isEqual:self.coinSelectBtn]) {
+        self.targetBookOrder.payType = payTypeCoin;
+        _remainderCoinNum -= [self.targetBookOrder.price intValue];
+    }
+    else if ([sender isEqual:self.moneySelectBtn]) {
+        self.targetBookOrder.payType = payTypeMoney;
+        _remainderMoney -= [self.targetBookOrder.price floatValue];
+    }
+    
 }
 @end

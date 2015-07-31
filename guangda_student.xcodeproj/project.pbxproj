@@ -154,8 +154,6 @@
 		375F9FE81AC5050E00006095 /* ImproveInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 375F9FE61AC5050E00006095 /* ImproveInfoViewController.xib */; };
 		37632F821ACE8562005BAD55 /* WaitEvaluationOrderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37632F801ACE8562005BAD55 /* WaitEvaluationOrderTableViewCell.m */; };
 		37632F831ACE8562005BAD55 /* WaitEvaluationOrderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37632F811ACE8562005BAD55 /* WaitEvaluationOrderTableViewCell.xib */; };
-		3764AE9F1B0C332D0095855B /* GuangdaCoach.m in Sources */ = {isa = PBXBuildFile; fileRef = 3764AE9E1B0C332D0095855B /* GuangdaCoach.m */; };
-		3764AEA21B0C34BE0095855B /* GuangdaOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3764AEA11B0C34BE0095855B /* GuangdaOrder.m */; };
 		376A19CA1ADCDC2C004F1FE3 /* backgroundStar.png in Resources */ = {isa = PBXBuildFile; fileRef = 376A19C41ADCDC2C004F1FE3 /* backgroundStar.png */; };
 		376A19CB1ADCDC2C004F1FE3 /* backgroundStar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 376A19C51ADCDC2C004F1FE3 /* backgroundStar@2x.png */; };
 		376A19CC1ADCDC2C004F1FE3 /* foregroundStar.png in Resources */ = {isa = PBXBuildFile; fileRef = 376A19C61ADCDC2C004F1FE3 /* foregroundStar.png */; };
@@ -177,9 +175,13 @@
 		37F77F6F1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37F77F6D1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.m */; };
 		37F77F701AC8F0A3004D6A44 /* MyOrderEvaluationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37F77F6E1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.xib */; };
 		702BB4671B610AF70023D993 /* china.plist in Resources */ = {isa = PBXBuildFile; fileRef = 702BB4661B610AF70023D993 /* china.plist */; };
-		702BB46E1B610B470023D993 /* XBArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BB4691B610B470023D993 /* XBArea.m */; };
-		702BB46F1B610B470023D993 /* XBCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BB46B1B610B470023D993 /* XBCity.m */; };
-		702BB4701B610B470023D993 /* XBProvince.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BB46D1B610B470023D993 /* XBProvince.m */; };
+		705EAD701B6A4B3800035F76 /* GuangdaCoach.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD631B6A4B3800035F76 /* GuangdaCoach.m */; };
+		705EAD711B6A4B3800035F76 /* GuangdaOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD651B6A4B3800035F76 /* GuangdaOrder.m */; };
+		705EAD721B6A4B3800035F76 /* XBArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD671B6A4B3800035F76 /* XBArea.m */; };
+		705EAD731B6A4B3800035F76 /* XBBookOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD691B6A4B3800035F76 /* XBBookOrder.m */; };
+		705EAD741B6A4B3800035F76 /* XBCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD6B1B6A4B3800035F76 /* XBCity.m */; };
+		705EAD751B6A4B3800035F76 /* XBCoupon.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD6D1B6A4B3800035F76 /* XBCoupon.m */; };
+		705EAD761B6A4B3800035F76 /* XBProvince.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD6F1B6A4B3800035F76 /* XBProvince.m */; };
 		713694851B4E3CF500F6D573 /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */; };
 		713694971B51627700F6D573 /* OnlineTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 713694951B51627700F6D573 /* OnlineTestViewController.m */; };
 		713694981B51627700F6D573 /* OnlineTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 713694961B51627700F6D573 /* OnlineTestViewController.xib */; };
@@ -591,10 +593,6 @@
 		37632F7F1ACE8562005BAD55 /* WaitEvaluationOrderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitEvaluationOrderTableViewCell.h; sourceTree = "<group>"; };
 		37632F801ACE8562005BAD55 /* WaitEvaluationOrderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitEvaluationOrderTableViewCell.m; sourceTree = "<group>"; };
 		37632F811ACE8562005BAD55 /* WaitEvaluationOrderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WaitEvaluationOrderTableViewCell.xib; sourceTree = "<group>"; };
-		3764AE9D1B0C332D0095855B /* GuangdaCoach.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuangdaCoach.h; sourceTree = "<group>"; };
-		3764AE9E1B0C332D0095855B /* GuangdaCoach.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuangdaCoach.m; sourceTree = "<group>"; };
-		3764AEA01B0C34BE0095855B /* GuangdaOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuangdaOrder.h; sourceTree = "<group>"; };
-		3764AEA11B0C34BE0095855B /* GuangdaOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuangdaOrder.m; sourceTree = "<group>"; };
 		376A19C41ADCDC2C004F1FE3 /* backgroundStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundStar.png; sourceTree = "<group>"; };
 		376A19C51ADCDC2C004F1FE3 /* backgroundStar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundStar@2x.png"; sourceTree = "<group>"; };
 		376A19C61ADCDC2C004F1FE3 /* foregroundStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = foregroundStar.png; sourceTree = "<group>"; };
@@ -624,12 +622,20 @@
 		37F77F6D1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderEvaluationViewController.m; sourceTree = "<group>"; };
 		37F77F6E1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyOrderEvaluationViewController.xib; sourceTree = "<group>"; };
 		702BB4661B610AF70023D993 /* china.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = china.plist; sourceTree = "<group>"; };
-		702BB4681B610B470023D993 /* XBArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBArea.h; sourceTree = "<group>"; };
-		702BB4691B610B470023D993 /* XBArea.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBArea.m; sourceTree = "<group>"; };
-		702BB46A1B610B470023D993 /* XBCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBCity.h; sourceTree = "<group>"; };
-		702BB46B1B610B470023D993 /* XBCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBCity.m; sourceTree = "<group>"; };
-		702BB46C1B610B470023D993 /* XBProvince.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBProvince.h; sourceTree = "<group>"; };
-		702BB46D1B610B470023D993 /* XBProvince.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBProvince.m; sourceTree = "<group>"; };
+		705EAD621B6A4B3800035F76 /* GuangdaCoach.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuangdaCoach.h; sourceTree = "<group>"; };
+		705EAD631B6A4B3800035F76 /* GuangdaCoach.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuangdaCoach.m; sourceTree = "<group>"; };
+		705EAD641B6A4B3800035F76 /* GuangdaOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuangdaOrder.h; sourceTree = "<group>"; };
+		705EAD651B6A4B3800035F76 /* GuangdaOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuangdaOrder.m; sourceTree = "<group>"; };
+		705EAD661B6A4B3800035F76 /* XBArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBArea.h; sourceTree = "<group>"; };
+		705EAD671B6A4B3800035F76 /* XBArea.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBArea.m; sourceTree = "<group>"; };
+		705EAD681B6A4B3800035F76 /* XBBookOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBBookOrder.h; sourceTree = "<group>"; };
+		705EAD691B6A4B3800035F76 /* XBBookOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBBookOrder.m; sourceTree = "<group>"; };
+		705EAD6A1B6A4B3800035F76 /* XBCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBCity.h; sourceTree = "<group>"; };
+		705EAD6B1B6A4B3800035F76 /* XBCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBCity.m; sourceTree = "<group>"; };
+		705EAD6C1B6A4B3800035F76 /* XBCoupon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBCoupon.h; sourceTree = "<group>"; };
+		705EAD6D1B6A4B3800035F76 /* XBCoupon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBCoupon.m; sourceTree = "<group>"; };
+		705EAD6E1B6A4B3800035F76 /* XBProvince.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBProvince.h; sourceTree = "<group>"; };
+		705EAD6F1B6A4B3800035F76 /* XBProvince.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBProvince.m; sourceTree = "<group>"; };
 		713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = 3rdparty/BaiduMapAPI.framework; sourceTree = "<group>"; };
 		713694941B51627700F6D573 /* OnlineTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlineTestViewController.h; sourceTree = "<group>"; };
 		713694951B51627700F6D573 /* OnlineTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlineTestViewController.m; sourceTree = "<group>"; };
@@ -1149,7 +1155,6 @@
 			children = (
 				B967087E1B26EEE400F418EB /* OpenUDID.h */,
 				B967087F1B26EEE400F418EB /* OpenUDID.m */,
-				3764AE9C1B0C32F40095855B /* model */,
 				31824AA41B039490001AF41A /* DatePickerViewController.h */,
 				31824AA51B039490001AF41A /* DatePickerViewController.m */,
 				31824AA61B039490001AF41A /* DatePickerViewController.xib */,
@@ -1183,6 +1188,7 @@
 		3179E6281AC284C600AFCFAA /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				705EAD611B6A4AE900035F76 /* Model */,
 				37C8A4F81AD378E0001D4DB5 /* MyDate.h */,
 				37C8A4F91AD378E0001D4DB5 /* MyDate.m */,
 				3179E6291AC284C600AFCFAA /* BaseTableViewCell.h */,
@@ -1474,23 +1480,6 @@
 			name = ImproveInfo;
 			sourceTree = "<group>";
 		};
-		3764AE9C1B0C32F40095855B /* model */ = {
-			isa = PBXGroup;
-			children = (
-				702BB4681B610B470023D993 /* XBArea.h */,
-				702BB4691B610B470023D993 /* XBArea.m */,
-				702BB46A1B610B470023D993 /* XBCity.h */,
-				702BB46B1B610B470023D993 /* XBCity.m */,
-				702BB46C1B610B470023D993 /* XBProvince.h */,
-				702BB46D1B610B470023D993 /* XBProvince.m */,
-				3764AE9D1B0C332D0095855B /* GuangdaCoach.h */,
-				3764AE9E1B0C332D0095855B /* GuangdaCoach.m */,
-				3764AEA01B0C34BE0095855B /* GuangdaOrder.h */,
-				3764AEA11B0C34BE0095855B /* GuangdaOrder.m */,
-			);
-			name = model;
-			sourceTree = "<group>";
-		};
 		376A19C21ADCDC2C004F1FE3 /* TQStarRating */ = {
 			isa = PBXGroup;
 			children = (
@@ -1596,6 +1585,27 @@
 				B86061291AC920A600555486 /* UIScrollView+TPKeyboardAvoidingAdditions.m */,
 			);
 			path = TPKeyboardAvoiding;
+			sourceTree = "<group>";
+		};
+		705EAD611B6A4AE900035F76 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				705EAD621B6A4B3800035F76 /* GuangdaCoach.h */,
+				705EAD631B6A4B3800035F76 /* GuangdaCoach.m */,
+				705EAD641B6A4B3800035F76 /* GuangdaOrder.h */,
+				705EAD651B6A4B3800035F76 /* GuangdaOrder.m */,
+				705EAD661B6A4B3800035F76 /* XBArea.h */,
+				705EAD671B6A4B3800035F76 /* XBArea.m */,
+				705EAD6A1B6A4B3800035F76 /* XBCity.h */,
+				705EAD6B1B6A4B3800035F76 /* XBCity.m */,
+				705EAD6E1B6A4B3800035F76 /* XBProvince.h */,
+				705EAD6F1B6A4B3800035F76 /* XBProvince.m */,
+				705EAD6C1B6A4B3800035F76 /* XBCoupon.h */,
+				705EAD6D1B6A4B3800035F76 /* XBCoupon.m */,
+				705EAD681B6A4B3800035F76 /* XBBookOrder.h */,
+				705EAD691B6A4B3800035F76 /* XBBookOrder.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		713694931B51627700F6D573 /* OnlineTest */ = {
@@ -1840,8 +1850,12 @@
 				B86061141AC9104000555486 /* CommonUtil+Files.m in Sources */,
 				3179E6451AC284C600AFCFAA /* DSBottomPullToMoreManager.m in Sources */,
 				B968AF691B1DC13E00806043 /* CouponListViewController.m in Sources */,
+				705EAD721B6A4B3800035F76 /* XBArea.m in Sources */,
+				705EAD761B6A4B3800035F76 /* XBProvince.m in Sources */,
 				3179E64D1AC284C600AFCFAA /* MKAnnotationView+WebCache.m in Sources */,
+				705EAD711B6A4B3800035F76 /* GuangdaOrder.m in Sources */,
 				B86061181AC91A9C00555486 /* FeedbackViewController.m in Sources */,
+				705EAD741B6A4B3800035F76 /* XBCity.m in Sources */,
 				B8E4ABE61AC54F6300D6B7DA /* CZPhotoPreviewViewController.m in Sources */,
 				375F9FE11AC4F9A900006095 /* LearnDriveInfoViewController.m in Sources */,
 				3179E6721AC284C600AFCFAA /* UIViewController+Toast.m in Sources */,
@@ -1849,10 +1863,8 @@
 				B85CA0771AC3F54E00934B22 /* RegistMsgViewController.m in Sources */,
 				315067C01AC3DF06000C1C13 /* CoachListViewController.m in Sources */,
 				B8C43B921ACD33EE00C96629 /* ChangePwdViewController.m in Sources */,
-				702BB4701B610B470023D993 /* XBProvince.m in Sources */,
 				3179E6571AC284C600AFCFAA /* UIButton+WebCache.m in Sources */,
 				319D3DF01ACD33850098FBFC /* TypeinNumberViewController.m in Sources */,
-				3764AE9F1B0C332D0095855B /* GuangdaCoach.m in Sources */,
 				315067BB1AC3DEF9000C1C13 /* CoachListTableViewCell.m in Sources */,
 				3179E66E1AC284C600AFCFAA /* BaseViewController.m in Sources */,
 				31C9D8E91AD665AD006A4E80 /* APAuthV2Info.m in Sources */,
@@ -1875,10 +1887,10 @@
 				3179E6501AC284C600AFCFAA /* SDWebImageCompat.m in Sources */,
 				314F4E1B1AEA39F200DD8FC6 /* CoachDetailViewController.m in Sources */,
 				3179E65C1AC284C600AFCFAA /* UIImageView+WebCache.m in Sources */,
+				705EAD731B6A4B3800035F76 /* XBBookOrder.m in Sources */,
 				318D3EFB1AE1007800FEC417 /* RegistVercodeViewController.m in Sources */,
 				31608A741AEE3E2F00B0D4D8 /* SureOrderTableViewCell.m in Sources */,
 				B860612D1AC920A600555486 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
-				3764AEA21B0C34BE0095855B /* GuangdaOrder.m in Sources */,
 				3179E64F1AC284C600AFCFAA /* SDImageCache.m in Sources */,
 				3179E6521AC284C600AFCFAA /* SDWebImageDownloader.m in Sources */,
 				316485101AE8E2C300887A18 /* AppointCoachViewController.m in Sources */,
@@ -1913,6 +1925,7 @@
 				3179E68A1AC28E4300AFCFAA /* SliderViewController.m in Sources */,
 				3179E65B1AC284C600AFCFAA /* UIImageView+HighlightedWebCache.m in Sources */,
 				B860612B1AC920A600555486 /* TPKeyboardAvoidingScrollView.m in Sources */,
+				705EAD701B6A4B3800035F76 /* GuangdaCoach.m in Sources */,
 				3179E6351AC284C600AFCFAA /* AFHTTPRequestOperation.m in Sources */,
 				376A19CE1ADCDC2C004F1FE3 /* TQStarRatingView.m in Sources */,
 				B9187BEC1B09B3C300366081 /* FindPwdViewController.m in Sources */,
@@ -1938,6 +1951,7 @@
 				3179E64E1AC284C600AFCFAA /* NSData+ImageContentType.m in Sources */,
 				3179E6371AC284C600AFCFAA /* AFHTTPSessionManager.m in Sources */,
 				3179E69F1AC2AADC00AFCFAA /* SGFocusImageFrame.m in Sources */,
+				705EAD751B6A4B3800035F76 /* XBCoupon.m in Sources */,
 				B852422E1ACA62180032E276 /* SettingBindingViewController.m in Sources */,
 				716E27221B53DD37009CE9E1 /* SelfServiceSignUpViewController.m in Sources */,
 				31824AA71B039490001AF41A /* DatePickerViewController.m in Sources */,
@@ -1948,7 +1962,6 @@
 				3179E6361AC284C600AFCFAA /* AFHTTPRequestOperationManager.m in Sources */,
 				3179E6691AC284C600AFCFAA /* TimePickerViewController.m in Sources */,
 				31C9D8ED1AD665AD006A4E80 /* DataVerifier.m in Sources */,
-				702BB46E1B610B470023D993 /* XBArea.m in Sources */,
 				719889091B637691000940D3 /* UserRuleTableViewCell.m in Sources */,
 				3179E6BE1AC2B0CB00AFCFAA /* SettingViewController.m in Sources */,
 				71BA02F51B61D581004C500B /* CoinListTableViewCell.m in Sources */,
@@ -1970,7 +1983,6 @@
 				3179E6381AC284C600AFCFAA /* AFNetworkReachabilityManager.m in Sources */,
 				3179E6971AC2AAB000AFCFAA /* RightViewController.m in Sources */,
 				31608A6F1AEDFFA600B0D4D8 /* SureOrderViewController.m in Sources */,
-				702BB46F1B610B470023D993 /* XBCity.m in Sources */,
 				3179E6711AC284C600AFCFAA /* UIPlaceHolderTextView.m in Sources */,
 				37752C581AC8DE0200A8A746 /* MyOrderViewController.m in Sources */,
 				370CF6591ACA90A4002AA1BB /* HistoricOrderTableViewCell.m in Sources */,

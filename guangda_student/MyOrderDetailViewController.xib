@@ -8,9 +8,11 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyOrderDetailViewController">
             <connections>
                 <outlet property="cancelComplainBtn" destination="fVz-ZH-OiW" id="AHW-NP-dWU"/>
+                <outlet property="cancelOrderAlertBtn" destination="LNg-97-WFg" id="UyW-KM-3Yb"/>
                 <outlet property="cancelOrderBannerLabel" destination="jC3-m0-uyl" id="Jta-rh-9et"/>
-                <outlet property="cancelOrderBtn" destination="rop-5A-su6" id="SaB-ku-j1e"/>
                 <outlet property="cancelOrderBtnRightSpaceCon" destination="egv-et-R7d" id="74w-0a-LhY"/>
+                <outlet property="closeMoreOperationViewBtn" destination="hwe-Bc-PhA" id="tBz-kk-XLT"/>
+                <outlet property="closeSureCancelOrderViewBtn" destination="PbZ-at-d3x" id="Ksi-0e-HqE"/>
                 <outlet property="coachEvaluationLabel" destination="cOx-Ge-4hd" id="juo-BF-Y2a"/>
                 <outlet property="coachEvaluationLabelHeight" destination="OdL-iT-AnT" id="TK3-tz-nZW"/>
                 <outlet property="coachEvaluationView" destination="Imv-4O-z3M" id="KWc-eh-HOa"/>
@@ -37,6 +39,7 @@
                 <outlet property="orderInfoHeightCon" destination="kD0-Zr-IAP" id="ZlJ-Pr-R9I"/>
                 <outlet property="orderInfoView" destination="EWW-R3-nro" id="yQf-GP-nRO"/>
                 <outlet property="orderTimeLabel" destination="wLB-XH-IiN" id="xrw-CF-Rgl"/>
+                <outlet property="postCancelOrderBtn" destination="gaS-3E-3uJ" id="JEH-3g-cnR"/>
                 <outlet property="priceView" destination="A5P-iX-HyV" id="ZbO-rg-ofN"/>
                 <outlet property="priceViewHeightCon" destination="AZd-Dp-qVp" id="YyQ-tI-rMv"/>
                 <outlet property="scoreToCoachLabel" destination="0rt-Hn-MBd" id="6Ie-3A-mds"/>
@@ -743,7 +746,7 @@
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LNg-97-WFg">
                             <rect key="frame" x="30" y="15" width="540" height="30"/>
-                            <color key="backgroundColor" red="0.40000000600000002" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="qnh-oi-CcM"/>
                             </constraints>
@@ -756,13 +759,13 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hwe-Bc-PhA">
-                            <rect key="frame" x="225" y="62" width="150" height="30"/>
-                            <color key="backgroundColor" red="0.40000000600000002" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <rect key="frame" x="285" y="62" width="30" height="30"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="30" id="MW7-d6-Yfy"/>
-                                <constraint firstAttribute="width" constant="150" id="Yig-bX-aue"/>
+                                <constraint firstAttribute="height" constant="30" id="J7h-0s-pbs"/>
+                                <constraint firstAttribute="width" constant="30" id="n7c-lw-2zO"/>
                             </constraints>
-                            <state key="normal" title="关闭">
+                            <state key="normal" title="X">
                                 <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -773,11 +776,11 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="centerX" secondItem="hwe-Bc-PhA" secondAttribute="centerX" id="Ayj-YT-GIX"/>
+                        <constraint firstAttribute="centerX" secondItem="hwe-Bc-PhA" secondAttribute="centerX" id="5Cn-oU-ibU"/>
                         <constraint firstAttribute="trailing" secondItem="LNg-97-WFg" secondAttribute="trailing" constant="30" id="Iqm-eB-ZKj"/>
                         <constraint firstItem="LNg-97-WFg" firstAttribute="leading" secondItem="jXa-vB-ylE" secondAttribute="leading" constant="30" id="Ks7-Ef-JCR"/>
                         <constraint firstAttribute="height" constant="120" id="bGH-z0-ghC"/>
-                        <constraint firstAttribute="bottom" secondItem="hwe-Bc-PhA" secondAttribute="bottom" constant="28" id="j7y-wV-kUv"/>
+                        <constraint firstItem="hwe-Bc-PhA" firstAttribute="top" secondItem="LNg-97-WFg" secondAttribute="bottom" constant="17" id="wT1-26-NGb"/>
                         <constraint firstItem="LNg-97-WFg" firstAttribute="top" secondItem="jXa-vB-ylE" secondAttribute="top" constant="15" id="zsC-Vg-bJh"/>
                     </constraints>
                 </view>
@@ -836,7 +839,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PbZ-at-d3x">
                     <rect key="frame" x="20" y="95" width="120" height="30"/>
-                    <color key="backgroundColor" red="0.82745098039999998" green="0.82745098039999998" blue="0.82745098039999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="120" id="6Jd-qM-dbO"/>
                         <constraint firstAttribute="height" constant="30" id="NMH-z1-svh"/>
