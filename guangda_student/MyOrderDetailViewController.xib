@@ -28,6 +28,7 @@
                 <outlet property="costLabel" destination="zIp-0I-O7G" id="5ON-BU-E31"/>
                 <outlet property="evaluateBtn" destination="3Cx-zB-qAr" id="TDj-lJ-Ckr"/>
                 <outlet property="mainViewHeight" destination="2oS-Cd-UvR" id="u7s-JR-nR7"/>
+                <outlet property="moreOperationBtn" destination="s2V-M1-dph" id="VSe-65-wLc"/>
                 <outlet property="moreOperationView" destination="T1l-QF-4iS" id="DQ0-eV-v5k"/>
                 <outlet property="myEvaluationLabel" destination="er6-oc-MlU" id="Z1c-0l-VeV"/>
                 <outlet property="myEvaluationLabelHeight" destination="58e-fV-UMh" id="dwF-s5-qgs"/>
@@ -720,10 +721,10 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view alpha="0.69999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NPg-0f-vaU" userLabel="Cover">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="480"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="475"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6pK-Gh-iiC" userLabel="Close">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="480"/>
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="475"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -742,30 +743,30 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jXa-vB-ylE" userLabel="OperationItems">
-                    <rect key="frame" x="0.0" y="480" width="600" height="120"/>
+                    <rect key="frame" x="0.0" y="475" width="600" height="125"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LNg-97-WFg">
-                            <rect key="frame" x="30" y="15" width="540" height="30"/>
-                            <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                            <rect key="frame" x="16" y="25" width="568" height="40"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="30" id="qnh-oi-CcM"/>
+                                <constraint firstAttribute="height" constant="40" id="qnh-oi-CcM"/>
                             </constraints>
                             <state key="normal" title="取消订单">
-                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="titleColor" red="0.79607843137254897" green="0.79607843137254897" blue="0.79607843137254897" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
                                 <action selector="clickForCancelOrder:" destination="-1" eventType="touchUpInside" id="QhO-b0-kDu"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hwe-Bc-PhA">
-                            <rect key="frame" x="285" y="62" width="30" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hwe-Bc-PhA">
+                            <rect key="frame" x="288" y="89" width="24" height="24"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="30" id="J7h-0s-pbs"/>
-                                <constraint firstAttribute="width" constant="30" id="n7c-lw-2zO"/>
+                                <constraint firstAttribute="height" constant="24" id="8gZ-yV-u1j"/>
+                                <constraint firstAttribute="width" constant="24" id="dfv-CM-BVk"/>
                             </constraints>
-                            <state key="normal" title="X">
+                            <state key="normal" image="btn_close_paytype">
                                 <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -776,12 +777,12 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="centerX" secondItem="hwe-Bc-PhA" secondAttribute="centerX" id="5Cn-oU-ibU"/>
-                        <constraint firstAttribute="trailing" secondItem="LNg-97-WFg" secondAttribute="trailing" constant="30" id="Iqm-eB-ZKj"/>
-                        <constraint firstItem="LNg-97-WFg" firstAttribute="leading" secondItem="jXa-vB-ylE" secondAttribute="leading" constant="30" id="Ks7-Ef-JCR"/>
-                        <constraint firstAttribute="height" constant="120" id="bGH-z0-ghC"/>
-                        <constraint firstItem="hwe-Bc-PhA" firstAttribute="top" secondItem="LNg-97-WFg" secondAttribute="bottom" constant="17" id="wT1-26-NGb"/>
-                        <constraint firstItem="LNg-97-WFg" firstAttribute="top" secondItem="jXa-vB-ylE" secondAttribute="top" constant="15" id="zsC-Vg-bJh"/>
+                        <constraint firstAttribute="trailing" secondItem="LNg-97-WFg" secondAttribute="trailing" constant="16" id="Iqm-eB-ZKj"/>
+                        <constraint firstItem="LNg-97-WFg" firstAttribute="leading" secondItem="jXa-vB-ylE" secondAttribute="leading" constant="16" id="Ks7-Ef-JCR"/>
+                        <constraint firstItem="LNg-97-WFg" firstAttribute="top" secondItem="jXa-vB-ylE" secondAttribute="top" constant="25" id="Lgz-kh-kHu"/>
+                        <constraint firstAttribute="centerX" secondItem="hwe-Bc-PhA" secondAttribute="centerX" id="Zu8-6e-eHV"/>
+                        <constraint firstAttribute="height" constant="125" id="bGH-z0-ghC"/>
+                        <constraint firstItem="hwe-Bc-PhA" firstAttribute="top" secondItem="LNg-97-WFg" secondAttribute="bottom" constant="24" id="qIj-gl-CeW"/>
                     </constraints>
                 </view>
             </subviews>
@@ -892,5 +893,6 @@
     </objects>
     <resources>
         <image name="arrow_back_userinfohome" width="10" height="18"/>
+        <image name="btn_close_paytype" width="24" height="24"/>
     </resources>
 </document>

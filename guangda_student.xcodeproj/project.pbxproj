@@ -182,6 +182,7 @@
 		705EAD741B6A4B3800035F76 /* XBCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD6B1B6A4B3800035F76 /* XBCity.m */; };
 		705EAD751B6A4B3800035F76 /* XBCoupon.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD6D1B6A4B3800035F76 /* XBCoupon.m */; };
 		705EAD761B6A4B3800035F76 /* XBProvince.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD6F1B6A4B3800035F76 /* XBProvince.m */; };
+		70CC165F1B6BC13D00084296 /* XBCoin.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CC165E1B6BC13D00084296 /* XBCoin.m */; };
 		713694851B4E3CF500F6D573 /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */; };
 		713694971B51627700F6D573 /* OnlineTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 713694951B51627700F6D573 /* OnlineTestViewController.m */; };
 		713694981B51627700F6D573 /* OnlineTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 713694961B51627700F6D573 /* OnlineTestViewController.xib */; };
@@ -636,6 +637,8 @@
 		705EAD6D1B6A4B3800035F76 /* XBCoupon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBCoupon.m; sourceTree = "<group>"; };
 		705EAD6E1B6A4B3800035F76 /* XBProvince.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBProvince.h; sourceTree = "<group>"; };
 		705EAD6F1B6A4B3800035F76 /* XBProvince.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBProvince.m; sourceTree = "<group>"; };
+		70CC165D1B6BC13C00084296 /* XBCoin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBCoin.h; sourceTree = "<group>"; };
+		70CC165E1B6BC13D00084296 /* XBCoin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBCoin.m; sourceTree = "<group>"; };
 		713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = 3rdparty/BaiduMapAPI.framework; sourceTree = "<group>"; };
 		713694941B51627700F6D573 /* OnlineTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlineTestViewController.h; sourceTree = "<group>"; };
 		713694951B51627700F6D573 /* OnlineTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlineTestViewController.m; sourceTree = "<group>"; };
@@ -1604,6 +1607,8 @@
 				705EAD6D1B6A4B3800035F76 /* XBCoupon.m */,
 				705EAD681B6A4B3800035F76 /* XBBookOrder.h */,
 				705EAD691B6A4B3800035F76 /* XBBookOrder.m */,
+				70CC165D1B6BC13C00084296 /* XBCoin.h */,
+				70CC165E1B6BC13D00084296 /* XBCoin.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1884,6 +1889,7 @@
 				D786FE241B1B387E001DBFDD /* CommentListViewController.m in Sources */,
 				37994CF91AC3D901008E30E5 /* UserInfoHomeViewController.m in Sources */,
 				B8E4ABE21AC54F6300D6B7DA /* CZCroppingScrollView.m in Sources */,
+				70CC165F1B6BC13D00084296 /* XBCoin.m in Sources */,
 				3179E6501AC284C600AFCFAA /* SDWebImageCompat.m in Sources */,
 				314F4E1B1AEA39F200DD8FC6 /* CoachDetailViewController.m in Sources */,
 				3179E65C1AC284C600AFCFAA /* UIImageView+WebCache.m in Sources */,

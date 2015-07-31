@@ -124,19 +124,28 @@
 
 #pragma mark - 配置支付方式选择view
 - (void)payTypeSelectViewConfig:(XBBookOrder *)bookOrder {
-    [self allSelectBtnConfig:bookOrder];
-    
     if (bookOrder.payType == payTypeCoupon) {
-        [self choosePayType:self.couponSelectBtn];
+        [self selectButton:self.couponSelectBtn];
     }
     
     else if (bookOrder.payType == payTypeCoin) {
-        [self choosePayType:self.coinSelectBtn];
+        [self selectButton:self.coinSelectBtn];
     }
     
     else if (bookOrder.payType == payTypeMoney) {
-        [self choosePayType:self.moneySelectBtn];
+        [self selectButton:self.moneySelectBtn];
     }
+    
+    [self allSelectBtnConfig:bookOrder];
+}
+
+// 初始化按钮组的选中状态
+- (void)selectButton:(UIButton *)button {
+    self.couponSelectBtn.selected = NO;
+    self.coinSelectBtn.selected = NO;
+    self.moneySelectBtn.selected = NO;
+    button.selected = YES;
+    self.selectedBtn = button;
 }
 
 // 配置所有选择按钮的状态
@@ -814,7 +823,7 @@
                                            userInfo:nil
                                             repeats:NO];
         }else if (code == -1){
-            [self makeToast:@"版本太久了哦,请退出程序后再次进入,程序将自动更新"];
+            [self makeToast:@"版本太旧了哦,请退出程序后再次进入,程序将自动更新"];
         }else{
             [self letoutResultViewWithType:3];
         }
@@ -845,13 +854,25 @@
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     [manager GET:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
+        [DejalBezelActivityView removeViewAnimated:YES];
         int code = [responseObject[@"code"] intValue];
         if (code == 1) {
+            // 获取可用小巴币数目
+            _validCoinNum = [responseObject[@"coinnum"] intValue];
+            _remainderCoinNum = _validCoinNum;
+            
+            // 获取可用账户余额并保存到本地
+            NSMutableDictionary *userInfoDic = [[CommonUtil getObjectFromUD:@"UserInfo"] mutableCopy];
+            NSString *money = [responseObject[@"money"] description];
+            [userInfoDic setObject:money forKey:@"money"];
+            [CommonUtil saveObjectToUD:userInfoDic key:@"UserInfo"];
+            _validMoney = [money floatValue];
+            _remainderMoney = _validMoney;
+            
+            // 获取学时券数目
             _couponArray = [responseObject[@"couponlist"] mutableCopy];
             _validCouponNum = (int)_couponArray.count;
-            _remainderCouponNum = _validCouponNum;
-            [self getValidCoinNum];
-            
+            _remainderCouponNum = _validCouponNum;            
             if(_couponArray && _couponArray.count > 0){
                 if([[responseObject allKeys] containsObject:@"canUseDiff"])
                     self.canUseDiffCoupon = [responseObject[@"canUseDiff"] intValue];
@@ -859,10 +880,14 @@
                 if([[responseObject allKeys] containsObject:@"canUseMaxCount"])
                     self.canUsedMaxCouponCount = [responseObject[@"canUseMaxCount"] intValue];
                 
-//                [self.tableView reloadData];
             }
+            
+            // 配置页面默认支付方式
+            [self defaultPayConfig];
+            [self.tableView reloadData];
+            self.couponCountLabel.text = [self payDetailDescribe];
+            
         }else if(code == 95){
-            [DejalBezelActivityView removeViewAnimated:YES];
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
             [CommonUtil logout];
@@ -878,92 +903,92 @@
 }
 
 // 获取可用的小巴币数目
-- (void) getValidCoinNum {
-    
-    NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
-    
-    NSString *uri = @"/sbook?action=GETCANUSECOINSUM";
-    
-    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
-    [paramDic setObject:user_info[@"studentid"] forKey:@"studentid"];
-    [paramDic setObject:self.coachId forKey:@"coachid"];
-    
-    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_GET];
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    [manager GET:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        int code = [responseObject[@"code"] intValue];
-        if (code == 1) {
-            _validCoinNum = [responseObject[@"coinnum"] intValue];
-            _remainderCoinNum = _validCoinNum;
-            [self refreshUserMoney];
-        }else if(code == 95){
-            NSString *message = responseObject[@"message"];
-            [self makeToast:message];
-            [CommonUtil logout];
-            [NSTimer scheduledTimerWithTimeInterval:0.5
-                                             target:self
-                                           selector:@selector(backLogin)
-                                           userInfo:nil
-                                            repeats:NO];
-            [DejalBezelActivityView removeViewAnimated:YES];
-        }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [DejalBezelActivityView removeViewAnimated:YES];
-    }];
-}
+//- (void) getValidCoinNum {
+//    
+//    NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
+//    
+//    NSString *uri = @"/sbook?action=GETCANUSECOINSUM";
+//    
+//    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+//    [paramDic setObject:user_info[@"studentid"] forKey:@"studentid"];
+//    [paramDic setObject:self.coachId forKey:@"coachid"];
+//    
+//    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_GET];
+//    
+//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+//    [manager GET:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        int code = [responseObject[@"code"] intValue];
+//        if (code == 1) {
+//            _validCoinNum = [responseObject[@"coinnum"] intValue];
+//            _remainderCoinNum = _validCoinNum;
+//            [self refreshUserMoney];
+//        }else if(code == 95){
+//            NSString *message = responseObject[@"message"];
+//            [self makeToast:message];
+//            [CommonUtil logout];
+//            [NSTimer scheduledTimerWithTimeInterval:0.5
+//                                             target:self
+//                                           selector:@selector(backLogin)
+//                                           userInfo:nil
+//                                            repeats:NO];
+//            [DejalBezelActivityView removeViewAnimated:YES];
+//        }
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        [DejalBezelActivityView removeViewAnimated:YES];
+//    }];
+//}
 
 // 刷新用户余额
-- (void)refreshUserMoney
-{
-    NSMutableDictionary *userInfoDic = [[CommonUtil getObjectFromUD:@"UserInfo"] mutableCopy];
-    NSString *userId = [userInfoDic objectForKey:@"studentid"];
-    
-    
-    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
-    if (!userId) {
-        return;
-    }
-    [paramDic setObject:userId forKey:@"userid"];
-    [paramDic setObject:userInfoDic[@"token"] forKey:@"token"];
-    [paramDic setObject:@"2" forKey:@"usertype"];
-    
-    NSString *uri = @"/system?action=refreshUserMoney";
-    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [DejalBezelActivityView removeViewAnimated:YES];
-        int code = [responseObject[@"code"] intValue];
-        if (code == 1) {
-            NSString *money = [responseObject[@"money"] description];
-            NSString *fmoney = [responseObject[@"fmoney"] description];
-            [userInfoDic setObject:money forKey:@"money"];
-            [userInfoDic setObject:fmoney forKey:@"fmoney"];
-            [CommonUtil saveObjectToUD:userInfoDic key:@"UserInfo"];
-            
-            _validMoney = [money floatValue];
-            _remainderMoney = _validMoney;
-            [self defaultPayConfig];
-            [self.tableView reloadData];
-            self.couponCountLabel.text = [self payDetailDescribe];
-            
-        }else if(code == 95){
-            NSString *message = responseObject[@"message"];
-            [self makeToast:message];
-            [CommonUtil logout];
-            [NSTimer scheduledTimerWithTimeInterval:0.5
-                                             target:self
-                                           selector:@selector(backLogin)
-                                           userInfo:nil
-                                            repeats:NO];
-        }
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-    }];
-}
+//- (void)refreshUserMoney
+//{
+//    NSMutableDictionary *userInfoDic = [[CommonUtil getObjectFromUD:@"UserInfo"] mutableCopy];
+//    NSString *userId = [userInfoDic objectForKey:@"studentid"];
+//    
+//    
+//    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+//    if (!userId) {
+//        return;
+//    }
+//    [paramDic setObject:userId forKey:@"userid"];
+//    [paramDic setObject:userInfoDic[@"token"] forKey:@"token"];
+//    [paramDic setObject:@"2" forKey:@"usertype"];
+//    
+//    NSString *uri = @"/system?action=refreshUserMoney";
+//    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
+//    
+//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+//    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        [DejalBezelActivityView removeViewAnimated:YES];
+//        int code = [responseObject[@"code"] intValue];
+//        if (code == 1) {
+//            NSString *money = [responseObject[@"money"] description];
+//            NSString *fmoney = [responseObject[@"fmoney"] description];
+//            [userInfoDic setObject:money forKey:@"money"];
+//            [userInfoDic setObject:fmoney forKey:@"fmoney"];
+//            [CommonUtil saveObjectToUD:userInfoDic key:@"UserInfo"];
+//            
+//            _validMoney = [money floatValue];
+//            _remainderMoney = _validMoney;
+//            [self defaultPayConfig];
+//            [self.tableView reloadData];
+//            self.couponCountLabel.text = [self payDetailDescribe];
+//            
+//        }else if(code == 95){
+//            NSString *message = responseObject[@"message"];
+//            [self makeToast:message];
+//            [CommonUtil logout];
+//            [NSTimer scheduledTimerWithTimeInterval:0.5
+//                                             target:self
+//                                           selector:@selector(backLogin)
+//                                           userInfo:nil
+//                                            repeats:NO];
+//        }
+//        
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//    }];
+//}
 
 #pragma mark - 配置默认支付方式
 - (void)defaultPayConfig {

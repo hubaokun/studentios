@@ -68,6 +68,7 @@
 - (IBAction)clickForCoin:(id)sender {
     if ([[CommonUtil currentUtil] isLogin]) {
         CoinListViewController *viewController = [[CoinListViewController alloc] initWithNibName:@"CoinListViewController" bundle:nil];
+        viewController.coinSum = _coinsum;
         [self.navigationController pushViewController:viewController animated:YES];
     }
 }

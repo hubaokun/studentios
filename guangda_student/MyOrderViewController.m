@@ -243,6 +243,13 @@
     MyOrderDetailViewController *targetController = [[MyOrderDetailViewController alloc] initWithNibName:@"MyOrderDetailViewController" bundle:nil];
 //    [tableView deselectRowAtIndexPath:indexPath animated:NO];
     targetController.orderid = orderid;
+    if (self.orderType == unCompleteOrder) {
+        targetController.orderType = 1;
+    } else if (self.orderType == waitEvaluationOrder) {
+        targetController.orderType = 2;
+    } else if (self.orderType == completeOrder) {
+        targetController.orderType = 3;
+    }
     [self.navigationController pushViewController:targetController animated:YES];
 }
 
@@ -769,6 +776,23 @@
     }
 }
 
+// 测试反地理编码
+- (void)testLocation {
+    //发起反向地理编码检索
+    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
+    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    reverseGeoCodeSearchOption.reverseGeoPoint = delegate.userCoordinate;
+    
+    BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
+    _geoSearcher.delegate = self;
+    BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
+    if (flag) {
+        NSLog(@"地理编码检索");
+    } else {
+        NSLog(@"地理编码检索失败");
+    }
+}
+
 #pragma mark - 按钮方法
 // 未完成订单
 - (IBAction)clickForUnfinishedOrder:(id)sender {
@@ -895,6 +919,5 @@
     navigationController.navigationBarHidden = YES;
     [self presentViewController:navigationController animated:YES completion:nil];
 }
-
 
 @end

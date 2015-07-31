@@ -90,4 +90,7 @@
 @property (strong, nonatomic) NSMutableArray *carModelImageViewList;
 @property (strong, nonatomic) NSMutableArray *carModelLabelList;
 
+@property (copy, nonatomic) NSString *cityName;
+@property (strong, nonatomic) NSTimer *confirmTimer;
+
 @end

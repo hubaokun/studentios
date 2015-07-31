@@ -20,7 +20,7 @@
 #import "CoachScreenViewController.h"
 #import "UserBaseInfoViewController.h"
 #import "XiaobaServeViewController.h"
-@interface MainViewController ()<UIGestureRecognizerDelegate, UIScrollViewDelegate, BMKMapViewDelegate, BMKLocationServiceDelegate,UIAlertViewDelegate>
+@interface MainViewController ()<UIGestureRecognizerDelegate, UIScrollViewDelegate, BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationServiceDelegate,UIAlertViewDelegate>
 {
     UITapGestureRecognizer *_tapGestureRec2;
     UISwipeGestureRecognizer *_swipGestureRecUp;
@@ -232,14 +232,23 @@
 }
 
 #pragma mark - actions
-#pragma mark 小汽车 button 点击事件
 // 在线报名、预约考试等服务
 - (IBAction)clickForServe:(id)sender {
+    // 取得当前所处城市
+    [self searchCurrentCityName];
+    // 与userinfo内设置的城市作对比
+    [DejalBezelActivityView activityViewForView:self.view];
+    self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(compareCityName) userInfo:nil repeats:NO];
+}
+
+// 与userinfo内设置的城市作对比
+- (void)compareCityName {
+    
+    
+    [DejalBezelActivityView removeViewAnimated:YES];
     XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
     [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
 }
-
-
 
 // 旧需求的汽车点击事件
 - (IBAction)carBtnClick:(id)sender
@@ -801,6 +810,38 @@
     [annotationView.annotationButton addTarget:self action:@selector(carBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     return annotationView;
+}
+
+/**
+ *返回反地理编码搜索结果
+ *@param searcher 搜索对象
+ *@param result 搜索结果
+ *@param error 错误号，@see BMKSearchErrorCode
+ */
+- (void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error {
+    
+    if (error == BMK_SEARCH_NO_ERROR) {
+        self.cityName = result.addressDetail.city;
+//        self.address = result.address;
+        [self.confirmTimer fire];
+    }
+}
+
+// 获取当前所在城市名字
+- (void)searchCurrentCityName {
+    //发起反向地理编码检索
+    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
+    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    reverseGeoCodeSearchOption.reverseGeoPoint = delegate.userCoordinate;
+    
+    BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
+    _geoSearcher.delegate = self;
+    BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
+    if (flag) {
+        NSLog(@"地理编码检索");
+    } else {
+        NSLog(@"地理编码检索失败");
+    }
 }
 
 #pragma mark - Map Action

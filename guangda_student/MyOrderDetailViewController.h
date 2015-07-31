@@ -16,6 +16,8 @@
 
 /* input:订单ID */
 @property (copy, nonatomic) NSString *orderid;
+/* input:订单type */
+@property (assign, nonatomic) int orderType;    // 1:未完成 2:待评价 3:已完成
 
 // orderinfo
 @property (strong, nonatomic) IBOutlet UIView *orderInfoView;

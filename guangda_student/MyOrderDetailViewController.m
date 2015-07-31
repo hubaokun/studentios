@@ -52,6 +52,8 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *coachEvaluationViewHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *mainViewHeight;
 
+@property (weak, nonatomic) IBOutlet UIButton *moreOperationBtn;
+
 @end
 
 @implementation MyOrderDetailViewController
@@ -124,6 +126,11 @@
     _continueAppointBtn.layer.borderColor = RGB(246, 102, 93).CGColor;
     
     // 更多操作页
+    if (self.orderType == 1 || self.orderType == 3) {
+        self.moreOperationBtn.hidden = NO;
+    } else {
+        self.moreOperationBtn.hidden = YES;
+    }
     [self moreOperationViewConfig];
     
     // 确定取消订单弹框
@@ -135,14 +142,21 @@
     self.moreOperationView.frame = [UIScreen mainScreen].bounds;
     
     // 取消订单按钮
-    self.cancelOrderAlertBtn.layer.borderWidth = 0.8;
+    if (self.orderType == 1) { // 未完成订单
+        [self.cancelOrderAlertBtn setTitle:@"取消订单" forState:UIControlStateNormal];
+    }
+    else if (self.orderType == 3) {
+        [self.cancelOrderAlertBtn setTitle:@"投诉" forState:UIControlStateNormal];
+    }
+    
+    self.cancelOrderAlertBtn.layer.borderWidth = 1;
     self.cancelOrderAlertBtn.layer.borderColor = [RGB(204, 204, 204) CGColor];
     self.cancelOrderAlertBtn.layer.cornerRadius = 3;
     
     // 关闭按钮
-    self.closeMoreOperationViewBtn.layer.borderWidth = 1;
-    self.closeMoreOperationViewBtn.layer.borderColor = [RGB(204, 204, 204) CGColor];
-    self.closeMoreOperationViewBtn.layer.cornerRadius = self.closeMoreOperationViewBtn.bounds.size.width/2;
+//    self.closeMoreOperationViewBtn.layer.borderWidth = 1;
+//    self.closeMoreOperationViewBtn.layer.borderColor = [RGB(204, 204, 204) CGColor];
+//    self.closeMoreOperationViewBtn.layer.cornerRadius = self.closeMoreOperationViewBtn.bounds.size.width/2;
 }
 
 // 确定取消订单弹框
@@ -198,6 +212,11 @@
     self.orderCreateDateLabel.text = self.order.creatTime;
     self.coachTelLabel.text = self.coach.tel;
     self.coachPhoneLabel.text = self.coach.phone;
+    
+    // 右上角按钮显示
+//    if (self.order) {
+//        
+//    }
     
     // 预约地址
     NSString *addrStr = self.order.detailAddr;
@@ -734,7 +753,16 @@
 
 // "取消订单"弹框
 - (IBAction)clickForCancelOrder:(UIButton *)sender {
-    [self.view addSubview:self.sureCancelOrderView];
+    // 未完成订单
+    if (self.orderType == 1) {
+        [self.view addSubview:self.sureCancelOrderView];
+    }
+    else if (self.orderType == 3) {
+        [self.moreOperationView removeFromSuperview];
+        MyOrderComplainViewController *targetController = [[MyOrderComplainViewController alloc] initWithNibName:@"MyOrderComplainViewController" bundle:nil];
+        targetController.orderid = _orderid;
+        [self.navigationController pushViewController:targetController animated:YES];
+    }
 }
 
 // 确认取消订单
@@ -752,7 +780,8 @@
 - (void)clickForComplain {
     MyOrderComplainViewController *targetController = [[MyOrderComplainViewController alloc] initWithNibName:@"MyOrderComplainViewController" bundle:nil];
     targetController.orderid = _orderid;
-    [self.navigationController pushViewController:targetController animated:YES];}
+    [self.navigationController pushViewController:targetController animated:YES];
+}
 
 // 取消投诉
 - (void)clickForCancelComplain {

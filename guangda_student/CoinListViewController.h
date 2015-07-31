@@ -10,4 +10,7 @@
 
 @interface CoinListViewController : GreyTopViewController
 
+/*input coinSum*/
+@property (copy, nonatomic) NSString *coinSum;
+
 @end
