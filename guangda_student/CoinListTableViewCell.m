@@ -40,7 +40,7 @@
 //        } else {
 //            describeStr = [NSString stringWithFormat:@"教练发放"];
 //        }
-        describeStr = [NSString stringWithFormat:@"收到"];
+        describeStr = [NSString stringWithFormat:@"收入"];
     } else {
         describeStr = [NSString stringWithFormat:@"预约学车支出"];
     }

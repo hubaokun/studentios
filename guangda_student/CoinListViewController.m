@@ -9,9 +9,14 @@
 #import "CoinListViewController.h"
 #import "CoinListTableViewCell.h"
 #import "UseRuleViewController.h"
+#import "DSPullToRefreshManager.h"
+#import "DSBottomPullToMoreManager.h"
 #import <CoreText/CoreText.h>
 
-@interface CoinListViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface CoinListViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient,DSBottomPullToMoreManagerClient> {
+    int _curPage;
+    int _searchPage;
+}
 
 @property (strong, nonatomic) IBOutlet UITableView *mainTableview;
 @property (strong, nonatomic) IBOutlet UIView *headView;
@@ -24,9 +29,11 @@
 @property (strong, nonatomic) IBOutlet UILabel *coinName1;
 @property (strong, nonatomic) IBOutlet UILabel *coinName2;
 @property (strong, nonatomic) IBOutlet UILabel *coinName3;
+@property (weak, nonatomic) IBOutlet UILabel *describeLabel; // 小巴币描述
 
 // 页面数据
 @property (strong, nonatomic) NSMutableArray *coinsArray;
+@property (copy , nonatomic) NSString *coachName; // 限定使用教练的名字
 
 @end
 
@@ -40,17 +47,18 @@
     self.mainTableview.dataSource = self;
     
     CGRect viewRect = [[UIScreen mainScreen] bounds];
-    [self.headView setFrame:CGRectMake(0, 0, viewRect.size.width, 305)];
-    self.mainTableview.tableHeaderView = self.headView;
+    [self.headView setFrame:CGRectMake(0, 64, viewRect.size.width, 119)];
+//    self.mainTableview.tableHeaderView = self.headView;
+    [self.view addSubview:self.headView];
     
     NSString *coinsum = self.coinSum;
     NSString *coinStr = [NSString stringWithFormat:@"%@ 个", coinsum];
     NSMutableAttributedString *string3 = [[NSMutableAttributedString alloc] initWithString:coinStr];
-    [string3 addAttribute:(NSString *)kCTFontAttributeName value:[UIFont systemFontOfSize:24] range:NSMakeRange(0,coinsum.length)];
+    [string3 addAttribute:(NSString *)kCTFontAttributeName value:[UIFont systemFontOfSize:32] range:NSMakeRange(0,coinsum.length)];
     [string3 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0,coinsum.length)];
     self.totalCoinLabel.attributedText = string3;
     
-    
+    self.describeLabel.text = @"仅限在预约您的驾校教练时使用";
 }
 #pragma mark - UITableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -94,11 +102,14 @@
     [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         [DejalBezelActivityView removeViewAnimated:YES];
-        
         int code = [responseObject[@"code"] intValue];
         if (code == 1) {
             NSArray *coinsInfoList = responseObject[@"recordlist"];
             self.coinsArray = [XBCoin coinsWithArray:coinsInfoList];
+            self.coachName = [responseObject[@"coachname"] description];
+            if (![CommonUtil isEmpty:self.coachName]) {
+                self.describeLabel.text = [NSString stringWithFormat:@"仅限在预约%@教练时使用", self.coachName];
+            }
             [self.mainTableview reloadData];
         }else if(code == 95){
 //            NSString *message = responseObject[@"message"];

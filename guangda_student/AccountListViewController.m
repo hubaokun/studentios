@@ -14,6 +14,7 @@
 {
     NSString *_couponsum;
     NSString *_coinsum;
+    NSString *_money;
 }
 @property (strong, nonatomic) IBOutlet UIView *msgView;
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
@@ -94,6 +95,7 @@
             NSLog(@"message ===== %@", responseObject[@"message"]);
             _coinsum = [responseObject[@"coinsum"] description];
             _couponsum = [responseObject[@"couponsum"] description];
+            _money = [responseObject[@"money"] description];
 //            self.alertView.frame = self.view.frame;
 //            [self.view addSubview:self.alertView];
 //            [self.navigationController popViewControllerAnimated:YES];
@@ -114,9 +116,7 @@
 
 - (void)setLabel
 {
-    NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
-    
-    NSString *money = [user_info[@"money"] description];
+    NSString *money = _money;
     NSString *moneyStr = [NSString stringWithFormat:@"%@ 元", money];
     NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:moneyStr];
     [string1 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0,money.length)];

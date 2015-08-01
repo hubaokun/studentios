@@ -91,13 +91,14 @@
                             <color key="textColor" red="0.23921568630000001" green="0.23921568630000001" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s2V-M1-dph">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s2V-M1-dph">
                             <rect key="frame" x="534" y="20" width="66" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="2KO-ws-6zo"/>
                                 <constraint firstAttribute="width" constant="66" id="Tyw-Iw-6dU"/>
                             </constraints>
-                            <state key="normal" title="More">
+                            <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="15" maxY="0.0"/>
+                            <state key="normal" image="icon_more_orderdetail">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -894,5 +895,6 @@
     <resources>
         <image name="arrow_back_userinfohome" width="10" height="18"/>
         <image name="btn_close_paytype" width="24" height="24"/>
+        <image name="icon_more_orderdetail" width="14" height="3"/>
     </resources>
 </document>

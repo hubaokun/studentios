@@ -59,6 +59,11 @@
 // 选择支付方式
 @property (strong, nonatomic) IBOutlet UIView *payTypeSelectView;
 @property (weak, nonatomic) IBOutlet UIControl *coverView;
+@property (weak, nonatomic) IBOutlet UILabel *remainCouponLabel;
+@property (weak, nonatomic) IBOutlet UILabel *remainCoinLabel;
+@property (weak, nonatomic) IBOutlet UILabel *remainMoneyLabel;
+
+
 @property (weak, nonatomic) IBOutlet UIButton *couponSelectBtn;
 @property (weak, nonatomic) IBOutlet UIButton *coinSelectBtn;
 @property (weak, nonatomic) IBOutlet UIButton *moneySelectBtn;
@@ -137,6 +142,7 @@
     }
     
     [self allSelectBtnConfig:bookOrder];
+    [self remainWealthShow];
 }
 
 // 初始化按钮组的选中状态
@@ -156,7 +162,7 @@
         [self validSelectBtn:self.couponSelectBtn];
     }
     
-    if (_remainderCoinNum < [bookOrder.price intValue] && self.couponSelectBtn.selected == NO) { // 已无更多学时券
+    if (_remainderCoinNum < [bookOrder.price intValue] && self.coinSelectBtn.selected == NO) { // 已无更多小巴币
         [self invalidSelectBtn:self.coinSelectBtn];
     } else {
         [self validSelectBtn:self.coinSelectBtn];
@@ -173,6 +179,20 @@
 - (void)validSelectBtn:(UIButton *)button {
     [button setImage:[UIImage imageNamed:@"coupon_unselected"] forState:UIControlStateNormal];
     button.enabled = YES;
+}
+
+// 显示可用的剩余财富
+- (void)remainWealthShow {
+    self.remainCouponLabel.text = [NSString stringWithFormat:@"剩余%d张", _remainderCouponNum];
+    self.remainCoinLabel.text = [NSString stringWithFormat:@"剩余%d个", _remainderCoinNum];
+    
+    NSString *remainMoneyStr = nil;
+    if (_remainderMoney >= 0) {
+        remainMoneyStr =  [NSString stringWithFormat:@"剩余%d元", (int)_remainderMoney];
+    } else {
+        remainMoneyStr = [NSString stringWithFormat:@"需充值%d元", -(int)_remainderMoney];
+    }
+    self.remainMoneyLabel.text = remainMoneyStr;
 }
 
 - (void) backLogin{
@@ -309,11 +329,6 @@
         [dictionary setObject:[NSString stringWithFormat:@"%d",timeCount] forKey:@"timecount"];//时间点的个数
         [_orderArray addObject:dictionary];
     }
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - UITableView
@@ -497,34 +512,33 @@
     return view;
 }
 
-
-- (void) clickForSelectOther:(id) sender{
-    NSInteger tag = ((UIButton*)sender).tag;
-    
-    SelectOtherCouponViewController *nextViewController = [[SelectOtherCouponViewController alloc] initWithNibName:@"SelectOtherCouponViewController" bundle:nil];
-    NSMutableArray *array = [NSMutableArray array];
-    for(int i = 0; i < _couponArray.count; i++){
-        NSDictionary *dic = _couponArray[i];
-        int used = [dic[@"used"] intValue];
-        if(used == 0){
-            [array addObject:dic];
-        }
-    }
-    NSDictionary *order = _orderArray[tag];
-    NSArray *couponlist = order[@"couponlist"];
-    if(couponlist)
-        [array addObjectsFromArray:couponlist];
-    
-    nextViewController.couponArray = [array mutableCopy];
-    if(couponlist)
-        nextViewController.selectedCoupon = [couponlist mutableCopy];
-    nextViewController.canUseDiffCoupon = self.canUseDiffCoupon;
-    nextViewController.orderIndex = [NSString stringWithFormat:@"%ld",(long)tag];
-    nextViewController.canUsedMaxCouponCount = self.canUsedMaxCouponCount;
-    nextViewController.selectedOrderList = self.dateTimeSelectedList[tag];
-    [self.navigationController pushViewController:nextViewController animated:YES];
-    
-}
+//- (void) clickForSelectOther:(id) sender{
+//    NSInteger tag = ((UIButton*)sender).tag;
+//    
+//    SelectOtherCouponViewController *nextViewController = [[SelectOtherCouponViewController alloc] initWithNibName:@"SelectOtherCouponViewController" bundle:nil];
+//    NSMutableArray *array = [NSMutableArray array];
+//    for(int i = 0; i < _couponArray.count; i++){
+//        NSDictionary *dic = _couponArray[i];
+//        int used = [dic[@"used"] intValue];
+//        if(used == 0){
+//            [array addObject:dic];
+//        }
+//    }
+//    NSDictionary *order = _orderArray[tag];
+//    NSArray *couponlist = order[@"couponlist"];
+//    if(couponlist)
+//        [array addObjectsFromArray:couponlist];
+//    
+//    nextViewController.couponArray = [array mutableCopy];
+//    if(couponlist)
+//        nextViewController.selectedCoupon = [couponlist mutableCopy];
+//    nextViewController.canUseDiffCoupon = self.canUseDiffCoupon;
+//    nextViewController.orderIndex = [NSString stringWithFormat:@"%ld",(long)tag];
+//    nextViewController.canUsedMaxCouponCount = self.canUsedMaxCouponCount;
+//    nextViewController.selectedOrderList = self.dateTimeSelectedList[tag];
+//    [self.navigationController pushViewController:nextViewController animated:YES];
+//    
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
@@ -617,8 +631,8 @@
     if (!cell) {
         [tableView registerNib:[UINib nibWithNibName:@"SureOrderTableViewCell" bundle:nil] forCellReuseIdentifier:indentifier];
         cell = [tableView dequeueReusableCellWithIdentifier:indentifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     NSDictionary *dic = self.dateTimeSelectedList[indexPath.section];
     NSArray *timeList = dic[@"times"];
@@ -666,49 +680,13 @@
     return cell;
 }
 
-#pragma mark - UIAlertView
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1) {
-        [self requestBookCoach];
-    }
-}
-
-#pragma mark - actions
-- (IBAction)goAppointClick:(id)sender
-{
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"UserInfo"];
-    
-    CGFloat userMoney = [userInfo[@"money"] floatValue];
-    if (userMoney < 0) {
-        [self makeToast:@"您的账户已欠费!"];
-        return;
-    }
-//    if(userMoney < _payMoney && _payMoney != 0){//需付金额不为零 且余额不足的情况下
-    if(self.moneyIsDeficit){ // 余额不足
-        [self letoutResultViewWithType:0];
-        return;
-    }
-    [self requestBookCoach];
-}
-
-- (IBAction)orderDetailClick:(id)sender
-{
-    if (self.orderId) {
-        MyOrderViewController *viewController = [[MyOrderViewController alloc] initWithNibName:@"MyOrderViewController" bundle:nil];
-//        viewController.orderid = self.orderId;
-//        viewController.isSkip = @"1";
-        [self.navigationController pushViewController:viewController animated:YES];
-    }else{
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }
-}
-
-- (IBAction)changeTimeClick:(id)sender
-{
-    [self.appointResultView removeFromSuperview];
-    [self backClick:sender];
-}
+//#pragma mark - UIAlertView
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    if (buttonIndex == 1) {
+//        [self requestBookCoach];
+//    }
+//}
 
 #pragma mark - 接口请求
 - (void)requestBookCoach
@@ -862,12 +840,14 @@
             _remainderCoinNum = _validCoinNum;
             
             // 获取可用账户余额并保存到本地
-            NSMutableDictionary *userInfoDic = [[CommonUtil getObjectFromUD:@"UserInfo"] mutableCopy];
             NSString *money = [responseObject[@"money"] description];
-            [userInfoDic setObject:money forKey:@"money"];
-            [CommonUtil saveObjectToUD:userInfoDic key:@"UserInfo"];
-            _validMoney = [money floatValue];
-            _remainderMoney = _validMoney;
+            if (![CommonUtil isEmpty:money]) {
+                NSMutableDictionary *userInfoDic = [[CommonUtil getObjectFromUD:@"UserInfo"] mutableCopy];
+                [userInfoDic setObject:money forKey:@"money"];
+                [CommonUtil saveObjectToUD:userInfoDic key:@"UserInfo"];
+                _validMoney = [money floatValue];
+                _remainderMoney = _validMoney;
+            }
             
             // 获取学时券数目
             _couponArray = [responseObject[@"couponlist"] mutableCopy];
@@ -1277,7 +1257,42 @@
     }
 }
 
-#pragma mark - 点击事件
+#pragma mark - Action
+- (IBAction)goAppointClick:(id)sender
+{
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"UserInfo"];
+    
+    CGFloat userMoney = [userInfo[@"money"] floatValue];
+    if (userMoney < 0) {
+        [self makeToast:@"您的账户已欠费!"];
+        return;
+    }
+    //    if(userMoney < _payMoney && _payMoney != 0){//需付金额不为零 且余额不足的情况下
+    if(self.moneyIsDeficit){ // 余额不足
+        [self letoutResultViewWithType:0];
+        return;
+    }
+    [self requestBookCoach];
+}
+
+- (IBAction)orderDetailClick:(id)sender
+{
+    if (self.orderId) {
+        MyOrderViewController *viewController = [[MyOrderViewController alloc] initWithNibName:@"MyOrderViewController" bundle:nil];
+        //        viewController.orderid = self.orderId;
+        //        viewController.isSkip = @"1";
+        [self.navigationController pushViewController:viewController animated:YES];
+    }else{
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+}
+
+- (IBAction)changeTimeClick:(id)sender
+{
+    [self.appointResultView removeFromSuperview];
+    [self backClick:sender];
+}
+
 // 充值
 - (IBAction)rechargeClick:(id)sender {
     [self.appointResultView removeFromSuperview];
@@ -1328,7 +1343,7 @@
             return;
         }
         self.selectedBtn.selected = NO;
-        // 返还原选项的支付物
+        // 返还原选项的支付金额
         if ([self.selectedBtn isEqual:self.couponSelectBtn]) {
             _remainderCouponNum++;
         }
@@ -1343,7 +1358,7 @@
     // 选择新选项
     sender.selected = YES;
     self.selectedBtn = sender;
-    // 选中支付方式并扣除对应支付物
+    // 选中支付方式并扣除对应支付金额
     if ([sender isEqual:self.couponSelectBtn]) {
         self.targetBookOrder.payType = payTypeCoupon;
         _remainderCouponNum--;
@@ -1357,5 +1372,7 @@
         _remainderMoney -= [self.targetBookOrder.price floatValue];
     }
     
+    [self remainWealthShow];
+    [self clickForHideSelectionView:nil];
 }
 @end

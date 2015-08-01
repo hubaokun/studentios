@@ -20,6 +20,7 @@
 #import "CoachScreenViewController.h"
 #import "UserBaseInfoViewController.h"
 #import "XiaobaServeViewController.h"
+#import "ImproveInfoViewController.h"
 @interface MainViewController ()<UIGestureRecognizerDelegate, UIScrollViewDelegate, BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationServiceDelegate,UIAlertViewDelegate>
 {
     UITapGestureRecognizer *_tapGestureRec2;
@@ -243,11 +244,34 @@
 
 // 与userinfo内设置的城市作对比
 - (void)compareCityName {
-    
-    
     [DejalBezelActivityView removeViewAnimated:YES];
-    XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
-    [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
+    
+    // 取得userinfo设置的城市名
+    NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
+    NSString *address = [user_info objectForKey:@"locationname"];
+    NSArray *subStrArray = [address componentsSeparatedByString:@"-"];
+    NSString *province = subStrArray[0];
+    NSString *city = subStrArray[1];
+    if ([province isEqualToString:@"北京市"] ||[province isEqualToString:@"天津市"] || [province isEqualToString:@"上海市"] || [province isEqualToString:@"重庆市"]) {
+        city = province;
+    }
+    
+    
+    if ([self.cityName isEqualToString:city]) { // 定位城市名与userinfo城市名一致
+        XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
+        [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您当前所处城市与您个人信息所设置的城市不符，是否要前往修正?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        [alert show];
+    }
+}
+
+// 点击确认
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+    }
 }
 
 // 旧需求的汽车点击事件
