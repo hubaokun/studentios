@@ -250,12 +250,16 @@
     NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
     NSString *address = [user_info objectForKey:@"locationname"];
     NSArray *subStrArray = [address componentsSeparatedByString:@"-"];
-    NSString *province = subStrArray[0];
-    NSString *city = subStrArray[1];
+    NSString *province = @"";
+    NSString *city = @"";
+    if (subStrArray.count > 1) {
+        province = subStrArray[0];
+        city = subStrArray[1];
+    }
+    
     if ([province isEqualToString:@"北京市"] ||[province isEqualToString:@"天津市"] || [province isEqualToString:@"上海市"] || [province isEqualToString:@"重庆市"]) {
         city = province;
     }
-    
     
     if ([self.cityName isEqualToString:city]) { // 定位城市名与userinfo城市名一致
         XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
@@ -270,7 +274,14 @@
 // 点击确认
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    if (buttonIndex == 0) {
+        XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
+        [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
+    }
+    
     if (buttonIndex == 1) {
+        ImproveInfoViewController *nextVC = [[ImproveInfoViewController alloc] init];
+        [[SliderViewController sharedSliderController].navigationController pushViewController:nextVC animated:YES];
     }
 }
 

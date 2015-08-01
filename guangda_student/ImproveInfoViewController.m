@@ -681,11 +681,11 @@
 - (IBAction)clickForCityDone:(id)sender {
     NSString *addrStr = nil;
     NSString *areaStr = [self.curArea.areaName stringByReplacingOccurrencesOfString:@"  " withString:@""];
-    if (self.curProvince.isZxs) { // 直辖市
-        addrStr = [NSString stringWithFormat:@"%@ - %@", self.curProvince.provinceName, areaStr];
-    } else {
-        addrStr =  [NSString stringWithFormat:@"%@ - %@ - %@", self.curProvince.provinceName, self.curCity.cityName, areaStr];
-    }
+//    if (self.curProvince.isZxs) { // 直辖市
+//        addrStr = [NSString stringWithFormat:@"%@-%@", self.curProvince.provinceName, areaStr];
+//    } else {
+        addrStr =  [NSString stringWithFormat:@"%@-%@-%@", self.curProvince.provinceName, self.curCity.cityName, areaStr];
+//    }
     self.cityField.text = addrStr;
     self.selectProvinceID = self.curProvince.provinceID;
     self.selectCityID = self.curCity.cityID;

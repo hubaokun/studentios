@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UserRuleTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *describeLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *describeLabelHeightCon;
 
 @end

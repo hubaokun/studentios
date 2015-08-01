@@ -24,7 +24,7 @@
                         <color key="textColor" red="0.96470588239999999" green="0.2156862745" blue="0.25098039220000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OMl-OK-yKC" userLabel="underline">
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OMl-OK-yKC" userLabel="underline">
                         <rect key="frame" x="8" y="78" width="465" height="1"/>
                         <color key="backgroundColor" red="0.87058823529999996" green="0.87058823529999996" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -50,10 +50,10 @@
                         <color key="textColor" red="0.52941176469999995" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小巴币是小巴学车发放给小巴学车学员的，在使用小巴学车预约教练时，用于抵扣订单金额的虚拟货币。" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ove-zj-hcI">
-                        <rect key="frame" x="36" y="38" width="429" height="35.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小巴币是小巴学车发放给小巴学车学员的，在使用小巴学车预约教练时，用于抵扣订单金额的虚拟货币。" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ove-zj-hcI">
+                        <rect key="frame" x="36" y="38" width="429" height="50"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="35.5" id="kp9-hS-GWL"/>
+                            <constraint firstAttribute="height" constant="50" id="3Ro-aD-vm3"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.52941176469999995" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
@@ -76,6 +76,10 @@
                     <constraint firstItem="Ove-zj-hcI" firstAttribute="leading" secondItem="fnI-iD-bUj" secondAttribute="trailing" constant="8" id="zPo-6V-kIU"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="describeLabel" destination="Ove-zj-hcI" id="Jsf-ct-VI4"/>
+                <outlet property="describeLabelHeightCon" destination="3Ro-aD-vm3" id="2Zq-qI-AZ3"/>
+            </connections>
             <point key="canvasLocation" x="428.5" y="280"/>
         </tableViewCell>
     </objects>
