@@ -236,11 +236,13 @@
 // 在线报名、预约考试等服务
 - (IBAction)clickForServe:(id)sender {
     if ([[CommonUtil currentUtil] isLogin]) {
-        // 取得当前所处城市
-        [self searchCurrentCityName];
-        // 与userinfo内设置的城市作对比
-        [DejalBezelActivityView activityViewForView:self.view];
-        self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(compareCityName) userInfo:nil repeats:NO];
+//        // 取得当前所处城市
+//        [self searchCurrentCityName];
+//        // 与userinfo内设置的城市作对比
+//        [DejalBezelActivityView activityViewForView:self.view];
+//        self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(compareCityName) userInfo:nil repeats:NO];
+        XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
+        [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
     }
 }
 

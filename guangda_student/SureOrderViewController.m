@@ -68,6 +68,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *coinSelectBtn;
 @property (weak, nonatomic) IBOutlet UIButton *moneySelectBtn;
 @property (strong, nonatomic) UIButton *selectedBtn;
+@property (weak, nonatomic) IBOutlet UIView *bottomBar;
 
 // 页面数据
 @property (strong, nonatomic) NSMutableArray *bookOrdersArray;  // 预约订单数组
@@ -706,7 +707,6 @@
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     [paramDic setObject:app_Version forKey:@"version"];
     
-    
 //    NSMutableArray *times = [NSMutableArray array];
 //    for (int i = 0; i < self.dateTimeSelectedList.count; i++) {
 //        NSDictionary *dateDic = self.dateTimeSelectedList[i];
@@ -882,6 +882,9 @@
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [DejalBezelActivityView removeViewAnimated:YES];
+        [self makeToast:ERR_NETWORK];
+        self.tableView.hidden = YES;
+        self.bottomBar.hidden = YES;
     }];
 }
 
@@ -1270,9 +1273,13 @@
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"UserInfo"];
     
     float userMoney = [userInfo[@"money"] floatValue];
-//    float userMoney = [userInfo[@"money"] floatValue];
-    if (userMoney < 0 ) {
+    float fMoney = [userInfo[@"fmoney"] floatValue];
+    if (userMoney < 0) {
         [self makeToast:@"您的账户已欠费!"];
+        return;
+    }
+    if (fMoney < 0) {
+        [self makeToast:@"您的冻结金额异常!"];
         return;
     }
     //    if(userMoney < _payMoney && _payMoney != 0){//需付金额不为零 且余额不足的情况下

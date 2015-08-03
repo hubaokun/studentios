@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UseRuleViewController">
             <connections>
+                <outlet property="contentWebView" destination="0j1-Q0-fK7" id="w5Z-os-YvQ"/>
                 <outlet property="mainTableview" destination="DuV-O0-R9Y" id="gQm-RZ-KLu"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -67,18 +68,26 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4S9-ci-5Gn" userLabel="内容">
                     <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                     <subviews>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="DuV-O0-R9Y">
+                        <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="DuV-O0-R9Y">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <color key="separatorColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         </tableView>
+                        <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0j1-Q0-fK7">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </webView>
                     </subviews>
                     <color key="backgroundColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="DuV-O0-R9Y" firstAttribute="leading" secondItem="4S9-ci-5Gn" secondAttribute="leading" id="8x5-5V-ado"/>
+                        <constraint firstAttribute="trailing" secondItem="0j1-Q0-fK7" secondAttribute="trailing" id="HjW-12-YPu"/>
                         <constraint firstItem="DuV-O0-R9Y" firstAttribute="top" secondItem="4S9-ci-5Gn" secondAttribute="top" id="RUb-Ai-4jQ"/>
                         <constraint firstAttribute="trailing" secondItem="DuV-O0-R9Y" secondAttribute="trailing" id="cJs-gK-CRZ"/>
+                        <constraint firstItem="0j1-Q0-fK7" firstAttribute="leading" secondItem="4S9-ci-5Gn" secondAttribute="leading" id="mRN-0C-aup"/>
                         <constraint firstAttribute="bottom" secondItem="DuV-O0-R9Y" secondAttribute="bottom" id="nWq-AW-uq7"/>
+                        <constraint firstItem="0j1-Q0-fK7" firstAttribute="top" secondItem="4S9-ci-5Gn" secondAttribute="top" id="vhh-h0-h9V"/>
+                        <constraint firstAttribute="bottom" secondItem="0j1-Q0-fK7" secondAttribute="bottom" id="ybR-wE-JIX"/>
                     </constraints>
                 </view>
             </subviews>

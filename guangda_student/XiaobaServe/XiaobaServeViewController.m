@@ -8,6 +8,7 @@
 
 #import "XiaobaServeViewController.h"
 #import "SignUpViewController.h"
+#import "ImproveInfoViewController.h"
 
 @interface XiaobaServeViewController ()
 
@@ -16,14 +17,82 @@
 
 @property (strong, nonatomic) IBOutlet UIView *footView;
 @property (weak, nonatomic) IBOutlet UIButton *cityBtn;
+
+// 页面数据
+@property (copy, nonatomic) NSString *cityName;
+@property (copy, nonatomic) NSString *cityID;
+
 @end
 
 @implementation XiaobaServeViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    [self.cityBtn addTarget:self action:@selector(clickToImproveInfoView) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self positionConfirm];
     [self performSelector:@selector(showMainView) withObject:nil afterDelay:0.3f];
+}
+
+// 确认用户位置信息
+- (void)positionConfirm {
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"UserInfo"];
+    NSString *position = [userInfo objectForKey:@"locationname"];
+    
+    if ([CommonUtil isEmpty:position]) { // 未设置驾考城市
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请前往设置您的驾考城市!" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        [alert show];
+    }
+    else {
+        NSArray *subStrArray = [position componentsSeparatedByString:@"-"];
+        if (subStrArray.count > 1) {
+            self.cityName = subStrArray[1];
+        }
+        self.cityID = [[userInfo objectForKey:@"cityid"] description];
+        [self.cityBtn setTitle:self.cityName forState:UIControlStateNormal];
+    }
+}
+
+// 点击确认
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    if (buttonIndex == 1) {
+        ImproveInfoViewController *nextVC = [[ImproveInfoViewController alloc] init];
+        [self.navigationController pushViewController:nextVC animated:YES];
+    }
+}
+
+#pragma mark - 网络请求
+// 提交账号信息
+- (void)postGetServiceUrl {
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    NSString *uri = @"/xbservice?action=xiaobaservice";
+    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        [DejalBezelActivityView removeViewAnimated:YES];
+        
+        int code = [responseObject[@"code"] intValue];
+        if (code == 1) {
+            
+        }else{
+            NSString *message = responseObject[@"message"];
+            [self makeToast:message];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [DejalBezelActivityView removeViewAnimated:YES];
+        NSLog(@"连接失败");
+        [self makeToast:ERR_NETWORK];
+    }];
 }
 
 #pragma mark - private
@@ -54,20 +123,9 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://xqc.qc5qc.com/reservation"]];
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+// 修改城市
+- (void)clickToImproveInfoView {
+    ImproveInfoViewController *nextVC = [[ImproveInfoViewController alloc] init];
+    [self.navigationController pushViewController:nextVC animated:YES];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

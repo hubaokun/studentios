@@ -10,6 +10,7 @@
                 <outlet property="accountLabel" destination="R3Y-mU-QbR" id="Dsj-Kk-b7h"/>
                 <outlet property="appointResultBtn" destination="96q-49-aBh" id="Lqp-m7-UPJ"/>
                 <outlet property="appointResultView" destination="Z0b-9m-ClN" id="lo9-BY-da4"/>
+                <outlet property="bottomBar" destination="4SQ-au-1bF" id="KpJ-lr-q8k"/>
                 <outlet property="coinSelectBtn" destination="9TG-nm-Ee2" id="WKV-Y1-2Nn"/>
                 <outlet property="contentViewHeight" destination="tT8-S2-RYp" id="gbW-p0-lsr"/>
                 <outlet property="couponCountLabel" destination="Krf-JO-VGZ" id="oSb-e2-I5G"/>

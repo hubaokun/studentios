@@ -591,7 +591,6 @@
         NSLog(@"连接失败");
         [self makeToast:ERR_NETWORK];
     }];
-    
 }
 
 - (void) backLogin{
@@ -632,6 +631,7 @@
     [new_user_info setObject:[NSNumber numberWithInt:_gender] forKey:@"gender"];
     [new_user_info setObject:_birthday forKey:@"birthday"];
     [new_user_info setObject:_city forKey:@"locationname"];
+    [new_user_info setObject:self.selectCityID forKey:@"cityid"];
     [new_user_info setObject:_address forKey:@"address"];
     [new_user_info setObject:_urgentPerson forKey:@"urgent_person"];
     [new_user_info setObject:_urgentPhone forKey:@"urgent_phone"];

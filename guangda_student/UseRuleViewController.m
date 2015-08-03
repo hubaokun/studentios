@@ -10,6 +10,7 @@
 #import "UserRuleTableViewCell.h"
 @interface UseRuleViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *mainTableview;
+@property (weak, nonatomic) IBOutlet UIWebView *contentWebView;
 
 @end
 
@@ -17,9 +18,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    self.mainTableview.delegate = self;
-    self.mainTableview.dataSource = self;
+//    self.mainTableview.delegate = self;
+//    self.mainTableview.dataSource = self;
+    NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://note.youdao.com/share/?id=ea7e70b4495c2a0c35aebb3950c839b8&type=note"]];
+    [self.contentWebView loadRequest:request];
 }
 #pragma mark - UITableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
