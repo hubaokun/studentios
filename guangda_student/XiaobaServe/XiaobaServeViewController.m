@@ -15,6 +15,7 @@
 @property (strong, nonatomic) IBOutlet UIView *mainView;
 
 @property (strong, nonatomic) IBOutlet UIView *footView;
+@property (weak, nonatomic) IBOutlet UIButton *cityBtn;
 @end
 
 @implementation XiaobaServeViewController
