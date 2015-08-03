@@ -85,6 +85,7 @@
 @property (strong, nonatomic) IBOutlet UITextView *detailsCocahComment; // 自我评价
 
 @property (strong, nonatomic) IBOutlet UIView *coachInfoView;       // 教练信息view
+@property (strong, nonatomic) IBOutlet UILabel *orderCount;
 @property (weak, nonatomic) IBOutlet UIScrollView *carModelScrollView;  // uber
 @property (strong, nonatomic) IBOutlet UIView *footView;                //底部的view
 @property (strong, nonatomic) NSMutableArray *carModelImageViewList;

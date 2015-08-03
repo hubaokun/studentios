@@ -108,6 +108,7 @@
 //    [[PgyManager sharedPgyManager] showFeedbackView];//直接显示用户反馈画面
     
     [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
+    
     return YES;
 }
 

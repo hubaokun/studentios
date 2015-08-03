@@ -13,7 +13,7 @@
 - (void)awakeFromNib {
     // Initialization code
     
-    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-92, 20, 80, 15)];
+    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-86, 17, 80, 15)];
     [self.contentView addSubview:self.starView];
     
 }

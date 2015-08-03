@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -251,10 +251,16 @@
                     <constraint firstAttribute="trailingMargin" secondItem="1Vr-sh-Ed0" secondAttribute="trailing" constant="7" id="rly-VT-3v7"/>
                     <constraint firstItem="1Vr-sh-Ed0" firstAttribute="leading" secondItem="EKJ-3V-aJb" secondAttribute="leadingMargin" constant="7" id="tF4-KD-2Tu"/>
                     <constraint firstItem="boI-lb-ub6" firstAttribute="leading" secondItem="EKJ-3V-aJb" secondAttribute="leadingMargin" constant="7" id="tLy-ef-4gm"/>
+                    <constraint firstItem="Rbf-LF-I4a" firstAttribute="leading" secondItem="EKJ-3V-aJb" secondAttribute="leadingMargin" constant="7" id="thI-CA-xdW"/>
                     <constraint firstItem="1Vr-sh-Ed0" firstAttribute="top" secondItem="r1l-TV-ZuK" secondAttribute="bottom" constant="43" id="wzS-W8-Bry"/>
                     <constraint firstItem="aVr-gB-AgV" firstAttribute="top" secondItem="T7j-5m-GE1" secondAttribute="bottom" id="xRE-VO-9vq"/>
                     <constraint firstAttribute="trailing" secondItem="r1l-TV-ZuK" secondAttribute="trailing" id="za6-4h-8lQ"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="nm1-LK-HbF"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <connections>

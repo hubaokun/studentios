@@ -245,6 +245,12 @@
     cell.userLogo.layer.masksToBounds = YES;
     [cell.userLogo sd_setImageWithURL:[NSURL URLWithString:logoUrl] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
     
+    NSString *sumnum = [coachDic[@"sumnum"] description];
+    NSString *sumnumStr = [NSString stringWithFormat:@"总单数:%@",sumnum];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:sumnumStr];
+    [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(4,sumnum.length)];
+    cell.orderCount.attributedText = string;
+    
     cell.userName.text = coachDic[@"realname"];
 //    NSString *coachInfoStr = nil;
     NSString *detail = coachDic[@"detail"];

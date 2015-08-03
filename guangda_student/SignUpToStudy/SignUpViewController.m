@@ -55,14 +55,14 @@
     
     NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
     NSString *phoneNum = [user_info[@"phone"] description];
-//    NSString *realName = [user_info[@"realname"] description];
-//
-//    if (realName.length > 0) {
-//        self.nameField.text = realName;
-//    }
+    NSString *realName = [user_info[@"realname"] description];
+
+    if (realName.length > 0) {
+        self.nameField.text = realName;
+    }
     if (phoneNum.length > 0) {
         self.phoneNumField.text = phoneNum;
-        self.phoneNumField.enabled = NO;
+//        self.phoneNumField.enabled = NO;
     }
     
     //注册监听，防止键盘遮挡视图

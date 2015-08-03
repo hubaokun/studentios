@@ -674,6 +674,8 @@
 
 - (void)timeButtonClick:(id)sender
 {
+    
+    
     if (![[CommonUtil currentUtil] isLogin:NO]) {
         LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
         [self.navigationController pushViewController:viewController animated:YES];
@@ -682,6 +684,11 @@
     DSButton *button = (DSButton *)sender;
     button.selected = !button.selected;
     
+    if (self.dateTimeSelectedList.count == 6 && button.selected) {
+        [self makeToast:@"抱歉，您一天最多只能预定6小时课程"];
+        button.selected = !button.selected;
+        return;
+    }
     // 计算总价
     if (button.selected) {
         _priceSum += [button.value floatValue];
@@ -769,6 +776,7 @@
             UILabel *timeLabel = timePointDic[@"timeLabel"];
             NSString *time = timeLabel.text;
             [selectArray addObject:time];
+            
         }
     }
     
@@ -807,7 +815,7 @@
             }
         }
     }
-    
+#warning sssss
     if (isTwoHours) {
         [self makeToast:[NSString stringWithFormat:@"连续上课两小时很累，慎重考虑哦亲"]];
     }
@@ -882,10 +890,7 @@
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"教练该如何称呼您？请设置真实姓名后再预约" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"前去设置", nil];
             [alert show];
         }else{
-            if (self.dateTimeSelectedList.count > 6) {
-                [self makeToast:@"抱歉，您一天最多只能预定6小时课程"];
-                return;
-            }
+            
             SureOrderViewController *viewController = [[SureOrderViewController alloc] initWithNibName:@"SureOrderViewController" bundle:nil];
             viewController.dateTimeSelectedList = self.dateTimeSelectedList;
             viewController.coachId = self.coachId;

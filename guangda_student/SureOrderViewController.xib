@@ -110,7 +110,7 @@
                                 <constraint firstAttribute="width" constant="73" id="mOc-a8-43j"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" title="确定预约" backgroundImage="sure_appoint_red">
+                            <state key="normal" title="确认支付" backgroundImage="sure_appoint_red">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="disabled" backgroundImage="sure_appoint_btn"/>
@@ -429,11 +429,13 @@
                                     </constraints>
                                 </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IUu-4o-Gii">
-                                    <rect key="frame" x="0.0" y="0.0" width="60" height="47"/>
+                                    <rect key="frame" x="540" y="0.0" width="60" height="47"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="60" id="eKC-pu-koL"/>
+                                        <constraint firstAttribute="height" constant="47" id="Ah9-7n-32S"/>
+                                        <constraint firstAttribute="width" constant="60" id="FIf-gd-qEi"/>
                                     </constraints>
-                                    <state key="normal" image="btn_back_arrow">
+                                    <state key="normal" title="确定">
+                                        <color key="titleColor" red="0.2666666667" green="0.76862745099999996" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
@@ -443,15 +445,15 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstItem="hMC-i0-glD" firstAttribute="top" secondItem="IUu-4o-Gii" secondAttribute="bottom" id="6Cv-a4-ogO"/>
                                 <constraint firstItem="xjz-h8-KQF" firstAttribute="top" secondItem="LWg-Yy-Jff" secondAttribute="top" id="Cp9-wK-hkH"/>
+                                <constraint firstItem="hMC-i0-glD" firstAttribute="top" secondItem="IUu-4o-Gii" secondAttribute="bottom" id="Dnb-v9-6sY"/>
+                                <constraint firstItem="IUu-4o-Gii" firstAttribute="top" secondItem="LWg-Yy-Jff" secondAttribute="top" id="E0k-Qh-QoS"/>
                                 <constraint firstAttribute="height" constant="48" id="JdS-jM-YAh"/>
                                 <constraint firstAttribute="bottom" secondItem="xjz-h8-KQF" secondAttribute="bottom" id="LEr-zG-dcB"/>
                                 <constraint firstAttribute="bottom" secondItem="hMC-i0-glD" secondAttribute="bottom" id="aCn-rH-eqQ"/>
-                                <constraint firstItem="IUu-4o-Gii" firstAttribute="top" secondItem="LWg-Yy-Jff" secondAttribute="top" id="cOm-FO-eHC"/>
                                 <constraint firstAttribute="trailing" secondItem="hMC-i0-glD" secondAttribute="trailing" id="ciW-5m-TZu"/>
-                                <constraint firstItem="IUu-4o-Gii" firstAttribute="leading" secondItem="LWg-Yy-Jff" secondAttribute="leading" id="ir6-R2-Vn8"/>
                                 <constraint firstItem="hMC-i0-glD" firstAttribute="leading" secondItem="LWg-Yy-Jff" secondAttribute="leading" id="k32-2J-O29"/>
+                                <constraint firstAttribute="trailing" secondItem="IUu-4o-Gii" secondAttribute="trailing" id="mxq-8S-f7Z"/>
                                 <constraint firstAttribute="centerX" secondItem="xjz-h8-KQF" secondAttribute="centerX" id="wyW-N6-URO"/>
                             </constraints>
                         </view>
@@ -683,7 +685,6 @@
     </objects>
     <resources>
         <image name="btn_back" width="10" height="18"/>
-        <image name="btn_back_arrow" width="10" height="17"/>
         <image name="btn_red" width="139" height="40"/>
         <image name="btn_red_h" width="139" height="40"/>
         <image name="coupon_selected" width="20" height="20"/>

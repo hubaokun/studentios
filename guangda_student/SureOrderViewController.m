@@ -103,7 +103,7 @@
     view.backgroundColor = [UIColor whiteColor];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
     label.numberOfLines = 0;
-    label.text = @"请确认上车地址,具体交通事宜请与教练直接联系";
+    label.text = @"请事先与教练确认练车地址和交通方式";
     label.font = [UIFont systemFontOfSize:16];
     label.textColor = [UIColor redColor];
     label.textAlignment = NSTextAlignmentCenter;

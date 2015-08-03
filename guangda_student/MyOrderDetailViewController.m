@@ -326,6 +326,7 @@
     // 订单是否正在取消中
     if ((self.order.studentState == 4) && (self.order.coachState != 4)) {
         self.cancelOrderBannerLabel.hidden = NO;
+        self.moreOperationBtn.hidden = YES;
     } else {
         self.cancelOrderBannerLabel.hidden = YES;
     }
@@ -365,8 +366,9 @@
 
 // 请求取消订单后的界面设置
 - (void)orderConfigAfterRequestCanceled {
- [self clickForCloseSureCancelOrder:nil];
+    [self clickForCloseSureCancelOrder:nil];
     self.cancelOrderBannerLabel.hidden = NO;
+    self.moreOperationBtn.hidden = YES;
 }
 
 #pragma mark - 网络请求

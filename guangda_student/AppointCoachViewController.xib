@@ -226,7 +226,7 @@
                                 <constraint firstAttribute="width" constant="73" id="zbx-hn-Agd"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" title="确定预约" backgroundImage="sure_appoint_red">
+                            <state key="normal" title="选好了" backgroundImage="sure_appoint_red">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="disabled" backgroundImage="sure_appoint_btn"/>
