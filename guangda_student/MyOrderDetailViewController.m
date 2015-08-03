@@ -25,9 +25,6 @@
 @property (strong, nonatomic) IBOutlet UIView *moreOperationView; // 更多操作
 @property (strong, nonatomic) IBOutlet UIView *sureCancelOrderView; // 确认取消订单
 @property (strong, nonatomic) IBOutlet UILabel *cancelOrderBannerLabel; // 提示订单正在确认取消中
-@property (weak, nonatomic) IBOutlet UIButton *cancelOrderAlertBtn; // 取消订单
-@property (weak, nonatomic) IBOutlet UIButton *closeMoreOperationViewBtn; // 关闭
-@property (weak, nonatomic) IBOutlet UIButton *closeSureCancelOrderViewBtn; // 取消取消订单
 @property (weak, nonatomic) IBOutlet UIButton *postCancelOrderBtn; // 请教练确认
 
 @property (strong, nonatomic) TQStarRatingView *coachStarView;
@@ -51,8 +48,6 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *coachEvaluationLabelHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *coachEvaluationViewHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *mainViewHeight;
-
-@property (weak, nonatomic) IBOutlet UIButton *moreOperationBtn;
 
 @end
 
@@ -84,7 +79,7 @@
     self.cancelOrderBtn.layer.borderWidth = 0.6;
     self.cancelOrderBtn.layer.borderColor = [RGB(246, 102, 93) CGColor];
     self.cancelOrderBtn.layer.cornerRadius = 4;
-    [self.cancelOrderBtn addTarget:self action:@selector(clickForCancelOrder:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.cancelOrderBtn addTarget:self action:@selector(clickForCancelOrder:) forControlEvents:UIControlEventTouchUpInside];
     
     // 确认上车按钮
     self.confirmOnBtn.layer.cornerRadius = 4;
@@ -121,15 +116,15 @@
     [self.coachEvaluationView addSubview:self.coachEvaluationStarView];
     
     // 预约教练btn
-    _continueAppointBtn.layer.borderWidth = 0.6;
-    _continueAppointBtn.layer.cornerRadius = 4;
-    _continueAppointBtn.layer.borderColor = RGB(246, 102, 93).CGColor;
+    self.continueAppointBtn.layer.borderWidth = 0.6;
+    self.continueAppointBtn.layer.cornerRadius = 4;
+    self.continueAppointBtn.layer.borderColor = RGB(246, 102, 93).CGColor;
     
     // 更多操作页
     if (self.orderType == 1 || self.orderType == 3) {
-        self.moreOperationBtn.hidden = NO;
+        self.cancelOrderBtn.hidden = NO;
     } else {
-        self.moreOperationBtn.hidden = YES;
+        self.cancelOrderBtn.hidden = YES;
     }
     [self moreOperationViewConfig];
     
@@ -143,15 +138,11 @@
     
     // 取消订单按钮
     if (self.orderType == 1) { // 未完成订单
-        [self.cancelOrderAlertBtn setTitle:@"取消订单" forState:UIControlStateNormal];
+        [self.cancelOrderBtn setTitle:@"取消订单" forState:UIControlStateNormal];
     }
     else if (self.orderType == 3) {
-        [self.cancelOrderAlertBtn setTitle:@"投诉" forState:UIControlStateNormal];
+        [self.cancelOrderBtn setTitle:@"投诉" forState:UIControlStateNormal];
     }
-    
-    self.cancelOrderAlertBtn.layer.borderWidth = 1;
-    self.cancelOrderAlertBtn.layer.borderColor = [RGB(204, 204, 204) CGColor];
-    self.cancelOrderAlertBtn.layer.cornerRadius = 3;
     
     // 关闭按钮
 //    self.closeMoreOperationViewBtn.layer.borderWidth = 1;
@@ -166,11 +157,6 @@
     self.sureCancelOrderView.layer.borderWidth = 1;
     self.sureCancelOrderView.layer.borderColor = [RGB(204, 204, 204) CGColor];
     self.sureCancelOrderView.layer.cornerRadius = 4;
-
-    // 取消
-    self.closeSureCancelOrderViewBtn.layer.borderWidth = 0.8;
-    self.closeSureCancelOrderViewBtn.layer.borderColor = [RGB(204, 204, 204) CGColor];
-    self.closeSureCancelOrderViewBtn.layer.cornerRadius = 3;
     
     // 请教练确认
     self.postCancelOrderBtn.layer.borderWidth = 0.8;
@@ -287,11 +273,11 @@
     
     self.complainBtn.hidden = YES; // 新需求：投诉按钮不直接显示在订单详情里
     
-    if (self.order.canCancel) { // 可以取消订单
-        self.cancelOrderBtn.hidden = NO;
-    } else {
-        self.cancelOrderBtn.hidden = YES;
-    }
+//    if (self.order.canCancel) { // 可以取消订单
+//        self.cancelOrderBtn.hidden = NO;
+//    } else {
+//        self.cancelOrderBtn.hidden = YES;
+//    }
     
     if (self.order.canUp) { // 可以确认上车
         self.confirmOnBtn.hidden = NO;
@@ -326,7 +312,7 @@
     // 订单是否正在取消中
     if ((self.order.studentState == 4) && (self.order.coachState != 4)) {
         self.cancelOrderBannerLabel.hidden = NO;
-        self.moreOperationBtn.hidden = YES;
+        self.cancelOrderBtn.hidden = YES;
     } else {
         self.cancelOrderBannerLabel.hidden = YES;
     }
@@ -366,9 +352,9 @@
 
 // 请求取消订单后的界面设置
 - (void)orderConfigAfterRequestCanceled {
-    [self clickForCloseSureCancelOrder:nil];
+    [self clickForCloseMoreOperation:nil];
     self.cancelOrderBannerLabel.hidden = NO;
-    self.moreOperationBtn.hidden = YES;
+    self.cancelOrderBtn.hidden = YES;
 }
 
 #pragma mark - 网络请求
@@ -744,20 +730,9 @@
 #pragma mark - 点击事件
 // 更多操作页
 - (IBAction)clickForMoreOperation:(UIButton *)sender {
-    [self.view addSubview:self.moreOperationView];
-}
-
-// 关闭更多操作页
-- (IBAction)clickForCloseMoreOperation:(UIButton *)sender {
-    [self.sureCancelOrderView removeFromSuperview];
-    [self.moreOperationView removeFromSuperview];
-}
-
-// "取消订单"弹框
-- (IBAction)clickForCancelOrder:(UIButton *)sender {
     // 未完成订单
     if (self.orderType == 1) {
-        [self.view addSubview:self.sureCancelOrderView];
+        [self.view addSubview:self.moreOperationView];
     }
     else if (self.orderType == 3) {
         [self.moreOperationView removeFromSuperview];
@@ -767,15 +742,14 @@
     }
 }
 
+// 关闭更多操作页
+- (IBAction)clickForCloseMoreOperation:(UIButton *)sender {
+    [self.moreOperationView removeFromSuperview];
+}
+
 // 确认取消订单
 - (IBAction)clickForSureCancelOrder:(UIButton *)sender {
     [self postCancelOrder];
-}
-
-// 关闭"取消订单"弹框
-- (IBAction)clickForCloseSureCancelOrder:(UIButton *)sender {
-    [self.sureCancelOrderView removeFromSuperview];
-    [self.moreOperationView removeFromSuperview];
 }
 
 // 投诉

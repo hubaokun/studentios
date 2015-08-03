@@ -131,14 +131,17 @@
 - (void)payTypeSelectViewConfig:(XBBookOrder *)bookOrder {
     if (bookOrder.payType == payTypeCoupon) {
         [self selectButton:self.couponSelectBtn];
+        _remainderCouponNum++;
     }
     
     else if (bookOrder.payType == payTypeCoin) {
         [self selectButton:self.coinSelectBtn];
+        _remainderCoinNum += [bookOrder.price intValue];
     }
     
     else if (bookOrder.payType == payTypeMoney) {
         [self selectButton:self.moneySelectBtn];
+        _remainderMoney += [bookOrder.price floatValue];
     }
     
     [self allSelectBtnConfig:bookOrder];
@@ -183,12 +186,12 @@
 
 // 显示可用的剩余财富
 - (void)remainWealthShow {
-    self.remainCouponLabel.text = [NSString stringWithFormat:@"剩余%d张", _remainderCouponNum];
-    self.remainCoinLabel.text = [NSString stringWithFormat:@"剩余%d个", _remainderCoinNum];
+    self.remainCouponLabel.text = [NSString stringWithFormat:@"%d张可用", _remainderCouponNum];
+    self.remainCoinLabel.text = [NSString stringWithFormat:@"%d个可用", _remainderCoinNum];
     
     NSString *remainMoneyStr = nil;
     if (_remainderMoney >= 0) {
-        remainMoneyStr =  [NSString stringWithFormat:@"剩余%d元", (int)_remainderMoney];
+        remainMoneyStr =  [NSString stringWithFormat:@"%d元可用", (int)_remainderMoney];
     } else {
         remainMoneyStr = [NSString stringWithFormat:@"需充值%d元", -(int)_remainderMoney];
     }
@@ -1050,12 +1053,14 @@
     // 余额支付统计
     NSString *moneyPayStr = @"";
     int needMoney = [self.priceSum intValue] - couponCost - coinCost;// 需要用余额支付的数目
-    if (_validMoney >= (float)needMoney) { // 余额充足
-        moneyPayStr = [NSString stringWithFormat:@"使用余额支付%d元。", needMoney];
-        self.moneyIsDeficit = NO;
-    } else {
-        moneyPayStr = [NSString stringWithFormat:@"需用余额支付%d元,余额不足请充值！", needMoney];
-        self.moneyIsDeficit = YES;
+    if (needMoney > 0) {
+        if (_validMoney >= (float)needMoney) { // 余额充足
+            moneyPayStr = [NSString stringWithFormat:@"使用余额支付%d元。", needMoney];
+            self.moneyIsDeficit = NO;
+        } else {
+            moneyPayStr = [NSString stringWithFormat:@"需用余额支付%d元,余额不足请充值！", needMoney];
+            self.moneyIsDeficit = YES;
+        }
     }
     
     payStr = [NSString stringWithFormat:@"%@%@%@", couponPayStr, coinPayStr, moneyPayStr];
@@ -1065,6 +1070,7 @@
 // 生成订单请求参数
 - (NSMutableArray *)postParamConfig {
     NSMutableArray *times = [NSMutableArray array];
+    int couponIndex = 0;
     for (int i = 0; i < self.dateTimeSelectedList.count; i++) {
         NSDictionary *dateDic = self.dateTimeSelectedList[i];
         XBBookOrder *bookOrder = self.bookOrdersArray[i];
@@ -1099,11 +1105,12 @@
         NSString *recordid = @"0"; // 学时券记录id
         // 学时券
         if (bookOrder.payType == payTypeCoupon) {
-            NSDictionary *couponDict = self.couponArray[i];
+            NSDictionary *couponDict = self.couponArray[couponIndex];
             int cid = [couponDict[@"recordid"] intValue];
             recordid = [NSString stringWithFormat:@"%d",cid];
             delMoney = [NSString stringWithFormat:@"%d", [bookOrder.price intValue]];
             payType = @"2";
+            couponIndex ++;
         }
         // 小巴币
         else if (bookOrder.payType == payTypeCoin) {
@@ -1262,8 +1269,9 @@
 {
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"UserInfo"];
     
-    CGFloat userMoney = [userInfo[@"money"] floatValue];
-    if (userMoney < 0) {
+    float userMoney = [userInfo[@"money"] floatValue];
+//    float userMoney = [userInfo[@"money"] floatValue];
+    if (userMoney < 0 ) {
         [self makeToast:@"您的账户已欠费!"];
         return;
     }
@@ -1327,6 +1335,17 @@
 
 // 确认并隐藏选择支付方式view
 - (IBAction)clickForHideSelectionView:(id)sender {
+    // 根据支付方式扣除对应金额
+    if (self.targetBookOrder.payType == payTypeCoupon) {
+        _remainderCouponNum--;
+    }
+    else if (self.targetBookOrder.payType == payTypeCoin) {
+        _remainderCoinNum -= [self.targetBookOrder.price intValue];
+    }
+    else if (self.targetBookOrder.payType == payTypeMoney) {
+        _remainderMoney -= [self.targetBookOrder.price floatValue];
+    }
+    
     [UIView animateWithDuration:0.35 animations:^{
         self.coverView.alpha = 0;
         self.payTypeSelectView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -1337,42 +1356,26 @@
 
 // 选择支付方式
 - (IBAction)choosePayType:(UIButton *)sender {
-    // 取消原选项
-    if (self.selectedBtn) {
-        if ([sender isEqual:self.selectedBtn]) {
-            return;
-        }
-        self.selectedBtn.selected = NO;
-        // 返还原选项的支付金额
-        if ([self.selectedBtn isEqual:self.couponSelectBtn]) {
-            _remainderCouponNum++;
-        }
-        else if ([self.selectedBtn isEqual:self.coinSelectBtn]) {
-            _remainderCoinNum += [self.targetBookOrder.price intValue];
-        }
-        else if ([self.selectedBtn isEqual:self.moneySelectBtn]) {
-            _remainderMoney += [self.targetBookOrder.price floatValue];
-        }
+    if ([sender isEqual:self.selectedBtn]) {
+        return;
     }
-    
-    // 选择新选项
-    sender.selected = YES;
-    self.selectedBtn = sender;
-    // 选中支付方式并扣除对应支付金额
-    if ([sender isEqual:self.couponSelectBtn]) {
-        self.targetBookOrder.payType = payTypeCoupon;
-        _remainderCouponNum--;
+    else {
+        // 选择新选项
+        sender.selected = YES;
+        self.selectedBtn = sender;
+        
+        // 改变订单支付方式
+        if ([sender isEqual:self.couponSelectBtn]) {
+            self.targetBookOrder.payType = payTypeCoupon;
+        }
+        else if ([sender isEqual:self.coinSelectBtn]) {
+            self.targetBookOrder.payType = payTypeCoin;
+        }
+        else if ([sender isEqual:self.moneySelectBtn]) {
+            self.targetBookOrder.payType = payTypeMoney;
+        }
+//        [self remainWealthShow];
+        [self clickForHideSelectionView:nil];
     }
-    else if ([sender isEqual:self.coinSelectBtn]) {
-        self.targetBookOrder.payType = payTypeCoin;
-        _remainderCoinNum -= [self.targetBookOrder.price intValue];
-    }
-    else if ([sender isEqual:self.moneySelectBtn]) {
-        self.targetBookOrder.payType = payTypeMoney;
-        _remainderMoney -= [self.targetBookOrder.price floatValue];
-    }
-    
-    [self remainWealthShow];
-    [self clickForHideSelectionView:nil];
 }
 @end

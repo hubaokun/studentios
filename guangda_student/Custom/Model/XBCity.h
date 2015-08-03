@@ -12,6 +12,7 @@
 @interface XBCity : NSObject
 
 @property (copy, nonatomic) NSString *cityID;
+@property (copy, nonatomic) NSString *baiduID;
 @property (copy, nonatomic) NSString *cityName;
 @property (strong, nonatomic) NSArray *areasArray;
 

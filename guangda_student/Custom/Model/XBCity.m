@@ -14,6 +14,7 @@
 {
     if (self = [super init]) {
         _cityID = [dict[@"cityid"] description];
+        _baiduID = [dict[@"baiduid"] description];
         _cityName = dict[@"city"];
         NSArray * areasInfoArray = dict[@"areas"];
         _areasArray = [XBArea areasWithArray:areasInfoArray];

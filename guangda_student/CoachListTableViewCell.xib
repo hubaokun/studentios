@@ -37,7 +37,7 @@
                             </mask>
                         </variation>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jdT-9m-xNK" userLabel="driveSchool">
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jdT-9m-xNK" userLabel="driveSchool">
                         <rect key="frame" x="75" y="35" width="245" height="17"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="m7H-sV-CRT"/>
@@ -47,7 +47,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bbo-k3-Dtj" userLabel="detail">
-                        <rect key="frame" x="75" y="46" width="237" height="32.5"/>
+                        <rect key="frame" x="75" y="41" width="237" height="37.5"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="pi9-Gy-5nh"/>
                         </constraints>
@@ -81,7 +81,7 @@
                     <constraint firstItem="jdT-9m-xNK" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" constant="8" id="E4U-Io-1HA"/>
                     <constraint firstItem="ix3-c3-hao" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Efp-YF-Pfh"/>
                     <constraint firstAttribute="centerY" secondItem="ix3-c3-hao" secondAttribute="centerY" id="J06-eP-jrw"/>
-                    <constraint firstItem="bbo-k3-Dtj" firstAttribute="top" secondItem="I04-tH-5BU" secondAttribute="bottom" constant="11" id="KmB-8Y-eSZ"/>
+                    <constraint firstItem="bbo-k3-Dtj" firstAttribute="top" secondItem="I04-tH-5BU" secondAttribute="bottom" constant="6" id="KmB-8Y-eSZ"/>
                     <constraint firstAttribute="bottom" secondItem="jfw-9o-ekh" secondAttribute="bottom" id="M0p-P7-VIv"/>
                     <constraint firstItem="jdT-9m-xNK" firstAttribute="top" secondItem="I04-tH-5BU" secondAttribute="bottom" id="MeV-AL-4ds"/>
                     <constraint firstAttribute="trailing" secondItem="jfw-9o-ekh" secondAttribute="trailing" id="Nbe-91-RXb"/>

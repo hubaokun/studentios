@@ -39,8 +39,8 @@
 #define kAppID_QQ               @"1104472861"
 
 //百度 AppKey
-#define kAppKey_Baidu           @"hLR2f2QZeTDuE2g7rFLVo0bc"
-//#define kAppKey_Baidu           @"tf3pVGsiRgGMBjxnaefjNlIt"
+//#define kAppKey_Baidu           @"hLR2f2QZeTDuE2g7rFLVo0bc"
+#define kAppKey_Baidu           @"tf3pVGsiRgGMBjxnaefjNlIt"
 
 #define ERR_NETWORK             @"当前网络不稳定，请重试！"
 #define NO_NETWORK              @"没有连接网络"

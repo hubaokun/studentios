@@ -183,6 +183,7 @@
 		705EAD751B6A4B3800035F76 /* XBCoupon.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD6D1B6A4B3800035F76 /* XBCoupon.m */; };
 		705EAD761B6A4B3800035F76 /* XBProvince.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD6F1B6A4B3800035F76 /* XBProvince.m */; };
 		70CC165F1B6BC13D00084296 /* XBCoin.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CC165E1B6BC13D00084296 /* XBCoin.m */; };
+		70CC16671B6F4EA600084296 /* libMobClickGameLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */; };
 		713694851B4E3CF500F6D573 /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */; };
 		713694971B51627700F6D573 /* OnlineTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 713694951B51627700F6D573 /* OnlineTestViewController.m */; };
 		713694981B51627700F6D573 /* OnlineTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 713694961B51627700F6D573 /* OnlineTestViewController.xib */; };
@@ -639,6 +640,10 @@
 		705EAD6F1B6A4B3800035F76 /* XBProvince.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBProvince.m; sourceTree = "<group>"; };
 		70CC165D1B6BC13C00084296 /* XBCoin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBCoin.h; sourceTree = "<group>"; };
 		70CC165E1B6BC13D00084296 /* XBCoin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBCoin.m; sourceTree = "<group>"; };
+		70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickGameLibrary.a; sourceTree = "<group>"; };
+		70CC16641B6F4EA600084296 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
+		70CC16651B6F4EA600084296 /* MobClickGameAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickGameAnalytics.h; sourceTree = "<group>"; };
+		70CC16661B6F4EA600084296 /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickSocialAnalytics.h; sourceTree = "<group>"; };
 		713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = 3rdparty/BaiduMapAPI.framework; sourceTree = "<group>"; };
 		713694941B51627700F6D573 /* OnlineTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlineTestViewController.h; sourceTree = "<group>"; };
 		713694951B51627700F6D573 /* OnlineTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlineTestViewController.m; sourceTree = "<group>"; };
@@ -763,6 +768,7 @@
 				B9BD21061B3934F100B6B7B1 /* AudioToolbox.framework in Frameworks */,
 				B9BD21041B3934DE00B6B7B1 /* CoreMotion.framework in Frameworks */,
 				B9BD21021B3934CA00B6B7B1 /* SceneKit.framework in Frameworks */,
+				70CC16671B6F4EA600084296 /* libMobClickGameLibrary.a in Frameworks */,
 				314F4E171AEA2DF100DD8FC6 /* CoreText.framework in Frameworks */,
 				3168C98E1AD3937300B607C3 /* Security.framework in Frameworks */,
 				3168C9941AD393B300B607C3 /* CoreGraphics.framework in Frameworks */,
@@ -967,6 +973,7 @@
 		3179E5A61AC284C600AFCFAA /* 3rdparty */ = {
 			isa = PBXGroup;
 			children = (
+				70CC16621B6F4EA600084296 /* umsdk_iOS_game_idfa_3.5.10.0 */,
 				3166B5421B0B43040017C10B /* SwipeView */,
 				31824AA21B037EAD001AF41A /* mapapi.bundle */,
 				376A19C21ADCDC2C004F1FE3 /* TQStarRating */,
@@ -1613,6 +1620,17 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		70CC16621B6F4EA600084296 /* umsdk_iOS_game_idfa_3.5.10.0 */ = {
+			isa = PBXGroup;
+			children = (
+				70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */,
+				70CC16641B6F4EA600084296 /* MobClick.h */,
+				70CC16651B6F4EA600084296 /* MobClickGameAnalytics.h */,
+				70CC16661B6F4EA600084296 /* MobClickSocialAnalytics.h */,
+			);
+			path = umsdk_iOS_game_idfa_3.5.10.0;
+			sourceTree = "<group>";
+		};
 		713694931B51627700F6D573 /* OnlineTest */ = {
 			isa = PBXGroup;
 			children = (
@@ -2033,8 +2051,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2059,7 +2077,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
+				PROVISIONING_PROFILE = "98ba69c9-4ed1-415b-ab32-7d20975071de";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
@@ -2082,8 +2100,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2101,7 +2119,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
+				PROVISIONING_PROFILE = "98ba69c9-4ed1-415b-ab32-7d20975071de";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -2113,8 +2131,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/TencentOpenAPI",
@@ -2135,13 +2153,14 @@
 					"$(PROJECT_DIR)/guangda_student/3rdparty",
 					"$(PROJECT_DIR)/guangda_student",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/AlipaySDK/Alipay",
+					"$(PROJECT_DIR)/guangda_student/3rdparty/umsdk_iOS_game_idfa_3.5.10.0",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-Objc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
+				PROVISIONING_PROFILE = "98ba69c9-4ed1-415b-ab32-7d20975071de";
 			};
 			name = Debug;
 		};
@@ -2150,8 +2169,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/TencentOpenAPI",
@@ -2172,13 +2191,14 @@
 					"$(PROJECT_DIR)/guangda_student/3rdparty",
 					"$(PROJECT_DIR)/guangda_student",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/AlipaySDK/Alipay",
+					"$(PROJECT_DIR)/guangda_student/3rdparty/umsdk_iOS_game_idfa_3.5.10.0",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-Objc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
+				PROVISIONING_PROFILE = "98ba69c9-4ed1-415b-ab32-7d20975071de";
 			};
 			name = Release;
 		};

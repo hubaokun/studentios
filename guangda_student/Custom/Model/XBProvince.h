@@ -12,6 +12,7 @@
 @interface XBProvince : NSObject
 
 @property (copy, nonatomic) NSString *provinceID;
+@property (copy, nonatomic) NSString *baiduID;
 @property (copy, nonatomic) NSString *provinceName;
 @property (strong, nonatomic) NSArray *citiesArray;
 @property (assign, nonatomic) BOOL isZxs; // 是否是直辖市
