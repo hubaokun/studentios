@@ -221,7 +221,7 @@
     }
     
     // 总价
-    NSMutableString *costStr = [NSString stringWithFormat:@"%@元", self.order.cost];
+    NSMutableString *costStr = [NSMutableString stringWithFormat:@"%@元", self.order.cost];
     if (_payType == 2) { // 小巴币支付
         [costStr appendString:@" (小巴币支付)"];
     } else if (_payType == 3) {
