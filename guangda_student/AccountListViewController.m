@@ -14,6 +14,7 @@
 {
     NSString *_couponsum;
     NSString *_coinsum;
+    NSString *_fCoinsum;
     NSString *_money;
 }
 @property (strong, nonatomic) IBOutlet UIView *msgView;
@@ -70,6 +71,7 @@
     if ([[CommonUtil currentUtil] isLogin]) {
         CoinListViewController *viewController = [[CoinListViewController alloc] initWithNibName:@"CoinListViewController" bundle:nil];
         viewController.coinSum = _coinsum;
+        viewController.fCoinSum = _fCoinsum;
         [self.navigationController pushViewController:viewController animated:YES];
     }
 }
@@ -95,6 +97,7 @@
             NSLog(@"message ===== %@", responseObject[@"message"]);
             _coinsum = [responseObject[@"coinsum"] description];
             _couponsum = [responseObject[@"couponsum"] description];
+            _fCoinsum = [responseObject[@"fcoinsum"] description];
             _money = [responseObject[@"money"] description];
 //            self.alertView.frame = self.view.frame;
 //            [self.view addSubview:self.alertView];

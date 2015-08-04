@@ -10,7 +10,8 @@
 
 @interface CoinListViewController : GreyTopViewController
 
-/*input coinSum*/
+/* input */
 @property (copy, nonatomic) NSString *coinSum;
+@property (copy, nonatomic) NSString *fCoinSum; // 冻结小巴币数
 
 @end

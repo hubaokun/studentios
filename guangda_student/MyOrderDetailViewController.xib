@@ -274,14 +274,14 @@
                                                 </button>
                                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rop-5A-su6">
                                                     <rect key="frame" x="8" y="0.0" width="72" height="30"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" red="0.32941176470588235" green="0.80000000000000004" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="Ngj-Gd-hYp"/>
                                                         <constraint firstAttribute="width" constant="72" id="TaU-W4-Lec"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <state key="normal" title="取消订单">
-                                                        <color key="titleColor" red="0.96470588239999999" green="0.40000000000000002" blue="0.36470588240000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
@@ -728,10 +728,10 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gDB-XV-e68" userLabel="SureCancelOrder">
-                    <rect key="frame" x="150" y="225" width="300" height="150"/>
+                    <rect key="frame" x="160" y="235" width="280" height="130"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="教练确认后才能成功取消" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hXw-kT-plG" userLabel="tip1">
-                            <rect key="frame" x="30" y="30" width="250" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="教练确认后才能成功取消" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hXw-kT-plG" userLabel="tip1">
+                            <rect key="frame" x="30" y="30" width="230" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="fyP-OL-m6p"/>
                             </constraints>
@@ -739,21 +739,12 @@
                             <color key="textColor" red="0.054901960784313725" green="0.054901960784313725" blue="0.058823529411764705" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击确认后请与教练电话联系！" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NSK-9l-k5u" userLabel="tip2">
-                            <rect key="frame" x="30" y="59" width="250" height="21"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="21" id="PDR-So-HsR"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gaS-3E-3uJ">
-                            <rect key="frame" x="30" y="95" width="239" height="39"/>
+                            <rect key="frame" x="49.5" y="75" width="180" height="39"/>
                             <color key="backgroundColor" red="0.31372549019607843" green="0.79607843137254897" blue="0.5490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="39" id="KCb-uJ-zO2"/>
-                                <constraint firstAttribute="width" constant="239" id="g6t-Pe-Dll"/>
+                                <constraint firstAttribute="width" constant="180" id="g6t-Pe-Dll"/>
                             </constraints>
                             <state key="normal" title="请教练确认">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -764,7 +755,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MFb-yz-vbx">
-                            <rect key="frame" x="260" y="0.0" width="40" height="40"/>
+                            <rect key="frame" x="240" y="0.0" width="40" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="YPg-zr-jLJ"/>
                                 <constraint firstAttribute="width" constant="40" id="unl-m0-W6X"/>
@@ -783,16 +774,13 @@
                     <constraints>
                         <constraint firstItem="hXw-kT-plG" firstAttribute="top" secondItem="gDB-XV-e68" secondAttribute="top" constant="30" id="9HU-lv-FbW"/>
                         <constraint firstAttribute="centerX" secondItem="gaS-3E-3uJ" secondAttribute="centerX" id="9ru-9Y-hz9"/>
-                        <constraint firstAttribute="width" constant="300" id="Bha-Sf-fra"/>
+                        <constraint firstAttribute="width" constant="280" id="Bha-Sf-fra"/>
                         <constraint firstAttribute="trailing" secondItem="hXw-kT-plG" secondAttribute="trailing" constant="20" id="Ixm-6F-8Bw"/>
                         <constraint firstAttribute="trailing" secondItem="MFb-yz-vbx" secondAttribute="trailing" id="aFG-CK-9Ab"/>
-                        <constraint firstItem="NSK-9l-k5u" firstAttribute="leading" secondItem="gDB-XV-e68" secondAttribute="leading" constant="30" id="bVT-o8-usA"/>
-                        <constraint firstAttribute="height" constant="150" id="gan-BF-AGc"/>
-                        <constraint firstAttribute="trailing" secondItem="NSK-9l-k5u" secondAttribute="trailing" constant="20" id="lkP-wB-wf2"/>
-                        <constraint firstItem="gaS-3E-3uJ" firstAttribute="top" secondItem="NSK-9l-k5u" secondAttribute="bottom" constant="15" id="u3V-5f-mpU"/>
+                        <constraint firstAttribute="bottom" secondItem="gaS-3E-3uJ" secondAttribute="bottom" constant="16" id="gRv-tP-5Y3"/>
+                        <constraint firstAttribute="height" constant="130" id="gan-BF-AGc"/>
                         <constraint firstItem="MFb-yz-vbx" firstAttribute="top" secondItem="gDB-XV-e68" secondAttribute="top" id="uVd-EK-uJn"/>
                         <constraint firstItem="hXw-kT-plG" firstAttribute="leading" secondItem="gDB-XV-e68" secondAttribute="leading" constant="30" id="v74-mj-hIG"/>
-                        <constraint firstItem="NSK-9l-k5u" firstAttribute="top" secondItem="hXw-kT-plG" secondAttribute="bottom" constant="8" id="ywM-C7-vtB"/>
                     </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jXa-vB-ylE" userLabel="OperationItems">

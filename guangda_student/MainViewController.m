@@ -939,6 +939,13 @@
     
     [paramDic setObject:pointcenter forKey:@"pointcenter"];
     [paramDic setObject:radius forKey:@"radius"];
+    
+    // userID
+    AppDelegate *deleget = [UIApplication sharedApplication].delegate;
+    if (![CommonUtil isEmpty:deleget.userid]) {
+        paramDic[@"userid"] = deleget.userid;
+    }
+    
     // app版本
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];

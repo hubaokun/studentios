@@ -813,7 +813,7 @@
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [DejalBezelActivityView removeViewAnimated:YES];
-        NSLog(@"GetNearByCoach == %@", ERR_NETWORK);
+        NSLog(@"error == %@", ERR_NETWORK);
         [self makeToast:ERR_NETWORK];
     }];
 }

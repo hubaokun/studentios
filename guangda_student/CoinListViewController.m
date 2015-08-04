@@ -30,6 +30,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *coinName2;
 @property (strong, nonatomic) IBOutlet UILabel *coinName3;
 @property (weak, nonatomic) IBOutlet UILabel *describeLabel; // 小巴币描述
+@property (weak, nonatomic) IBOutlet UILabel *fCoinSumLabel;
 
 // 页面数据
 @property (strong, nonatomic) NSMutableArray *coinsArray;
@@ -47,7 +48,7 @@
     self.mainTableview.dataSource = self;
     
     CGRect viewRect = [[UIScreen mainScreen] bounds];
-    [self.headView setFrame:CGRectMake(0, 64, viewRect.size.width, 119)];
+    [self.headView setFrame:CGRectMake(0, 64, viewRect.size.width, 144)];
 //    self.mainTableview.tableHeaderView = self.headView;
     [self.view addSubview:self.headView];
     
@@ -59,6 +60,7 @@
     self.totalCoinLabel.attributedText = string3;
     
     self.describeLabel.text = @"仅限在预约您的驾校教练时使用";
+    self.fCoinSumLabel.text = [NSString stringWithFormat:@"(冻结金额: %@元)", self.fCoinSum];;
 }
 #pragma mark - UITableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

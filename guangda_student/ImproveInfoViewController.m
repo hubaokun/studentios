@@ -631,7 +631,7 @@
     [new_user_info setObject:[NSNumber numberWithInt:_gender] forKey:@"gender"];
     [new_user_info setObject:_birthday forKey:@"birthday"];
     [new_user_info setObject:_city forKey:@"locationname"];
-    [new_user_info setObject:self.selectCityID forKey:@"cityid"];
+    [new_user_info setObject:_selectCityID forKey:@"cityid"];
     [new_user_info setObject:_address forKey:@"address"];
     [new_user_info setObject:_urgentPerson forKey:@"urgent_person"];
     [new_user_info setObject:_urgentPhone forKey:@"urgent_phone"];
@@ -644,6 +644,7 @@
     _gender = [[user_info objectForKey:@"gender"] intValue];
     _birthday = [user_info objectForKey:@"birthday"];
     _city = [user_info objectForKey:@"locationname"];
+    _selectCityID = [user_info objectForKey:@"cityid"];
     _address = [user_info objectForKey:@"address"];
     _urgentPerson = [user_info objectForKey:@"urgent_person"];
     _urgentPhone = [user_info objectForKey:@"urgent_phone"];
@@ -651,6 +652,10 @@
 
 #pragma mark - 点击事件
 - (IBAction)clickForCommit:(id)sender {
+    if ([CommonUtil isEmpty:self.cityField.text]) {
+        [self makeToast:@"请选择驾考城市"];
+        return;
+    }
     [self postPerfectPersonInfo];
 }
 

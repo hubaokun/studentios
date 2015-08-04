@@ -20,7 +20,7 @@
     [super viewDidLoad];
 //    self.mainTableview.delegate = self;
 //    self.mainTableview.dataSource = self;
-    NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://note.youdao.com/share/?id=ea7e70b4495c2a0c35aebb3950c839b8&type=note"]];
+    NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.xiaobaxueche.com/coinrules.html"]];
     [self.contentWebView loadRequest:request];
 }
 #pragma mark - UITableView

@@ -20,6 +20,7 @@
     CGFloat strHeight1;
     CGFloat strHeight2;
     BMKLocationService *_locService;
+    int _payType; // 支付方式 1.账户余额 2.学时券 3.小巴币
 }
 
 @property (strong, nonatomic) IBOutlet UIView *moreOperationView; // 更多操作
@@ -76,8 +77,8 @@
     [self.cancelComplainBtn addTarget:self action:@selector(clickForCancelComplain) forControlEvents:UIControlEventTouchUpInside];
     
     // 取消订单按钮
-    self.cancelOrderBtn.layer.borderWidth = 0.6;
-    self.cancelOrderBtn.layer.borderColor = [RGB(246, 102, 93) CGColor];
+//    self.cancelOrderBtn.layer.borderWidth = 0.6;
+//    self.cancelOrderBtn.layer.borderColor = [RGB(246, 102, 93) CGColor];
     self.cancelOrderBtn.layer.cornerRadius = 4;
 //    [self.cancelOrderBtn addTarget:self action:@selector(clickForCancelOrder:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -91,6 +92,7 @@
 
     // 评价按钮
     self.evaluateBtn.layer.borderWidth = 0.6;
+    self.evaluateBtn.layer.borderColor = [RGB(84, 204, 153) CGColor];
     self.evaluateBtn.layer.cornerRadius = 4;
     [self.evaluateBtn addTarget:self action:@selector(clickToMyOrderEvaluation:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -218,7 +220,14 @@
         priceViewHeight = [self showPriceList:orderHourArray];
     }
     
-    self.costLabel.text = [NSString stringWithFormat:@"%@元", self.order.cost];
+    // 总价
+    NSMutableString *costStr = [NSString stringWithFormat:@"%@元", self.order.cost];
+    if (_payType == 2) { // 小巴币支付
+        [costStr appendString:@" (小巴币支付)"];
+    } else if (_payType == 3) {
+        [costStr appendString:@" (学时券支付)"];
+    }
+    self.costLabel.text = costStr;
     
     NSArray *startTimeArray = [self.order.startTime componentsSeparatedByString:@" "];
     NSString *startDateStr = startTimeArray[0];
@@ -714,6 +723,7 @@
     // coachinfo
     self.coach = self.order.coach;
     
+    _payType = [self.orderInfoDic[@"paytype"] intValue];
     
     _myEvaluationDic = self.orderInfoDic[@"myevaluation"];
     _evaluationDic =self.orderInfoDic[@"evaluation"];

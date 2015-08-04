@@ -71,7 +71,7 @@
 }
 
 #pragma mark - 网络请求
-// 提交账号信息
+// 获取服务url
 - (void)postGetServiceUrl {
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     paramDic[@"cityid"] = self.cityID;
@@ -86,8 +86,8 @@
         
         int code = [responseObject[@"code"] intValue];
         if (code == 1) {
-            self.trainingUrl = responseObject[@"simulatetraining"];
-            self.examUrl = responseObject[@"bookexam"];
+            self.trainingUrl = responseObject[@"simulateUrl"];
+            self.examUrl = responseObject[@"bookreceptionUrl"];
             [self performSelector:@selector(showMainView) withObject:nil afterDelay:0.3f];
         }else{
             NSString *message = responseObject[@"message"];
@@ -122,7 +122,7 @@
 //预约考试
 - (IBAction)clickForTest:(id)sender {
     if ([CommonUtil isEmpty:self.examUrl]) {
-        [self makeToast:@"暂未收录"];
+        [self makeToast:@"抱歉，该城市暂未收录"];
         return;
     } else {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.examUrl]];
@@ -132,7 +132,7 @@
 //预约培训
 - (IBAction)clickForTrain:(id)sender {
     if ([CommonUtil isEmpty:self.trainingUrl]) {
-        [self makeToast:@"暂未收录"];
+        [self makeToast:@"抱歉，该城市暂未收录"];
         return;
     } else {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.trainingUrl]];

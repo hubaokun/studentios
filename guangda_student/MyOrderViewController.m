@@ -286,6 +286,10 @@
     [self postGetMoreOrder];
 }
 
+- (void)pageNumMinus {
+    _pageNum = [NSString stringWithFormat:@"%d", [_pageNum intValue] - 1];
+}
+
 #pragma mark - 页面特性
 // 判断是否有数据
 - (void)ifNoData {
@@ -438,7 +442,7 @@
     
     // 待评价订单列表
     else if (_orderType == waitEvaluationOrder) {
-        uri = @"/sorder?action=GetUnCompleteOrder";
+        uri = @"/sorder?action=GetWaitEvaluationOrder";
     }
     
     // 已完成订单列表
@@ -478,7 +482,8 @@
             
             [self.mainTableView reloadData];
             
-        }else if(code == 95){
+        }
+        else if(code == 95){
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
             [CommonUtil logout];
@@ -487,13 +492,18 @@
                                            selector:@selector(backLogin)
                                            userInfo:nil
                                             repeats:NO];
-        }else{
+            [self pageNumMinus];
+        }
+        else{
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
+            [self pageNumMinus];
         }
         [self ifNoData];
         [_pullToMore tableViewReloadFinished];
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self pageNumMinus];
         NSLog(@"连接失败");
         [self makeToast:ERR_NETWORK];
         [_pullToMore tableViewReloadFinished];
@@ -666,7 +676,10 @@
         int code = [responseObject[@"code"] intValue];
         if (code == 1) {
             [self makeToast:@"确认下车成功"];
-            [self postGetOrder];
+            // 跳转到订单评价页面
+            MyOrderEvaluationViewController *targetController = [[MyOrderEvaluationViewController alloc] initWithNibName:@"MyOrderEvaluationViewController" bundle:nil];
+            targetController.orderid = self.confirmOrderId;
+            [self.navigationController pushViewController:targetController animated:YES];
         }else if(code == 95){
             NSString *message = responseObject[@"message"];
             [self makeToast:message];

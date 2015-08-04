@@ -19,6 +19,7 @@
     
     _evaluateBtn.layer.borderWidth = 0.6;
     _evaluateBtn.layer.cornerRadius = 4;
+    _evaluateBtn.layer.borderColor = [RGB(84, 204, 153) CGColor];
     
     _continueAppointBtn.layer.borderWidth = 0.6;
     _continueAppointBtn.layer.cornerRadius = 4;

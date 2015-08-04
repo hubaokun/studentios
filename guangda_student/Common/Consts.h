@@ -21,7 +21,7 @@
 //#define REQUEST_HOST   @"http://120.25.236.228:8080/dadmin/"          //测试服务器
 //#define REQUEST_HOST   @"http://192.168.1.103:8080/"       // 胡博
 #define REQUEST_HOST   @"http://192.168.1.109:8080/xb/"       // 卢磊
-//#define REQUEST_HOST   @"http://192.168.1.141:8080/guangda/"   // 佳瑞
+//#define REQUEST_HOST   @"http://192.168.1.140:8080/xiaoba/"   // 佳瑞
 
 /* 道顺 */
 //#define REQUEST_HOST   @"http://192.168.1.113:8080/guangda/"

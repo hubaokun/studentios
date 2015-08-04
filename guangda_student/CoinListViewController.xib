@@ -14,6 +14,7 @@
                 <outlet property="coinName2" destination="JXC-yx-IgZ" id="U2O-tH-lv3"/>
                 <outlet property="coinName3" destination="tBT-Ag-B3p" id="IX8-Tp-wnK"/>
                 <outlet property="describeLabel" destination="1F8-So-lTn" id="1H5-9Q-rcy"/>
+                <outlet property="fCoinSumLabel" destination="Kn9-E6-CoI" id="C94-da-pEk"/>
                 <outlet property="headView" destination="irj-Mw-Jni" id="KxE-kA-luR"/>
                 <outlet property="mainTableview" destination="aBh-LB-JUf" id="b3L-6L-2wb"/>
                 <outlet property="totalCoinLabel" destination="1s4-GZ-QAn" id="3yk-lu-LO9"/>
@@ -92,10 +93,10 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M8V-Yk-I7R" userLabel="内容">
-                    <rect key="frame" x="0.0" y="183" width="600" height="417"/>
+                    <rect key="frame" x="0.0" y="208" width="600" height="392"/>
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="aBh-LB-JUf">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="417"/>
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="392"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <color key="separatorColor" red="0.95686274509803926" green="0.95686274509803926" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         </tableView>
@@ -115,13 +116,13 @@
                 <constraint firstAttribute="bottom" secondItem="M8V-Yk-I7R" secondAttribute="bottom" id="Chb-WU-K2J"/>
                 <constraint firstItem="LHP-VY-gSJ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Tz9-fW-WXG"/>
                 <constraint firstItem="LHP-VY-gSJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="fGa-et-1I9"/>
-                <constraint firstItem="M8V-Yk-I7R" firstAttribute="top" secondItem="LHP-VY-gSJ" secondAttribute="bottom" constant="119" id="gvB-0n-3Ic"/>
+                <constraint firstItem="M8V-Yk-I7R" firstAttribute="top" secondItem="LHP-VY-gSJ" secondAttribute="bottom" constant="144" id="gvB-0n-3Ic"/>
                 <constraint firstItem="M8V-Yk-I7R" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ozo-XM-xXT"/>
                 <constraint firstAttribute="trailing" secondItem="LHP-VY-gSJ" secondAttribute="trailing" id="y0J-mZ-1gV"/>
             </constraints>
         </view>
         <view contentMode="scaleToFill" id="irj-Mw-Jni">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="119"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="144"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0个" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1s4-GZ-QAn">
@@ -130,6 +131,37 @@
                         <constraint firstAttribute="height" constant="48" id="noB-Gg-OSR"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kn9-E6-CoI">
+                    <rect key="frame" x="18" y="48" width="564" height="25"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="25" id="tni-7B-Lat"/>
+                    </constraints>
+                    <attributedString key="attributedText">
+                        <fragment content="（冻结金额：">
+                            <attributes>
+                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                            </attributes>
+                        </fragment>
+                        <fragment content="0">
+                            <attributes>
+                                <color key="NSColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                            </attributes>
+                        </fragment>
+                        <fragment content="元）">
+                            <attributes>
+                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                            </attributes>
+                        </fragment>
+                    </attributedString>
                     <nil key="highlightedColor"/>
                 </label>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vy9-Uq-0BG" userLabel="账户余额">
@@ -284,7 +316,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ENB-Qp-rtm">
-                    <rect key="frame" x="0.0" y="77" width="600" height="42"/>
+                    <rect key="frame" x="0.0" y="102" width="600" height="42"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gkJ-3d-xZ8" userLabel="underline">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
@@ -325,7 +357,7 @@
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1F8-So-lTn" userLabel="des">
-                    <rect key="frame" x="0.0" y="48" width="600" height="21"/>
+                    <rect key="frame" x="0.0" y="73" width="600" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="INq-xv-8WI"/>
                     </constraints>
@@ -338,10 +370,12 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="bKz-sf-6Ok" secondAttribute="trailing" id="7aO-o9-cvD"/>
                 <constraint firstItem="ENB-Qp-rtm" firstAttribute="top" secondItem="1F8-So-lTn" secondAttribute="bottom" constant="8" id="I6o-uR-Q8I"/>
+                <constraint firstItem="Kn9-E6-CoI" firstAttribute="leading" secondItem="irj-Mw-Jni" secondAttribute="leading" constant="18" id="JcC-5d-bsH"/>
                 <constraint firstItem="Vy9-Uq-0BG" firstAttribute="top" secondItem="1s4-GZ-QAn" secondAttribute="bottom" id="NEE-kh-xMr"/>
+                <constraint firstItem="Kn9-E6-CoI" firstAttribute="top" secondItem="bKz-sf-6Ok" secondAttribute="bottom" id="OME-DQ-AQe"/>
                 <constraint firstItem="1s4-GZ-QAn" firstAttribute="top" secondItem="irj-Mw-Jni" secondAttribute="top" id="X48-eV-0Mr"/>
                 <constraint firstItem="XTb-j5-Xlb" firstAttribute="top" secondItem="Vy9-Uq-0BG" secondAttribute="bottom" id="XoG-Ej-gos"/>
-                <constraint firstItem="1F8-So-lTn" firstAttribute="top" secondItem="1s4-GZ-QAn" secondAttribute="bottom" id="YTI-76-8ES"/>
+                <constraint firstItem="1F8-So-lTn" firstAttribute="top" secondItem="1s4-GZ-QAn" secondAttribute="bottom" constant="25" id="YTI-76-8ES"/>
                 <constraint firstAttribute="trailing" secondItem="1s4-GZ-QAn" secondAttribute="trailing" id="cBD-Jo-mYA"/>
                 <constraint firstItem="ENB-Qp-rtm" firstAttribute="leading" secondItem="irj-Mw-Jni" secondAttribute="leading" id="cJU-MO-A16"/>
                 <constraint firstItem="1s4-GZ-QAn" firstAttribute="leading" secondItem="irj-Mw-Jni" secondAttribute="leading" id="dMs-kM-Hrr"/>
@@ -351,6 +385,7 @@
                 <constraint firstItem="bKz-sf-6Ok" firstAttribute="leading" secondItem="irj-Mw-Jni" secondAttribute="leading" id="ld4-Al-Xoa"/>
                 <constraint firstAttribute="trailing" secondItem="XTb-j5-Xlb" secondAttribute="trailing" id="mIk-hg-cvK"/>
                 <constraint firstAttribute="trailing" secondItem="ENB-Qp-rtm" secondAttribute="trailing" id="pjD-R8-oZc"/>
+                <constraint firstAttribute="trailing" secondItem="Kn9-E6-CoI" secondAttribute="trailing" constant="18" id="rAZ-61-11k"/>
                 <constraint firstItem="Vy9-Uq-0BG" firstAttribute="leading" secondItem="irj-Mw-Jni" secondAttribute="leading" id="rMi-Tu-EQa"/>
                 <constraint firstAttribute="trailing" secondItem="1F8-So-lTn" secondAttribute="trailing" id="vP1-b8-bff"/>
                 <constraint firstAttribute="trailing" secondItem="Vy9-Uq-0BG" secondAttribute="trailing" id="w4Q-LN-UnM"/>
@@ -359,7 +394,7 @@
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="398" y="1027"/>
+            <point key="canvasLocation" x="330" y="707"/>
         </view>
     </objects>
     <resources>

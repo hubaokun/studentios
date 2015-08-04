@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "guangda_student/XiaobaServe/XiaobaServeViewController.m"
-            timestampString = "460305601.036768"
+            filePath = "guangda_student/SureOrderViewController.m"
+            timestampString = "460359826.938498"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "-postGetServiceUrl"
+            startingLineNumber = "886"
+            endingLineNumber = "886"
+            landmarkName = "-getCanUseCouponList"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,12 +26,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "guangda_student/XiaobaServe/XiaobaServeViewController.m"
-            timestampString = "460305602.268857"
+            timestampString = "460372983.14989"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
-            landmarkName = "-postGetServiceUrl"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
+            landmarkName = "-clickForTest:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "guangda_student/XiaobaServe/XiaobaServeViewController.m"
+            timestampString = "460372984.235997"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
+            landmarkName = "-clickForTrain:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "guangda_student/MyOrderDetailViewController.m"
+            timestampString = "460374746.95882"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "386"
+            endingLineNumber = "386"
+            landmarkName = "-postGetOrderDetail"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
