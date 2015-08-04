@@ -21,6 +21,8 @@
 // 页面数据
 @property (copy, nonatomic) NSString *cityName;
 @property (copy, nonatomic) NSString *cityID;
+@property (copy, nonatomic) NSString *trainingUrl; //模拟培训
+@property (copy, nonatomic) NSString *examUrl; //在线约考
 
 @end
 
@@ -34,7 +36,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self positionConfirm];
-    [self performSelector:@selector(showMainView) withObject:nil afterDelay:0.3f];
+    
 }
 
 // 确认用户位置信息
@@ -53,6 +55,7 @@
         }
         self.cityID = [[userInfo objectForKey:@"cityid"] description];
         [self.cityBtn setTitle:self.cityName forState:UIControlStateNormal];
+        [self postGetServiceUrl];
     }
 }
 
@@ -71,9 +74,10 @@
 // 提交账号信息
 - (void)postGetServiceUrl {
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
-    NSString *uri = @"/xbservice?action=xiaobaservice";
+    paramDic[@"cityid"] = self.cityID;
+    NSString *uri = @"/location?action=GETAUTOPOSITION";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
-    
+    [DejalBezelActivityView activityViewForView:self.view];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -82,7 +86,9 @@
         
         int code = [responseObject[@"code"] intValue];
         if (code == 1) {
-            
+            self.trainingUrl = responseObject[@"simulatetraining"];
+            self.examUrl = responseObject[@"bookexam"];
+            [self performSelector:@selector(showMainView) withObject:nil afterDelay:0.3f];
         }else{
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
@@ -115,12 +121,22 @@
 }
 //预约考试
 - (IBAction)clickForTest:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.hzti.com:9004/drv_web/index.do"]];
+    if ([CommonUtil isEmpty:self.examUrl]) {
+        [self makeToast:@"暂未收录"];
+        return;
+    } else {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.examUrl]];
+    }
 }
 
 //预约培训
 - (IBAction)clickForTrain:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://xqc.qc5qc.com/reservation"]];
+    if ([CommonUtil isEmpty:self.trainingUrl]) {
+        [self makeToast:@"暂未收录"];
+        return;
+    } else {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.trainingUrl]];
+    }
 }
 
 // 修改城市

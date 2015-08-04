@@ -782,6 +782,7 @@
         [DejalBezelActivityView removeViewAnimated:YES];
         
         int code = [responseObject[@"code"] intValue];
+        NSString *message = responseObject[@"message"];
         if (code == 1)
         {
             NSString *successId = responseObject[@"successorderid"];
@@ -807,6 +808,7 @@
             [self makeToast:@"版本太旧了哦,请退出程序后再次进入,程序将自动更新"];
         }else{
             [self letoutResultViewWithType:3];
+            NSLog(@"book_failed : code = %d  message = %@", code, message);
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
