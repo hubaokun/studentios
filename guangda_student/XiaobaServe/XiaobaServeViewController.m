@@ -20,7 +20,9 @@
 
 // 页面数据
 @property (copy, nonatomic) NSString *cityName;
+@property (copy, nonatomic) NSString *provinceID;
 @property (copy, nonatomic) NSString *cityID;
+@property (copy, nonatomic) NSString *areaID;
 @property (copy, nonatomic) NSString *trainingUrl; //模拟培训
 @property (copy, nonatomic) NSString *examUrl; //在线约考
 
@@ -53,7 +55,9 @@
         if (subStrArray.count > 1) {
             self.cityName = subStrArray[1];
         }
+        self.provinceID = [[userInfo objectForKey:@"provinceid"] description];
         self.cityID = [[userInfo objectForKey:@"cityid"] description];
+        self.areaID = [[userInfo objectForKey:@"areaid"] description];
         [self.cityBtn setTitle:self.cityName forState:UIControlStateNormal];
         [self postGetServiceUrl];
     }
@@ -74,7 +78,9 @@
 // 获取服务url
 - (void)postGetServiceUrl {
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    paramDic[@"provinceid"] = self.provinceID;
     paramDic[@"cityid"] = self.cityID;
+    paramDic[@"areaid"] = self.areaID;
     NSString *uri = @"/location?action=GETAUTOPOSITION";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
     [DejalBezelActivityView activityViewForView:self.view];
