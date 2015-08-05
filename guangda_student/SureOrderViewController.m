@@ -890,94 +890,6 @@
     }];
 }
 
-// 获取可用的小巴币数目
-//- (void) getValidCoinNum {
-//    
-//    NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
-//    
-//    NSString *uri = @"/sbook?action=GETCANUSECOINSUM";
-//    
-//    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
-//    [paramDic setObject:user_info[@"studentid"] forKey:@"studentid"];
-//    [paramDic setObject:self.coachId forKey:@"coachid"];
-//    
-//    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_GET];
-//    
-//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-//    [manager GET:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        int code = [responseObject[@"code"] intValue];
-//        if (code == 1) {
-//            _validCoinNum = [responseObject[@"coinnum"] intValue];
-//            _remainderCoinNum = _validCoinNum;
-//            [self refreshUserMoney];
-//        }else if(code == 95){
-//            NSString *message = responseObject[@"message"];
-//            [self makeToast:message];
-//            [CommonUtil logout];
-//            [NSTimer scheduledTimerWithTimeInterval:0.5
-//                                             target:self
-//                                           selector:@selector(backLogin)
-//                                           userInfo:nil
-//                                            repeats:NO];
-//            [DejalBezelActivityView removeViewAnimated:YES];
-//        }
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        [DejalBezelActivityView removeViewAnimated:YES];
-//    }];
-//}
-
-// 刷新用户余额
-//- (void)refreshUserMoney
-//{
-//    NSMutableDictionary *userInfoDic = [[CommonUtil getObjectFromUD:@"UserInfo"] mutableCopy];
-//    NSString *userId = [userInfoDic objectForKey:@"studentid"];
-//    
-//    
-//    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
-//    if (!userId) {
-//        return;
-//    }
-//    [paramDic setObject:userId forKey:@"userid"];
-//    [paramDic setObject:userInfoDic[@"token"] forKey:@"token"];
-//    [paramDic setObject:@"2" forKey:@"usertype"];
-//    
-//    NSString *uri = @"/system?action=refreshUserMoney";
-//    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
-//    
-//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-//    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        [DejalBezelActivityView removeViewAnimated:YES];
-//        int code = [responseObject[@"code"] intValue];
-//        if (code == 1) {
-//            NSString *money = [responseObject[@"money"] description];
-//            NSString *fmoney = [responseObject[@"fmoney"] description];
-//            [userInfoDic setObject:money forKey:@"money"];
-//            [userInfoDic setObject:fmoney forKey:@"fmoney"];
-//            [CommonUtil saveObjectToUD:userInfoDic key:@"UserInfo"];
-//            
-//            _validMoney = [money floatValue];
-//            _remainderMoney = _validMoney;
-//            [self defaultPayConfig];
-//            [self.tableView reloadData];
-//            self.couponCountLabel.text = [self payDetailDescribe];
-//            
-//        }else if(code == 95){
-//            NSString *message = responseObject[@"message"];
-//            [self makeToast:message];
-//            [CommonUtil logout];
-//            [NSTimer scheduledTimerWithTimeInterval:0.5
-//                                             target:self
-//                                           selector:@selector(backLogin)
-//                                           userInfo:nil
-//                                            repeats:NO];
-//        }
-//        
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//    }];
-//}
-
 #pragma mark - 配置默认支付方式
 - (void)defaultPayConfig {
     int orderNum = (int)self.bookOrdersArray.count; // 总订单数
@@ -1058,14 +970,14 @@
     // 余额支付统计
     NSString *moneyPayStr = @"";
     int needMoney = [self.priceSum intValue] - couponCost - coinCost;// 需要用余额支付的数目
-    if (needMoney > 0) {
-        if (_validMoney >= (float)needMoney) { // 余额充足
+    if (_validMoney >= (float)needMoney) { // 余额充足
+        if (needMoney > 0) { // 使用到余额支付时
             moneyPayStr = [NSString stringWithFormat:@"使用余额支付%d元。", needMoney];
-            self.moneyIsDeficit = NO;
-        } else {
-            moneyPayStr = [NSString stringWithFormat:@"需用余额支付%d元,余额不足请充值！", needMoney];
-            self.moneyIsDeficit = YES;
         }
+        self.moneyIsDeficit = NO;
+    } else {
+        moneyPayStr = [NSString stringWithFormat:@"需用余额支付%d元,余额不足请充值！", needMoney];
+        self.moneyIsDeficit = YES;
     }
     
     payStr = [NSString stringWithFormat:@"%@%@%@", couponPayStr, coinPayStr, moneyPayStr];

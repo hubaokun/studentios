@@ -120,11 +120,11 @@
             //            _myDay = [NSString stringWithFormat:@"%ld",(long)[CommonUtil getdayOfDate:selectedDate]];
             
         }else{
-            self.dateBeginLabel.text = @"未选择";
+            self.dateBeginLabel.text = @"不限";
         }
         
     }else{
-        self.dateBeginLabel.text = @"未选择";
+        self.dateBeginLabel.text = @"不限";
     }
     [self buttonClick:self.subjectNoneButton];
 }
@@ -137,7 +137,7 @@
     //    // 设置时间段默认显示时间
     //    NSDate *nowDate = [NSDate date];
     //    NSString *dateStr = [CommonUtil getStringForDate:nowDate format:@"yyyy-MM-dd"];
-    self.dateBeginLabel.text = @"未选择";
+    self.dateBeginLabel.text = @"不限";
     
     //    NSDate *endDate = [[NSDate date] dateByAddingTimeInterval:30*24*60*60];
     //    self.dateEndLabel.text = [CommonUtil getStringForDate:endDate format:@"yyyy-MM-dd"];
@@ -213,7 +213,7 @@
     
     NSString *dateString = self.dateBeginLabel.text;
     NSDate *selectedDate = nil;
-    if([@"未选择" isEqualToString:dateString]){
+    if([@"不限" isEqualToString:dateString]){
         selectedDate = [NSDate date];
     }else{
         selectedDate = [CommonUtil getDateForString:self.dateBeginLabel.text format:@"yyyy-MM-dd"];
@@ -531,7 +531,7 @@
     //    }
     
     NSString *dateDown = self.dateBeginLabel.text;  // 日期下线
-    if(![@"未选择" isEqualToString:dateDown]){
+    if(![@"不限" isEqualToString:dateDown]){
         NSDate *date = [NSDate date];
         NSInteger year = [CommonUtil getYearOfDate:date];
         NSInteger month = [CommonUtil getMonthOfDate:date];
@@ -597,7 +597,7 @@
     if (button.tag == 0) {
         NSString *beginString = self.dateBeginLabel.text;
         NSDate *begin = [NSDate date];
-        if([@"未选择" isEqualToString:beginString]){
+        if([@"不限" isEqualToString:beginString]){
             
             NSDate *selectedDate = begin;
             
@@ -644,7 +644,7 @@
     if (button.tag == 0) {
         NSString *beginString = self.dateBeginLabel.text;
         NSDate *now = [NSDate date];
-        if([@"未选择" isEqualToString:beginString]){
+        if([@"不限" isEqualToString:beginString]){
             return;
         }else{
             NSDate *begin = [CommonUtil getDateForString:beginString format:@"yyyy-MM-dd"];

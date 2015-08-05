@@ -67,7 +67,6 @@
 #pragma mark - private
 - (void)showMainView{
     //    scrollFrame = self.view.frame;
-    
     CGRect frame = self.mainView.frame;
     frame.size.width = CGRectGetWidth(self.view.frame);
     self.mainView.frame = frame;

@@ -18,13 +18,21 @@
 @property (strong, nonatomic) IBOutlet UIView *footView;
 @property (weak, nonatomic) IBOutlet UIButton *cityBtn;
 
+@property (weak, nonatomic) IBOutlet UIView *examView; // 在线约考
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *examViewHeightCon;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *examViewTopSpaceCon;
+
+@property (weak, nonatomic) IBOutlet UIView *trainingView; // 模拟培训
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *trainViewHeightCon;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *trainViewTopSpaceCon;
+
 // 页面数据
 @property (copy, nonatomic) NSString *cityName;
 @property (copy, nonatomic) NSString *provinceID;
 @property (copy, nonatomic) NSString *cityID;
 @property (copy, nonatomic) NSString *areaID;
-@property (copy, nonatomic) NSString *trainingUrl; //模拟培训
-@property (copy, nonatomic) NSString *examUrl; //在线约考
+@property (copy, nonatomic) NSString *examUrl; // 在线约考
+@property (copy, nonatomic) NSString *trainingUrl; // 模拟培训
 
 @end
 
@@ -39,6 +47,29 @@
     [super viewWillAppear:animated];
     [self positionConfirm];
     
+}
+
+// 界面设置
+- (void)viewConfig {
+    if ([CommonUtil isEmpty:self.examUrl]) { // 在线约考未收录
+        self.examView.hidden = YES;
+        self.examViewHeightCon.constant = 0;
+        self.examViewTopSpaceCon.constant = 0;
+    } else {
+        self.examView.hidden = NO;
+        self.examViewHeightCon.constant = 88;
+        self.examViewTopSpaceCon.constant = 8;
+    }
+    
+    if ([CommonUtil isEmpty:self.examUrl]) { // 在模拟培训未收录
+        self.trainingView.hidden = YES;
+        self.trainViewHeightCon.constant = 0;
+        self.trainViewTopSpaceCon.constant = 0;
+    } else {
+        self.trainingView.hidden = NO;
+        self.trainViewHeightCon.constant = 88;
+        self.trainViewTopSpaceCon.constant = 8;
+    }
 }
 
 // 确认用户位置信息
@@ -110,7 +141,7 @@
 #pragma mark - private
 - (void)showMainView{
     //    scrollFrame = self.view.frame;
-    
+    [self viewConfig];
     CGRect frame = self.mainView.frame;
     frame.size.width = CGRectGetWidth(self.view.frame);
     self.mainView.frame = frame;
@@ -125,7 +156,8 @@
         [self.navigationController pushViewController:nextViewController animated:YES];
     }
 }
-//预约考试
+
+//在线约考
 - (IBAction)clickForTest:(id)sender {
     if ([CommonUtil isEmpty:self.examUrl]) {
         [self makeToast:@"抱歉，该城市暂未收录"];
@@ -135,7 +167,7 @@
     }
 }
 
-//预约培训
+//模拟培训
 - (IBAction)clickForTrain:(id)sender {
     if ([CommonUtil isEmpty:self.trainingUrl]) {
         [self makeToast:@"抱歉，该城市暂未收录"];

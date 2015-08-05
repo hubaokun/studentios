@@ -222,10 +222,10 @@
     
     // 总价
     NSMutableString *costStr = [NSMutableString stringWithFormat:@"%@元", self.order.cost];
-    if (_payType == 2) { // 小巴币支付
-        [costStr appendString:@" (小巴币支付)"];
-    } else if (_payType == 3) {
+    if (_payType == 2) { // 学时券支付
         [costStr appendString:@" (学时券支付)"];
+    } else if (_payType == 3) {
+        [costStr appendString:@" (小巴币支付)"];
     }
     self.costLabel.text = costStr;
     

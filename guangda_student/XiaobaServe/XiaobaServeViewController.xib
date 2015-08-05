@@ -8,9 +8,15 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="XiaobaServeViewController">
             <connections>
                 <outlet property="cityBtn" destination="9HS-MA-aHC" id="Ffb-2a-a1a"/>
+                <outlet property="examView" destination="it4-fe-EGF" id="fv2-ei-l1J"/>
+                <outlet property="examViewHeightCon" destination="qn3-Hg-2Of" id="UxT-B9-Mdh"/>
+                <outlet property="examViewTopSpaceCon" destination="Ig5-o9-vRA" id="h4Q-PJ-pl3"/>
                 <outlet property="footView" destination="KPT-P0-b1D" id="hGe-k4-v9m"/>
                 <outlet property="mainScrollView" destination="ALD-aG-NeQ" id="9Md-RG-YPl"/>
                 <outlet property="mainView" destination="5b3-g2-q7D" id="T1l-zm-pgK"/>
+                <outlet property="trainViewHeightCon" destination="34G-ba-0jq" id="COW-BU-QhC"/>
+                <outlet property="trainViewTopSpaceCon" destination="DyT-5h-SaG" id="nZo-3p-RHD"/>
+                <outlet property="trainingView" destination="MHj-dH-4VV" id="PXJ-l8-1fP"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -186,7 +192,7 @@
                         <constraint firstItem="ydd-9J-NJZ" firstAttribute="top" secondItem="Gcy-T4-yjj" secondAttribute="top" id="x5g-Pp-bki"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="it4-fe-EGF">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="it4-fe-EGF" userLabel="exam">
                     <rect key="frame" x="0.0" y="108" width="600" height="88"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3p8-xA-EFY" userLabel="underline">
@@ -270,7 +276,7 @@
                         <constraint firstItem="wCe-DT-YwA" firstAttribute="top" secondItem="3p8-xA-EFY" secondAttribute="bottom" constant="13" id="xtu-hU-ru9"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MHj-dH-4VV">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MHj-dH-4VV" userLabel="train">
                     <rect key="frame" x="0.0" y="204" width="600" height="88"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="69X-hc-G7p" userLabel="underline">
@@ -449,7 +455,6 @@
             </subviews>
             <color key="backgroundColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="Gcy-T4-yjj" firstAttribute="top" secondItem="5b3-g2-q7D" secondAttribute="top" constant="14" id="358-Pk-fte"/>
                 <constraint firstItem="Gcy-T4-yjj" firstAttribute="top" secondItem="5b3-g2-q7D" secondAttribute="top" constant="12" id="3TM-VH-4l3"/>
                 <constraint firstAttribute="trailing" secondItem="MHj-dH-4VV" secondAttribute="trailing" id="3l2-xh-Chk"/>
                 <constraint firstItem="MHj-dH-4VV" firstAttribute="top" secondItem="it4-fe-EGF" secondAttribute="bottom" constant="8" id="DyT-5h-SaG"/>
@@ -460,18 +465,9 @@
                 <constraint firstItem="Gcy-T4-yjj" firstAttribute="leading" secondItem="5b3-g2-q7D" secondAttribute="leading" id="RJo-L5-pFx"/>
                 <constraint firstItem="MHj-dH-4VV" firstAttribute="leading" secondItem="5b3-g2-q7D" secondAttribute="leading" id="Sqp-KA-uLa"/>
                 <constraint firstItem="KPT-P0-b1D" firstAttribute="leading" secondItem="5b3-g2-q7D" secondAttribute="leading" id="UY0-Ie-yhZ"/>
-                <constraint firstItem="Gcy-T4-yjj" firstAttribute="top" secondItem="5b3-g2-q7D" secondAttribute="top" constant="20" id="di4-yj-rUc"/>
                 <constraint firstItem="it4-fe-EGF" firstAttribute="leading" secondItem="5b3-g2-q7D" secondAttribute="leading" id="hzs-rS-2IA"/>
-                <constraint firstItem="Gcy-T4-yjj" firstAttribute="top" secondItem="5b3-g2-q7D" secondAttribute="top" constant="8" id="rmE-Gw-w5L"/>
                 <constraint firstAttribute="trailing" secondItem="it4-fe-EGF" secondAttribute="trailing" id="sDX-0n-FgE"/>
             </constraints>
-            <variation key="default">
-                <mask key="constraints">
-                    <exclude reference="358-Pk-fte"/>
-                    <exclude reference="di4-yj-rUc"/>
-                    <exclude reference="rmE-Gw-w5L"/>
-                </mask>
-            </variation>
             <point key="canvasLocation" x="277" y="409"/>
         </view>
     </objects>
