@@ -8,9 +8,8 @@
 
 #import "SignUpViewController.h"
 #import "SelfServiceSignUpViewController.h"
+#import "UserBaseInfoViewController.h"
 @interface SignUpViewController ()<UITextFieldDelegate>
-
-
 
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet UIView *mainView;
@@ -53,163 +52,87 @@
     self.sureBtn.layer.cornerRadius = 4;
     self.sureBtn.layer.masksToBounds = YES;
     
-    NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
-    NSString *phoneNum = [user_info[@"phone"] description];
-    NSString *realName = [user_info[@"realname"] description];
+    
+    self.mainView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
+    [self.mainScrollView addSubview:self.mainView];
+    self.mainScrollView.contentSize = CGSizeMake(0, self.mainView.bounds.size.height);
+}
 
-    if (realName.length > 0) {
-        self.nameField.text = realName;
-    }
-    if (phoneNum.length > 0) {
-        self.phoneNumField.text = phoneNum;
-//        self.phoneNumField.enabled = NO;
-    }
-    
-    //注册监听，防止键盘遮挡视图
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    
-    [self performSelector:@selector(showMainView) withObject:nil afterDelay:0.3f];
-    
-    // 点击背景退出键盘
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboardClick:)];
-    tapGestureRecognizer.numberOfTapsRequired = 1;
-    [self.view addGestureRecognizer: tapGestureRecognizer];   // 只需要点击非文字输入区域就会响应
-    [self.mainScrollView addGestureRecognizer:tapGestureRecognizer];
-    [tapGestureRecognizer setCancelsTouchesInView:NO];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self viewConfig];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
-#pragma mark - 监听
-- (void)keyboardWillShow:(NSNotification *)notification {
-    //    scrollFrame = self.view.frame;
-    
-    /*
-     Reduce the size of the text view so that it's not obscured by the keyboard.
-     Animate the resize so that it's in sync with the appearance of the keyboard.
-     */
-    NSDictionary *userInfo = [notification userInfo];
-    
-    // Get the origin of the keyboard when it's displayed.
-    NSValue* aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    // Get the top of the keyboard as the y coordinate of its origin in self's view's coordinate system. The bottom of the text view's frame should align with the top of the keyboard's final position.
-    CGRect keyboardRect = [aValue CGRectValue];
-    keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
-    
-    CGFloat keyboardTop = keyboardRect.origin.y;
-    CGRect newTextViewFrame = self.view.frame;
-    
-//    if (self.nowTextField == nil) {
-//        return;
+//#pragma mark - 输入框代理
+//// 点击返回按钮
+//- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+//    [textField resignFirstResponder];
+//    return YES;
+//}
+//
+//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+////    self.nowTextField = textField;
+//    
+//    // 修改下划线的颜色
+//    if (textField == self.nameField) {
+//        self.nameUnderLine.backgroundColor = [UIColor redColor];
 //    }
+//    if (textField == self.phoneNumField) {
+//        self.phoneNumUnderLine.backgroundColor = [UIColor redColor];
+//    }
+//    return YES;
+//}
+//
+//- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+//{
+//    if (textField == self.nameField) {
+//        if (self.nameField.text.length == 0) {
+//            self.nameUnderLine.backgroundColor = RGB(206, 206, 206);
+//        }else{
+//            self.nameUnderLine.backgroundColor = [UIColor redColor];
+//        }
+//    }else if (textField == self.phoneNumField) {
+//        
+//        if (self.phoneNumField.text.length == 0) {
+//            self.phoneNumUnderLine.backgroundColor = RGB(206, 206, 206);
+//        }else{
+//            self.phoneNumUnderLine.backgroundColor = [UIColor redColor];
+//        }
+//    }
+//    return YES;
+//}
+
+#pragma mark - 页面设置
+- (void)viewConfig {
+    NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
+    NSString *phoneNum = [user_info[@"phone"] description];
+    NSString *realName = [user_info[@"realname"] description];
     
-    //获取这个textField在self.view中的位置， fromView为textField的父view
-    //    CGRect textFrame = self.nowTextField.superview.frame;
-    //    CGFloat textFieldY = textFrame.origin.y + CGRectGetHeight(textFrame);
-    CGFloat signUpViewY = self.signUpView.frame.origin.y +self.signUpView.frame.size.height;
-    if(signUpViewY < keyboardTop){
-        //键盘没有挡住输入框
-        return;
+    if (![CommonUtil isEmpty:realName] && ![CommonUtil isEmpty:phoneNum]) { // 未设置姓名或手机号
+        self.nameField.text = realName;
+        self.phoneNumField.text = phoneNum;
     }
-    
-    //键盘遮挡了输入框
-    newTextViewFrame.origin.y = keyboardTop - signUpViewY;
-    
-    
-    // Get the duration of the animation.
-    NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    NSTimeInterval animationDuration;
-    [animationDurationValue getValue:&animationDuration];
-    animationDuration += 0.1f;
-    // Animate the resize of the text view's frame in sync with the keyboard's appearance.
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:animationDuration];
-    
-    self.view.frame = newTextViewFrame;
-    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:NO];
-    
-    [UIView commitAnimations];
-}
-
-- (void)keyboardWillHide:(NSNotification *)notification {
-    
-    NSDictionary* userInfo = [notification userInfo];
-    
-    /*
-     Restore the size of the text view (fill self's view).
-     Animate the resize so that it's in sync with the disappearance of the keyboard.
-     */
-    NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    NSTimeInterval animationDuration;
-    [animationDurationValue getValue:&animationDuration];
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:animationDuration];
-    self.view.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight([UIScreen mainScreen].bounds));
-    [UIView commitAnimations];
-}
-
-#pragma mark - 输入框代理
-#pragma mark 点击返回按钮
-- (BOOL)textFieldShouldReturn:(UITextField *)textField{
-    [textField resignFirstResponder];
-    return YES;
-}
-
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
-//    self.nowTextField = textField;
-    
-    // 修改下划线的颜色
-    if (textField == self.nameField) {
-        self.nameUnderLine.backgroundColor = [UIColor redColor];
+    else {
+        // 提示用户去设置姓名或手机号
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请前往设置您的真实姓名与手机号。" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        [alert show];
     }
-    if (textField == self.phoneNumField) {
-        self.phoneNumUnderLine.backgroundColor = [UIColor redColor];
+}
+
+#pragma mark - alertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
     }
-    return YES;
-}
-
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
-{
-    if (textField == self.nameField) {
-        if (self.nameField.text.length == 0) {
-            self.nameUnderLine.backgroundColor = RGB(206, 206, 206);
-        }else{
-            self.nameUnderLine.backgroundColor = [UIColor redColor];
-        }
-    }else if (textField == self.phoneNumField) {
-        
-        if (self.phoneNumField.text.length == 0) {
-            self.phoneNumUnderLine.backgroundColor = RGB(206, 206, 206);
-        }else{
-            self.phoneNumUnderLine.backgroundColor = [UIColor redColor];
-        }
+    if (buttonIndex == 1) {
+        UserBaseInfoViewController *nextVC = [[UserBaseInfoViewController alloc] initWithNibName:@"UserBaseInfoViewController" bundle:nil];
+        [self.navigationController pushViewController:nextVC animated:YES];
     }
-    return YES;
-}
-
-#pragma mark - private
-- (void)showMainView{
-    //    scrollFrame = self.view.frame;
-    
-    CGRect frame = self.mainView.frame;
-    frame.size.width = CGRectGetWidth(self.view.frame);
-    self.mainView.frame = frame;
-    
-    [self.mainScrollView addSubview:self.mainView];
-    self.mainScrollView.contentSize = CGSizeMake(0, self.footLabel.frame.origin.y + CGRectGetHeight(self.footLabel.frame) + 20);
-}
-
-#pragma mark - action
-- (IBAction)hideKeyboardClick:(id)sender {
-    [self.nameField resignFirstResponder];
-    [self.phoneNumField resignFirstResponder];
 }
 
 #pragma mark - 接口方法
@@ -234,7 +157,8 @@
             self.alertView.frame = self.view.frame;
             [self.view addSubview:self.alertView];
 //            [self.navigationController popViewControllerAnimated:YES];
-            
+            self.signUpButton.enabled = NO;
+            self.signUpButton.alpha = 0.4;
         }else{
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
@@ -248,6 +172,12 @@
     
 }
 
+#pragma mark - action
+- (IBAction)hideKeyboardClick:(id)sender {
+    [self.nameField resignFirstResponder];
+    [self.phoneNumField resignFirstResponder];
+}
+
 - (IBAction)clickForClose:(id)sender
 {
     [self.alertView removeFromSuperview];
@@ -259,26 +189,11 @@
 }
 
 - (IBAction)clickForSignUp:(id)sender {
-    if (self.phoneNumField.text.length >0 && self.nameField.text.length >0 ) {
-        [self changePsw];
-    }else{
+    if ([CommonUtil isEmpty:self.phoneNumField.text] && [CommonUtil isEmpty:self.nameField.text] ) {
         [self makeToast:@"请填写您的真实姓名和联系电话"];
+    }else{
+        [self changePsw];
     }
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

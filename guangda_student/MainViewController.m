@@ -236,42 +236,8 @@
 // 在线报名、预约考试等服务
 - (IBAction)clickForServe:(id)sender {
     if ([[CommonUtil currentUtil] isLogin]) {
-//        // 取得当前所处城市
-//        [self searchCurrentCityName];
-//        // 与userinfo内设置的城市作对比
-//        [DejalBezelActivityView activityViewForView:self.view];
-//        self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(compareCityName) userInfo:nil repeats:NO];
         XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
         [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
-    }
-}
-
-// 与userinfo内设置的城市作对比
-- (void)compareCityName {
-    [DejalBezelActivityView removeViewAnimated:YES];
-    
-    // 取得userinfo设置的城市名
-    NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
-    NSString *address = [user_info objectForKey:@"locationname"];
-    NSArray *subStrArray = [address componentsSeparatedByString:@"-"];
-    NSString *province = @"";
-    NSString *city = @"";
-    if (subStrArray.count > 1) {
-        province = subStrArray[0];
-        city = subStrArray[1];
-    }
-    
-    if ([province isEqualToString:@"北京市"] ||[province isEqualToString:@"天津市"] || [province isEqualToString:@"上海市"] || [province isEqualToString:@"重庆市"]) {
-        city = province;
-    }
-    
-    if ([self.cityName isEqualToString:city]) { // 定位城市名与userinfo城市名一致
-        XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
-        [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
-    }
-    else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您当前所处城市与您个人信息所设置的城市不符，是否要前往修正?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        [alert show];
     }
 }
 
@@ -309,31 +275,46 @@
     CGFloat starScore = [_coachDic[@"score"] floatValue];
     int gender = [_coachDic[@"gender"] intValue];
     
+   
+    
+    // 教练头像
+    [self.userLogo sd_setImageWithURL:[NSURL URLWithString:avatarStr] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
+    
+    // 教练名
+    self.coachNameLabel.text = [NSString stringWithFormat:@"%@", realName];
+    // 设置教练名label长度
+    CGFloat realNameStrWidth = [CommonUtil sizeWithString:realName fontSize:17 sizewidth:68 sizeheight:22].width;
+    self.coachNameLabelWidthCon.constant = realNameStrWidth;
+    
+    // 教练性别
     NSString *genderStr = nil;
     if (gender == 1) {
         genderStr = @"男";
+        [self.coachGenderIcon setImage:[UIImage imageNamed:@"icon_male"]];
     }else if (gender == 2)
     {
         genderStr = @"女";
+        [self.coachGenderIcon setImage:[UIImage imageNamed:@"icon_female"]];
     }else{
         genderStr = @"";
+        [self.coachGenderIcon setImage:[UIImage imageNamed:@"icon_male"]];
     }
     
-    [self.userLogo sd_setImageWithURL:[NSURL URLWithString:avatarStr] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
+    // 教练总单数
     NSString *sumnum = [_coachDic[@"sumnum"] description];
     if (sumnum) {
+        self.orderCountLabel.hidden = NO;
         NSString *sumnumStr = [NSString stringWithFormat:@"总单数:%@",sumnum];
         NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:sumnumStr];
         [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(4,sumnum.length)];
-        self.orderCount.attributedText = string;
+        self.orderCountLabel.attributedText = string;
+        CGFloat sumnumStrWidth = [CommonUtil sizeWithString:sumnumStr fontSize:12 sizewidth:320 sizeheight:15].width;
+        self.orderCountLabelWidthCon.constant = sumnumStrWidth;
+    } else {
+        self.orderCountLabel.hidden = YES;
     }
-    
-    if(genderStr.length>0)//已设置性别
-        self.coachNameLabel.text = [NSString stringWithFormat:@"%@(%@)", realName, genderStr];
-    else//未设置性别则不显示性别
-         self.coachNameLabel.text = [NSString stringWithFormat:@"%@", realName];
 
-    self.coachAddressLabel.text =   address;
+    self.coachAddressLabel.text = address;
     [self.starView changeStarForegroundViewWithScore:starScore];
     
     self.coachId = [_coachDic[@"coachid"] description];

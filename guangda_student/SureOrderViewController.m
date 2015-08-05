@@ -932,6 +932,7 @@
             curBookOrder = self.bookOrdersArray[orderIndex];
             curBookOrder.payType = payTypeMoney;
             moneyNeedCost += [curBookOrder.price floatValue];
+            _remainderMoney -= [curBookOrder.price floatValue];
             if (_validMoney < moneyNeedCost) { // 当余额不足时
                 curBookOrder.isDeficit = YES;
             } else {
@@ -1271,6 +1272,7 @@
         self.coverView.alpha = 0;
         self.payTypeSelectView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
     }];
+    
     [self.tableView reloadData];
     self.couponCountLabel.text = [self payDetailDescribe];
 }

@@ -69,6 +69,10 @@
 
 // 教练详细信息
 @property (strong, nonatomic) IBOutlet UILabel *coachNameLabel;      // 教练姓名
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coachNameLabelWidthCon;
+@property (weak, nonatomic) IBOutlet UIImageView *coachGenderIcon;
+
+
 @property (strong, nonatomic) IBOutlet UILabel *coachAddressLabel;   // 详细地址
 @property (strong, nonatomic) NSString *coachId;    // 教练ID
 
@@ -85,7 +89,9 @@
 @property (strong, nonatomic) IBOutlet UITextView *detailsCocahComment; // 自我评价
 
 @property (strong, nonatomic) IBOutlet UIView *coachInfoView;       // 教练信息view
-@property (strong, nonatomic) IBOutlet UILabel *orderCount;
+@property (strong, nonatomic) IBOutlet UILabel *orderCountLabel; // 总单数
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *orderCountLabelWidthCon;
+
 @property (weak, nonatomic) IBOutlet UIScrollView *carModelScrollView;  // uber
 @property (strong, nonatomic) IBOutlet UIView *footView;                //底部的view
 @property (strong, nonatomic) NSMutableArray *carModelImageViewList;
