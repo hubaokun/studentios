@@ -237,7 +237,8 @@
     if ([endTimeStr isEqualToString:@"00:00"]) {
         endTimeStr = @"24:00";
     }
-    self.orderTimeLabel.text = [NSString stringWithFormat:@"%@ %@~%@", startDateStr, startTimeStr, endTimeStr];
+//    self.orderTimeLabel.text = [NSString stringWithFormat:@"%@ %@~%@", startDateStr, startTimeStr, endTimeStr];
+    self.orderTimeLabel.text = [NSString stringWithFormat:@"%@", startDateStr];
     
     // 教练评分
     [self.coachStarView changeStarForegroundViewWithPoint:CGPointMake(self.coach.score / 5 * CGRectGetWidth(self.coachStarView.frame), 0)];
@@ -338,7 +339,7 @@
         NSString *end = [NSString stringWithFormat:@"%d:00", hour +1];
         NSString *time = [NSString stringWithFormat:@"%@~%@", start, end];
         NSString *price = [hourDict[@"price"] description];
-        NSString *hourPrice = [NSString stringWithFormat:@"%@  %@元", time, price];
+//        NSString *hourPrice = [NSString stringWithFormat:@"%@  %@元", time, price];
         
         // 创建label
         UILabel *label = [[UILabel alloc] init];
@@ -349,7 +350,7 @@
         label.frame = CGRectMake(labelX, labelY, labelW, labelH);
         label.font = [UIFont systemFontOfSize:13];
         label.textColor = RGB(61, 61, 61);
-        label.text = hourPrice;
+        label.text = time;
         
         [self.priceView addSubview:label];
         y = CGRectGetMaxY(label.frame);

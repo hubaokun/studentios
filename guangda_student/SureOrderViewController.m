@@ -1197,6 +1197,10 @@
         [self makeToast:@"您的冻结金额异常!"];
         return;
     }
+    if (_validCoinNum < 0) {
+        [self makeToast:@"您的小巴币数额异常!"];
+        return;
+    }
     //    if(userMoney < _payMoney && _payMoney != 0){//需付金额不为零 且余额不足的情况下
     if(self.moneyIsDeficit){ // 余额不足
         [self letoutResultViewWithType:0];
