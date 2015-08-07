@@ -921,10 +921,12 @@
     [paramDic setObject:pointcenter forKey:@"pointcenter"];
     [paramDic setObject:radius forKey:@"radius"];
     
-    // userID
+    // 测试账号studentID
     AppDelegate *deleget = [UIApplication sharedApplication].delegate;
     if (![CommonUtil isEmpty:deleget.userid]) {
-        paramDic[@"userid"] = deleget.userid;
+        if ([deleget.userid isEqualToString:@"18"]) {
+            paramDic[@"studentid"] = deleget.userid;
+        }
     }
     
     // app版本

@@ -18,6 +18,7 @@
 #import "MainViewController.h"
 #import <PgySDK/PgyManager.h>
 #import "MobClick.h"
+#import "UIImageView+WebCache.h"
 
 @interface AppDelegate ()
 <BMKLocationServiceDelegate, WeiboSDKDelegate,BMKGeoCodeSearchDelegate>
@@ -25,6 +26,11 @@
     BMKMapManager* _mapManager;
     BMKLocationService *_locService;
 }
+
+// 广告
+@property (strong, nonatomic) UIView *lunchView;
+@property (strong, nonatomic) NSDictionary *advertisementConfig;
+@property (strong, nonatomic) NSTimer *adTimer; // 等待广告页读取时间
 
 @end
 
@@ -114,7 +120,55 @@
 //    [UMSocialData setAppKey:@"55aa05f667e58ec7dc005698"];
     [MobClick startWithAppkey:@"55bf12f8e0f55a95d7002184" reportPolicy:BATCH   channelId:@"pgy"];
     
+    // 广告
+    self.adTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(showAdvertisment) userInfo:nil repeats:NO];
+    [self startRequestAdvertisement];
+    sleep(1);
     return YES;
+}
+
+//获取是否要使用广告
+-(void)startRequestAdvertisement{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSString *uri = @"/system?action=CHECKCONFIG";
+    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:params RequestMethod:Request_POST];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *code = [responseObject[@"code"] description];
+        if ([code isEqualToString:@"1"]) {
+            self.advertisementConfig = responseObject[@"config"];
+        }
+        [self.adTimer fire];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self.adTimer fire];
+    }];
+}
+
+// 显示广告页
+- (void)showAdvertisment {
+    // 如果取得广告页
+    if (self.advertisementConfig) {
+        NSDictionary *config = self.advertisementConfig;
+        NSString *advertisement_flag = [config[@"advertisement_flag"] description];
+        if ([advertisement_flag isEqualToString:@"1"]) {
+            NSString *advertisement_url = [config[@"advertisement_url"] description];
+//            self.lunchView = [[NSBundle mainBundle ]loadNibNamed:@"AdvertisementView" owner:nil options:nil][0];
+            self.lunchView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+//            self.lunchView.frame = CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height);
+            [self.window addSubview:self.lunchView];
+            UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height)];
+            [imageV sd_setImageWithURL:[NSURL URLWithString:advertisement_url] placeholderImage:[UIImage imageNamed:@"default1.jpg"]]; [self.lunchView addSubview:imageV];
+            [self.window bringSubviewToFront:self.lunchView];
+            [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeLun) userInfo:nil repeats:NO];
+        }
+    }
+    // 未取得
+    else {}
+}
+
+- (void)removeLun {
+    [self.lunchView removeFromSuperview];
 }
 
 //在此接收设备号
@@ -444,7 +498,8 @@
         
         if ([code intValue] == 1) {
             NSDictionary *user = [responseObject objectForKey:@"UserInfo"];
-            self.userid = user[@"studentid"];
+            NSNumber *studentID = user[@"studentid"];
+            self.userid = [NSString stringWithFormat:@"%@", studentID];
             [CommonUtil saveObjectToUD:user key:@"UserInfo"];
             // 3秒后在异步线程中上传设备号
             dispatch_queue_t queue =  dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
