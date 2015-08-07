@@ -660,7 +660,8 @@
             }
             
             [[NSNotificationCenter defaultCenter] postNotificationName:@"appointCoachSuccess" object:nil];
-        }else if(code == 95){
+        }
+        else if(code == 95){
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
             [CommonUtil logout];
@@ -669,11 +670,16 @@
                                            selector:@selector(backLogin)
                                            userInfo:nil
                                             repeats:NO];
-        }else if (code == -1){
+        }
+        else if (code == -1 ) {
             [self makeToast:@"版本太旧了哦,请退出程序后再次进入,程序将自动更新"];
-        }else{
+        }
+        else if (code == 10) {
             [self letoutResultViewWithType:3];
             NSLog(@"book_failed : code = %d  message = %@", code, message);
+        }
+        else {
+            [self makeToast:message];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
