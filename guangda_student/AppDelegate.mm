@@ -111,7 +111,6 @@
     [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
     
     //友盟社会化分享与统计
-//    [UMSocialData setAppKey:@"55aa05f667e58ec7dc005698"];
     [MobClick startWithAppkey:@"55bf12f8e0f55a95d7002184" reportPolicy:BATCH   channelId:@"pgy"];
     
     return YES;

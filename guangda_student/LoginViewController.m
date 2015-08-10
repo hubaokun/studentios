@@ -14,7 +14,7 @@
 #import "RegistVercodeViewController.h"
 #import "WeiboSDK.h"
 #import "LearnDriveInfoViewController.h"
-
+#import "RecommendCodeViewController.h"
 #import <TencentOpenAPI/TencentOAuth.h>
 
 @interface LoginViewController ()<UITextFieldDelegate, TencentSessionDelegate>{
@@ -416,11 +416,21 @@
             [CommonUtil saveObjectToUD:vcode key:@"loginpassword"];
             [CommonUtil saveObjectToUD:@"1" key:@"logintype"];
             
+            int isregister = [[responseObject objectForKey:@"isregister"] intValue];
+            delegate.isregister = [NSString stringWithFormat:@"%d",isregister];
+            int isInvited = [[responseObject objectForKey:@"isInvited"] intValue];
+            delegate.isInvited = [NSString stringWithFormat:@"%d",isInvited];
+            
             if (![CommonUtil isEmpty:delegate.deviceToken]) {
                 [self uploadDeviceToken:delegate.deviceToken];
             }
             
-            int isregister = [[responseObject objectForKey:@"isregister"] intValue];
+            if (isInvited == 1) {    //1代表未被邀请，0代表已被邀请
+                RecommendCodeViewController *nextController = [[RecommendCodeViewController alloc] initWithNibName:@"RecommendCodeViewController" bundle:nil];
+                [self.navigationController pushViewController:nextController animated:YES];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"loginSuccess" object:nil];
+                return;
+            }
             
             if(isregister == 0){
                 [self.navigationController popToRootViewControllerAnimated:YES];
