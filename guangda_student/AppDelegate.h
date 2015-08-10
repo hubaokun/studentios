@@ -22,6 +22,8 @@
 @property (strong, nonatomic) UIWindow *window;
 
 @property (nonatomic, copy) NSString *userid;
+@property (nonatomic, copy) NSString *isregister;
+@property (nonatomic, copy) NSString *isInvited;
 
 //用户定位
 @property (nonatomic) CLLocationCoordinate2D userCoordinate;

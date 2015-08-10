@@ -187,6 +187,8 @@
 		713694851B4E3CF500F6D573 /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */; };
 		713694971B51627700F6D573 /* OnlineTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 713694951B51627700F6D573 /* OnlineTestViewController.m */; };
 		713694981B51627700F6D573 /* OnlineTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 713694961B51627700F6D573 /* OnlineTestViewController.xib */; };
+		716DB6FE1B7840C3004E532B /* RecommendCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 716DB6FC1B7840C3004E532B /* RecommendCodeViewController.m */; };
+		716DB6FF1B7840C3004E532B /* RecommendCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 716DB6FD1B7840C3004E532B /* RecommendCodeViewController.xib */; };
 		716E27221B53DD37009CE9E1 /* SelfServiceSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 716E271D1B53DD37009CE9E1 /* SelfServiceSignUpViewController.m */; };
 		716E27231B53DD37009CE9E1 /* SelfServiceSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 716E271E1B53DD37009CE9E1 /* SelfServiceSignUpViewController.xib */; };
 		716E27241B53DD37009CE9E1 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 716E27201B53DD37009CE9E1 /* SignUpViewController.m */; };
@@ -648,6 +650,9 @@
 		713694941B51627700F6D573 /* OnlineTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlineTestViewController.h; sourceTree = "<group>"; };
 		713694951B51627700F6D573 /* OnlineTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlineTestViewController.m; sourceTree = "<group>"; };
 		713694961B51627700F6D573 /* OnlineTestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OnlineTestViewController.xib; sourceTree = "<group>"; };
+		716DB6FB1B7840C3004E532B /* RecommendCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendCodeViewController.h; sourceTree = "<group>"; };
+		716DB6FC1B7840C3004E532B /* RecommendCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendCodeViewController.m; sourceTree = "<group>"; };
+		716DB6FD1B7840C3004E532B /* RecommendCodeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecommendCodeViewController.xib; sourceTree = "<group>"; };
 		716E271C1B53DD37009CE9E1 /* SelfServiceSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelfServiceSignUpViewController.h; sourceTree = "<group>"; };
 		716E271D1B53DD37009CE9E1 /* SelfServiceSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelfServiceSignUpViewController.m; sourceTree = "<group>"; };
 		716E271E1B53DD37009CE9E1 /* SelfServiceSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelfServiceSignUpViewController.xib; sourceTree = "<group>"; };
@@ -1685,6 +1690,9 @@
 				B9187BE91B09B3C300366081 /* FindPwdViewController.h */,
 				B9187BEA1B09B3C300366081 /* FindPwdViewController.m */,
 				B9187BEB1B09B3C300366081 /* FindPwdViewController.xib */,
+				716DB6FB1B7840C3004E532B /* RecommendCodeViewController.h */,
+				716DB6FC1B7840C3004E532B /* RecommendCodeViewController.m */,
+				716DB6FD1B7840C3004E532B /* RecommendCodeViewController.xib */,
 			);
 			name = "login（登录）";
 			sourceTree = "<group>";
@@ -1784,6 +1792,7 @@
 				B8C43B931ACD33EE00C96629 /* ChangePwdViewController.xib in Resources */,
 				376A19CB1ADCDC2C004F1FE3 /* backgroundStar@2x.png in Resources */,
 				319D3DF11ACD33850098FBFC /* TypeinNumberViewController.xib in Resources */,
+				716DB6FF1B7840C3004E532B /* RecommendCodeViewController.xib in Resources */,
 				314F4E211AEA423F00DD8FC6 /* CoachScreenViewController.xib in Resources */,
 				37752C591AC8DE0200A8A746 /* MyOrderViewController.xib in Resources */,
 				3166B5471B0B47290017C10B /* SwipTimeView.xib in Resources */,
@@ -2001,6 +2010,7 @@
 				3179E6551AC284C600AFCFAA /* SDWebImageManager.m in Sources */,
 				3179E65A1AC284C600AFCFAA /* UIImage+WebP.m in Sources */,
 				375691C31AC922F500223501 /* CPTextViewPlaceholder.m in Sources */,
+				716DB6FE1B7840C3004E532B /* RecommendCodeViewController.m in Sources */,
 				37752C531AC8DDAD00A8A746 /* MyOrderDetailViewController.m in Sources */,
 				D786FE201B1B3571001DBFDD /* JKCountDownButton.m in Sources */,
 				B85CA0711AC3DE6000934B22 /* RegistViewController.m in Sources */,
@@ -2051,8 +2061,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2100,8 +2110,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2131,8 +2141,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/TencentOpenAPI",
@@ -2169,8 +2179,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/TencentOpenAPI",
