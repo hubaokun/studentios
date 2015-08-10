@@ -16,7 +16,7 @@
                 <outlet property="couponCountLabel" destination="Krf-JO-VGZ" id="oSb-e2-I5G"/>
                 <outlet property="couponSelectBtn" destination="DrR-fC-Q54" id="mws-0G-bWB"/>
                 <outlet property="coverView" destination="Jfd-wP-tEs" id="1cd-sM-Lel"/>
-                <outlet property="footerView" destination="3Eq-lW-RNp" id="RAb-Tc-amM"/>
+                <outlet property="goAppointBtn" destination="Oug-iv-IKY" id="oOm-e2-5Nh"/>
                 <outlet property="moneySelectBtn" destination="6mc-us-psK" id="WBp-yo-V0X"/>
                 <outlet property="payTypeSelectView" destination="UVW-cU-lZ4" id="QtK-6e-9Kn"/>
                 <outlet property="priceSumLabel" destination="mr0-iR-IYe" id="OTk-m6-J4b"/>
@@ -32,7 +32,6 @@
                 <outlet property="tableView" destination="tED-tA-gfR" id="Wpp-Lt-trU"/>
                 <outlet property="tipTravel" destination="WEZ-sc-YAd" id="ZIL-xx-8ie"/>
                 <outlet property="tipTravelTopMargin" destination="2dC-xO-OVA" id="wHK-x2-pBx"/>
-                <outlet property="usecouponLabel" destination="MPo-Ev-FVw" id="woC-Pr-5rB"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -115,9 +114,6 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="disabled" backgroundImage="sure_appoint_btn"/>
-                            <connections>
-                                <action selector="goAppointClick:" destination="-1" eventType="touchUpInside" id="CRe-Wd-0oK"/>
-                            </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6xD-Wj-url">
                             <rect key="frame" x="0.0" y="0.0" width="509" height="60"/>
@@ -188,7 +184,7 @@
             </variation>
             <point key="canvasLocation" x="329" y="260"/>
         </view>
-        <view contentMode="scaleToFill" id="Z0b-9m-ClN" userLabel="预约结果弹窗">
+        <view contentMode="scaleToFill" id="Z0b-9m-ClN" userLabel="appointResultView">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -330,78 +326,6 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="1034" y="1131"/>
-        </view>
-        <view contentMode="scaleToFill" id="3Eq-lW-RNp">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="66"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tGD-n3-DSe">
-                    <rect key="frame" x="0.0" y="7" width="600" height="52"/>
-                    <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cxW-iK-80t">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
-                            <color key="backgroundColor" red="0.85882352941176465" green="0.86274509803921573" blue="0.87450980392156863" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="1" id="dhF-zY-IxH"/>
-                            </constraints>
-                        </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vxd-Ee-JJM">
-                            <rect key="frame" x="0.0" y="51" width="600" height="1"/>
-                            <color key="backgroundColor" red="0.85882352941176465" green="0.86274509803921573" blue="0.87450980392156863" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="1" id="js4-bZ-xo4"/>
-                            </constraints>
-                        </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MPo-Ev-FVw">
-                            <rect key="frame" x="10" y="0.0" width="200" height="52"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="200" id="igs-39-ggV"/>
-                            </constraints>
-                            <attributedString key="attributedText"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hVS-zo-ASe">
-                            <rect key="frame" x="480" y="0.0" width="110" height="52"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="52" id="176-eo-AUU"/>
-                                <constraint firstAttribute="width" constant="110" id="4kX-p5-6Oa"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" title="[选择其它优惠券]">
-                                <color key="titleColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.23529411764705882" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="clickForOtherCoupon:" destination="-1" eventType="touchUpInside" id="olP-2G-EKT"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="trailing" secondItem="hVS-zo-ASe" secondAttribute="trailing" constant="10" id="EMH-ur-8f3"/>
-                        <constraint firstAttribute="bottom" secondItem="MPo-Ev-FVw" secondAttribute="bottom" id="GY6-cs-WRW"/>
-                        <constraint firstAttribute="bottom" secondItem="Vxd-Ee-JJM" secondAttribute="bottom" id="JmV-Ey-BZi"/>
-                        <constraint firstItem="MPo-Ev-FVw" firstAttribute="top" secondItem="tGD-n3-DSe" secondAttribute="top" id="Rzw-QO-Mqc"/>
-                        <constraint firstAttribute="trailing" secondItem="cxW-iK-80t" secondAttribute="trailing" id="Vfz-g0-MKH"/>
-                        <constraint firstItem="MPo-Ev-FVw" firstAttribute="leading" secondItem="tGD-n3-DSe" secondAttribute="leading" constant="10" id="Vph-gm-oeR"/>
-                        <constraint firstItem="cxW-iK-80t" firstAttribute="top" secondItem="tGD-n3-DSe" secondAttribute="top" id="YMJ-po-sWp"/>
-                        <constraint firstAttribute="trailing" secondItem="Vxd-Ee-JJM" secondAttribute="trailing" id="d3q-rh-yDu"/>
-                        <constraint firstItem="Vxd-Ee-JJM" firstAttribute="leading" secondItem="tGD-n3-DSe" secondAttribute="leading" id="kak-mr-vuI"/>
-                        <constraint firstItem="hVS-zo-ASe" firstAttribute="top" secondItem="tGD-n3-DSe" secondAttribute="top" id="l02-dO-M1y"/>
-                        <constraint firstItem="cxW-iK-80t" firstAttribute="leading" secondItem="tGD-n3-DSe" secondAttribute="leading" id="oyd-UU-8e7"/>
-                    </constraints>
-                </view>
-            </subviews>
-            <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
-            <constraints>
-                <constraint firstItem="tGD-n3-DSe" firstAttribute="leading" secondItem="3Eq-lW-RNp" secondAttribute="leading" id="FyX-Xy-A2x"/>
-                <constraint firstItem="tGD-n3-DSe" firstAttribute="top" secondItem="3Eq-lW-RNp" secondAttribute="top" constant="7" id="MUQ-Ry-bdX"/>
-                <constraint firstAttribute="bottom" secondItem="tGD-n3-DSe" secondAttribute="bottom" constant="7" id="oh1-rJ-sI6"/>
-                <constraint firstAttribute="trailing" secondItem="tGD-n3-DSe" secondAttribute="trailing" id="pPf-8q-Gxr"/>
-            </constraints>
-            <nil key="simulatedStatusBarMetrics"/>
-            <nil key="simulatedBottomBarMetrics"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
         <view contentMode="scaleToFill" id="UVW-cU-lZ4" userLabel="PayTypeSelectView">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>

@@ -111,7 +111,7 @@
             NSDictionary *user_info = [responseObject objectForKey:@"UserInfo"];
             
             AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            delegate.userid = [user_info objectForKey:@"studentid"];
+            delegate.userid = [[user_info objectForKey:@"studentid"] description];
             
             [CommonUtil saveObjectToUD:user_info key:@"UserInfo"];
             

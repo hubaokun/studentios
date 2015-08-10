@@ -96,7 +96,7 @@
     self.dateConfirmBtn.layer.cornerRadius = 4;
     
     [self initSexData];
-    [self initCityData];
+//    [self initCityData];
     
     // 点击背景退出键盘
     [self keyboardHiddenFun];
@@ -541,17 +541,8 @@
     [paramDic setObject:[CommonUtil stringForID:USERDICT[@"token"]] forKey:@"token"];
     [paramDic setObject:genderStr forKey:@"gender"];
     [paramDic setObject:_birthday forKey:@"birthday"];
-    if (![CommonUtil isEmpty:self.selectProvinceID]) {
-        [paramDic setObject:self.selectProvinceID forKey:@"provinceid"];
-    }
-    if (![CommonUtil isEmpty:self.selectCityID]) {
-        [paramDic setObject:self.selectCityID forKey:@"cityid"];
-    }
-    if (![CommonUtil isEmpty:self.selectAreaID]) {
-        [paramDic setObject:self.selectAreaID forKey:@"areaid"];
-    }
 //    [paramDic setObject:_address forKey:@"address"];
-//    [paramDic setObject:_urgentPerson forKey:@"urgentperson"];
+//    [paramDic setObject:_urgentPerson forKey:@"urgentpFerson"];
 //    [paramDic setObject:_urgentPhone forKey:@"urgentphone"];
     
     NSString *uri = @"/suser?action=PerfectPersonInfo";
@@ -618,7 +609,6 @@
 - (void)catchInputData {
     _gender = [self.sexField.text isEqualToString:@"男"]? 1 : 2;
     _birthday = self.birthdayField.text;
-    _city = self.cityField.text;
     _address = self.addrField.text;
     _urgentPerson = self.emergentPersonField.text;
     _urgentPhone = [self.emergentPhoneField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -630,10 +620,6 @@
     NSMutableDictionary *new_user_info = [NSMutableDictionary dictionaryWithDictionary:user_info];
     [new_user_info setObject:[NSNumber numberWithInt:_gender] forKey:@"gender"];
     [new_user_info setObject:_birthday forKey:@"birthday"];
-    [new_user_info setObject:_city forKey:@"locationname"];
-    [new_user_info setObject:_selectProvinceID forKey:@"provinceid"];
-    [new_user_info setObject:_selectCityID forKey:@"cityid"];
-    [new_user_info setObject:_selectAreaID forKey:@"areaid"];
     [new_user_info setObject:_address forKey:@"address"];
     [new_user_info setObject:_urgentPerson forKey:@"urgent_person"];
     [new_user_info setObject:_urgentPhone forKey:@"urgent_phone"];
@@ -645,10 +631,6 @@
     NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
     _gender = [[user_info objectForKey:@"gender"] intValue];
     _birthday = [user_info objectForKey:@"birthday"];
-    _city = [user_info objectForKey:@"locationname"];
-    _selectProvinceID = [user_info objectForKey:@"provinceid"];
-    _selectCityID = [user_info objectForKey:@"cityid"];
-    _selectAreaID = [user_info objectForKey:@"areaid"];
     _address = [user_info objectForKey:@"address"];
     _urgentPerson = [user_info objectForKey:@"urgent_person"];
     _urgentPhone = [user_info objectForKey:@"urgent_phone"];
@@ -656,10 +638,6 @@
 
 #pragma mark - 点击事件
 - (IBAction)clickForCommit:(id)sender {
-    if ([CommonUtil isEmpty:self.cityField.text]) {
-        [self makeToast:@"请选择驾考城市"];
-        return;
-    }
     [self postPerfectPersonInfo];
 }
 

@@ -8,7 +8,7 @@
 
 #import "XiaobaServeViewController.h"
 #import "SignUpViewController.h"
-#import "ImproveInfoViewController.h"
+#import "UserBaseInfoViewController.h"
 
 @interface XiaobaServeViewController ()
 
@@ -100,7 +100,7 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
     if (buttonIndex == 1) {
-        ImproveInfoViewController *nextVC = [[ImproveInfoViewController alloc] init];
+        UserBaseInfoViewController *nextVC = [[UserBaseInfoViewController alloc] init];
         [self.navigationController pushViewController:nextVC animated:YES];
     }
 }
@@ -179,7 +179,7 @@
 
 // 修改城市
 - (void)clickToImproveInfoView {
-    ImproveInfoViewController *nextVC = [[ImproveInfoViewController alloc] init];
+    UserBaseInfoViewController *nextVC = [[UserBaseInfoViewController alloc] init];
     [self.navigationController pushViewController:nextVC animated:YES];
 }
 @end

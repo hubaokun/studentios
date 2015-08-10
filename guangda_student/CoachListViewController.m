@@ -17,6 +17,8 @@
 #import "UIImageView+WebCache.h"
 #import "TQStarRatingView.h"
 #import "UserBaseInfoViewController.h"
+#import "AppDelegate.h"
+
 #define _screenWidth [UIScreen mainScreen].bounds.size.width
 #define _screenHeight [UIScreen mainScreen].bounds.size.height
 
@@ -679,6 +681,15 @@
     }
     
     [paramDic setObject:[NSString stringWithFormat:@"%ld", (long)_searchPage] forKey:@"pagenum"];
+    
+    // 测试账号studentID
+    AppDelegate *deleget = [UIApplication sharedApplication].delegate;
+    if (![CommonUtil isEmpty:deleget.userid]) {
+        if ([deleget.userid isEqualToString:@"18"]) {
+            paramDic[@"studentid"] = deleget.userid;
+        }
+    }
+    
     // app版本
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];

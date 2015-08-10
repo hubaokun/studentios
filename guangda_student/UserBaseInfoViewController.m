@@ -10,13 +10,30 @@
 #import "UserBaseInfoViewController.h"
 #import "TPKeyboardAvoidingScrollView.h"
 #import "LoginViewController.h"
+#import "XBProvince.h"
 
-@interface UserBaseInfoViewController ()<UITextFieldDelegate> {
+@interface UserBaseInfoViewController ()<UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate> {
     NSString    *previousTextFieldContent;
     UITextRange *previousSelection;
 }
 @property (strong, nonatomic) IBOutlet TPKeyboardAvoidingScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet UIButton *commitBtn;
+// 城市选择
+
+@property (strong, nonatomic) IBOutlet UITextField *cityField;
+@property (strong, nonatomic) IBOutlet UIView *selectView;
+@property (strong, nonatomic) IBOutlet UIView *cityView;
+@property (strong, nonatomic) IBOutlet UIPickerView *cityPicker;
+@property (strong, nonatomic) IBOutlet UIButton *cityConfirmBtn;
+// 城市选择器数据
+@property (strong, nonatomic) NSArray *provinces;
+@property (strong, nonatomic) XBProvince *curProvince;
+@property (strong, nonatomic) XBCity *curCity;
+@property (strong, nonatomic) XBArea *curArea;
+@property (copy, nonatomic) NSString *selectProvinceID;
+@property (copy, nonatomic) NSString *selectCityID;
+@property (copy, nonatomic) NSString *selectAreaID;
+@property (copy, nonatomic) NSString *city;
 
 - (IBAction)clickForCommit:(id)sender;
 
@@ -43,6 +60,17 @@
     
     // 点击背景退出键盘
     [self keyboardHiddenFun];
+    
+    // 选择器
+    self.selectView.frame = [UIScreen mainScreen].bounds;
+    self.cityPicker.delegate = self;
+    self.cityPicker.dataSource = self;
+    
+    self.cityConfirmBtn.layer.borderWidth = 1;
+    self.cityConfirmBtn.layer.borderColor = [RGB(248, 99, 95) CGColor];
+    self.cityConfirmBtn.layer.cornerRadius = 4;
+    
+    [self initCityData];
 }
 
 // 显示数据
@@ -58,6 +86,99 @@
         self.phoneField.text = phone;
     }
     
+    self.cityField.text = _city;
+}
+
+#pragma mark - PickerVIew
+// 数据
+- (void)initCityData {
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"china.plist" ofType:nil];
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
+    NSArray *array = dict[@"china"];
+    self.provinces = [XBProvince provincesWithArray:array];
+    
+    self.curProvince = self.provinces[0];
+    self.curCity = self.curProvince.citiesArray[0];
+    self.curArea = self.curCity.areasArray[0];
+}
+
+// 行高
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
+    return 45.0;
+}
+
+// 组数
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 3;
+}
+
+// 每组行数
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    // 省
+    if (component == 0) {
+        return self.provinces.count;
+    }
+    // 市
+    else if (component == 1) {
+        return self.curProvince.citiesArray.count;
+    }
+    // 区
+    else {
+        return self.curCity.areasArray.count;
+    }
+}
+
+// 自定义每行的view
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
+    UILabel *myView = nil;
+    myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 100, 45)];
+    myView.font = [UIFont systemFontOfSize:18];         //用label来设置字体大小
+    myView.textColor = [UIColor whiteColor];
+    myView.backgroundColor = [UIColor clearColor];
+    myView.textAlignment = NSTextAlignmentCenter;
+    
+    // 省
+    if (component == 0) {
+        XBProvince *province = [self.provinces objectAtIndex:row];
+        myView.text = province.provinceName;
+    }
+    // 市
+    else if (component == 1) {
+        XBCity *city = self.curProvince.citiesArray[row];
+        myView.text = city.cityName;
+    }
+    // 区
+    else {
+        XBArea *area = self.curCity.areasArray[row];
+        myView.text = area.areaName;
+    }
+    return myView;
+}
+
+// 返回选中的行
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    // 省
+    if (component == 0) {
+        self.curProvince = self.provinces[row];
+        self.curCity = self.curProvince.citiesArray[0];
+        self.curArea = self.curCity.areasArray[0];
+        [pickerView reloadComponent:1];
+        [pickerView reloadComponent:2];
+        [pickerView selectRow:0 inComponent:1 animated:YES];
+        [pickerView selectRow:0 inComponent:2 animated:YES];
+        
+    }
+    // 市
+    else if (component == 1) {
+        self.curCity = self.curProvince.citiesArray[row];
+        self.curArea = self.curCity.areasArray[0];
+        [pickerView reloadComponent:2];
+        [pickerView selectRow:0 inComponent:2 animated:YES];
+    }
+    // 区
+    else {
+        self.curArea = self.curCity.areasArray[row];
+    }
 }
 
 #pragma mark - 页面特性
@@ -227,7 +348,15 @@
     [paramDic setObject:[CommonUtil stringForID:USERDICT[@"token"]] forKey:@"token"];
     [paramDic setObject:_realName forKey:@"realname"];
     [paramDic setObject:_phone forKey:@"phone"];
-    
+    if (![CommonUtil isEmpty:self.selectProvinceID]) {
+        [paramDic setObject:self.selectProvinceID forKey:@"provinceid"];
+    }
+    if (![CommonUtil isEmpty:self.selectCityID]) {
+        [paramDic setObject:self.selectCityID forKey:@"cityid"];
+    }
+    if (![CommonUtil isEmpty:self.selectAreaID]) {
+        [paramDic setObject:self.selectAreaID forKey:@"areaid"];
+    }
     NSString *uri = @"/suser?action=PerfectAccountInfo";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
     
@@ -276,6 +405,7 @@
 - (void)catchInputData {
     _realName = self.nameField.text;
     _phone = [self.phoneField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    _city = self.cityField.text;
 }
 
 // 数据本地化
@@ -283,6 +413,11 @@
     NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
     NSMutableDictionary *new_user_info = [NSMutableDictionary dictionaryWithDictionary:user_info];
     [new_user_info setObject:_realName forKey:@"realname"];
+    [new_user_info setObject:_phone forKey:@"phone"];
+    [new_user_info setObject:_city forKey:@"locationname"];
+    [new_user_info setObject:_selectProvinceID forKey:@"provinceid"];
+    [new_user_info setObject:_selectCityID forKey:@"cityid"];
+    [new_user_info setObject:_selectAreaID forKey:@"areaid"];
     [CommonUtil saveObjectToUD:new_user_info key:@"UserInfo"];
 }
 
@@ -291,17 +426,54 @@
     NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
     _realName = [user_info objectForKey:@"realname"];
     _phone = [user_info objectForKey:@"phone"];
+    _city = [user_info objectForKey:@"locationname"];
 }
 
 #pragma mark - 点击事件
 - (IBAction)clickForCommit:(id)sender {
-    if (self.nameField.text.length == 0) {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"真实姓名不能为空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alert show];
-    }else{
-        [self postPerfectAccountInfo];
+    [self catchInputData];
+    if ([CommonUtil isEmpty:_phone]) {
+        [self makeToast:@"请输入联系电话"];
+        return;
+    } else {
+        if (![CommonUtil checkPhonenum:_phone]) {
+            [self makeToast:@"请检查您的手机号是否正确"];
+            return;
+        }
     }
+    if ([CommonUtil isEmpty:_realName]) {
+        [self makeToast:@"请输入您的真实姓名"];
+        return;
+    }
+    if ([CommonUtil isEmpty:_city]) {
+        [self makeToast:@"请选择您的驾考城市"];
+        return;
+    }
+    [self postPerfectAccountInfo];
+}
 
+// 开启城市选择
+- (IBAction)clickForCitySelect:(UIButton *)sender {
+    self.cityView.hidden = NO;
+    [self.view addSubview:self.selectView];
+}
+
+// 完成城市选择
+- (IBAction)clickForCityDone:(id)sender {
+    NSString *addrStr = nil;
+    NSString *areaStr = [self.curArea.areaName stringByReplacingOccurrencesOfString:@"  " withString:@""];
+    addrStr =  [NSString stringWithFormat:@"%@-%@-%@", self.curProvince.provinceName, self.curCity.cityName, areaStr];
+    self.cityField.text = addrStr;
+    self.selectProvinceID = self.curProvince.provinceID;
+    self.selectCityID = self.curCity.cityID;
+    self.selectAreaID = self.curArea.areaID;
+    
+    [self.selectView removeFromSuperview];
+}
+
+// 关闭选择页面
+- (IBAction)clickForCancelSelect:(id)sender {
+    [self.selectView removeFromSuperview];
 }
 
 - (IBAction)backClick:(id)sender {

@@ -8,6 +8,7 @@
 
 #import "CoachScreenViewController.h"
 #import "CommonUtil+Date.h"
+#import "AppDelegate.h"
 
 @interface CoachScreenViewController ()
 <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
@@ -1045,6 +1046,14 @@
     
     NSString *pageNum = @"0";
     [paramDic setObject:pageNum forKey:@"pagenum"];
+    
+    // 测试账号studentID
+    AppDelegate *deleget = [UIApplication sharedApplication].delegate;
+    if (![CommonUtil isEmpty:deleget.userid]) {
+        if ([deleget.userid isEqualToString:@"18"]) {
+            paramDic[@"studentid"] = deleget.userid;
+        }
+    }
     
     NSString *uri = @"/sbook?action=GetCoachList";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];

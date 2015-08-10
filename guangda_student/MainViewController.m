@@ -21,7 +21,7 @@
 #import "UserBaseInfoViewController.h"
 #import "XiaobaServeViewController.h"
 #import "ImproveInfoViewController.h"
-@interface MainViewController ()<UIGestureRecognizerDelegate, UIScrollViewDelegate, BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationServiceDelegate,UIAlertViewDelegate>
+@interface MainViewController ()<UIGestureRecognizerDelegate, UIScrollViewDelegate, BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationServiceDelegate>
 {
     UITapGestureRecognizer *_tapGestureRec2;
     UISwipeGestureRecognizer *_swipGestureRecUp;
@@ -149,9 +149,9 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [_mapView setZoomLevel:13.5];
-    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [_mapView setZoomLevel:13.5];
+//    });
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -238,20 +238,6 @@
     if ([[CommonUtil currentUtil] isLogin]) {
         XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
         [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
-    }
-}
-
-// 点击确认
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0) {
-        XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
-        [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
-    }
-    
-    if (buttonIndex == 1) {
-        ImproveInfoViewController *nextVC = [[ImproveInfoViewController alloc] init];
-        [[SliderViewController sharedSliderController].navigationController pushViewController:nextVC animated:YES];
     }
 }
 
@@ -921,10 +907,12 @@
     [paramDic setObject:pointcenter forKey:@"pointcenter"];
     [paramDic setObject:radius forKey:@"radius"];
     
-    // userID
+    // 测试账号studentID
     AppDelegate *deleget = [UIApplication sharedApplication].delegate;
     if (![CommonUtil isEmpty:deleget.userid]) {
-        paramDic[@"userid"] = deleget.userid;
+        if ([deleget.userid isEqualToString:@"18"]) {
+            paramDic[@"studentid"] = deleget.userid;
+        }
     }
     
     // app版本

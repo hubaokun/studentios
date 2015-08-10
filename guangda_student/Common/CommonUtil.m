@@ -127,7 +127,6 @@ static CommonUtil *defaultUtil = nil;
 
 //手机号码验证
 + (BOOL)checkPhonenum:(NSString *)phone {
-
     //手机号以1开头，11位数字
     NSString *phoneRegex = @"^[1]\\d{10}$";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];

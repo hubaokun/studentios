@@ -18,13 +18,19 @@
 #import "MainViewController.h"
 #import <PgySDK/PgyManager.h>
 #import "MobClick.h"
+#import "UIImageView+WebCache.h"
 
 @interface AppDelegate ()
 <BMKLocationServiceDelegate, WeiboSDKDelegate,BMKGeoCodeSearchDelegate>
 {
     BMKMapManager* _mapManager;
     BMKLocationService *_locService;
+    BOOL _advertisementReceived;
 }
+
+// 广告
+@property (strong, nonatomic) UIView *lunchView;
+@property (strong, nonatomic) NSDictionary *advertisementConfig;
 
 @end
 
@@ -113,6 +119,12 @@
     //友盟社会化分享与统计
     [MobClick startWithAppkey:@"55bf12f8e0f55a95d7002184" reportPolicy:BATCH   channelId:@"pgy"];
     
+    // 广告页面
+    [NSThread detachNewThreadSelector:@selector(startRequestAdvertisement) toTarget:self withObject:nil]; // 异步发起网络请求
+    while (!_advertisementReceived) { // 阻塞主线程
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+    }
+    [self showAdvertisment];
     return YES;
 }
 
@@ -443,7 +455,8 @@
         
         if ([code intValue] == 1) {
             NSDictionary *user = [responseObject objectForKey:@"UserInfo"];
-            self.userid = user[@"studentid"];
+            NSNumber *studentID = user[@"studentid"];
+            self.userid = [NSString stringWithFormat:@"%@", studentID];
             [CommonUtil saveObjectToUD:user key:@"UserInfo"];
             // 3秒后在异步线程中上传设备号
             dispatch_queue_t queue =  dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -495,6 +508,56 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 //        [self makeToast:ERR_NETWORK];
     }];
+}
+
+#pragma mark - 广告页相关
+//获取是否要使用广告
+-(void)startRequestAdvertisement{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSString *uri = @"/system?action=CHECKCONFIG";
+    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:params RequestMethod:Request_POST];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    manager.requestSerializer.timeoutInterval = 3;
+    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *code = [responseObject[@"code"] description];
+        if ([code isEqualToString:@"1"]) {
+            self.advertisementConfig = responseObject[@"config"];
+        }
+        // 发送通知取消主线程阻塞
+        [self performSelectorOnMainThread:@selector(receivedAdvertisement) withObject:nil waitUntilDone:NO];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self performSelectorOnMainThread:@selector(receivedAdvertisement) withObject:nil waitUntilDone:NO];
+    }];
+}
+
+// 接收到广告
+- (void)receivedAdvertisement {
+    _advertisementReceived = YES;
+}
+
+// 显示广告页
+- (void)showAdvertisment {
+    // 如果取得广告页
+    if (self.advertisementConfig) {
+        NSDictionary *config = self.advertisementConfig;
+        NSString *advertisement_flag = [config[@"advertisement_flag"] description];
+        if ([advertisement_flag isEqualToString:@"1"]) {
+            NSString *advertisement_url = [config[@"advertisement_url"] description];
+            self.lunchView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+            [self.window addSubview:self.lunchView];
+            UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height)];
+            [imageV sd_setImageWithURL:[NSURL URLWithString:advertisement_url] placeholderImage:[UIImage imageNamed:@"default1.jpg"]]; [self.lunchView addSubview:imageV];
+            [self.window bringSubviewToFront:self.lunchView];
+            [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeLun) userInfo:nil repeats:NO];
+        }
+    }
+    // 未取得
+    else {}
+}
+
+- (void)removeLun {
+    [self.lunchView removeFromSuperview];
 }
 
 @end
