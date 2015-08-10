@@ -15,7 +15,6 @@
                 <outlet property="contentViewHeight" destination="tT8-S2-RYp" id="gbW-p0-lsr"/>
                 <outlet property="couponCountLabel" destination="Krf-JO-VGZ" id="oSb-e2-I5G"/>
                 <outlet property="couponSelectBtn" destination="DrR-fC-Q54" id="mws-0G-bWB"/>
-                <outlet property="coverView" destination="Jfd-wP-tEs" id="1cd-sM-Lel"/>
                 <outlet property="goAppointBtn" destination="Oug-iv-IKY" id="oOm-e2-5Nh"/>
                 <outlet property="moneySelectBtn" destination="6mc-us-psK" id="WBp-yo-V0X"/>
                 <outlet property="payTypeSelectView" destination="UVW-cU-lZ4" id="QtK-6e-9Kn"/>
@@ -332,7 +331,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="55E-KU-Cr1" userLabel="content">
-                    <rect key="frame" x="0.0" y="253" width="600" height="347"/>
+                    <rect key="frame" x="0.0" y="350" width="600" height="250"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LWg-Yy-Jff" userLabel="title">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="48"/>
@@ -573,7 +572,7 @@
                         <constraint firstItem="LWg-Yy-Jff" firstAttribute="leading" secondItem="55E-KU-Cr1" secondAttribute="leading" id="3ka-gy-WMw"/>
                         <constraint firstItem="1wh-zZ-VHd" firstAttribute="leading" secondItem="55E-KU-Cr1" secondAttribute="leading" id="5i4-NG-xyL"/>
                         <constraint firstItem="0HE-yX-h7w" firstAttribute="top" secondItem="LWg-Yy-Jff" secondAttribute="bottom" id="7NB-f5-OZu"/>
-                        <constraint firstAttribute="height" constant="347" id="9wc-t5-wwQ"/>
+                        <constraint firstAttribute="height" constant="250" id="9wc-t5-wwQ"/>
                         <constraint firstAttribute="trailing" secondItem="02K-Uk-iEi" secondAttribute="trailing" id="d62-CF-g2H"/>
                         <constraint firstAttribute="trailing" secondItem="LWg-Yy-Jff" secondAttribute="trailing" id="dGn-pK-13w"/>
                         <constraint firstItem="1wh-zZ-VHd" firstAttribute="top" secondItem="02K-Uk-iEi" secondAttribute="bottom" id="hFx-a9-BeS"/>
@@ -584,11 +583,8 @@
                     </constraints>
                 </view>
                 <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jfd-wP-tEs" userLabel="cover" customClass="UIControl">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="253"/>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <action selector="clickForHideSelectionView:" destination="-1" eventType="touchUpInside" id="9wN-sz-KhJ"/>
-                    </connections>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="350"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

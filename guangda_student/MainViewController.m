@@ -42,7 +42,7 @@
 @property (strong, nonatomic) NSString *carModelId;
 @property (assign, nonatomic) BOOL isGetData;
 
-@property (strong, nonatomic) UIControl *closeDetailCtr; // 关闭底部教练信息窗口
+@property (strong, nonatomic) UIButton *closeDetailBtn; // 关闭底部教练信息窗口
 
 @end
 
@@ -66,11 +66,11 @@
     //    _tapGestureRec2.numberOfTapsRequired = 1;
     //    [self.view addGestureRecognizer:_tapGestureRec2];
     //    [_tapGestureRec2 setCancelsTouchesInView:NO];
-    self.closeDetailCtr = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.closeDetailCtr.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    self.closeDetailCtr.backgroundColor = [UIColor blackColor];
-    self.closeDetailCtr.alpha = 0;
-    [self.closeDetailCtr addTarget:self action:@selector(closeDetailsView) forControlEvents:UIControlEventTouchUpInside];
+    self.closeDetailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.closeDetailBtn.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    self.closeDetailBtn.backgroundColor = [UIColor blackColor];
+    self.closeDetailBtn.alpha = 0;
+    [self.closeDetailBtn addTarget:self action:@selector(closeDetailsView) forControlEvents:UIControlEventTouchUpInside];
     
     // 显示教练详情按钮 添加向上滑动手势
     _swipGestureRecUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showCoachDetailsViewClik:)];
@@ -326,7 +326,7 @@
     self.coachId = [_coachDic[@"coachid"] description];
     
     self.coachInfoView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 122);
-    [self.view addSubview:self.closeDetailCtr];
+    [self.view addSubview:self.closeDetailBtn];
     [self.view addSubview:self.coachInfoView];
     
     [UIView animateWithDuration:0.5 //时长
@@ -336,7 +336,7 @@
                          
                          //动画设置区域
                          self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT - 122, SCREEN_WIDTH, 122);
-                         self.closeDetailCtr.alpha = 0.5;
+                         self.closeDetailBtn.alpha = 0.5;
                      } completion:^(BOOL finish){
                          //动画结束时调用
                          //............
@@ -360,13 +360,13 @@
                                  
                                  //动画设置区域
                                  self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 122);
-                                 self.closeDetailCtr.alpha = 0;
+                                 self.closeDetailBtn.alpha = 0;
                                  
                              } completion:^(BOOL finish){
                                  //动画结束时调用
                                  //............
                                  [self.coachInfoView removeFromSuperview];
-                                 [self.closeDetailCtr removeFromSuperview];
+                                 [self.closeDetailBtn removeFromSuperview];
                              }];
 //        }
 //    }

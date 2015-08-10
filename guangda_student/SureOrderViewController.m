@@ -17,6 +17,7 @@
 #import "XBBookOrder.h"
 
 #define FOOTVIEW_HEIGHT 48
+#define SELVIEW_HEIGHT 250
 @interface SureOrderViewController ()<UITableViewDataSource, UITableViewDelegate> {
     int _validCouponNum; // 可用学时券总数
     int _validCoinNum; // 可用小巴币总数
@@ -60,6 +61,7 @@
 // 选择支付方式
 @property (strong, nonatomic) IBOutlet UIView *payTypeSelectView;
 @property (weak, nonatomic) IBOutlet UIControl *coverView;
+@property (strong, nonatomic) UIButton *coverBgBtn;
 @property (weak, nonatomic) IBOutlet UILabel *remainCouponLabel;
 @property (weak, nonatomic) IBOutlet UILabel *remainCoinLabel;
 @property (weak, nonatomic) IBOutlet UILabel *remainMoneyLabel;
@@ -117,8 +119,14 @@
     [view addSubview:label];
     self.tableView.tableHeaderView = view;
     
-    self.payTypeSelectView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+    self.payTypeSelectView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SELVIEW_HEIGHT);
     [self.view addSubview:self.payTypeSelectView];
+    
+    self.coverBgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.coverBgBtn.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    self.coverBgBtn.backgroundColor = [UIColor blackColor];
+    self.coverBgBtn.alpha = 0;
+    [self.coverBgBtn addTarget:self action:@selector(clickForHideSelectionView:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 //刷新余额
@@ -1033,9 +1041,11 @@
     self.targetBookOrder = self.bookOrdersArray[sender.tag];
     // 根据订单配置view
     [self payTypeSelectViewConfig:self.targetBookOrder];
+    [self.view addSubview:self.coverBgBtn];
+    [self.view addSubview:self.payTypeSelectView];
     [UIView animateWithDuration:0.35 animations:^{
-        self.coverView.alpha = 0.7;
-        self.payTypeSelectView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        self.coverBgBtn.alpha = 0.7;
+        self.payTypeSelectView.frame = CGRectMake(0, (SCREEN_HEIGHT - SELVIEW_HEIGHT), SCREEN_WIDTH, SELVIEW_HEIGHT);
     }];
 }
 
@@ -1076,8 +1086,11 @@
     }
     
     [UIView animateWithDuration:0.35 animations:^{
-        self.coverView.alpha = 0;
-        self.payTypeSelectView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+        self.coverBgBtn.alpha = 0;
+        self.payTypeSelectView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SELVIEW_HEIGHT);
+    }completion:^(BOOL finished) {
+        [self.coverBgBtn removeFromSuperview];
+        [self.payTypeSelectView removeFromSuperview];
     }];
     
     [self.tableView reloadData];
