@@ -21,6 +21,7 @@
 #import "UserBaseInfoViewController.h"
 #import "XiaobaServeViewController.h"
 #import "ImproveInfoViewController.h"
+#import "RecommendCodeViewController.h"
 @interface MainViewController ()<UIGestureRecognizerDelegate, UIScrollViewDelegate, BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationServiceDelegate>
 {
     UITapGestureRecognizer *_tapGestureRec2;
@@ -149,6 +150,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //        [_mapView setZoomLevel:13.5];
 //    });

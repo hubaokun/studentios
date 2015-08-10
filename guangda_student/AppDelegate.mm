@@ -19,13 +19,14 @@
 #import <PgySDK/PgyManager.h>
 #import "MobClick.h"
 #import "UIImageView+WebCache.h"
-
+#import "RecommendCodeViewController.h"
 @interface AppDelegate ()
 <BMKLocationServiceDelegate, WeiboSDKDelegate,BMKGeoCodeSearchDelegate>
 {
     BMKMapManager* _mapManager;
     BMKLocationService *_locService;
     BOOL _advertisementReceived;
+    UINavigationController *navi;
 }
 
 // 广告
@@ -199,14 +200,14 @@
     [SliderViewController sharedSliderController].LeftSJudgeOffset=[UIScreen mainScreen].bounds.size.width-230.00;
     [SliderViewController sharedSliderController].LeftSContentOffset = 230.0;
     
-    UINavigationController *navi = nil;
+    navi = nil;
 //    if ([CommonUtil isEmpty:_userid]) {
 //        LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
 //        navi = [[UINavigationController alloc] initWithRootViewController:viewController];
 //        
 //    } else {
     
-        navi = [[UINavigationController alloc] initWithRootViewController:[SliderViewController sharedSliderController]];
+    navi = [[UINavigationController alloc] initWithRootViewController:[SliderViewController sharedSliderController]];
 //    }
     navi.navigationBarHidden = YES;
     self.window.rootViewController= navi;
@@ -458,6 +459,17 @@
             NSNumber *studentID = user[@"studentid"];
             self.userid = [NSString stringWithFormat:@"%@", studentID];
             [CommonUtil saveObjectToUD:user key:@"UserInfo"];
+            
+            int isregister = [[responseObject objectForKey:@"isregister"] intValue];
+            self.isregister = [NSString stringWithFormat:@"%d",isregister];
+            int isInvited = [[responseObject objectForKey:@"isInvited"] intValue];
+            self.isInvited = [NSString stringWithFormat:@"%d",isInvited];
+            
+            if ([self.isInvited integerValue]== 1) {    //1代表未被邀请，0代表已被邀请
+                RecommendCodeViewController *nextController = [[RecommendCodeViewController alloc] initWithNibName:@"RecommendCodeViewController" bundle:nil];
+                [navi pushViewController:nextController animated:YES];
+            }
+            
             // 3秒后在异步线程中上传设备号
             dispatch_queue_t queue =  dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
             dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 3*NSEC_PER_SEC);
