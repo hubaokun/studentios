@@ -41,6 +41,8 @@
 @property (strong, nonatomic) NSString *carModelId;
 @property (assign, nonatomic) BOOL isGetData;
 
+@property (strong, nonatomic) UIControl *closeDetailCtr; // 关闭底部教练信息窗口
+
 @end
 
 @implementation MainViewController
@@ -57,21 +59,31 @@
     self.carModelImageViewList = [NSMutableArray array];
     self.isGetData = NO;
     
-    _tapGestureRec2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeDetailsView)];
-    _tapGestureRec2.delegate=self;
-    [self.view addGestureRecognizer:_tapGestureRec2];
+    // 关闭底部教练信息窗口
+//    _tapGestureRec2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeDetailsView)];
+//    _tapGestureRec2.delegate=self;
+//    _tapGestureRec2.numberOfTapsRequired = 1;
+//    [self.view addGestureRecognizer:_tapGestureRec2];
+//    [_tapGestureRec2 setCancelsTouchesInView:NO];
+    self.closeDetailCtr = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.closeDetailCtr.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    self.closeDetailCtr.backgroundColor = [UIColor blackColor];
+    self.closeDetailCtr.alpha = 0;
+    [self.closeDetailCtr addTarget:self action:@selector(closeDetailsView) forControlEvents:UIControlEventTouchUpInside];
     
-    // 显示教练详情按钮 添加向上滑动手势
-    _swipGestureRecUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showCoachDetailsViewClik:)];
-    _swipGestureRecUp.delegate = self;
-    _swipGestureRecUp.direction = UISwipeGestureRecognizerDirectionUp;
-    [self.coachDetailShowBtn addGestureRecognizer:_swipGestureRecUp];
     
-    // 隐藏教练详情按钮 添加向下滑动手势
-    _swipGestureRecDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideCoachDetailsViewClick:)];
-    _swipGestureRecDown.delegate = self;
-    _swipGestureRecDown.direction = UISwipeGestureRecognizerDirectionDown;
-    [self.coachDetailHideBtn addGestureRecognizer:_swipGestureRecDown];
+    
+//    // 显示教练详情按钮 添加向上滑动手势
+//    _swipGestureRecUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showCoachDetailsViewClik:)];
+//    _swipGestureRecUp.delegate = self;
+//    _swipGestureRecUp.direction = UISwipeGestureRecognizerDirectionUp;
+//    [self.coachDetailShowBtn addGestureRecognizer:_swipGestureRecUp];
+//    
+//    // 隐藏教练详情按钮 添加向下滑动手势
+//    _swipGestureRecDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideCoachDetailsViewClick:)];
+//    _swipGestureRecDown.delegate = self;
+//    _swipGestureRecDown.direction = UISwipeGestureRecognizerDirectionDown;
+//    [self.coachDetailHideBtn addGestureRecognizer:_swipGestureRecDown];
     
     self.sureSubmitClick.layer.cornerRadius = 5;
     self.sureSubmitClick.layer.borderWidth = 1;
@@ -91,10 +103,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     self.mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-//    self.mapContentView = mapView;
+//    self.mapContentView = _mapView;
     _locService = [[BMKLocationService alloc] init];
     _locService.delegate = self;
-    self.mapView.compassPosition = CGPointMake(8, 88);
+    self.mapView.compassPosition = CGPointMake(8, 108);
     
     //设置地图缩放级别
     [_mapView setZoomLevel:12];
@@ -133,6 +145,8 @@
 //    self.searchParamDic = dic;
     
     [self requestGetCarModelInterfaceWithId:nil];
+    // 配置百度地图
+    [self mapConfig];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -154,15 +168,21 @@
 //    });
 }
 
--(void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated {
     [_mapView viewWillDisappear];
     _mapView.delegate = nil; // 不用时，置nil
     _locService.delegate = nil;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)mapConfig {
+    //设定地图View能否支持旋转
+    _mapView.rotateEnabled = NO;
+    
+    //设定地图View能否支持用户缩放(双击或双指单击)
+    _mapView.zoomEnabledWithTap = YES;
+    
+    //设定地图View能否支持俯仰角
+    _mapView.overlookEnabled = NO;
 }
 
 - (IBAction)leftItemClick:(id)sender
@@ -306,8 +326,8 @@
     self.coachId = [_coachDic[@"coachid"] description];
     
     self.coachInfoView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 122);
+    [self.view addSubview:self.closeDetailCtr];
     [self.view addSubview:self.coachInfoView];
-    
     [UIView animateWithDuration:0.5 //时长
                           delay:0 //延迟时间
                         options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
@@ -315,7 +335,7 @@
                          
                          //动画设置区域
                          self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT - 122, SCREEN_WIDTH, 122);
-                         
+                         self.closeDetailCtr.alpha = 0.5;
                      } completion:^(BOOL finish){
                          //动画结束时调用
                          //............
@@ -328,26 +348,25 @@
 
 - (void)closeDetailsView
 {
-//    for (id objc in self.view.subviews) {
-//        if ([objc isEqual:self.chooseCoachTimeView]) {
     
-            self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT - 122, SCREEN_WIDTH, 122);
-            [UIView animateWithDuration:0.5 //时长
-                                  delay:0 //延迟时间
-                                options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
-                             animations:^{
-                                 
-                                 //动画设置区域
-                                 self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 122);
-                                 
-                                 
-                             } completion:^(BOOL finish){
-                                 //动画结束时调用
-                                 //............
-                                 [self.coachInfoView removeFromSuperview];
-                             }];
-//        }
-//    }
+    
+    
+    self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT - 122, SCREEN_WIDTH, 122);
+    [UIView animateWithDuration:0.5 //时长
+                          delay:0 //延迟时间
+                        options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
+                     animations:^{
+                         
+                         //动画设置区域
+                         self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 122);
+                         self.closeDetailCtr.alpha = 0;
+                         
+                     } completion:^(BOOL finish){
+                         //动画结束时调用
+                         //............
+                         [self.coachInfoView removeFromSuperview];
+                         [self.closeDetailCtr removeFromSuperview];
+                     }];
     self.selectedView.hidden = YES;
     [self removeCoachHeadControl];
     [[SliderViewController sharedSliderController] closeSideBar];
@@ -914,6 +933,10 @@
             paramDic[@"studentid"] = deleget.userid;
         }
     }
+    
+    // 城市id
+    NSString *cityID = [USERDICT[@"cityid"] description];
+    paramDic[@"cityid"] = cityID;
     
     // app版本
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];

@@ -682,6 +682,10 @@
     
     [paramDic setObject:[NSString stringWithFormat:@"%ld", (long)_searchPage] forKey:@"pagenum"];
     
+    // 城市id
+    NSString *cityID = [USERDICT[@"cityid"] description];
+    paramDic[@"cityid"] = cityID;
+    
     // 测试账号studentID
     AppDelegate *deleget = [UIApplication sharedApplication].delegate;
     if (![CommonUtil isEmpty:deleget.userid]) {
