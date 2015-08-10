@@ -684,7 +684,9 @@
     
     // 城市id
     NSString *cityID = [USERDICT[@"cityid"] description];
-    paramDic[@"cityid"] = cityID;
+    if (![CommonUtil isEmpty:cityID]) {
+        paramDic[@"cityid"] = cityID;
+    }
     
     // 测试账号studentID
     AppDelegate *deleget = [UIApplication sharedApplication].delegate;

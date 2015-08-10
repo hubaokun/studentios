@@ -1055,6 +1055,12 @@
         }
     }
     
+    // 城市id
+    NSString *cityID = [USERDICT[@"cityid"] description];
+    if (![CommonUtil isEmpty:cityID]) {
+        paramDic[@"cityid"] = cityID;
+    }
+    
     NSString *uri = @"/sbook?action=GetCoachList";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
     
