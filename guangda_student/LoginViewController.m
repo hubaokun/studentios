@@ -166,7 +166,7 @@
                     
                 AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
                 NSDictionary *user_info = [responseObject objectForKey:@"UserInfo"];
-                delegate.userid = [user_info objectForKey:@"studentid"];
+                delegate.userid = [[user_info objectForKey:@"studentid"] description];
                 [CommonUtil saveObjectToUD:user_info key:@"UserInfo"];
                 [CommonUtil saveObjectToUD:[paramDic objectForKey:@"phone"] key:@"loginusername"];
                 [CommonUtil saveObjectToUD:pwdStr key:@"loginpassword"];
@@ -410,7 +410,7 @@
             
             AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
             NSDictionary *user_info = [responseObject objectForKey:@"UserInfo"];
-            delegate.userid = [user_info objectForKey:@"studentid"];
+            delegate.userid = [[user_info objectForKey:@"studentid"] description];
             [CommonUtil saveObjectToUD:user_info key:@"UserInfo"];
             [CommonUtil saveObjectToUD:[paramDic objectForKey:@"phone"] key:@"loginusername"];
             [CommonUtil saveObjectToUD:vcode key:@"loginpassword"];

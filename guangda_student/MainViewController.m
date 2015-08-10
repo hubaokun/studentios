@@ -21,7 +21,7 @@
 #import "UserBaseInfoViewController.h"
 #import "XiaobaServeViewController.h"
 #import "ImproveInfoViewController.h"
-@interface MainViewController ()<UIGestureRecognizerDelegate, UIScrollViewDelegate, BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationServiceDelegate,UIAlertViewDelegate>
+@interface MainViewController ()<UIGestureRecognizerDelegate, UIScrollViewDelegate, BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationServiceDelegate>
 {
     UITapGestureRecognizer *_tapGestureRec2;
     UISwipeGestureRecognizer *_swipGestureRecUp;
@@ -238,20 +238,6 @@
     if ([[CommonUtil currentUtil] isLogin]) {
         XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
         [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
-    }
-}
-
-// 点击确认
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0) {
-        XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
-        [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
-    }
-    
-    if (buttonIndex == 1) {
-        ImproveInfoViewController *nextVC = [[ImproveInfoViewController alloc] init];
-        [[SliderViewController sharedSliderController].navigationController pushViewController:nextVC animated:YES];
     }
 }
 
