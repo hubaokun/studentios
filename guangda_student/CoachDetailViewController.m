@@ -43,7 +43,8 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *urgentPhone;    // 紧急联系人电话
 @property (strong, nonatomic) IBOutlet UILabel *coachPhone;     // 教练电话
-@property (assign, nonatomic) int count;//总条数
+@property (assign, nonatomic) int studentNum; // 评论人数
+@property (assign, nonatomic) int count; // 总条数
 @property (strong, nonatomic) NSString *telphone;//教练电话
 
 // 页面数据
@@ -195,6 +196,7 @@
             // 刷新数据
             if (_searchPage == 0) {
                 self.count = [responseObject[@"count"] intValue];
+                self.studentNum = [responseObject[@"studentnum"] intValue];
                 self.commentArray = [XBComment gatherCommentsWithArray:commentDictArray];
             }
             
@@ -315,7 +317,7 @@
         UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 100, 15.0)];
         label1.font = [UIFont systemFontOfSize:11.0];
         label1.textColor = RGB(60, 60, 60);
-        label1.text = @"学员评论";
+        label1.text = [NSString stringWithFormat:@"%d名学员评论", self.studentNum];
         [headerView.contentView addSubview:label1];
         
         //箭头

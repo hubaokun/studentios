@@ -43,6 +43,7 @@
 @property (assign, nonatomic) BOOL isGetData;
 
 @property (strong, nonatomic) UIButton *closeDetailBtn; // 关闭底部教练信息窗口
+@property (strong, nonatomic) MyAnimatedAnnotationView *selectedCar; // 选中的汽车
 
 @end
 
@@ -147,6 +148,9 @@
     // 配置百度地图
     [self mapConfig];
     [self setMapLocation];
+    
+    // 检查定位城市和用户设置的城市是否一致
+    [self performSelector:@selector(searchCurrentCityName) withObject:nil afterDelay:5.0f];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -253,147 +257,6 @@
 
 }
 
-#pragma mark - actions
-// 在线报名、预约考试等服务
-- (IBAction)clickForServe:(id)sender {
-    if ([[CommonUtil currentUtil] isLogin]) {
-        XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
-        [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
-    }
-}
-
-// 旧需求的汽车点击事件
-- (IBAction)carBtnClick:(id)sender
-{
-    [self removeCoachHeadControl];
-    
-    // 添加底部的教练信息栏
-    UIButton *button = (UIButton *)sender;
-    
-    // get coach dic
-    int tag = (int)button.tag;
-    if (_coachList != nil && _coachList.count != 0) {
-        self.coachDic = _coachList[tag];
-    }
-    NSString *avatarStr = [_coachDic[@"avatarurl"] description];
-    NSString *realName = [_coachDic[@"realname"] description];
-    NSMutableString *address = [[NSMutableString alloc] initWithString:@"练车地点:"] ;//[_coachDic[@"detail"] description];
-    [address appendString:[_coachDic[@"detail"] description]];
-    CGFloat starScore = [_coachDic[@"score"] floatValue];
-    int gender = [_coachDic[@"gender"] intValue];
-    
-   
-    
-    // 教练头像
-    [self.userLogo sd_setImageWithURL:[NSURL URLWithString:avatarStr] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
-    
-    // 教练名
-    self.coachNameLabel.text = [NSString stringWithFormat:@"%@", realName];
-    // 设置教练名label长度
-    CGFloat realNameStrWidth = [CommonUtil sizeWithString:realName fontSize:17 sizewidth:68 sizeheight:22].width;
-    self.coachNameLabelWidthCon.constant = realNameStrWidth;
-    
-    // 教练性别
-    NSString *genderStr = nil;
-    if (gender == 1) {
-        genderStr = @"男";
-        [self.coachGenderIcon setImage:[UIImage imageNamed:@"icon_male"]];
-    }else if (gender == 2)
-    {
-        genderStr = @"女";
-        [self.coachGenderIcon setImage:[UIImage imageNamed:@"icon_female"]];
-    }else{
-        genderStr = @"";
-        [self.coachGenderIcon setImage:[UIImage imageNamed:@"icon_male"]];
-    }
-    
-    // 教练总单数
-    NSString *sumnum = [_coachDic[@"sumnum"] description];
-    if (sumnum) {
-        self.orderCountLabel.hidden = NO;
-        NSString *sumnumStr = [NSString stringWithFormat:@"总单数:%@",sumnum];
-        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:sumnumStr];
-        [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(4,sumnum.length)];
-        self.orderCountLabel.attributedText = string;
-        CGFloat sumnumStrWidth = [CommonUtil sizeWithString:sumnumStr fontSize:12 sizewidth:320 sizeheight:15].width;
-        self.orderCountLabelWidthCon.constant = sumnumStrWidth;
-    } else {
-        self.orderCountLabel.hidden = YES;
-    }
-
-    self.coachAddressLabel.text = address;
-    [self.starView changeStarForegroundViewWithScore:starScore];
-    
-    self.coachId = [_coachDic[@"coachid"] description];
-    
-    self.coachInfoView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 122);
-    [self.view addSubview:self.closeDetailBtn];
-    [self.view addSubview:self.coachInfoView];
-    
-    [UIView animateWithDuration:0.5 //时长
-                          delay:0 //延迟时间
-                        options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
-                     animations:^{
-                         
-                         //动画设置区域
-                         self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT - 122, SCREEN_WIDTH, 122);
-                         self.closeDetailBtn.alpha = 0.5;
-                     } completion:^(BOOL finish){
-                         //动画结束时调用
-                         //............
-                     }];
-    
-    // 请求刷新教练日程安排接口
-//    [self requestRefreshCoachSchedule];
-//    [self.view bringSubviewToFront:self.filterButton];
-}
-
-- (void)closeDetailsView
-{
-//    for (id objc in self.view.subviews) {
-//        if ([objc isEqual:self.chooseCoachTimeView]) {
-    
-            self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT - 122, SCREEN_WIDTH, 122);
-            [UIView animateWithDuration:0.5 //时长
-                                  delay:0 //延迟时间
-                                options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
-                             animations:^{
-                                 
-                                 //动画设置区域
-                                 self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 122);
-                                 self.closeDetailBtn.alpha = 0;
-                                 
-                             } completion:^(BOOL finish){
-                                 //动画结束时调用
-                                 //............
-                                 [self.coachInfoView removeFromSuperview];
-                                 [self.closeDetailBtn removeFromSuperview];
-                             }];
-//        }
-//    }
-    self.selectedView.hidden = YES;
-    [self removeCoachHeadControl];
-    [[SliderViewController sharedSliderController] closeSideBar];
-}
-
-// 移除教练头像control
-- (void)removeCoachHeadControl
-{
-    for (id objc in self.view.subviews)
-    {
-        if ([objc isKindOfClass:[UIControl class]])
-        {
-            UIControl *contro = (UIControl *)objc;
-            
-            // tag = 1 为教练头像control
-            if (contro.tag == 1)
-            {
-                [contro removeFromSuperview];
-            }
-        }
-    }
-}
-
 #pragma mark 教练列表按钮点击事件 (筛选)
 - (IBAction)coachListClick:(id)sender
 {
@@ -450,7 +313,7 @@
     self.chooseCoachTimeView.frame = CGRectMake(0, SCREEN_HEIGHT-92, SCREEN_WIDTH, SCREEN_HEIGHT);
     [self.view addSubview:self.chooseCoachTimeView];
     
-    [UIView animateWithDuration:0.5 //时长
+    [UIView animateWithDuration:0.35 //时长
                           delay:0 //延迟时间
                         options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
                      animations:^{
@@ -534,7 +397,7 @@
 
 - (IBAction)hideCoachTimeDetailsView:(id)sender
 {
-    [UIView animateWithDuration:0.5 //时长
+    [UIView animateWithDuration:0.35 //时长
                           delay:0 //延迟时间
                         options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
                      animations:^{
@@ -574,7 +437,7 @@
     
     self.coachDetailsViewAll.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT-145);
     [self.view addSubview:self.coachDetailsViewAll];
-    [UIView animateWithDuration:0.5
+    [UIView animateWithDuration:0.35
                           delay:0
                         options:UIViewAnimationOptionTransitionFlipFromLeft
                      animations:^{
@@ -588,7 +451,7 @@
 {
     self.coachDetailsViewAll.frame = CGRectMake(0, 145, SCREEN_WIDTH, SCREEN_HEIGHT - 145);
     [self.view addSubview:self.coachDetailsViewAll];
-    [UIView animateWithDuration:0.5
+    [UIView animateWithDuration:0.35
                           delay:0
                         options:UIViewAnimationOptionTransitionFlipFromLeft
                      animations:^{
@@ -858,9 +721,12 @@
 - (void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error {
     
     if (error == BMK_SEARCH_NO_ERROR) {
-        self.cityName = result.addressDetail.city;
-//        self.address = result.address;
-        [self.confirmTimer fire];
+        // 取得定位城市
+        NSString *cityName = result.addressDetail.city;
+        if (![CommonUtil isEmpty:cityName]) {
+            self.cityName = [cityName stringByReplacingOccurrencesOfString:@"市" withString:@""];
+            [self compareCityName];
+        }
     }
 }
 
@@ -881,6 +747,61 @@
     }
 }
 
+- (void)compareCityName {
+    // 取得用户设置的城市
+    NSString *position = [USERDICT objectForKey:@"locationname"];
+    NSArray *subStrArray = [position componentsSeparatedByString:@"-"];
+    NSString *cityName = @"";
+    if (subStrArray.count > 1) {
+        cityName = subStrArray[1];
+    }
+    
+    // 城市名不相等
+    if (![cityName isEqualToString:self.cityName]) {
+//        UIView *cityAlertView = [self createTopAlertView];
+//        [self.view addSubview:cityAlertView];
+//        [UIView animateWithDuration:0.35 animations:^{
+//            cityAlertView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 30);
+//        }];
+        [self makeToast:@"注意：您所处城市与您设置的驾考城市不一致，可在个人信息里的基本信息页面选择并提交您的驾考城市。" duration:8.0 position:@"bottom"];
+    }
+}
+
+// 顶部弹框提示
+- (UIView *)createTopAlertView {
+    UIView *topAlertView = [[UIView alloc] init];
+    CGFloat topAlertViewW = SCREEN_WIDTH;
+    CGFloat topAlertViewH = 30;
+    CGFloat topAlertViewX = 0;
+    CGFloat topAlertViewY = -30;
+    topAlertView.frame = CGRectMake(topAlertViewX, topAlertViewY, topAlertViewW, topAlertViewH);
+    topAlertView.backgroundColor = [UIColor yellowColor];
+    
+    UILabel *cityAlertLabel = [[UILabel alloc] init];
+    [topAlertView addSubview:cityAlertLabel];
+    CGFloat cityAlertLabelW = SCREEN_WIDTH - 20;
+    CGFloat cityAlertLabelH = topAlertViewH;
+    CGFloat cityAlertLabelX = (SCREEN_WIDTH - cityAlertLabelW) / 2;
+    CGFloat cityAlertLabelY = 0;
+    cityAlertLabel.frame = CGRectMake(cityAlertLabelX, cityAlertLabelY, cityAlertLabelW, cityAlertLabelH);
+    cityAlertLabel.backgroundColor = [UIColor yellowColor];
+    // 文本显示属性
+    cityAlertLabel.font = [UIFont systemFontOfSize:12];
+    cityAlertLabel.textColor = [UIColor blackColor];
+    cityAlertLabel.textAlignment = NSTextAlignmentLeft;
+    cityAlertLabel.numberOfLines = 0;
+    cityAlertLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    cityAlertLabel.text = @"注意：您所处城市与您设置的驾考城市不一致，可在个人信息设置处选择您的驾考城市。";
+    
+    UIButton *fyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [topAlertView addSubview:fyBtn];
+    fyBtn.frame = topAlertView.bounds;
+    fyBtn.backgroundColor = [UIColor clearColor];
+    [fyBtn addTarget:self action:@selector(clickToHideCityAlertView:) forControlEvents:UIControlEventTouchUpInside];
+    
+    return topAlertView;
+}
+
 #pragma mark - Map Action
 // 设置用户位置为屏幕中心
 - (IBAction)setUserLocationToMid:(id)sender
@@ -889,7 +810,6 @@
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [_mapView setCenterCoordinate:appDelegate.userCoordinate animated:YES];
     [_mapView setZoomLevel:13.5];
-
     
     CLLocationCoordinate2D zuobiao = [_mapView convertPoint:CGPointMake(0, 0) toCoordinateFromView:_mapView];
     
@@ -1274,6 +1194,159 @@
     return mainVC;
 }
 
+#pragma mark - actions
+// 在线报名、预约考试等服务
+- (IBAction)clickForServe:(id)sender {
+    if ([[CommonUtil currentUtil] isLogin]) {
+        XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
+        [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
+    }
+}
+
+// 旧需求的汽车点击事件
+- (IBAction)carBtnClick:(id)sender
+{
+    [self removeCoachHeadControl];
+    
+    // 添加底部的教练信息栏
+    UIButton *button = (UIButton *)sender;
+    
+    // get coach dic
+    int tag = (int)button.tag;
+    if (_coachList != nil && _coachList.count != 0) {
+        self.coachDic = _coachList[tag];
+    }
+    NSString *avatarStr = [_coachDic[@"avatarurl"] description];
+    NSString *realName = [_coachDic[@"realname"] description];
+    NSMutableString *address = [[NSMutableString alloc] initWithString:@"练车地点:"] ;//[_coachDic[@"detail"] description];
+    [address appendString:[_coachDic[@"detail"] description]];
+    CGFloat starScore = [_coachDic[@"score"] floatValue];
+    int gender = [_coachDic[@"gender"] intValue];
+    
+    
+    
+    // 教练头像
+    [self.userLogo sd_setImageWithURL:[NSURL URLWithString:avatarStr] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
+    
+    // 教练名
+    self.coachNameLabel.text = [NSString stringWithFormat:@"%@", realName];
+    // 设置教练名label长度
+    CGFloat realNameStrWidth = [CommonUtil sizeWithString:realName fontSize:17 sizewidth:68 sizeheight:22].width;
+    self.coachNameLabelWidthCon.constant = realNameStrWidth;
+    
+    // 教练性别
+    NSString *genderStr = nil;
+    if (gender == 1) {
+        genderStr = @"男";
+        [self.coachGenderIcon setImage:[UIImage imageNamed:@"icon_male"]];
+    }else if (gender == 2)
+    {
+        genderStr = @"女";
+        [self.coachGenderIcon setImage:[UIImage imageNamed:@"icon_female"]];
+    }else{
+        genderStr = @"";
+        [self.coachGenderIcon setImage:[UIImage imageNamed:@"icon_male"]];
+    }
+    
+    // 教练总单数
+    NSString *sumnum = [_coachDic[@"sumnum"] description];
+    if (sumnum) {
+        self.orderCountLabel.hidden = NO;
+        NSString *sumnumStr = [NSString stringWithFormat:@"总单数:%@",sumnum];
+        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:sumnumStr];
+        [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(4,sumnum.length)];
+        self.orderCountLabel.attributedText = string;
+        CGFloat sumnumStrWidth = [CommonUtil sizeWithString:sumnumStr fontSize:12 sizewidth:320 sizeheight:15].width;
+        self.orderCountLabelWidthCon.constant = sumnumStrWidth;
+    } else {
+        self.orderCountLabel.hidden = YES;
+    }
+    
+    self.coachAddressLabel.text = address;
+    [self.starView changeStarForegroundViewWithScore:starScore];
+    
+    self.coachId = [_coachDic[@"coachid"] description];
+    
+    self.coachInfoView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 122);
+    [self.view addSubview:self.closeDetailBtn];
+    [self.view addSubview:self.coachInfoView];
+    
+    [UIView animateWithDuration:0.35 //时长
+                          delay:0 //延迟时间
+                        options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
+                     animations:^{
+                         
+                         //动画设置区域
+                         self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT - 122, SCREEN_WIDTH, 122);
+                         self.closeDetailBtn.alpha = 0.5;
+                     } completion:^(BOOL finish){
+                         //动画结束时调用
+                         //............
+                     }];
+    
+    // 请求刷新教练日程安排接口
+    //    [self requestRefreshCoachSchedule];
+    //    [self.view bringSubviewToFront:self.filterButton];
+    
+    // 改变汽车图标状态
+    MyAnimatedAnnotationView *carView = (MyAnimatedAnnotationView *)button.superview;
+    UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_carselected"]];
+    carView.annotationImageView.image = image;
+    self.selectedCar = carView;
+}
+
+- (void)closeDetailsView
+{
+    //    for (id objc in self.view.subviews) {
+    //        if ([objc isEqual:self.chooseCoachTimeView]) {
+    
+    self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT - 122, SCREEN_WIDTH, 122);
+    [UIView animateWithDuration:0.35 //时长
+                          delay:0 //延迟时间
+                        options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
+                     animations:^{
+                         
+                         //动画设置区域
+                         self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 122);
+                         self.closeDetailBtn.alpha = 0;
+                         
+                     } completion:^(BOOL finish){
+                         //动画结束时调用
+                         //............
+                         [self.coachInfoView removeFromSuperview];
+                         [self.closeDetailBtn removeFromSuperview];
+                     }];
+    //        }
+    //    }
+    self.selectedView.hidden = YES;
+    [self removeCoachHeadControl];
+    [[SliderViewController sharedSliderController] closeSideBar];
+    
+    // 改变汽车图标状态
+    if (self.selectedCar) {
+        UIImage *originImage = [UIImage imageNamed:[NSString stringWithFormat:@"ico_cargr"]];
+        self.selectedCar.annotationImageView.image = originImage;
+    }
+}
+
+// 移除教练头像control
+- (void)removeCoachHeadControl
+{
+    for (id objc in self.view.subviews)
+    {
+        if ([objc isKindOfClass:[UIControl class]])
+        {
+            UIControl *contro = (UIControl *)objc;
+            
+            // tag = 1 为教练头像control
+            if (contro.tag == 1)
+            {
+                [contro removeFromSuperview];
+            }
+        }
+    }
+}
+
 - (IBAction)clickForAllData:(id)sender {
     self.searchParamDic = nil;
     self.allBtn.hidden = YES;
@@ -1299,4 +1372,14 @@
     
     [self requestGetNearByCoachInterfaceWithPointcenter:pointCenter andRadius:radius needLiadingShow:YES];
 }
+
+- (void)clickToHideCityAlertView:(UIButton *)sender {
+    UIView *cityAlertView = sender.superview;
+    [UIView animateWithDuration:0.35 animations:^{
+        cityAlertView.frame = CGRectMake(0, -30, SCREEN_WIDTH, 30);
+    }];
+    [cityAlertView removeFromSuperview];
+}
+
+#pragma mark - 废弃
 @end

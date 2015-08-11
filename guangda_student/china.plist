@@ -192,7 +192,7 @@
 			<key>id</key>
 			<integer>1</integer>
 			<key>province</key>
-			<string>北京市</string>
+			<string>北京</string>
 			<key>provinceid</key>
 			<integer>110000</integer>
 		</dict>
@@ -374,7 +374,7 @@
 			<key>id</key>
 			<integer>2</integer>
 			<key>province</key>
-			<string>天津市</string>
+			<string>天津</string>
 			<key>provinceid</key>
 			<integer>120000</integer>
 		</dict>
@@ -620,7 +620,7 @@
 					<key>baiduid</key>
 					<integer>150</integer>
 					<key>city</key>
-					<string>石家庄市</string>
+					<string>石家庄</string>
 					<key>cityid</key>
 					<integer>130100</integer>
 					<key>hotkey</key>
@@ -777,7 +777,7 @@
 					<key>baiduid</key>
 					<integer>265</integer>
 					<key>city</key>
-					<string>唐山市</string>
+					<string>唐山</string>
 					<key>cityid</key>
 					<integer>130200</integer>
 					<key>hotkey</key>
@@ -864,7 +864,7 @@
 					<key>baiduid</key>
 					<integer>148</integer>
 					<key>city</key>
-					<string>秦皇岛市</string>
+					<string>秦皇岛</string>
 					<key>cityid</key>
 					<integer>130300</integer>
 					<key>hotkey</key>
@@ -1071,7 +1071,7 @@
 					<key>baiduid</key>
 					<integer>151</integer>
 					<key>city</key>
-					<string>邯郸市</string>
+					<string>邯郸</string>
 					<key>cityid</key>
 					<integer>130400</integer>
 					<key>hotkey</key>
@@ -1278,7 +1278,7 @@
 					<key>baiduid</key>
 					<integer>266</integer>
 					<key>city</key>
-					<string>邢台市</string>
+					<string>邢台</string>
 					<key>cityid</key>
 					<integer>130500</integer>
 					<key>hotkey</key>
@@ -1545,7 +1545,7 @@
 					<key>baiduid</key>
 					<integer>307</integer>
 					<key>city</key>
-					<string>保定市</string>
+					<string>保定</string>
 					<key>cityid</key>
 					<integer>130600</integer>
 					<key>hotkey</key>
@@ -1732,7 +1732,7 @@
 					<key>baiduid</key>
 					<integer>264</integer>
 					<key>city</key>
-					<string>张家口市</string>
+					<string>张家口</string>
 					<key>cityid</key>
 					<integer>130700</integer>
 					<key>hotkey</key>
@@ -1859,7 +1859,7 @@
 					<key>baiduid</key>
 					<integer>207</integer>
 					<key>city</key>
-					<string>承德市</string>
+					<string>承德</string>
 					<key>cityid</key>
 					<integer>130800</integer>
 					<key>hotkey</key>
@@ -2036,7 +2036,7 @@
 					<key>baiduid</key>
 					<integer>149</integer>
 					<key>city</key>
-					<string>沧州市</string>
+					<string>沧州</string>
 					<key>cityid</key>
 					<integer>130900</integer>
 					<key>hotkey</key>
@@ -2153,7 +2153,7 @@
 					<key>baiduid</key>
 					<integer>191</integer>
 					<key>city</key>
-					<string>廊坊市</string>
+					<string>廊坊</string>
 					<key>cityid</key>
 					<integer>131000</integer>
 					<key>hotkey</key>
@@ -2280,7 +2280,7 @@
 					<key>baiduid</key>
 					<integer>208</integer>
 					<key>city</key>
-					<string>衡水市</string>
+					<string>衡水</string>
 					<key>cityid</key>
 					<integer>131100</integer>
 					<key>hotkey</key>
@@ -2296,7 +2296,7 @@
 			<key>id</key>
 			<integer>3</integer>
 			<key>province</key>
-			<string>河北省</string>
+			<string>河北</string>
 			<key>provinceid</key>
 			<integer>130000</integer>
 		</dict>
@@ -2412,7 +2412,7 @@
 					<key>baiduid</key>
 					<integer>176</integer>
 					<key>city</key>
-					<string>太原市</string>
+					<string>太原</string>
 					<key>cityid</key>
 					<integer>140100</integer>
 					<key>hotkey</key>
@@ -2539,7 +2539,7 @@
 					<key>baiduid</key>
 					<integer>355</integer>
 					<key>city</key>
-					<string>大同市</string>
+					<string>大同</string>
 					<key>cityid</key>
 					<integer>140200</integer>
 					<key>hotkey</key>
@@ -2606,7 +2606,7 @@
 					<key>baiduid</key>
 					<integer>357</integer>
 					<key>city</key>
-					<string>阳泉市</string>
+					<string>阳泉</string>
 					<key>cityid</key>
 					<integer>140300</integer>
 					<key>hotkey</key>
@@ -2753,7 +2753,7 @@
 					<key>baiduid</key>
 					<integer>356</integer>
 					<key>city</key>
-					<string>长治市</string>
+					<string>长治</string>
 					<key>cityid</key>
 					<integer>140400</integer>
 					<key>hotkey</key>
@@ -2830,7 +2830,7 @@
 					<key>baiduid</key>
 					<integer>290</integer>
 					<key>city</key>
-					<string>晋城市</string>
+					<string>晋城</string>
 					<key>cityid</key>
 					<integer>140500</integer>
 					<key>hotkey</key>
@@ -2907,7 +2907,7 @@
 					<key>baiduid</key>
 					<integer>237</integer>
 					<key>city</key>
-					<string>朔州市</string>
+					<string>朔州</string>
 					<key>cityid</key>
 					<integer>140600</integer>
 					<key>hotkey</key>
@@ -3034,7 +3034,7 @@
 					<key>baiduid</key>
 					<integer>238</integer>
 					<key>city</key>
-					<string>晋中市</string>
+					<string>晋中</string>
 					<key>cityid</key>
 					<integer>140700</integer>
 					<key>hotkey</key>
@@ -3181,7 +3181,7 @@
 					<key>baiduid</key>
 					<integer>328</integer>
 					<key>city</key>
-					<string>运城市</string>
+					<string>运城</string>
 					<key>cityid</key>
 					<integer>140800</integer>
 					<key>hotkey</key>
@@ -3338,7 +3338,7 @@
 					<key>baiduid</key>
 					<integer>367</integer>
 					<key>city</key>
-					<string>忻州市</string>
+					<string>忻州</string>
 					<key>cityid</key>
 					<integer>140900</integer>
 					<key>hotkey</key>
@@ -3525,7 +3525,7 @@
 					<key>baiduid</key>
 					<integer>368</integer>
 					<key>city</key>
-					<string>临汾市</string>
+					<string>临汾</string>
 					<key>cityid</key>
 					<integer>141000</integer>
 					<key>hotkey</key>
@@ -3672,7 +3672,7 @@
 					<key>baiduid</key>
 					<integer>327</integer>
 					<key>city</key>
-					<string>吕梁市</string>
+					<string>吕梁</string>
 					<key>cityid</key>
 					<integer>141100</integer>
 					<key>hotkey</key>
@@ -3688,7 +3688,7 @@
 			<key>id</key>
 			<integer>4</integer>
 			<key>province</key>
-			<string>山西省</string>
+			<string>山西</string>
 			<key>provinceid</key>
 			<integer>140000</integer>
 		</dict>
@@ -3794,7 +3794,7 @@
 					<key>baiduid</key>
 					<integer>321</integer>
 					<key>city</key>
-					<string>呼和浩特市</string>
+					<string>呼和浩特</string>
 					<key>cityid</key>
 					<integer>150100</integer>
 					<key>hotkey</key>
@@ -3901,7 +3901,7 @@
 					<key>baiduid</key>
 					<integer>229</integer>
 					<key>city</key>
-					<string>包头市</string>
+					<string>包头</string>
 					<key>cityid</key>
 					<integer>150200</integer>
 					<key>hotkey</key>
@@ -3948,7 +3948,7 @@
 					<key>baiduid</key>
 					<integer>123</integer>
 					<key>city</key>
-					<string>乌海市</string>
+					<string>乌海</string>
 					<key>cityid</key>
 					<integer>150300</integer>
 					<key>hotkey</key>
@@ -4085,7 +4085,7 @@
 					<key>baiduid</key>
 					<integer>297</integer>
 					<key>city</key>
-					<string>赤峰市</string>
+					<string>赤峰</string>
 					<key>cityid</key>
 					<integer>150400</integer>
 					<key>hotkey</key>
@@ -4182,7 +4182,7 @@
 					<key>baiduid</key>
 					<integer>64</integer>
 					<key>city</key>
-					<string>通辽市</string>
+					<string>通辽</string>
 					<key>cityid</key>
 					<integer>150500</integer>
 					<key>hotkey</key>
@@ -4279,7 +4279,7 @@
 					<key>baiduid</key>
 					<integer>283</integer>
 					<key>city</key>
-					<string>鄂尔多斯市</string>
+					<string>鄂尔多斯</string>
 					<key>cityid</key>
 					<integer>150600</integer>
 					<key>hotkey</key>
@@ -4426,7 +4426,7 @@
 					<key>baiduid</key>
 					<integer>61</integer>
 					<key>city</key>
-					<string>呼伦贝尔市</string>
+					<string>呼伦贝尔</string>
 					<key>cityid</key>
 					<integer>150700</integer>
 					<key>hotkey</key>
@@ -4513,7 +4513,7 @@
 					<key>baiduid</key>
 					<integer>169</integer>
 					<key>city</key>
-					<string>巴彦淖尔市</string>
+					<string>巴彦淖尔</string>
 					<key>cityid</key>
 					<integer>150800</integer>
 					<key>hotkey</key>
@@ -4640,7 +4640,7 @@
 					<key>baiduid</key>
 					<integer>168</integer>
 					<key>city</key>
-					<string>乌兰察布市</string>
+					<string>乌兰察布</string>
 					<key>cityid</key>
 					<integer>150900</integer>
 					<key>hotkey</key>
@@ -5063,7 +5063,7 @@
 					<key>baiduid</key>
 					<integer>58</integer>
 					<key>city</key>
-					<string>沈阳市</string>
+					<string>沈阳</string>
 					<key>cityid</key>
 					<integer>210100</integer>
 					<key>hotkey</key>
@@ -5180,7 +5180,7 @@
 					<key>baiduid</key>
 					<integer>167</integer>
 					<key>city</key>
-					<string>大连市</string>
+					<string>大连</string>
 					<key>cityid</key>
 					<integer>210200</integer>
 					<key>hotkey</key>
@@ -5267,7 +5267,7 @@
 					<key>baiduid</key>
 					<integer>320</integer>
 					<key>city</key>
-					<string>鞍山市</string>
+					<string>鞍山</string>
 					<key>cityid</key>
 					<integer>210300</integer>
 					<key>hotkey</key>
@@ -5354,7 +5354,7 @@
 					<key>baiduid</key>
 					<integer>184</integer>
 					<key>city</key>
-					<string>抚顺市</string>
+					<string>抚顺</string>
 					<key>cityid</key>
 					<integer>210400</integer>
 					<key>hotkey</key>
@@ -5431,7 +5431,7 @@
 					<key>baiduid</key>
 					<integer>227</integer>
 					<key>city</key>
-					<string>本溪市</string>
+					<string>本溪</string>
 					<key>cityid</key>
 					<integer>210500</integer>
 					<key>hotkey</key>
@@ -5508,7 +5508,7 @@
 					<key>baiduid</key>
 					<integer>282</integer>
 					<key>city</key>
-					<string>丹东市</string>
+					<string>丹东</string>
 					<key>cityid</key>
 					<integer>210600</integer>
 					<key>hotkey</key>
@@ -5595,7 +5595,7 @@
 					<key>baiduid</key>
 					<integer>166</integer>
 					<key>city</key>
-					<string>锦州市</string>
+					<string>锦州</string>
 					<key>cityid</key>
 					<integer>210700</integer>
 					<key>hotkey</key>
@@ -5672,7 +5672,7 @@
 					<key>baiduid</key>
 					<integer>281</integer>
 					<key>city</key>
-					<string>营口市</string>
+					<string>营口</string>
 					<key>cityid</key>
 					<integer>210800</integer>
 					<key>hotkey</key>
@@ -5759,7 +5759,7 @@
 					<key>baiduid</key>
 					<integer>59</integer>
 					<key>city</key>
-					<string>阜新市</string>
+					<string>阜新</string>
 					<key>cityid</key>
 					<integer>210900</integer>
 					<key>hotkey</key>
@@ -5846,7 +5846,7 @@
 					<key>baiduid</key>
 					<integer>351</integer>
 					<key>city</key>
-					<string>辽阳市</string>
+					<string>辽阳</string>
 					<key>cityid</key>
 					<integer>211000</integer>
 					<key>hotkey</key>
@@ -5903,7 +5903,7 @@
 					<key>baiduid</key>
 					<integer>228</integer>
 					<key>city</key>
-					<string>盘锦市</string>
+					<string>盘锦</string>
 					<key>cityid</key>
 					<integer>211100</integer>
 					<key>hotkey</key>
@@ -5990,7 +5990,7 @@
 					<key>baiduid</key>
 					<integer>60</integer>
 					<key>city</key>
-					<string>铁岭市</string>
+					<string>铁岭</string>
 					<key>cityid</key>
 					<integer>211200</integer>
 					<key>hotkey</key>
@@ -6077,7 +6077,7 @@
 					<key>baiduid</key>
 					<integer>280</integer>
 					<key>city</key>
-					<string>朝阳市</string>
+					<string>朝阳</string>
 					<key>cityid</key>
 					<integer>211300</integer>
 					<key>hotkey</key>
@@ -6154,7 +6154,7 @@
 					<key>baiduid</key>
 					<integer>319</integer>
 					<key>city</key>
-					<string>葫芦岛市</string>
+					<string>葫芦岛</string>
 					<key>cityid</key>
 					<integer>211400</integer>
 					<key>hotkey</key>
@@ -6170,7 +6170,7 @@
 			<key>id</key>
 			<integer>6</integer>
 			<key>province</key>
-			<string>辽宁省</string>
+			<string>辽宁</string>
 			<key>provinceid</key>
 			<integer>210000</integer>
 		</dict>
@@ -6286,7 +6286,7 @@
 					<key>baiduid</key>
 					<integer>53</integer>
 					<key>city</key>
-					<string>长春市</string>
+					<string>长春</string>
 					<key>cityid</key>
 					<integer>220100</integer>
 					<key>hotkey</key>
@@ -6393,7 +6393,7 @@
 					<key>baiduid</key>
 					<integer>55</integer>
 					<key>city</key>
-					<string>吉林市</string>
+					<string>吉林</string>
 					<key>cityid</key>
 					<integer>220200</integer>
 					<key>hotkey</key>
@@ -6470,7 +6470,7 @@
 					<key>baiduid</key>
 					<integer>56</integer>
 					<key>city</key>
-					<string>四平市</string>
+					<string>四平</string>
 					<key>cityid</key>
 					<integer>220300</integer>
 					<key>hotkey</key>
@@ -6527,7 +6527,7 @@
 					<key>baiduid</key>
 					<integer>183</integer>
 					<key>city</key>
-					<string>辽源市</string>
+					<string>辽源</string>
 					<key>cityid</key>
 					<integer>220400</integer>
 					<key>hotkey</key>
@@ -6614,7 +6614,7 @@
 					<key>baiduid</key>
 					<integer>165</integer>
 					<key>city</key>
-					<string>通化市</string>
+					<string>通化</string>
 					<key>cityid</key>
 					<integer>220500</integer>
 					<key>hotkey</key>
@@ -6691,7 +6691,7 @@
 					<key>baiduid</key>
 					<integer>57</integer>
 					<key>city</key>
-					<string>白山市</string>
+					<string>白山</string>
 					<key>cityid</key>
 					<integer>220600</integer>
 					<key>hotkey</key>
@@ -6758,7 +6758,7 @@
 					<key>baiduid</key>
 					<integer>52</integer>
 					<key>city</key>
-					<string>松原市</string>
+					<string>松原</string>
 					<key>cityid</key>
 					<integer>220700</integer>
 					<key>hotkey</key>
@@ -6825,7 +6825,7 @@
 					<key>baiduid</key>
 					<integer>51</integer>
 					<key>city</key>
-					<string>白城市</string>
+					<string>白城</string>
 					<key>cityid</key>
 					<integer>220800</integer>
 					<key>hotkey</key>
@@ -6938,7 +6938,7 @@
 			<key>id</key>
 			<integer>7</integer>
 			<key>province</key>
-			<string>吉林省</string>
+			<string>吉林</string>
 			<key>provinceid</key>
 			<integer>220000</integer>
 		</dict>
@@ -7144,7 +7144,7 @@
 					<key>baiduid</key>
 					<integer>48</integer>
 					<key>city</key>
-					<string>哈尔滨市</string>
+					<string>哈尔滨</string>
 					<key>cityid</key>
 					<integer>230100</integer>
 					<key>hotkey</key>
@@ -7321,7 +7321,7 @@
 					<key>baiduid</key>
 					<integer>41</integer>
 					<key>city</key>
-					<string>齐齐哈尔市</string>
+					<string>齐齐哈尔</string>
 					<key>cityid</key>
 					<integer>230200</integer>
 					<key>hotkey</key>
@@ -7428,7 +7428,7 @@
 					<key>baiduid</key>
 					<integer>46</integer>
 					<key>city</key>
-					<string>鸡西市</string>
+					<string>鸡西</string>
 					<key>cityid</key>
 					<integer>230300</integer>
 					<key>hotkey</key>
@@ -7525,7 +7525,7 @@
 					<key>baiduid</key>
 					<integer>43</integer>
 					<key>city</key>
-					<string>鹤岗市</string>
+					<string>鹤岗</string>
 					<key>cityid</key>
 					<integer>230400</integer>
 					<key>hotkey</key>
@@ -7622,7 +7622,7 @@
 					<key>baiduid</key>
 					<integer>45</integer>
 					<key>city</key>
-					<string>双鸭山市</string>
+					<string>双鸭山</string>
 					<key>cityid</key>
 					<integer>230500</integer>
 					<key>hotkey</key>
@@ -7729,7 +7729,7 @@
 					<key>baiduid</key>
 					<integer>50</integer>
 					<key>city</key>
-					<string>大庆市</string>
+					<string>大庆</string>
 					<key>cityid</key>
 					<integer>230600</integer>
 					<key>hotkey</key>
@@ -7916,7 +7916,7 @@
 					<key>baiduid</key>
 					<integer>40</integer>
 					<key>city</key>
-					<string>伊春市</string>
+					<string>伊春</string>
 					<key>cityid</key>
 					<integer>230700</integer>
 					<key>hotkey</key>
@@ -8043,7 +8043,7 @@
 					<key>baiduid</key>
 					<integer>42</integer>
 					<key>city</key>
-					<string>佳木斯市</string>
+					<string>佳木斯</string>
 					<key>cityid</key>
 					<integer>230800</integer>
 					<key>hotkey</key>
@@ -8100,7 +8100,7 @@
 					<key>baiduid</key>
 					<integer>47</integer>
 					<key>city</key>
-					<string>七台河市</string>
+					<string>七台河</string>
 					<key>cityid</key>
 					<integer>230900</integer>
 					<key>hotkey</key>
@@ -8217,7 +8217,7 @@
 					<key>baiduid</key>
 					<integer>49</integer>
 					<key>city</key>
-					<string>牡丹江市</string>
+					<string>牡丹江</string>
 					<key>cityid</key>
 					<integer>231000</integer>
 					<key>hotkey</key>
@@ -8294,7 +8294,7 @@
 					<key>baiduid</key>
 					<integer>39</integer>
 					<key>city</key>
-					<string>黑河市</string>
+					<string>黑河</string>
 					<key>cityid</key>
 					<integer>231100</integer>
 					<key>hotkey</key>
@@ -8411,7 +8411,7 @@
 					<key>baiduid</key>
 					<integer>44</integer>
 					<key>city</key>
-					<string>绥化市</string>
+					<string>绥化</string>
 					<key>cityid</key>
 					<integer>231200</integer>
 					<key>hotkey</key>
@@ -8474,7 +8474,7 @@
 			<key>id</key>
 			<integer>8</integer>
 			<key>province</key>
-			<string>黑龙江省</string>
+			<string>黑龙江</string>
 			<key>provinceid</key>
 			<integer>230000</integer>
 		</dict>
@@ -8620,7 +8620,7 @@
 					<key>baiduid</key>
 					<integer>315</integer>
 					<key>city</key>
-					<string>南京市</string>
+					<string>南京</string>
 					<key>cityid</key>
 					<integer>320100</integer>
 					<key>hotkey</key>
@@ -8717,7 +8717,7 @@
 					<key>baiduid</key>
 					<integer>317</integer>
 					<key>city</key>
-					<string>无锡市</string>
+					<string>无锡</string>
 					<key>cityid</key>
 					<integer>320200</integer>
 					<key>hotkey</key>
@@ -8844,7 +8844,7 @@
 					<key>baiduid</key>
 					<integer>316</integer>
 					<key>city</key>
-					<string>徐州市</string>
+					<string>徐州</string>
 					<key>cityid</key>
 					<integer>320300</integer>
 					<key>hotkey</key>
@@ -8931,7 +8931,7 @@
 					<key>baiduid</key>
 					<integer>348</integer>
 					<key>city</key>
-					<string>常州市</string>
+					<string>常州</string>
 					<key>cityid</key>
 					<integer>320400</integer>
 					<key>hotkey</key>
@@ -9058,7 +9058,7 @@
 					<key>baiduid</key>
 					<integer>224</integer>
 					<key>city</key>
-					<string>苏州市</string>
+					<string>苏州</string>
 					<key>cityid</key>
 					<integer>320500</integer>
 					<key>hotkey</key>
@@ -9155,7 +9155,7 @@
 					<key>baiduid</key>
 					<integer>161</integer>
 					<key>city</key>
-					<string>南通市</string>
+					<string>南通</string>
 					<key>cityid</key>
 					<integer>320600</integer>
 					<key>hotkey</key>
@@ -9242,7 +9242,7 @@
 					<key>baiduid</key>
 					<integer>347</integer>
 					<key>city</key>
-					<string>连云港市</string>
+					<string>连云港</string>
 					<key>cityid</key>
 					<integer>320700</integer>
 					<key>hotkey</key>
@@ -9339,7 +9339,7 @@
 					<key>baiduid</key>
 					<integer>162</integer>
 					<key>city</key>
-					<string>淮安市</string>
+					<string>淮安</string>
 					<key>cityid</key>
 					<integer>320800</integer>
 					<key>hotkey</key>
@@ -9446,7 +9446,7 @@
 					<key>baiduid</key>
 					<integer>223</integer>
 					<key>city</key>
-					<string>盐城市</string>
+					<string>盐城</string>
 					<key>cityid</key>
 					<integer>320900</integer>
 					<key>hotkey</key>
@@ -9533,7 +9533,7 @@
 					<key>baiduid</key>
 					<integer>346</integer>
 					<key>city</key>
-					<string>扬州市</string>
+					<string>扬州</string>
 					<key>cityid</key>
 					<integer>321000</integer>
 					<key>hotkey</key>
@@ -9610,7 +9610,7 @@
 					<key>baiduid</key>
 					<integer>160</integer>
 					<key>city</key>
-					<string>镇江市</string>
+					<string>镇江</string>
 					<key>cityid</key>
 					<integer>321100</integer>
 					<key>hotkey</key>
@@ -9687,7 +9687,7 @@
 					<key>baiduid</key>
 					<integer>277</integer>
 					<key>city</key>
-					<string>泰州市</string>
+					<string>泰州</string>
 					<key>cityid</key>
 					<integer>321200</integer>
 					<key>hotkey</key>
@@ -9754,7 +9754,7 @@
 					<key>baiduid</key>
 					<integer>276</integer>
 					<key>city</key>
-					<string>宿迁市</string>
+					<string>宿迁</string>
 					<key>cityid</key>
 					<integer>321300</integer>
 					<key>hotkey</key>
@@ -9770,7 +9770,7 @@
 			<key>id</key>
 			<integer>10</integer>
 			<key>province</key>
-			<string>江苏省</string>
+			<string>江苏</string>
 			<key>provinceid</key>
 			<integer>320000</integer>
 		</dict>
@@ -9916,7 +9916,7 @@
 					<key>baiduid</key>
 					<integer>179</integer>
 					<key>city</key>
-					<string>杭州市</string>
+					<string>杭州</string>
 					<key>cityid</key>
 					<integer>330100</integer>
 					<key>hotkey</key>
@@ -10043,7 +10043,7 @@
 					<key>baiduid</key>
 					<integer>180</integer>
 					<key>city</key>
-					<string>宁波市</string>
+					<string>宁波</string>
 					<key>cityid</key>
 					<integer>330200</integer>
 					<key>hotkey</key>
@@ -10170,7 +10170,7 @@
 					<key>baiduid</key>
 					<integer>178</integer>
 					<key>city</key>
-					<string>温州市</string>
+					<string>温州</string>
 					<key>cityid</key>
 					<integer>330300</integer>
 					<key>hotkey</key>
@@ -10257,7 +10257,7 @@
 					<key>baiduid</key>
 					<integer>334</integer>
 					<key>city</key>
-					<string>嘉兴市</string>
+					<string>嘉兴</string>
 					<key>cityid</key>
 					<integer>330400</integer>
 					<key>hotkey</key>
@@ -10324,7 +10324,7 @@
 					<key>baiduid</key>
 					<integer>294</integer>
 					<key>city</key>
-					<string>湖州市</string>
+					<string>湖州</string>
 					<key>cityid</key>
 					<integer>330500</integer>
 					<key>hotkey</key>
@@ -10401,7 +10401,7 @@
 					<key>baiduid</key>
 					<integer>293</integer>
 					<key>city</key>
-					<string>绍兴市</string>
+					<string>绍兴</string>
 					<key>cityid</key>
 					<integer>330600</integer>
 					<key>hotkey</key>
@@ -10508,7 +10508,7 @@
 					<key>baiduid</key>
 					<integer>333</integer>
 					<key>city</key>
-					<string>金华市</string>
+					<string>金华</string>
 					<key>cityid</key>
 					<integer>330700</integer>
 					<key>hotkey</key>
@@ -10585,7 +10585,7 @@
 					<key>baiduid</key>
 					<integer>243</integer>
 					<key>city</key>
-					<string>衢州市</string>
+					<string>衢州</string>
 					<key>cityid</key>
 					<integer>330800</integer>
 					<key>hotkey</key>
@@ -10642,7 +10642,7 @@
 					<key>baiduid</key>
 					<integer>245</integer>
 					<key>city</key>
-					<string>舟山市</string>
+					<string>舟山</string>
 					<key>cityid</key>
 					<integer>330900</integer>
 					<key>hotkey</key>
@@ -10749,7 +10749,7 @@
 					<key>baiduid</key>
 					<integer>244</integer>
 					<key>city</key>
-					<string>台州市</string>
+					<string>台州</string>
 					<key>cityid</key>
 					<integer>331000</integer>
 					<key>hotkey</key>
@@ -10856,7 +10856,7 @@
 					<key>baiduid</key>
 					<integer>292</integer>
 					<key>city</key>
-					<string>丽水市</string>
+					<string>丽水</string>
 					<key>cityid</key>
 					<integer>331100</integer>
 					<key>hotkey</key>
@@ -10872,7 +10872,7 @@
 			<key>id</key>
 			<integer>11</integer>
 			<key>province</key>
-			<string>浙江省</string>
+			<string>浙江</string>
 			<key>provinceid</key>
 			<integer>330000</integer>
 		</dict>
@@ -10958,7 +10958,7 @@
 					<key>baiduid</key>
 					<integer>127</integer>
 					<key>city</key>
-					<string>合肥市</string>
+					<string>合肥</string>
 					<key>cityid</key>
 					<integer>340100</integer>
 					<key>hotkey</key>
@@ -11045,7 +11045,7 @@
 					<key>baiduid</key>
 					<integer>129</integer>
 					<key>city</key>
-					<string>芜湖市</string>
+					<string>芜湖</string>
 					<key>cityid</key>
 					<integer>340200</integer>
 					<key>hotkey</key>
@@ -11132,7 +11132,7 @@
 					<key>baiduid</key>
 					<integer>126</integer>
 					<key>city</key>
-					<string>蚌埠市</string>
+					<string>蚌埠</string>
 					<key>cityid</key>
 					<integer>340300</integer>
 					<key>hotkey</key>
@@ -11209,7 +11209,7 @@
 					<key>baiduid</key>
 					<integer>250</integer>
 					<key>city</key>
-					<string>淮南市</string>
+					<string>淮南</string>
 					<key>cityid</key>
 					<integer>340400</integer>
 					<key>hotkey</key>
@@ -11266,7 +11266,7 @@
 					<key>baiduid</key>
 					<integer>358</integer>
 					<key>city</key>
-					<string>马鞍山市</string>
+					<string>马鞍山</string>
 					<key>cityid</key>
 					<integer>340500</integer>
 					<key>hotkey</key>
@@ -11323,7 +11323,7 @@
 					<key>baiduid</key>
 					<integer>253</integer>
 					<key>city</key>
-					<string>淮北市</string>
+					<string>淮北</string>
 					<key>cityid</key>
 					<integer>340600</integer>
 					<key>hotkey</key>
@@ -11380,7 +11380,7 @@
 					<key>baiduid</key>
 					<integer>337</integer>
 					<key>city</key>
-					<string>铜陵市</string>
+					<string>铜陵</string>
 					<key>cityid</key>
 					<integer>340700</integer>
 					<key>hotkey</key>
@@ -11507,7 +11507,7 @@
 					<key>baiduid</key>
 					<integer>130</integer>
 					<key>city</key>
-					<string>安庆市</string>
+					<string>安庆</string>
 					<key>cityid</key>
 					<integer>340800</integer>
 					<key>hotkey</key>
@@ -11594,7 +11594,7 @@
 					<key>baiduid</key>
 					<integer>252</integer>
 					<key>city</key>
-					<string>黄山市</string>
+					<string>黄山</string>
 					<key>cityid</key>
 					<integer>341000</integer>
 					<key>hotkey</key>
@@ -11691,7 +11691,7 @@
 					<key>baiduid</key>
 					<integer>189</integer>
 					<key>city</key>
-					<string>滁州市</string>
+					<string>滁州</string>
 					<key>cityid</key>
 					<integer>341100</integer>
 					<key>hotkey</key>
@@ -11788,7 +11788,7 @@
 					<key>baiduid</key>
 					<integer>128</integer>
 					<key>city</key>
-					<string>阜阳市</string>
+					<string>阜阳</string>
 					<key>cityid</key>
 					<integer>341200</integer>
 					<key>hotkey</key>
@@ -11855,7 +11855,7 @@
 					<key>baiduid</key>
 					<integer>370</integer>
 					<key>city</key>
-					<string>宿州市</string>
+					<string>宿州</string>
 					<key>cityid</key>
 					<integer>341300</integer>
 					<key>hotkey</key>
@@ -11922,7 +11922,7 @@
 					<key>baiduid</key>
 					<integer>251</integer>
 					<key>city</key>
-					<string>巢湖市</string>
+					<string>巢湖</string>
 					<key>cityid</key>
 					<integer>341400</integer>
 					<key>hotkey</key>
@@ -12009,7 +12009,7 @@
 					<key>baiduid</key>
 					<integer>298</integer>
 					<key>city</key>
-					<string>六安市</string>
+					<string>六安</string>
 					<key>cityid</key>
 					<integer>341500</integer>
 					<key>hotkey</key>
@@ -12066,7 +12066,7 @@
 					<key>baiduid</key>
 					<integer>188</integer>
 					<key>city</key>
-					<string>亳州市</string>
+					<string>亳州</string>
 					<key>cityid</key>
 					<integer>341600</integer>
 					<key>hotkey</key>
@@ -12123,7 +12123,7 @@
 					<key>baiduid</key>
 					<integer>299</integer>
 					<key>city</key>
-					<string>池州市</string>
+					<string>池州</string>
 					<key>cityid</key>
 					<integer>341700</integer>
 					<key>hotkey</key>
@@ -12210,7 +12210,7 @@
 					<key>baiduid</key>
 					<integer>190</integer>
 					<key>city</key>
-					<string>宣城市</string>
+					<string>宣城</string>
 					<key>cityid</key>
 					<integer>341800</integer>
 					<key>hotkey</key>
@@ -12226,7 +12226,7 @@
 			<key>id</key>
 			<integer>12</integer>
 			<key>province</key>
-			<string>安徽省</string>
+			<string>安徽</string>
 			<key>provinceid</key>
 			<integer>340000</integer>
 		</dict>
@@ -12372,7 +12372,7 @@
 					<key>baiduid</key>
 					<integer>300</integer>
 					<key>city</key>
-					<string>福州市</string>
+					<string>福州</string>
 					<key>cityid</key>
 					<integer>350100</integer>
 					<key>hotkey</key>
@@ -12449,7 +12449,7 @@
 					<key>baiduid</key>
 					<integer>194</integer>
 					<key>city</key>
-					<string>厦门市</string>
+					<string>厦门</string>
 					<key>cityid</key>
 					<integer>350200</integer>
 					<key>hotkey</key>
@@ -12516,7 +12516,7 @@
 					<key>baiduid</key>
 					<integer>195</integer>
 					<key>city</key>
-					<string>莆田市</string>
+					<string>莆田</string>
 					<key>cityid</key>
 					<integer>350300</integer>
 					<key>hotkey</key>
@@ -12653,7 +12653,7 @@
 					<key>baiduid</key>
 					<integer>254</integer>
 					<key>city</key>
-					<string>三明市</string>
+					<string>三明</string>
 					<key>cityid</key>
 					<integer>350400</integer>
 					<key>hotkey</key>
@@ -12790,7 +12790,7 @@
 					<key>baiduid</key>
 					<integer>134</integer>
 					<key>city</key>
-					<string>泉州市</string>
+					<string>泉州</string>
 					<key>cityid</key>
 					<integer>350500</integer>
 					<key>hotkey</key>
@@ -12917,7 +12917,7 @@
 					<key>baiduid</key>
 					<integer>255</integer>
 					<key>city</key>
-					<string>漳州市</string>
+					<string>漳州</string>
 					<key>cityid</key>
 					<integer>350600</integer>
 					<key>hotkey</key>
@@ -13034,7 +13034,7 @@
 					<key>baiduid</key>
 					<integer>133</integer>
 					<key>city</key>
-					<string>南平市</string>
+					<string>南平</string>
 					<key>cityid</key>
 					<integer>350700</integer>
 					<key>hotkey</key>
@@ -13121,7 +13121,7 @@
 					<key>baiduid</key>
 					<integer>193</integer>
 					<key>city</key>
-					<string>龙岩市</string>
+					<string>龙岩</string>
 					<key>cityid</key>
 					<integer>350800</integer>
 					<key>hotkey</key>
@@ -13228,7 +13228,7 @@
 					<key>baiduid</key>
 					<integer>192</integer>
 					<key>city</key>
-					<string>宁德市</string>
+					<string>宁德</string>
 					<key>cityid</key>
 					<integer>350900</integer>
 					<key>hotkey</key>
@@ -13244,7 +13244,7 @@
 			<key>id</key>
 			<integer>13</integer>
 			<key>province</key>
-			<string>福建省</string>
+			<string>福建</string>
 			<key>provinceid</key>
 			<integer>350000</integer>
 		</dict>
@@ -13350,7 +13350,7 @@
 					<key>baiduid</key>
 					<integer>163</integer>
 					<key>city</key>
-					<string>南昌市</string>
+					<string>南昌</string>
 					<key>cityid</key>
 					<integer>360100</integer>
 					<key>hotkey</key>
@@ -13407,7 +13407,7 @@
 					<key>baiduid</key>
 					<integer>225</integer>
 					<key>city</key>
-					<string>景德镇市</string>
+					<string>景德镇</string>
 					<key>cityid</key>
 					<integer>360200</integer>
 					<key>hotkey</key>
@@ -13474,7 +13474,7 @@
 					<key>baiduid</key>
 					<integer>350</integer>
 					<key>city</key>
-					<string>萍乡市</string>
+					<string>萍乡</string>
 					<key>cityid</key>
 					<integer>360300</integer>
 					<key>hotkey</key>
@@ -13611,7 +13611,7 @@
 					<key>baiduid</key>
 					<integer>349</integer>
 					<key>city</key>
-					<string>九江市</string>
+					<string>九江</string>
 					<key>cityid</key>
 					<integer>360400</integer>
 					<key>hotkey</key>
@@ -13648,7 +13648,7 @@
 					<key>baiduid</key>
 					<integer>164</integer>
 					<key>city</key>
-					<string>新余市</string>
+					<string>新余</string>
 					<key>cityid</key>
 					<integer>360500</integer>
 					<key>hotkey</key>
@@ -13695,7 +13695,7 @@
 					<key>baiduid</key>
 					<integer>279</integer>
 					<key>city</key>
-					<string>鹰潭市</string>
+					<string>鹰潭</string>
 					<key>cityid</key>
 					<integer>360600</integer>
 					<key>hotkey</key>
@@ -13892,7 +13892,7 @@
 					<key>baiduid</key>
 					<integer>365</integer>
 					<key>city</key>
-					<string>赣州市</string>
+					<string>赣州</string>
 					<key>cityid</key>
 					<integer>360700</integer>
 					<key>hotkey</key>
@@ -14039,7 +14039,7 @@
 					<key>baiduid</key>
 					<integer>318</integer>
 					<key>city</key>
-					<string>吉安市</string>
+					<string>吉安</string>
 					<key>cityid</key>
 					<integer>360800</integer>
 					<key>hotkey</key>
@@ -14156,7 +14156,7 @@
 					<key>baiduid</key>
 					<integer>278</integer>
 					<key>city</key>
-					<string>宜春市</string>
+					<string>宜春</string>
 					<key>cityid</key>
 					<integer>360900</integer>
 					<key>hotkey</key>
@@ -14283,7 +14283,7 @@
 					<key>baiduid</key>
 					<integer>226</integer>
 					<key>city</key>
-					<string>抚州市</string>
+					<string>抚州</string>
 					<key>cityid</key>
 					<integer>361000</integer>
 					<key>hotkey</key>
@@ -14420,7 +14420,7 @@
 					<key>baiduid</key>
 					<integer>364</integer>
 					<key>city</key>
-					<string>上饶市</string>
+					<string>上饶</string>
 					<key>cityid</key>
 					<integer>361100</integer>
 					<key>hotkey</key>
@@ -14436,7 +14436,7 @@
 			<key>id</key>
 			<integer>14</integer>
 			<key>province</key>
-			<string>江西省</string>
+			<string>江西</string>
 			<key>provinceid</key>
 			<integer>360000</integer>
 		</dict>
@@ -14552,7 +14552,7 @@
 					<key>baiduid</key>
 					<integer>288</integer>
 					<key>city</key>
-					<string>济南市</string>
+					<string>济南</string>
 					<key>cityid</key>
 					<integer>370100</integer>
 					<key>hotkey</key>
@@ -14689,7 +14689,7 @@
 					<key>baiduid</key>
 					<integer>236</integer>
 					<key>city</key>
-					<string>青岛市</string>
+					<string>青岛</string>
 					<key>cityid</key>
 					<integer>370200</integer>
 					<key>hotkey</key>
@@ -14786,7 +14786,7 @@
 					<key>baiduid</key>
 					<integer>354</integer>
 					<key>city</key>
-					<string>淄博市</string>
+					<string>淄博</string>
 					<key>cityid</key>
 					<integer>370300</integer>
 					<key>hotkey</key>
@@ -14863,7 +14863,7 @@
 					<key>baiduid</key>
 					<integer>172</integer>
 					<key>city</key>
-					<string>枣庄市</string>
+					<string>枣庄</string>
 					<key>cityid</key>
 					<integer>370400</integer>
 					<key>hotkey</key>
@@ -14930,7 +14930,7 @@
 					<key>baiduid</key>
 					<integer>174</integer>
 					<key>city</key>
-					<string>东营市</string>
+					<string>东营</string>
 					<key>cityid</key>
 					<integer>370500</integer>
 					<key>hotkey</key>
@@ -15067,7 +15067,7 @@
 					<key>baiduid</key>
 					<integer>326</integer>
 					<key>city</key>
-					<string>烟台市</string>
+					<string>烟台</string>
 					<key>cityid</key>
 					<integer>370600</integer>
 					<key>hotkey</key>
@@ -15204,7 +15204,7 @@
 					<key>baiduid</key>
 					<integer>287</integer>
 					<key>city</key>
-					<string>潍坊市</string>
+					<string>潍坊</string>
 					<key>cityid</key>
 					<integer>370700</integer>
 					<key>hotkey</key>
@@ -15341,7 +15341,7 @@
 					<key>baiduid</key>
 					<integer>286</integer>
 					<key>city</key>
-					<string>济宁市</string>
+					<string>济宁</string>
 					<key>cityid</key>
 					<integer>370800</integer>
 					<key>hotkey</key>
@@ -15418,7 +15418,7 @@
 					<key>baiduid</key>
 					<integer>325</integer>
 					<key>city</key>
-					<string>泰安市</string>
+					<string>泰安</string>
 					<key>cityid</key>
 					<integer>370900</integer>
 					<key>hotkey</key>
@@ -15475,7 +15475,7 @@
 					<key>baiduid</key>
 					<integer>175</integer>
 					<key>city</key>
-					<string>威海市</string>
+					<string>威海</string>
 					<key>cityid</key>
 					<integer>371000</integer>
 					<key>hotkey</key>
@@ -15532,7 +15532,7 @@
 					<key>baiduid</key>
 					<integer>173</integer>
 					<key>city</key>
-					<string>日照市</string>
+					<string>日照</string>
 					<key>cityid</key>
 					<integer>371100</integer>
 					<key>hotkey</key>
@@ -15569,7 +15569,7 @@
 					<key>baiduid</key>
 					<integer>124</integer>
 					<key>city</key>
-					<string>莱芜市</string>
+					<string>莱芜</string>
 					<key>cityid</key>
 					<integer>371200</integer>
 					<key>hotkey</key>
@@ -15706,7 +15706,7 @@
 					<key>baiduid</key>
 					<integer>234</integer>
 					<key>city</key>
-					<string>临沂市</string>
+					<string>临沂</string>
 					<key>cityid</key>
 					<integer>371300</integer>
 					<key>hotkey</key>
@@ -15833,7 +15833,7 @@
 					<key>baiduid</key>
 					<integer>372</integer>
 					<key>city</key>
-					<string>德州市</string>
+					<string>德州</string>
 					<key>cityid</key>
 					<integer>371400</integer>
 					<key>hotkey</key>
@@ -15930,7 +15930,7 @@
 					<key>baiduid</key>
 					<integer>366</integer>
 					<key>city</key>
-					<string>聊城市</string>
+					<string>聊城</string>
 					<key>cityid</key>
 					<integer>371500</integer>
 					<key>hotkey</key>
@@ -16017,7 +16017,7 @@
 					<key>baiduid</key>
 					<integer>235</integer>
 					<key>city</key>
-					<string>滨州市</string>
+					<string>滨州</string>
 					<key>cityid</key>
 					<integer>371600</integer>
 					<key>hotkey</key>
@@ -16124,7 +16124,7 @@
 					<key>baiduid</key>
 					<integer>353</integer>
 					<key>city</key>
-					<string>荷泽市</string>
+					<string>荷泽</string>
 					<key>cityid</key>
 					<integer>371700</integer>
 					<key>hotkey</key>
@@ -16140,7 +16140,7 @@
 			<key>id</key>
 			<integer>15</integer>
 			<key>province</key>
-			<string>山东省</string>
+			<string>山东</string>
 			<key>provinceid</key>
 			<integer>370000</integer>
 		</dict>
@@ -16276,7 +16276,7 @@
 					<key>baiduid</key>
 					<integer>268</integer>
 					<key>city</key>
-					<string>郑州市</string>
+					<string>郑州</string>
 					<key>cityid</key>
 					<integer>410100</integer>
 					<key>hotkey</key>
@@ -16393,7 +16393,7 @@
 					<key>baiduid</key>
 					<integer>210</integer>
 					<key>city</key>
-					<string>开封市</string>
+					<string>开封</string>
 					<key>cityid</key>
 					<integer>410200</integer>
 					<key>hotkey</key>
@@ -16560,7 +16560,7 @@
 					<key>baiduid</key>
 					<integer>153</integer>
 					<key>city</key>
-					<string>洛阳市</string>
+					<string>洛阳</string>
 					<key>cityid</key>
 					<integer>410300</integer>
 					<key>hotkey</key>
@@ -16677,7 +16677,7 @@
 					<key>baiduid</key>
 					<integer>213</integer>
 					<key>city</key>
-					<string>平顶山市</string>
+					<string>平顶山</string>
 					<key>cityid</key>
 					<integer>410400</integer>
 					<key>hotkey</key>
@@ -16784,7 +16784,7 @@
 					<key>baiduid</key>
 					<integer>267</integer>
 					<key>city</key>
-					<string>安阳市</string>
+					<string>安阳</string>
 					<key>cityid</key>
 					<integer>410500</integer>
 					<key>hotkey</key>
@@ -16851,7 +16851,7 @@
 					<key>baiduid</key>
 					<integer>215</integer>
 					<key>city</key>
-					<string>鹤壁市</string>
+					<string>鹤壁</string>
 					<key>cityid</key>
 					<integer>410600</integer>
 					<key>hotkey</key>
@@ -16988,7 +16988,7 @@
 					<key>baiduid</key>
 					<integer>152</integer>
 					<key>city</key>
-					<string>新乡市</string>
+					<string>新乡</string>
 					<key>cityid</key>
 					<integer>410700</integer>
 					<key>hotkey</key>
@@ -17115,7 +17115,7 @@
 					<key>baiduid</key>
 					<integer>211</integer>
 					<key>city</key>
-					<string>焦作市</string>
+					<string>焦作</string>
 					<key>cityid</key>
 					<integer>410800</integer>
 					<key>hotkey</key>
@@ -17192,7 +17192,7 @@
 					<key>baiduid</key>
 					<integer>209</integer>
 					<key>city</key>
-					<string>濮阳市</string>
+					<string>濮阳</string>
 					<key>cityid</key>
 					<integer>410900</integer>
 					<key>hotkey</key>
@@ -17269,7 +17269,7 @@
 					<key>baiduid</key>
 					<integer>155</integer>
 					<key>city</key>
-					<string>许昌市</string>
+					<string>许昌</string>
 					<key>cityid</key>
 					<integer>411000</integer>
 					<key>hotkey</key>
@@ -17336,7 +17336,7 @@
 					<key>baiduid</key>
 					<integer>344</integer>
 					<key>city</key>
-					<string>漯河市</string>
+					<string>漯河</string>
 					<key>cityid</key>
 					<integer>411100</integer>
 					<key>hotkey</key>
@@ -17413,7 +17413,7 @@
 					<key>baiduid</key>
 					<integer>212</integer>
 					<key>city</key>
-					<string>三门峡市</string>
+					<string>三门峡</string>
 					<key>cityid</key>
 					<integer>411200</integer>
 					<key>hotkey</key>
@@ -17560,7 +17560,7 @@
 					<key>baiduid</key>
 					<integer>309</integer>
 					<key>city</key>
-					<string>南阳市</string>
+					<string>南阳</string>
 					<key>cityid</key>
 					<integer>411300</integer>
 					<key>hotkey</key>
@@ -17667,7 +17667,7 @@
 					<key>baiduid</key>
 					<integer>154</integer>
 					<key>city</key>
-					<string>商丘市</string>
+					<string>商丘</string>
 					<key>cityid</key>
 					<integer>411400</integer>
 					<key>hotkey</key>
@@ -17784,7 +17784,7 @@
 					<key>baiduid</key>
 					<integer>214</integer>
 					<key>city</key>
-					<string>信阳市</string>
+					<string>信阳</string>
 					<key>cityid</key>
 					<integer>411500</integer>
 					<key>hotkey</key>
@@ -17901,7 +17901,7 @@
 					<key>baiduid</key>
 					<integer>308</integer>
 					<key>city</key>
-					<string>周口市</string>
+					<string>周口</string>
 					<key>cityid</key>
 					<integer>411600</integer>
 					<key>hotkey</key>
@@ -18018,7 +18018,7 @@
 					<key>baiduid</key>
 					<integer>269</integer>
 					<key>city</key>
-					<string>驻马店市</string>
+					<string>驻马店</string>
 					<key>cityid</key>
 					<integer>411700</integer>
 					<key>hotkey</key>
@@ -18034,7 +18034,7 @@
 			<key>id</key>
 			<integer>16</integer>
 			<key>province</key>
-			<string>河南省</string>
+			<string>河南</string>
 			<key>provinceid</key>
 			<integer>410000</integer>
 		</dict>
@@ -18180,7 +18180,7 @@
 					<key>baiduid</key>
 					<integer>218</integer>
 					<key>city</key>
-					<string>武汉市</string>
+					<string>武汉</string>
 					<key>cityid</key>
 					<integer>420100</integer>
 					<key>hotkey</key>
@@ -18257,7 +18257,7 @@
 					<key>baiduid</key>
 					<integer>311</integer>
 					<key>city</key>
-					<string>黄石市</string>
+					<string>黄石</string>
 					<key>cityid</key>
 					<integer>420200</integer>
 					<key>hotkey</key>
@@ -18354,7 +18354,7 @@
 					<key>baiduid</key>
 					<integer>216</integer>
 					<key>city</key>
-					<string>十堰市</string>
+					<string>十堰</string>
 					<key>cityid</key>
 					<integer>420300</integer>
 					<key>hotkey</key>
@@ -18501,7 +18501,7 @@
 					<key>baiduid</key>
 					<integer>270</integer>
 					<key>city</key>
-					<string>宜昌市</string>
+					<string>宜昌</string>
 					<key>cityid</key>
 					<integer>420500</integer>
 					<key>hotkey</key>
@@ -18608,7 +18608,7 @@
 					<key>baiduid</key>
 					<integer>156</integer>
 					<key>city</key>
-					<string>襄阳市</string>
+					<string>襄阳</string>
 					<key>cityid</key>
 					<integer>420600</integer>
 					<key>hotkey</key>
@@ -18655,7 +18655,7 @@
 					<key>baiduid</key>
 					<integer>122</integer>
 					<key>city</key>
-					<string>鄂州市</string>
+					<string>鄂州</string>
 					<key>cityid</key>
 					<integer>420700</integer>
 					<key>hotkey</key>
@@ -18722,7 +18722,7 @@
 					<key>baiduid</key>
 					<integer>217</integer>
 					<key>city</key>
-					<string>荆门市</string>
+					<string>荆门</string>
 					<key>cityid</key>
 					<integer>420800</integer>
 					<key>hotkey</key>
@@ -18809,7 +18809,7 @@
 					<key>baiduid</key>
 					<integer>310</integer>
 					<key>city</key>
-					<string>孝感市</string>
+					<string>孝感</string>
 					<key>cityid</key>
 					<integer>420900</integer>
 					<key>hotkey</key>
@@ -18906,7 +18906,7 @@
 					<key>baiduid</key>
 					<integer>157</integer>
 					<key>city</key>
-					<string>荆州市</string>
+					<string>荆州</string>
 					<key>cityid</key>
 					<integer>421000</integer>
 					<key>hotkey</key>
@@ -19023,7 +19023,7 @@
 					<key>baiduid</key>
 					<integer>271</integer>
 					<key>city</key>
-					<string>黄冈市</string>
+					<string>黄冈</string>
 					<key>cityid</key>
 					<integer>421100</integer>
 					<key>hotkey</key>
@@ -19100,7 +19100,7 @@
 					<key>baiduid</key>
 					<integer>362</integer>
 					<key>city</key>
-					<string>咸宁市</string>
+					<string>咸宁</string>
 					<key>cityid</key>
 					<integer>421200</integer>
 					<key>hotkey</key>
@@ -19137,7 +19137,7 @@
 					<key>baiduid</key>
 					<integer>371</integer>
 					<key>city</key>
-					<string>随州市</string>
+					<string>随州</string>
 					<key>cityid</key>
 					<integer>421300</integer>
 					<key>hotkey</key>
@@ -19250,7 +19250,7 @@
 			<key>id</key>
 			<integer>17</integer>
 			<key>province</key>
-			<string>湖北省</string>
+			<string>湖北</string>
 			<key>provinceid</key>
 			<integer>420000</integer>
 		</dict>
@@ -19356,7 +19356,7 @@
 					<key>baiduid</key>
 					<integer>158</integer>
 					<key>city</key>
-					<string>长沙市</string>
+					<string>长沙</string>
 					<key>cityid</key>
 					<integer>430100</integer>
 					<key>hotkey</key>
@@ -19463,7 +19463,7 @@
 					<key>baiduid</key>
 					<integer>222</integer>
 					<key>city</key>
-					<string>株洲市</string>
+					<string>株洲</string>
 					<key>cityid</key>
 					<integer>430200</integer>
 					<key>hotkey</key>
@@ -19530,7 +19530,7 @@
 					<key>baiduid</key>
 					<integer>313</integer>
 					<key>city</key>
-					<string>湘潭市</string>
+					<string>湘潭</string>
 					<key>cityid</key>
 					<integer>430300</integer>
 					<key>hotkey</key>
@@ -19667,7 +19667,7 @@
 					<key>baiduid</key>
 					<integer>159</integer>
 					<key>city</key>
-					<string>衡阳市</string>
+					<string>衡阳</string>
 					<key>cityid</key>
 					<integer>430400</integer>
 					<key>hotkey</key>
@@ -19804,7 +19804,7 @@
 					<key>baiduid</key>
 					<integer>273</integer>
 					<key>city</key>
-					<string>邵阳市</string>
+					<string>邵阳</string>
 					<key>cityid</key>
 					<integer>430500</integer>
 					<key>hotkey</key>
@@ -19911,7 +19911,7 @@
 					<key>baiduid</key>
 					<integer>220</integer>
 					<key>city</key>
-					<string>岳阳市</string>
+					<string>岳阳</string>
 					<key>cityid</key>
 					<integer>430600</integer>
 					<key>hotkey</key>
@@ -20018,7 +20018,7 @@
 					<key>baiduid</key>
 					<integer>219</integer>
 					<key>city</key>
-					<string>常德市</string>
+					<string>常德</string>
 					<key>cityid</key>
 					<integer>430700</integer>
 					<key>hotkey</key>
@@ -20075,7 +20075,7 @@
 					<key>baiduid</key>
 					<integer>312</integer>
 					<key>city</key>
-					<string>张家界市</string>
+					<string>张家界</string>
 					<key>cityid</key>
 					<integer>430800</integer>
 					<key>hotkey</key>
@@ -20152,7 +20152,7 @@
 					<key>baiduid</key>
 					<integer>272</integer>
 					<key>city</key>
-					<string>益阳市</string>
+					<string>益阳</string>
 					<key>cityid</key>
 					<integer>430900</integer>
 					<key>hotkey</key>
@@ -20279,7 +20279,7 @@
 					<key>baiduid</key>
 					<integer>275</integer>
 					<key>city</key>
-					<string>郴州市</string>
+					<string>郴州</string>
 					<key>cityid</key>
 					<integer>431000</integer>
 					<key>hotkey</key>
@@ -20406,7 +20406,7 @@
 					<key>baiduid</key>
 					<integer>314</integer>
 					<key>city</key>
-					<string>永州市</string>
+					<string>永州</string>
 					<key>cityid</key>
 					<integer>431100</integer>
 					<key>hotkey</key>
@@ -20543,7 +20543,7 @@
 					<key>baiduid</key>
 					<integer>363</integer>
 					<key>city</key>
-					<string>怀化市</string>
+					<string>怀化</string>
 					<key>cityid</key>
 					<integer>431200</integer>
 					<key>hotkey</key>
@@ -20610,7 +20610,7 @@
 					<key>baiduid</key>
 					<integer>221</integer>
 					<key>city</key>
-					<string>娄底市</string>
+					<string>娄底</string>
 					<key>cityid</key>
 					<integer>431300</integer>
 					<key>hotkey</key>
@@ -20723,7 +20723,7 @@
 			<key>id</key>
 			<integer>18</integer>
 			<key>province</key>
-			<string>湖南省</string>
+			<string>湖南</string>
 			<key>provinceid</key>
 			<integer>430000</integer>
 		</dict>
@@ -20859,7 +20859,7 @@
 					<key>baiduid</key>
 					<integer>257</integer>
 					<key>city</key>
-					<string>广州市</string>
+					<string>广州</string>
 					<key>cityid</key>
 					<integer>440100</integer>
 					<key>hotkey</key>
@@ -20976,7 +20976,7 @@
 					<key>baiduid</key>
 					<integer>137</integer>
 					<key>city</key>
-					<string>韶关市</string>
+					<string>韶关</string>
 					<key>cityid</key>
 					<integer>440200</integer>
 					<key>hotkey</key>
@@ -21053,7 +21053,7 @@
 					<key>baiduid</key>
 					<integer>340</integer>
 					<key>city</key>
-					<string>深圳市</string>
+					<string>深圳</string>
 					<key>cityid</key>
 					<integer>440300</integer>
 					<key>hotkey</key>
@@ -21100,7 +21100,7 @@
 					<key>baiduid</key>
 					<integer>140</integer>
 					<key>city</key>
-					<string>珠海市</string>
+					<string>珠海</string>
 					<key>cityid</key>
 					<integer>440400</integer>
 					<key>hotkey</key>
@@ -21187,7 +21187,7 @@
 					<key>baiduid</key>
 					<integer>303</integer>
 					<key>city</key>
-					<string>汕头市</string>
+					<string>汕头</string>
 					<key>cityid</key>
 					<integer>440500</integer>
 					<key>hotkey</key>
@@ -21254,7 +21254,7 @@
 					<key>baiduid</key>
 					<integer>138</integer>
 					<key>city</key>
-					<string>佛山市</string>
+					<string>佛山</string>
 					<key>cityid</key>
 					<integer>440600</integer>
 					<key>hotkey</key>
@@ -21341,7 +21341,7 @@
 					<key>baiduid</key>
 					<integer>302</integer>
 					<key>city</key>
-					<string>江门市</string>
+					<string>江门</string>
 					<key>cityid</key>
 					<integer>440700</integer>
 					<key>hotkey</key>
@@ -21448,7 +21448,7 @@
 					<key>baiduid</key>
 					<integer>198</integer>
 					<key>city</key>
-					<string>湛江市</string>
+					<string>湛江</string>
 					<key>cityid</key>
 					<integer>440800</integer>
 					<key>hotkey</key>
@@ -21525,7 +21525,7 @@
 					<key>baiduid</key>
 					<integer>139</integer>
 					<key>city</key>
-					<string>茂名市</string>
+					<string>茂名</string>
 					<key>cityid</key>
 					<integer>440900</integer>
 					<key>hotkey</key>
@@ -21622,7 +21622,7 @@
 					<key>baiduid</key>
 					<integer>338</integer>
 					<key>city</key>
-					<string>肇庆市</string>
+					<string>肇庆</string>
 					<key>cityid</key>
 					<integer>441200</integer>
 					<key>hotkey</key>
@@ -21689,7 +21689,7 @@
 					<key>baiduid</key>
 					<integer>301</integer>
 					<key>city</key>
-					<string>惠州市</string>
+					<string>惠州</string>
 					<key>cityid</key>
 					<integer>441300</integer>
 					<key>hotkey</key>
@@ -21786,7 +21786,7 @@
 					<key>baiduid</key>
 					<integer>141</integer>
 					<key>city</key>
-					<string>梅州市</string>
+					<string>梅州</string>
 					<key>cityid</key>
 					<integer>441400</integer>
 					<key>hotkey</key>
@@ -21843,7 +21843,7 @@
 					<key>baiduid</key>
 					<integer>339</integer>
 					<key>city</key>
-					<string>汕尾市</string>
+					<string>汕尾</string>
 					<key>cityid</key>
 					<integer>441500</integer>
 					<key>hotkey</key>
@@ -21920,7 +21920,7 @@
 					<key>baiduid</key>
 					<integer>200</integer>
 					<key>city</key>
-					<string>河源市</string>
+					<string>河源</string>
 					<key>cityid</key>
 					<integer>441600</integer>
 					<key>hotkey</key>
@@ -21977,7 +21977,7 @@
 					<key>baiduid</key>
 					<integer>199</integer>
 					<key>city</key>
-					<string>阳江市</string>
+					<string>阳江</string>
 					<key>cityid</key>
 					<integer>441700</integer>
 					<key>hotkey</key>
@@ -22074,7 +22074,7 @@
 					<key>baiduid</key>
 					<integer>197</integer>
 					<key>city</key>
-					<string>清远市</string>
+					<string>清远</string>
 					<key>cityid</key>
 					<integer>441800</integer>
 					<key>hotkey</key>
@@ -22090,7 +22090,7 @@
 					<key>baiduid</key>
 					<integer>119</integer>
 					<key>city</key>
-					<string>东莞市</string>
+					<string>东莞</string>
 					<key>cityid</key>
 					<integer>441900</integer>
 					<key>hotkey</key>
@@ -22106,7 +22106,7 @@
 					<key>baiduid</key>
 					<integer>187</integer>
 					<key>city</key>
-					<string>中山市</string>
+					<string>中山</string>
 					<key>cityid</key>
 					<integer>442000</integer>
 					<key>hotkey</key>
@@ -22153,7 +22153,7 @@
 					<key>baiduid</key>
 					<integer>201</integer>
 					<key>city</key>
-					<string>潮州市</string>
+					<string>潮州</string>
 					<key>cityid</key>
 					<integer>445100</integer>
 					<key>hotkey</key>
@@ -22220,7 +22220,7 @@
 					<key>baiduid</key>
 					<integer>259</integer>
 					<key>city</key>
-					<string>揭阳市</string>
+					<string>揭阳</string>
 					<key>cityid</key>
 					<integer>445200</integer>
 					<key>hotkey</key>
@@ -22287,7 +22287,7 @@
 					<key>baiduid</key>
 					<integer>258</integer>
 					<key>city</key>
-					<string>云浮市</string>
+					<string>云浮</string>
 					<key>cityid</key>
 					<integer>445300</integer>
 					<key>hotkey</key>
@@ -22303,7 +22303,7 @@
 			<key>id</key>
 			<integer>19</integer>
 			<key>province</key>
-			<string>广东省</string>
+			<string>广东</string>
 			<key>provinceid</key>
 			<integer>440000</integer>
 		</dict>
@@ -22439,7 +22439,7 @@
 					<key>baiduid</key>
 					<integer>261</integer>
 					<key>city</key>
-					<string>南宁市</string>
+					<string>南宁</string>
 					<key>cityid</key>
 					<integer>450100</integer>
 					<key>hotkey</key>
@@ -22556,7 +22556,7 @@
 					<key>baiduid</key>
 					<integer>305</integer>
 					<key>city</key>
-					<string>柳州市</string>
+					<string>柳州</string>
 					<key>cityid</key>
 					<integer>450200</integer>
 					<key>hotkey</key>
@@ -22743,7 +22743,7 @@
 					<key>baiduid</key>
 					<integer>142</integer>
 					<key>city</key>
-					<string>桂林市</string>
+					<string>桂林</string>
 					<key>cityid</key>
 					<integer>450300</integer>
 					<key>hotkey</key>
@@ -22830,7 +22830,7 @@
 					<key>baiduid</key>
 					<integer>304</integer>
 					<key>city</key>
-					<string>梧州市</string>
+					<string>梧州</string>
 					<key>cityid</key>
 					<integer>450400</integer>
 					<key>hotkey</key>
@@ -22887,7 +22887,7 @@
 					<key>baiduid</key>
 					<integer>295</integer>
 					<key>city</key>
-					<string>北海市</string>
+					<string>北海</string>
 					<key>cityid</key>
 					<integer>450500</integer>
 					<key>hotkey</key>
@@ -22944,7 +22944,7 @@
 					<key>baiduid</key>
 					<integer>204</integer>
 					<key>city</key>
-					<string>防城港市</string>
+					<string>防城港</string>
 					<key>cityid</key>
 					<integer>450600</integer>
 					<key>hotkey</key>
@@ -23001,7 +23001,7 @@
 					<key>baiduid</key>
 					<integer>145</integer>
 					<key>city</key>
-					<string>钦州市</string>
+					<string>钦州</string>
 					<key>cityid</key>
 					<integer>450700</integer>
 					<key>hotkey</key>
@@ -23068,7 +23068,7 @@
 					<key>baiduid</key>
 					<integer>341</integer>
 					<key>city</key>
-					<string>贵港市</string>
+					<string>贵港</string>
 					<key>cityid</key>
 					<integer>450800</integer>
 					<key>hotkey</key>
@@ -23145,7 +23145,7 @@
 					<key>baiduid</key>
 					<integer>361</integer>
 					<key>city</key>
-					<string>玉林市</string>
+					<string>玉林</string>
 					<key>cityid</key>
 					<integer>450900</integer>
 					<key>hotkey</key>
@@ -23282,7 +23282,7 @@
 					<key>baiduid</key>
 					<integer>203</integer>
 					<key>city</key>
-					<string>百色市</string>
+					<string>百色</string>
 					<key>cityid</key>
 					<integer>451000</integer>
 					<key>hotkey</key>
@@ -23339,7 +23339,7 @@
 					<key>baiduid</key>
 					<integer>260</integer>
 					<key>city</key>
-					<string>贺州市</string>
+					<string>贺州</string>
 					<key>cityid</key>
 					<integer>451100</integer>
 					<key>hotkey</key>
@@ -23466,7 +23466,7 @@
 					<key>baiduid</key>
 					<integer>143</integer>
 					<key>city</key>
-					<string>河池市</string>
+					<string>河池</string>
 					<key>cityid</key>
 					<integer>451200</integer>
 					<key>hotkey</key>
@@ -23543,7 +23543,7 @@
 					<key>baiduid</key>
 					<integer>202</integer>
 					<key>city</key>
-					<string>来宾市</string>
+					<string>来宾</string>
 					<key>cityid</key>
 					<integer>451300</integer>
 					<key>hotkey</key>
@@ -23630,7 +23630,7 @@
 					<key>baiduid</key>
 					<integer>144</integer>
 					<key>city</key>
-					<string>崇左市</string>
+					<string>崇左</string>
 					<key>cityid</key>
 					<integer>451400</integer>
 					<key>hotkey</key>
@@ -23702,7 +23702,7 @@
 					<key>baiduid</key>
 					<integer>125</integer>
 					<key>city</key>
-					<string>海口市</string>
+					<string>海口</string>
 					<key>cityid</key>
 					<integer>460100</integer>
 					<key>hotkey</key>
@@ -23718,7 +23718,7 @@
 					<key>baiduid</key>
 					<integer>121</integer>
 					<key>city</key>
-					<string>三亚市</string>
+					<string>三亚</string>
 					<key>cityid</key>
 					<integer>460200</integer>
 					<key>hotkey</key>
@@ -23734,7 +23734,7 @@
 			<key>id</key>
 			<integer>21</integer>
 			<key>province</key>
-			<string>海南省</string>
+			<string>海南</string>
 			<key>provinceid</key>
 			<integer>460000</integer>
 		</dict>
@@ -23940,7 +23940,7 @@
 					<key>baiduid</key>
 					<integer>75</integer>
 					<key>city</key>
-					<string>成都市</string>
+					<string>成都</string>
 					<key>cityid</key>
 					<integer>510100</integer>
 					<key>hotkey</key>
@@ -24017,7 +24017,7 @@
 					<key>baiduid</key>
 					<integer>78</integer>
 					<key>city</key>
-					<string>自贡市</string>
+					<string>自贡</string>
 					<key>cityid</key>
 					<integer>510300</integer>
 					<key>hotkey</key>
@@ -24084,7 +24084,7 @@
 					<key>baiduid</key>
 					<integer>81</integer>
 					<key>city</key>
-					<string>攀枝花市</string>
+					<string>攀枝花</string>
 					<key>cityid</key>
 					<integer>510400</integer>
 					<key>hotkey</key>
@@ -24171,7 +24171,7 @@
 					<key>baiduid</key>
 					<integer>331</integer>
 					<key>city</key>
-					<string>泸州市</string>
+					<string>泸州</string>
 					<key>cityid</key>
 					<integer>510500</integer>
 					<key>hotkey</key>
@@ -24248,7 +24248,7 @@
 					<key>baiduid</key>
 					<integer>74</integer>
 					<key>city</key>
-					<string>德阳市</string>
+					<string>德阳</string>
 					<key>cityid</key>
 					<integer>510600</integer>
 					<key>hotkey</key>
@@ -24355,7 +24355,7 @@
 					<key>baiduid</key>
 					<integer>240</integer>
 					<key>city</key>
-					<string>绵阳市</string>
+					<string>绵阳</string>
 					<key>cityid</key>
 					<integer>510700</integer>
 					<key>hotkey</key>
@@ -24442,7 +24442,7 @@
 					<key>baiduid</key>
 					<integer>329</integer>
 					<key>city</key>
-					<string>广元市</string>
+					<string>广元</string>
 					<key>cityid</key>
 					<integer>510800</integer>
 					<key>hotkey</key>
@@ -24509,7 +24509,7 @@
 					<key>baiduid</key>
 					<integer>330</integer>
 					<key>city</key>
-					<string>遂宁市</string>
+					<string>遂宁</string>
 					<key>cityid</key>
 					<integer>510900</integer>
 					<key>hotkey</key>
@@ -24576,7 +24576,7 @@
 					<key>baiduid</key>
 					<integer>248</integer>
 					<key>city</key>
-					<string>内江市</string>
+					<string>内江</string>
 					<key>cityid</key>
 					<integer>511000</integer>
 					<key>hotkey</key>
@@ -24703,7 +24703,7 @@
 					<key>baiduid</key>
 					<integer>79</integer>
 					<key>city</key>
-					<string>乐山市</string>
+					<string>乐山</string>
 					<key>cityid</key>
 					<integer>511100</integer>
 					<key>hotkey</key>
@@ -24810,7 +24810,7 @@
 					<key>baiduid</key>
 					<integer>291</integer>
 					<key>city</key>
-					<string>南充市</string>
+					<string>南充</string>
 					<key>cityid</key>
 					<integer>511300</integer>
 					<key>hotkey</key>
@@ -24887,7 +24887,7 @@
 					<key>baiduid</key>
 					<integer>77</integer>
 					<key>city</key>
-					<string>眉山市</string>
+					<string>眉山</string>
 					<key>cityid</key>
 					<integer>511400</integer>
 					<key>hotkey</key>
@@ -25004,7 +25004,7 @@
 					<key>baiduid</key>
 					<integer>186</integer>
 					<key>city</key>
-					<string>宜宾市</string>
+					<string>宜宾</string>
 					<key>cityid</key>
 					<integer>511500</integer>
 					<key>hotkey</key>
@@ -25071,7 +25071,7 @@
 					<key>baiduid</key>
 					<integer>241</integer>
 					<key>city</key>
-					<string>广安市</string>
+					<string>广安</string>
 					<key>cityid</key>
 					<integer>511600</integer>
 					<key>hotkey</key>
@@ -25158,7 +25158,7 @@
 					<key>baiduid</key>
 					<integer>369</integer>
 					<key>city</key>
-					<string>达州市</string>
+					<string>达州</string>
 					<key>cityid</key>
 					<integer>511700</integer>
 					<key>hotkey</key>
@@ -25255,7 +25255,7 @@
 					<key>baiduid</key>
 					<integer>76</integer>
 					<key>city</key>
-					<string>雅安市</string>
+					<string>雅安</string>
 					<key>cityid</key>
 					<integer>511800</integer>
 					<key>hotkey</key>
@@ -25312,7 +25312,7 @@
 					<key>baiduid</key>
 					<integer>239</integer>
 					<key>city</key>
-					<string>巴中市</string>
+					<string>巴中</string>
 					<key>cityid</key>
 					<integer>511900</integer>
 					<key>hotkey</key>
@@ -25369,7 +25369,7 @@
 					<key>baiduid</key>
 					<integer>242</integer>
 					<key>city</key>
-					<string>资阳市</string>
+					<string>资阳</string>
 					<key>cityid</key>
 					<integer>512000</integer>
 					<key>hotkey</key>
@@ -25916,7 +25916,7 @@
 			<key>id</key>
 			<integer>23</integer>
 			<key>province</key>
-			<string>四川省</string>
+			<string>四川</string>
 			<key>provinceid</key>
 			<integer>510000</integer>
 		</dict>
@@ -26032,7 +26032,7 @@
 					<key>baiduid</key>
 					<integer>146</integer>
 					<key>city</key>
-					<string>贵阳市</string>
+					<string>贵阳</string>
 					<key>cityid</key>
 					<integer>520100</integer>
 					<key>hotkey</key>
@@ -26089,7 +26089,7 @@
 					<key>baiduid</key>
 					<integer>147</integer>
 					<key>city</key>
-					<string>六盘水市</string>
+					<string>六盘水</string>
 					<key>cityid</key>
 					<integer>520200</integer>
 					<key>hotkey</key>
@@ -26246,7 +26246,7 @@
 					<key>baiduid</key>
 					<integer>262</integer>
 					<key>city</key>
-					<string>遵义市</string>
+					<string>遵义</string>
 					<key>cityid</key>
 					<integer>520300</integer>
 					<key>hotkey</key>
@@ -26323,7 +26323,7 @@
 					<key>baiduid</key>
 					<integer>263</integer>
 					<key>city</key>
-					<string>安顺市</string>
+					<string>安顺</string>
 					<key>cityid</key>
 					<integer>520400</integer>
 					<key>hotkey</key>
@@ -26964,7 +26964,7 @@
 			<key>id</key>
 			<integer>24</integer>
 			<key>province</key>
-			<string>贵州省</string>
+			<string>贵州</string>
 			<key>provinceid</key>
 			<integer>520000</integer>
 		</dict>
@@ -27120,7 +27120,7 @@
 					<key>baiduid</key>
 					<integer>104</integer>
 					<key>city</key>
-					<string>昆明市</string>
+					<string>昆明</string>
 					<key>cityid</key>
 					<integer>530100</integer>
 					<key>hotkey</key>
@@ -27227,7 +27227,7 @@
 					<key>baiduid</key>
 					<integer>249</integer>
 					<key>city</key>
-					<string>曲靖市</string>
+					<string>曲靖</string>
 					<key>cityid</key>
 					<integer>530300</integer>
 					<key>hotkey</key>
@@ -27334,7 +27334,7 @@
 					<key>baiduid</key>
 					<integer>106</integer>
 					<key>city</key>
-					<string>玉溪市</string>
+					<string>玉溪</string>
 					<key>cityid</key>
 					<integer>530400</integer>
 					<key>hotkey</key>
@@ -27401,7 +27401,7 @@
 					<key>baiduid</key>
 					<integer>112</integer>
 					<key>city</key>
-					<string>保山市</string>
+					<string>保山</string>
 					<key>cityid</key>
 					<integer>530500</integer>
 					<key>hotkey</key>
@@ -27528,7 +27528,7 @@
 					<key>baiduid</key>
 					<integer>336</integer>
 					<key>city</key>
-					<string>昭通市</string>
+					<string>昭通</string>
 					<key>cityid</key>
 					<integer>530600</integer>
 					<key>hotkey</key>
@@ -27595,7 +27595,7 @@
 					<key>baiduid</key>
 					<integer>114</integer>
 					<key>city</key>
-					<string>丽江市</string>
+					<string>丽江</string>
 					<key>cityid</key>
 					<integer>530700</integer>
 					<key>hotkey</key>
@@ -27712,7 +27712,7 @@
 					<key>baiduid</key>
 					<integer>108</integer>
 					<key>city</key>
-					<string>普洱市</string>
+					<string>普洱</string>
 					<key>cityid</key>
 					<integer>530800</integer>
 					<key>hotkey</key>
@@ -27809,7 +27809,7 @@
 					<key>baiduid</key>
 					<integer>110</integer>
 					<key>city</key>
-					<string>临沧市</string>
+					<string>临沧</string>
 					<key>cityid</key>
 					<integer>530900</integer>
 					<key>hotkey</key>
@@ -28541,7 +28541,7 @@
 			<key>id</key>
 			<integer>25</integer>
 			<key>province</key>
-			<string>云南省</string>
+			<string>云南</string>
 			<key>provinceid</key>
 			<integer>530000</integer>
 		</dict>
@@ -28637,7 +28637,7 @@
 					<key>baiduid</key>
 					<integer>100</integer>
 					<key>city</key>
-					<string>拉萨市</string>
+					<string>拉萨</string>
 					<key>cityid</key>
 					<integer>540100</integer>
 					<key>hotkey</key>
@@ -29551,7 +29551,7 @@
 					<key>baiduid</key>
 					<integer>233</integer>
 					<key>city</key>
-					<string>西安市</string>
+					<string>西安</string>
 					<key>cityid</key>
 					<integer>610100</integer>
 					<key>hotkey</key>
@@ -29608,7 +29608,7 @@
 					<key>baiduid</key>
 					<integer>232</integer>
 					<key>city</key>
-					<string>铜川市</string>
+					<string>铜川</string>
 					<key>cityid</key>
 					<integer>610200</integer>
 					<key>hotkey</key>
@@ -29745,7 +29745,7 @@
 					<key>baiduid</key>
 					<integer>171</integer>
 					<key>city</key>
-					<string>宝鸡市</string>
+					<string>宝鸡</string>
 					<key>cityid</key>
 					<integer>610300</integer>
 					<key>hotkey</key>
@@ -29902,7 +29902,7 @@
 					<key>baiduid</key>
 					<integer>323</integer>
 					<key>city</key>
-					<string>咸阳市</string>
+					<string>咸阳</string>
 					<key>cityid</key>
 					<integer>610400</integer>
 					<key>hotkey</key>
@@ -30029,7 +30029,7 @@
 					<key>baiduid</key>
 					<integer>170</integer>
 					<key>city</key>
-					<string>渭南市</string>
+					<string>渭南</string>
 					<key>cityid</key>
 					<integer>610500</integer>
 					<key>hotkey</key>
@@ -30176,7 +30176,7 @@
 					<key>baiduid</key>
 					<integer>284</integer>
 					<key>city</key>
-					<string>延安市</string>
+					<string>延安</string>
 					<key>cityid</key>
 					<integer>610600</integer>
 					<key>hotkey</key>
@@ -30303,7 +30303,7 @@
 					<key>baiduid</key>
 					<integer>352</integer>
 					<key>city</key>
-					<string>汉中市</string>
+					<string>汉中</string>
 					<key>cityid</key>
 					<integer>610700</integer>
 					<key>hotkey</key>
@@ -30440,7 +30440,7 @@
 					<key>baiduid</key>
 					<integer>231</integer>
 					<key>city</key>
-					<string>榆林市</string>
+					<string>榆林</string>
 					<key>cityid</key>
 					<integer>610800</integer>
 					<key>hotkey</key>
@@ -30557,7 +30557,7 @@
 					<key>baiduid</key>
 					<integer>324</integer>
 					<key>city</key>
-					<string>安康市</string>
+					<string>安康</string>
 					<key>cityid</key>
 					<integer>610900</integer>
 					<key>hotkey</key>
@@ -30644,7 +30644,7 @@
 					<key>baiduid</key>
 					<integer>285</integer>
 					<key>city</key>
-					<string>商洛市</string>
+					<string>商洛</string>
 					<key>cityid</key>
 					<integer>611000</integer>
 					<key>hotkey</key>
@@ -30660,7 +30660,7 @@
 			<key>id</key>
 			<integer>27</integer>
 			<key>province</key>
-			<string>陕西省</string>
+			<string>陕西</string>
 			<key>provinceid</key>
 			<integer>610000</integer>
 		</dict>
@@ -30756,7 +30756,7 @@
 					<key>baiduid</key>
 					<integer>36</integer>
 					<key>city</key>
-					<string>兰州市</string>
+					<string>兰州</string>
 					<key>cityid</key>
 					<integer>620100</integer>
 					<key>hotkey</key>
@@ -30772,7 +30772,7 @@
 					<key>baiduid</key>
 					<integer>33</integer>
 					<key>city</key>
-					<string>嘉峪关市</string>
+					<string>嘉峪关</string>
 					<key>cityid</key>
 					<integer>620200</integer>
 					<key>hotkey</key>
@@ -30809,7 +30809,7 @@
 					<key>baiduid</key>
 					<integer>34</integer>
 					<key>city</key>
-					<string>金昌市</string>
+					<string>金昌</string>
 					<key>cityid</key>
 					<integer>620300</integer>
 					<key>hotkey</key>
@@ -30876,7 +30876,7 @@
 					<key>baiduid</key>
 					<integer>35</integer>
 					<key>city</key>
-					<string>白银市</string>
+					<string>白银</string>
 					<key>cityid</key>
 					<integer>620400</integer>
 					<key>hotkey</key>
@@ -30963,7 +30963,7 @@
 					<key>baiduid</key>
 					<integer>196</integer>
 					<key>city</key>
-					<string>天水市</string>
+					<string>天水</string>
 					<key>cityid</key>
 					<integer>620500</integer>
 					<key>hotkey</key>
@@ -31020,7 +31020,7 @@
 					<key>baiduid</key>
 					<integer>118</integer>
 					<key>city</key>
-					<string>武威市</string>
+					<string>武威</string>
 					<key>cityid</key>
 					<integer>620600</integer>
 					<key>hotkey</key>
@@ -31097,7 +31097,7 @@
 					<key>baiduid</key>
 					<integer>117</integer>
 					<key>city</key>
-					<string>张掖市</string>
+					<string>张掖</string>
 					<key>cityid</key>
 					<integer>620700</integer>
 					<key>hotkey</key>
@@ -31184,7 +31184,7 @@
 					<key>baiduid</key>
 					<integer>359</integer>
 					<key>city</key>
-					<string>平凉市</string>
+					<string>平凉</string>
 					<key>cityid</key>
 					<integer>620800</integer>
 					<key>hotkey</key>
@@ -31271,7 +31271,7 @@
 					<key>baiduid</key>
 					<integer>37</integer>
 					<key>city</key>
-					<string>酒泉市</string>
+					<string>酒泉</string>
 					<key>cityid</key>
 					<integer>620900</integer>
 					<key>hotkey</key>
@@ -31368,7 +31368,7 @@
 					<key>baiduid</key>
 					<integer>135</integer>
 					<key>city</key>
-					<string>庆阳市</string>
+					<string>庆阳</string>
 					<key>cityid</key>
 					<integer>621000</integer>
 					<key>hotkey</key>
@@ -31455,7 +31455,7 @@
 					<key>baiduid</key>
 					<integer>136</integer>
 					<key>city</key>
-					<string>定西市</string>
+					<string>定西</string>
 					<key>cityid</key>
 					<integer>621100</integer>
 					<key>hotkey</key>
@@ -31562,7 +31562,7 @@
 					<key>baiduid</key>
 					<integer>256</integer>
 					<key>city</key>
-					<string>陇南市</string>
+					<string>陇南</string>
 					<key>cityid</key>
 					<integer>621200</integer>
 					<key>hotkey</key>
@@ -31772,7 +31772,7 @@
 			<key>id</key>
 			<integer>28</integer>
 			<key>province</key>
-			<string>甘肃省</string>
+			<string>甘肃</string>
 			<key>provinceid</key>
 			<integer>620000</integer>
 		</dict>
@@ -31858,7 +31858,7 @@
 					<key>baiduid</key>
 					<integer>66</integer>
 					<key>city</key>
-					<string>西宁市</string>
+					<string>西宁</string>
 					<key>cityid</key>
 					<integer>630100</integer>
 					<key>hotkey</key>
@@ -32353,7 +32353,7 @@
 			<key>id</key>
 			<integer>29</integer>
 			<key>province</key>
-			<string>青海省</string>
+			<string>青海</string>
 			<key>provinceid</key>
 			<integer>630000</integer>
 		</dict>
@@ -32429,7 +32429,7 @@
 					<key>baiduid</key>
 					<integer>360</integer>
 					<key>city</key>
-					<string>银川市</string>
+					<string>银川</string>
 					<key>cityid</key>
 					<integer>640100</integer>
 					<key>hotkey</key>
@@ -32476,7 +32476,7 @@
 					<key>baiduid</key>
 					<integer>335</integer>
 					<key>city</key>
-					<string>石嘴山市</string>
+					<string>石嘴山</string>
 					<key>cityid</key>
 					<integer>640200</integer>
 					<key>hotkey</key>
@@ -32533,7 +32533,7 @@
 					<key>baiduid</key>
 					<integer>322</integer>
 					<key>city</key>
-					<string>吴忠市</string>
+					<string>吴忠</string>
 					<key>cityid</key>
 					<integer>640300</integer>
 					<key>hotkey</key>
@@ -32610,7 +32610,7 @@
 					<key>baiduid</key>
 					<integer>246</integer>
 					<key>city</key>
-					<string>固原市</string>
+					<string>固原</string>
 					<key>cityid</key>
 					<integer>640400</integer>
 					<key>hotkey</key>
@@ -32647,7 +32647,7 @@
 					<key>baiduid</key>
 					<integer>181</integer>
 					<key>city</key>
-					<string>中卫市</string>
+					<string>中卫</string>
 					<key>cityid</key>
 					<integer>640500</integer>
 					<key>hotkey</key>
@@ -32759,7 +32759,7 @@
 					<key>baiduid</key>
 					<integer>92</integer>
 					<key>city</key>
-					<string>乌鲁木齐市</string>
+					<string>乌鲁木齐</string>
 					<key>cityid</key>
 					<integer>650100</integer>
 					<key>hotkey</key>
@@ -32816,7 +32816,7 @@
 					<key>baiduid</key>
 					<integer>95</integer>
 					<key>city</key>
-					<string>克拉玛依市</string>
+					<string>克拉玛依</string>
 					<key>cityid</key>
 					<integer>650200</integer>
 					<key>hotkey</key>
@@ -33880,9 +33880,9 @@
 			<key>id</key>
 			<integer>33</integer>
 			<key>province</key>
-			<string>香港</string>
+			<string>香港特别行政区</string>
 			<key>provinceid</key>
-			<real>810000</real>
+			<integer>810000</integer>
 		</dict>
 		<dict>
 			<key>baiduid</key>
@@ -33894,9 +33894,9 @@
 			<key>id</key>
 			<integer>34</integer>
 			<key>province</key>
-			<string>澳门</string>
+			<string>澳门特别行政区</string>
 			<key>provinceid</key>
-			<real>820000</real>
+			<integer>820000</integer>
 		</dict>
 		<dict>
 			<key>baiduid</key>
@@ -34100,7 +34100,7 @@
 					<key>baiduid</key>
 					<integer>289</integer>
 					<key>city</key>
-					<string>上海市</string>
+					<string>上海</string>
 					<key>cityid</key>
 					<integer>310000</integer>
 					<key>hotkey</key>
@@ -34116,7 +34116,7 @@
 			<key>id</key>
 			<integer>35</integer>
 			<key>province</key>
-			<string>上海市</string>
+			<string>上海</string>
 			<key>provinceid</key>
 			<integer>310000</integer>
 		</dict>
@@ -34532,7 +34532,7 @@
 					<key>baiduid</key>
 					<integer>132</integer>
 					<key>city</key>
-					<string>重庆市</string>
+					<string>重庆</string>
 					<key>cityid</key>
 					<integer>500000</integer>
 					<key>hotkey</key>
@@ -34548,7 +34548,7 @@
 			<key>id</key>
 			<integer>36</integer>
 			<key>province</key>
-			<string>重庆市</string>
+			<string>重庆</string>
 			<key>provinceid</key>
 			<integer>500000</integer>
 		</dict>

@@ -416,11 +416,10 @@
         NSLog(@"连接失败");
         [self makeToast:ERR_NETWORK];
     }];
-    
 }
 
 - (void) backLogin{
-    if(![self.navigationController.topViewController isKindOfClass:[LoginViewController class]]){
+    if(![self.navigationController.topViewController isKindOfClass:[LoginViewController class]]) {
         LoginViewController *nextViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
         [self.navigationController pushViewController:nextViewController animated:YES];
     }
