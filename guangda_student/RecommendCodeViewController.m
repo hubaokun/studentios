@@ -86,7 +86,7 @@
 
 //发送邀请码
 - (IBAction)clickForSure:(id)sender {
-    if (self.inviteCode.text.length == 0 || [self.inviteCode.text isEqualToString:@"请输入推荐码"]) {
+    if (self.inviteCode.text.length != 8 || [self.inviteCode.text isEqualToString:@"请输入推荐码"]) {
         [self makeToast:@"请输入8位的推荐码"];
     }else{
         [self getRecommendRecordList];
@@ -108,20 +108,5 @@
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

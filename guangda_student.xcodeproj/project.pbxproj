@@ -182,6 +182,7 @@
 		705EAD741B6A4B3800035F76 /* XBCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD6B1B6A4B3800035F76 /* XBCity.m */; };
 		705EAD751B6A4B3800035F76 /* XBCoupon.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD6D1B6A4B3800035F76 /* XBCoupon.m */; };
 		705EAD761B6A4B3800035F76 /* XBProvince.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD6F1B6A4B3800035F76 /* XBProvince.m */; };
+		708600551B799EFC00CB09DA /* XBComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 708600541B799EFC00CB09DA /* XBComment.m */; };
 		70CC165F1B6BC13D00084296 /* XBCoin.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CC165E1B6BC13D00084296 /* XBCoin.m */; };
 		70CC16671B6F4EA600084296 /* libMobClickGameLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */; };
 		713694851B4E3CF500F6D573 /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */; };
@@ -640,6 +641,8 @@
 		705EAD6D1B6A4B3800035F76 /* XBCoupon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBCoupon.m; sourceTree = "<group>"; };
 		705EAD6E1B6A4B3800035F76 /* XBProvince.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBProvince.h; sourceTree = "<group>"; };
 		705EAD6F1B6A4B3800035F76 /* XBProvince.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBProvince.m; sourceTree = "<group>"; };
+		708600531B799EFC00CB09DA /* XBComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBComment.h; sourceTree = "<group>"; };
+		708600541B799EFC00CB09DA /* XBComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBComment.m; sourceTree = "<group>"; };
 		70CC165D1B6BC13C00084296 /* XBCoin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBCoin.h; sourceTree = "<group>"; };
 		70CC165E1B6BC13D00084296 /* XBCoin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBCoin.m; sourceTree = "<group>"; };
 		70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickGameLibrary.a; sourceTree = "<group>"; };
@@ -813,6 +816,7 @@
 		315067B61AC3DEAF000C1C13 /* home（地图主页） */ = {
 			isa = PBXGroup;
 			children = (
+				708600521B799E7B00CB09DA /* model */,
 				315067B71AC3DEC1000C1C13 /* cell */,
 				D786FE211B1B387E001DBFDD /* CommentListViewController.h */,
 				D786FE221B1B387E001DBFDD /* CommentListViewController.m */,
@@ -1625,6 +1629,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		708600521B799E7B00CB09DA /* model */ = {
+			isa = PBXGroup;
+			children = (
+				708600531B799EFC00CB09DA /* XBComment.h */,
+				708600541B799EFC00CB09DA /* XBComment.m */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
 		70CC16621B6F4EA600084296 /* umsdk_iOS_game_idfa_3.5.10.0 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1981,6 +1994,7 @@
 				3166B5451B0B43040017C10B /* SwipeView.m in Sources */,
 				3179E6A01AC2AADC00AFCFAA /* SGFocusImageItem.m in Sources */,
 				3179E6661AC284C600AFCFAA /* DejalActivityView.m in Sources */,
+				708600551B799EFC00CB09DA /* XBComment.m in Sources */,
 				3179E64E1AC284C600AFCFAA /* NSData+ImageContentType.m in Sources */,
 				3179E6371AC284C600AFCFAA /* AFHTTPSessionManager.m in Sources */,
 				3179E69F1AC2AADC00AFCFAA /* SGFocusImageFrame.m in Sources */,
@@ -2087,7 +2101,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "98ba69c9-4ed1-415b-ab32-7d20975071de";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
@@ -2129,7 +2143,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "98ba69c9-4ed1-415b-ab32-7d20975071de";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7 armv7s arm64";

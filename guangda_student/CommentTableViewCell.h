@@ -7,13 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "XBComment.h"
 
 @interface CommentTableViewCell : UITableViewCell
+@property (strong, nonatomic) XBComment *comment;
 @property (strong, nonatomic) IBOutlet UIImageView *avatar;
 @property (strong, nonatomic) IBOutlet UILabel *nick;
 @property (strong, nonatomic) IBOutlet UILabel *content;
 @property (strong, nonatomic) IBOutlet UILabel *time;
 
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *contentHeight;
+- (void)loadData;
++ (CGFloat)calculateHeight:(XBComment *)comment;
 
 @end

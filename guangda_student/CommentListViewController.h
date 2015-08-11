@@ -11,5 +11,10 @@
 
 @interface CommentListViewController : GreyTopViewController<UITabBarDelegate,UITableViewDataSource>
 
+/* input */
 @property (strong, nonatomic) NSString *coachid;
+@property (strong, nonatomic) NSString *studentID;
+@property (strong, nonatomic) NSString *studentName;
+@property (assign, nonatomic) int type; // 1.所有评论 2.单个学员的评论
+
 @end

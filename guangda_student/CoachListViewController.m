@@ -685,7 +685,8 @@
     // 城市id
     NSString *cityID = [USERDICT[@"cityid"] description];
     if (![CommonUtil isEmpty:cityID]) {
-        paramDic[@"cityid"] = cityID;
+#warning 临时注释
+//        paramDic[@"cityid"] = cityID;
     }
     
     // 测试账号studentID

@@ -60,7 +60,7 @@
     self.totalCoinLabel.attributedText = string3;
     
     self.describeLabel.text = @"仅限在预约您的驾校教练时使用";
-    self.fCoinSumLabel.text = [NSString stringWithFormat:@"(冻结金额: %@元)", self.fCoinSum];;
+    self.fCoinSumLabel.text = [NSString stringWithFormat:@"(冻结数额: %@个)", self.fCoinSum];;
 }
 #pragma mark - UITableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

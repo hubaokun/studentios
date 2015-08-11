@@ -11,12 +11,15 @@
 #import "DSBottomPullToMoreManager.h"
 #import "CommentTableViewCell.h"
 #import "UIImageView+WebCache.h"
+#import "XBComment.h"
 
-@interface CommentListViewController ()<DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient>
+@interface CommentListViewController ()<DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient> {
+    int _curPage;
+    int _searchPage;
+}
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (assign, nonatomic) NSInteger pageNum;
-@property (strong, nonatomic) NSMutableArray *commentsList;
+@property (strong, nonatomic) NSMutableArray *commentArray;
 @property (assign, nonatomic) int count;//总条数
 @property (strong, nonatomic) DSPullToRefreshManager *pullToRefresh;    // 下拉刷新
 @property (strong, nonatomic) DSBottomPullToMoreManager *pullToMore;    // 上拉加载
@@ -27,10 +30,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    
-    _pageNum = 0;
-    self.commentsList = [NSMutableArray array];
     
     self.pullToRefresh = [[DSPullToRefreshManager alloc] initWithPullToRefreshViewHeight:60.0 tableView:self.tableView withClient:self];
     
@@ -39,22 +38,6 @@
     
     [self pullToRefreshTriggered:self.pullToRefresh];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 
 #pragma mark - DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -71,22 +54,36 @@
 
 /* 刷新处理 */
 - (void)pullToRefreshTriggered:(DSPullToRefreshManager *)manager {
-    _pageNum = 0;
-    [self getComments];
+    _curPage = 0;
+    _searchPage = 0;
+    if (self.type == 1) {
+        [self getAllComments];
+    }
+    else {
+        [self getOneStudentComments];
+    }
 }
 
 /* 加载更多 */
 - (void)bottomPullToMoreTriggered:(DSBottomPullToMoreManager *)manager {
-    _pageNum = _pageNum + 1;
-    [self getComments];
+    _searchPage = _curPage + 1;
+    if (self.type == 1) {
+        [self getAllComments];
+    }
+    else {
+        [self getOneStudentComments];
+    }
 }
 
--(void) getComments{
+#pragma mark - 网络请求
+// 获取所有评论
+-(void) getAllComments{
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     [paramDic setObject:self.coachid forKey:@"coachid"];
-    [paramDic setObject:[NSString stringWithFormat:@"%ld",(long)_pageNum] forKey:@"pagenum"];
+    [paramDic setObject:[NSString stringWithFormat:@"%d", _searchPage] forKey:@"pagenum"];
+    [paramDic setObject:@"2" forKey:@"type"];
     
-    NSString *uri = @"/sbook?action=GetCoachComments";
+    NSString *uri = @"/sbook?action=GETCOACHCOMMENTS";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
     
     [DejalBezelActivityView activityViewForView:self.view];
@@ -101,19 +98,29 @@
         NSString *message = responseObject[@"message"];
         if (code == 1)
         {
+            NSArray *commentDictArray = responseObject[@"evalist"];
             
-            if(_pageNum == 0){
-                [self.commentsList removeAllObjects];
+            // 刷新数据
+            if (_searchPage == 0) {
+                self.count = [responseObject[@"count"] intValue];
+                self.commentArray = [XBComment commentsWithArray:commentDictArray];
             }
             
-            [self.commentsList addObjectsFromArray:responseObject[@"evalist"]];
-            self.count = [responseObject[@"count"] intValue];
+            // 加载更多
+            else {
+                NSMutableArray *moreCommentArray = [XBComment commentsWithArray:commentDictArray];
+                [self.commentArray addObjectsFromArray:moreCommentArray];
+                _curPage = _searchPage;
+            }
             
+            // 评论数
+            self.count = [responseObject[@"count"] intValue];
             if(self.count > 0){
                 self.titleLabel.text = [NSString stringWithFormat:@"评论(%d)",self.count];
             }
             
-            if (self.count == self.commentsList.count) {
+            // 是否还有更多
+            if ([responseObject[@"hasmore"] intValue] == 0) {
                 [_pullToMore setPullToMoreViewVisible:NO];
             } else {
                 [_pullToMore setPullToMoreViewVisible:YES];
@@ -135,8 +142,73 @@
     }];
 }
 
+// 获取单学员所有评论
+-(void) getOneStudentComments{
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    [paramDic setObject:self.coachid forKey:@"coachid"];
+    [paramDic setObject:[NSString stringWithFormat:@"%d", _searchPage] forKey:@"pagenum"];
+    [paramDic setObject:self.studentID forKey:@"studentid"];
+    
+    NSString *uri = @"/sbook?action=GETCOMMENTSFORSTUDENT";
+    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
+    
+    [DejalBezelActivityView activityViewForView:self.view];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer.timeoutInterval = 30;     // 网络超时时长设置
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        [DejalBezelActivityView removeViewAnimated:YES];
+        int code = [responseObject[@"code"] intValue];
+        NSString *message = responseObject[@"message"];
+        if (code == 1)
+        {
+            NSArray *commentDictArray = responseObject[@"evalist"];
+            
+            // 刷新数据
+            if (_searchPage == 0) {
+                self.count = [responseObject[@"count"] intValue];
+                self.commentArray = [XBComment commentsWithArray:commentDictArray];
+            }
+            
+            // 加载更多
+            else {
+                NSMutableArray *moreCommentArray = [XBComment commentsWithArray:commentDictArray];
+                [self.commentArray addObjectsFromArray:moreCommentArray];
+                _curPage = _searchPage;
+            }
+            
+            // 评论数
+            self.count = [responseObject[@"count"] intValue];
+            self.titleLabel.text = [NSString stringWithFormat:@"%@评论(%d)", self.studentName, self.count];
+            
+            // 是否还有更多
+            if ([responseObject[@"hasmore"] intValue] == 0) {
+                [_pullToMore setPullToMoreViewVisible:NO];
+            } else {
+                [_pullToMore setPullToMoreViewVisible:YES];
+                [_pullToMore relocatePullToMoreView];
+            }
+            
+            [self.tableView reloadData];
+        }else{
+            [self makeToast:message];
+        }
+        [_pullToRefresh tableViewReloadFinishedAnimated:YES];
+        [_pullToMore tableViewReloadFinished];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [_pullToRefresh tableViewReloadFinishedAnimated:YES];
+        [_pullToMore tableViewReloadFinished];
+        [DejalBezelActivityView removeViewAnimated:YES];
+        [self makeToast:ERR_NETWORK];
+    }];
+}
+
+#pragma mark - TableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return  self.commentsList.count;
+    return  self.commentArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -153,52 +225,15 @@
     cell.avatar.layer.cornerRadius = 12.5;
     cell.avatar.layer.masksToBounds = YES;
     
-    NSDictionary *dic = self.commentsList[indexPath.row];
-    
-    NSString *avatarUrl = dic[@"avatarUrl"];
-    if(![CommonUtil isEmpty:avatarUrl]){
-        [cell.avatar sd_setImageWithURL:[NSURL URLWithString:avatarUrl] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
-    }else{
-        cell.avatar.image = [UIImage imageNamed:@"user_logo_default"];
-    }
-    
-    NSString *nickname = dic[@"nickname"];
-    if(![CommonUtil isEmpty:nickname]){
-        cell.nick.text = nickname;
-    }else{
-        cell.nick.text = @"";
-    }
-    
-    NSString *content = dic[@"content"];
-    if(![CommonUtil isEmpty:content]){
-        cell.content.text = content;
-        CGSize size = [CommonUtil sizeWithString:content fontSize:14.0 sizewidth:(SCREEN_WIDTH - 55) sizeheight:CGFLOAT_MAX];
-        cell.contentHeight.constant = size.height;
-    }else{
-        cell.content.text = @"";
-        cell.contentHeight.constant = 25;
-    }
-    
-    NSString *addtime = dic[@"addtime"];
-    if(![CommonUtil isEmpty:addtime]){
-        cell.time.text = [CommonUtil intervalSinceNow:addtime];
-    }else{
-        cell.time.text = @"";
-    }
-    
-    
+    XBComment *comment = self.commentArray[indexPath.row];
+    cell.comment = comment;
+    [cell loadData];
     return cell;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSDictionary *dic = self.commentsList[indexPath.row];
-    NSString *content = dic[@"content"];
-    if(![CommonUtil isEmpty:content]){
-        CGSize size = [CommonUtil sizeWithString:content fontSize:14.0 sizewidth:(SCREEN_WIDTH - 55) sizeheight:CGFLOAT_MAX];
-        return size.height + 45.0;
-    }else{
-        return 72.0;
-    }
+    XBComment *comment = self.commentArray[indexPath.row];
+    return [CommentTableViewCell calculateHeight:comment];
 }
 
 @end

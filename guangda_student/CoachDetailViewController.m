@@ -11,8 +11,18 @@
 #import "CommentTableViewCell.h"
 #import "UIImageView+WebCache.h"
 #import "CommentListViewController.h"
+#import "DSPullToRefreshManager.h"
+#import "DSBottomPullToMoreManager.h"
 
-@interface CoachDetailViewController ()
+#define COACH_DETAILVIEW_HEIGHT 291
+@interface CoachDetailViewController ()<DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient> {
+    int _curPage;
+    int _searchPage;
+}
+
+@property (strong, nonatomic) DSPullToRefreshManager *pullToRefresh;    // 下拉刷新
+@property (strong, nonatomic) DSBottomPullToMoreManager *pullToMore;    // 上拉加载
+
 @property (strong, nonatomic) IBOutlet UITableView *tabelVIew;
 
 @property (strong, nonatomic) IBOutlet UIView *detailsView;
@@ -33,9 +43,11 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *urgentPhone;    // 紧急联系人电话
 @property (strong, nonatomic) IBOutlet UILabel *coachPhone;     // 教练电话
-@property (strong, nonatomic) NSMutableArray *commentsList;
 @property (assign, nonatomic) int count;//总条数
 @property (strong, nonatomic) NSString *telphone;//教练电话
+
+// 页面数据
+@property (strong, nonatomic) NSMutableArray *commentArray;
 
 @end
 
@@ -43,61 +55,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     [self requestGetCoachDetail];
-    self.detailsView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 320);
-    
+    [self viewConfig];
+    [self pullToRefreshTriggered:self.pullToRefresh];
+}
+
+- (void)viewConfig {
+    self.detailsView.frame = CGRectMake(0, 0, SCREEN_WIDTH, COACH_DETAILVIEW_HEIGHT);
     self.tabelVIew.tableHeaderView = self.detailsView;
     
     self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(52, 107, 87, 15)];
     [self.detailsView addSubview:self.starView];
     
-    _commentsList = [NSMutableArray array];
-    [self getComments];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-- (IBAction)dismissViewController:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (IBAction)phoneCallClick:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
-    NSString *phoneNum = nil;
+    //刷新加载
+    self.pullToRefresh = [[DSPullToRefreshManager alloc] initWithPullToRefreshViewHeight:60.0 tableView:self.tabelVIew withClient:self];
     
-    if (button.tag == 0) {
-        if (self.telphone.length > 3) {
-            phoneNum = [NSString stringWithFormat:@"telprompt:%@", self.telphone];
-        }else{
-            [self makeToast:@"该教练暂无电话"];
-            return;
-        }
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNum]];
-    }else{
-        if (self.telphone.length > 3) {
-            phoneNum = [NSString stringWithFormat:@"sms://%@", self.telphone];
-        }else{
-            [self makeToast:@"该教练暂无电话"];
-            return;
-        }
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNum]];
-    }
-    
-    
+    self.pullToMore = [[DSBottomPullToMoreManager alloc] initWithPullToMoreViewHeight:60.0 tableView:self.tabelVIew withClient:self];
+    [self.pullToMore setPullToMoreViewVisible:NO]; //隐藏加载更多
 }
 
 #pragma mark - 接口请求
@@ -180,7 +154,7 @@
             self.urgentPhone.text = [self isEmpty:@"电话"];
             self.coachPhone.text = [self isEmpty:@"短信"];
     
-            self.detailsView.frame = CGRectMake(0, 0, SCREEN_WIDTH, size.height - 20 + 320);
+            self.detailsView.frame = CGRectMake(0, 0, SCREEN_WIDTH, size.height - 20 + COACH_DETAILVIEW_HEIGHT);
             self.tabelVIew.tableHeaderView = self.detailsView;
             
         }else{
@@ -194,20 +168,14 @@
     }];
 }
 
-- (NSString *)isEmpty:(NSString *)string
-{
-    if (string.length == 0) {
-        return @"暂无";
-    }
-    return string;
-}
-
+// 获取评论列表
 -(void) getComments{
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     [paramDic setObject:self.coachId forKey:@"coachid"];
-    [paramDic setObject:@"0" forKey:@"pagenum"];
+    [paramDic setObject:[NSString stringWithFormat:@"%d", _searchPage] forKey:@"pagenum"];
+    [paramDic setObject:@"1" forKey:@"type"]; // 过滤重复的学员
     
-    NSString *uri = @"/sbook?action=GetCoachComments";
+    NSString *uri = @"/sbook?action=GETCOACHCOMMENTS";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
     
     [DejalBezelActivityView activityViewForView:self.view];
@@ -222,30 +190,77 @@
         NSString *message = responseObject[@"message"];
         if (code == 1)
         {
-            [self.commentsList addObjectsFromArray:responseObject[@"evalist"]];
-            self.count = [responseObject[@"count"] intValue];
+            NSArray *commentDictArray = responseObject[@"evalist"];
+            
+            // 刷新数据
+            if (_searchPage == 0) {
+                self.count = [responseObject[@"count"] intValue];
+                self.commentArray = [XBComment gatherCommentsWithArray:commentDictArray];
+            }
+            
+            // 加载更多
+            else {
+                NSMutableArray *moreCommentArray = [XBComment gatherCommentsWithArray:commentDictArray];
+                [self.commentArray addObjectsFromArray:moreCommentArray];
+                _curPage = _searchPage;
+            }
+            
+            // 是否还有更多
+            if ([responseObject[@"hasmore"] intValue] == 0) {
+                [_pullToMore setPullToMoreViewVisible:NO];
+            } else {
+                [_pullToMore setPullToMoreViewVisible:YES];
+                [_pullToMore relocatePullToMoreView];
+            }
+            
             [self.tabelVIew reloadData];
         }else{
             [self makeToast:message];
         }
-        
+        [_pullToRefresh tableViewReloadFinishedAnimated:YES];
+        [_pullToMore tableViewReloadFinished];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [DejalBezelActivityView removeViewAnimated:YES];
+        [_pullToRefresh tableViewReloadFinishedAnimated:YES];
+        [_pullToMore tableViewReloadFinished];
         [self makeToast:ERR_NETWORK];
     }];
 }
 
+#pragma mark - DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [_pullToRefresh tableViewScrolled];
+    
+    [_pullToMore relocatePullToMoreView];    // 重置加载更多控件位置
+    [_pullToMore tableViewScrolled];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    [_pullToRefresh tableViewReleased];
+    [_pullToMore tableViewReleased];
+}
+
+/* 刷新处理 */
+- (void)pullToRefreshTriggered:(DSPullToRefreshManager *)manager {
+    _curPage = 0;
+    _searchPage = 0;
+    [self getComments];
+}
+
+/* 加载更多 */
+- (void)bottomPullToMoreTriggered:(DSBottomPullToMoreManager *)manager {
+    _searchPage = _curPage + 1;
+    [self getComments];
+}
+
+#pragma mark - tableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return  1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if(self.commentsList.count > 5){
-        return 5;
-    }else{
-        return  self.commentsList.count;
-    }
+    return self.commentArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -262,39 +277,9 @@
     cell.avatar.layer.cornerRadius = 12.5;
     cell.avatar.layer.masksToBounds = YES;
     
-    NSDictionary *dic = self.commentsList[indexPath.row];
-    
-    NSString *avatarUrl = dic[@"avatarUrl"];
-    if(![CommonUtil isEmpty:avatarUrl]){
-        [cell.avatar sd_setImageWithURL:[NSURL URLWithString:avatarUrl] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
-    }else{
-        cell.avatar.image = [UIImage imageNamed:@"user_logo_default"];
-    }
-
-    NSString *nickname = dic[@"nickname"];
-    if(![CommonUtil isEmpty:nickname]){
-        cell.nick.text = nickname;
-    }else{
-        cell.nick.text = @"";
-    }
-    
-    NSString *content = dic[@"content"];
-    if(![CommonUtil isEmpty:content]){
-        cell.content.text = content;
-        CGSize size = [CommonUtil sizeWithString:content fontSize:14.0 sizewidth:(SCREEN_WIDTH - 55) sizeheight:CGFLOAT_MAX];
-        cell.contentHeight.constant = size.height;
-    }else{
-        cell.content.text = @"";
-        cell.contentHeight.constant = 25;
-    }
-    
-    NSString *addtime = dic[@"addtime"];
-    if(![CommonUtil isEmpty:addtime]){
-        cell.time.text = [CommonUtil intervalSinceNow:addtime];
-    }else{
-        cell.time.text = @"";
-    }
-    
+    XBComment *comment = self.commentArray[indexPath.row];
+    cell.comment = comment;
+    [cell loadData];
     
     return cell;
 }
@@ -312,7 +297,7 @@
     bottomLine.backgroundColor = RGB(219.0, 220.0, 223.0);
     [headerView.contentView addSubview:bottomLine];
     
-    if(self.commentsList.count == 0){
+    if(self.commentArray.count == 0){
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 60.0)];
         label.font = [UIFont systemFontOfSize:18.0];
         label.textColor = RGB(60, 60, 60);
@@ -340,35 +325,74 @@
     }
     
     UITapGestureRecognizer *singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(SingleTap:)];
-    //点击的次数
     singleRecognizer.numberOfTapsRequired = 1; // 单击
-    
-    //给self.view添加一个手势监测；
-    
     [headerView addGestureRecognizer:singleRecognizer];
     return headerView;
 }
 
-- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 60.0;
 }
 
-- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSDictionary *dic = self.commentsList[indexPath.row];
-    NSString *content = dic[@"content"];
-    if(![CommonUtil isEmpty:content]){
-        CGSize size = [CommonUtil sizeWithString:content fontSize:14.0 sizewidth:(SCREEN_WIDTH - 55) sizeheight:CGFLOAT_MAX];
-        return size.height + 45.0;
-    }else{
-        return 72.0;
-    }
-    
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    XBComment *comment = self.commentArray[indexPath.row];
+    return [CommentTableViewCell calculateHeight:comment];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    XBComment *comment = self.commentArray[indexPath.row];
+    CommentListViewController *nextController = [[CommentListViewController alloc] initWithNibName:@"CommentListViewController" bundle:nil];
+    nextController.coachid = self.coachId;
+    nextController.studentID = comment.studentID;
+    nextController.studentName = comment.studentName;
+    nextController.type = 2;
+    [self.navigationController pushViewController:nextController animated:YES];
+}
+
+#pragma mark - private
+- (NSString *)isEmpty:(NSString *)string
+{
+    if (string.length == 0) {
+        return @"暂无";
+    }
+    return string;
+}
+
+#pragma mark - 点击事件
+- (IBAction)dismissViewController:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)phoneCallClick:(id)sender
+{
+    UIButton *button = (UIButton *)sender;
+    NSString *phoneNum = nil;
+    
+    if (button.tag == 0) {
+        if (self.telphone.length > 3) {
+            phoneNum = [NSString stringWithFormat:@"telprompt:%@", self.telphone];
+        }else{
+            [self makeToast:@"该教练暂无电话"];
+            return;
+        }
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNum]];
+    }else{
+        if (self.telphone.length > 3) {
+            phoneNum = [NSString stringWithFormat:@"sms://%@", self.telphone];
+        }else{
+            [self makeToast:@"该教练暂无电话"];
+            return;
+        }
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNum]];
+    }
+    
+    
+}
 -(void)SingleTap:(UITapGestureRecognizer*)recognizer
 {
     CommentListViewController *nextController = [[CommentListViewController alloc] initWithNibName:@"CommentListViewController" bundle:nil];
     nextController.coachid = self.coachId;
+    nextController.type = 1;
     [self.navigationController pushViewController:nextController animated:YES];
 }
 

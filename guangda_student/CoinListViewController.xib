@@ -140,7 +140,7 @@
                         <constraint firstAttribute="height" constant="25" id="tni-7B-Lat"/>
                     </constraints>
                     <attributedString key="attributedText">
-                        <fragment content="（冻结金额：">
+                        <fragment content="（冻结数额：">
                             <attributes>
                                 <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <font key="NSFont" size="14" name="STHeitiSC-Light"/>
@@ -154,7 +154,7 @@
                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
                             </attributes>
                         </fragment>
-                        <fragment content="元）">
+                        <fragment content="个）">
                             <attributes>
                                 <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <font key="NSFont" size="14" name="STHeitiSC-Light"/>
