@@ -181,7 +181,7 @@
     <resources>
         <image name="btn_back" width="10" height="18"/>
         <image name="coupon_image" width="65" height="65"/>
-        <image name="coupon_selected" width="28" height="29"/>
-        <image name="coupon_unselected" width="28" height="29"/>
+        <image name="coupon_selected" width="20" height="20"/>
+        <image name="coupon_unselected" width="20" height="20"/>
     </resources>
 </document>

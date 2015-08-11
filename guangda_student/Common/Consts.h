@@ -17,10 +17,10 @@
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
-//#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"    // 正式服
+#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"    // 正式服
 //#define REQUEST_HOST   @"http://120.25.236.228:8080/dadmin/"          //测试服务器
 //#define REQUEST_HOST   @"http://192.168.1.103:8080/"       // 胡博
-#define REQUEST_HOST   @"http://192.168.1.114:8080/xb/"       // 卢磊
+//#define REQUEST_HOST   @"http://192.168.1.114:8080/xb/"       // 卢磊
 //#define REQUEST_HOST   @"http://192.168.1.133:8080/xiaoba/"   // 佳瑞
 
 /* 道顺 */
@@ -39,13 +39,13 @@
 #define kAppID_QQ               @"1104472861"
 
 //百度 AppKey
-//#define kAppKey_Baidu           @"hLR2f2QZeTDuE2g7rFLVo0bc"    //微信版
-#define kAppKey_Baidu           @"tf3pVGsiRgGMBjxnaefjNlIt"  //appstore
+#define kAppKey_Baidu           @"hLR2f2QZeTDuE2g7rFLVo0bc"    //微信版
+//#define kAppKey_Baidu           @"tf3pVGsiRgGMBjxnaefjNlIt"  //appstore
 
 #define ERR_NETWORK             @"当前网络不稳定，请重试！"
 #define NO_NETWORK              @"没有连接网络"
 
-#define PGY_APPKEY              @"a3c621d83ef41c7a790a7c070062a9d3"
+#define PGY_APPKEY              @"37e76e809d2b7fc7612e14201e55b79a"
 
 //坤哥的id 37e76e809d2b7fc7612e14201e55b79a
 //饶宏的id a3c621d83ef41c7a790a7c070062a9d3

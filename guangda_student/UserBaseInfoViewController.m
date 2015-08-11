@@ -415,9 +415,15 @@
     [new_user_info setObject:_realName forKey:@"realname"];
     [new_user_info setObject:_phone forKey:@"phone"];
     [new_user_info setObject:_city forKey:@"locationname"];
-    [new_user_info setObject:_selectProvinceID forKey:@"provinceid"];
-    [new_user_info setObject:_selectCityID forKey:@"cityid"];
-    [new_user_info setObject:_selectAreaID forKey:@"areaid"];
+    if (![CommonUtil isEmpty:_selectProvinceID]) {
+        [new_user_info setObject:_selectProvinceID forKey:@"provinceid"];
+    }
+    if (![CommonUtil isEmpty:_selectCityID]) {
+        [new_user_info setObject:_selectCityID forKey:@"cityid"];
+    }
+    if (![CommonUtil isEmpty:_selectAreaID]) {
+        [new_user_info setObject:_selectAreaID forKey:@"areaid"];
+    }
     [CommonUtil saveObjectToUD:new_user_info key:@"UserInfo"];
 }
 
@@ -427,6 +433,9 @@
     _realName = [user_info objectForKey:@"realname"];
     _phone = [user_info objectForKey:@"phone"];
     _city = [user_info objectForKey:@"locationname"];
+    _selectProvinceID = user_info[@"provinceid"];
+    _selectCityID = user_info[@"cityid"];
+    _selectAreaID = user_info[@"areaid"];
 }
 
 #pragma mark - 点击事件

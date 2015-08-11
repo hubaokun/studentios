@@ -269,6 +269,14 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     
+    // 教练是否开课
+    int courseState = [coachDic[@"coursestate"] intValue];
+    if (courseState == 0) { // 未开课
+        cell.contentView.alpha = 0.5;
+    } else {
+        cell.contentView.alpha = 1.0;
+    }
+    
     return cell;
 }
 

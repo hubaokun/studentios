@@ -22,13 +22,8 @@
 #import "XiaobaServeViewController.h"
 #import "ImproveInfoViewController.h"
 #import "RecommendCodeViewController.h"
-@interface MainViewController ()<UIGestureRecognizerDelegate, UIScrollViewDelegate, BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationServiceDelegate>
+@interface MainViewController ()<UIGestureRecognizerDelegate, BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationServiceDelegate>
 {
-    UITapGestureRecognizer *_tapGestureRec2;
-    UISwipeGestureRecognizer *_swipGestureRecUp;
-    UISwipeGestureRecognizer *_swipGestureRecDown;
-    CGFloat _keyboardTop;
-    
     BMKLocationService *_locService;
 }
 
@@ -53,54 +48,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.footView.hidden = YES;
-    
-    int _bili = SCREEN_HEIGHT/568;
-    self.shangXiaWu.constant = 20*_bili;
-    self.shijiuShiliu.constant = 20*_bili;
+
     self.carModelLabelList = [NSMutableArray array];
     self.carModelImageViewList = [NSMutableArray array];
     self.isGetData = NO;
     
     // 关闭底部教练信息窗口
-    //    _tapGestureRec2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeDetailsView)];
-    //    _tapGestureRec2.delegate=self;
-    //    _tapGestureRec2.numberOfTapsRequired = 1;
-    //    [self.view addGestureRecognizer:_tapGestureRec2];
-    //    [_tapGestureRec2 setCancelsTouchesInView:NO];
     self.closeDetailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.closeDetailBtn.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     self.closeDetailBtn.backgroundColor = [UIColor blackColor];
     self.closeDetailBtn.alpha = 0;
     [self.closeDetailBtn addTarget:self action:@selector(closeDetailsView) forControlEvents:UIControlEventTouchUpInside];
-    
-    // 显示教练详情按钮 添加向上滑动手势
-    _swipGestureRecUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showCoachDetailsViewClik:)];
-    _swipGestureRecUp.delegate = self;
-    _swipGestureRecUp.direction = UISwipeGestureRecognizerDirectionUp;
-    [self.coachDetailShowBtn addGestureRecognizer:_swipGestureRecUp];
-    
-    // 隐藏教练详情按钮 添加向下滑动手势
-    _swipGestureRecDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideCoachDetailsViewClick:)];
-    _swipGestureRecDown.delegate = self;
-    _swipGestureRecDown.direction = UISwipeGestureRecognizerDirectionDown;
-    [self.coachDetailHideBtn addGestureRecognizer:_swipGestureRecDown];
-    
-    self.sureSubmitClick.layer.cornerRadius = 5;
-    self.sureSubmitClick.layer.borderWidth = 1;
-    self.sureSubmitClick.layer.borderColor = [[UIColor redColor] CGColor];
-    
-    self.appointResultContentView.layer.cornerRadius = 5;
-    
-    self.timeDetailsScrollView.contentSize = CGSizeMake(0, 310);
-    self.timeDetailsView.frame = CGRectMake(0, 0, SCREEN_WIDTH, MAX(310, SCREEN_HEIGHT - 107 - 154));
-    [self.timeDetailsScrollView addSubview:self.timeDetailsView];
-    
-    self.coachDetailWordView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 450);
-    self.coachDetailWordScroll.contentSize = CGSizeMake(0, 450);
-    [self.coachDetailWordScroll addSubview:self.coachDetailWordView];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     self.mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
 //    self.mapContentView = mapView;
@@ -109,7 +67,7 @@
     self.mapView.compassPosition = CGPointMake(8, 88);
     
     //设置地图缩放级别
-    [_mapView setZoomLevel:12];
+    [_mapView setZoomLevel:13];
     _mapView.showMapScaleBar = YES;
     _mapView.mapScaleBarPosition = CGPointMake(10+43, SCREEN_HEIGHT-15-30-8);
     
@@ -128,22 +86,6 @@
     // 筛选界面的观察者信息
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSearchCoachDict:) name:@"SearchCoachDict" object:nil];
     
-//    self.filterButton.tag=0;//初始状态下没有使用过滤器
-    
-    //初始化查询的开始时间和结束时间
-//    NSDate *nowDate = [NSDate date];
-//    NSString *dateStr = [CommonUtil getStringForDate:nowDate format:@"yyyy-MM-dd"];
-//    
-//    NSDate *endDate = [[NSDate date] dateByAddingTimeInterval:30*24*60*60];
-//    NSString *dateStrEnd = [CommonUtil getStringForDate:endDate format:@"yyyy-MM-dd"];
-//
-//    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-//    
-//    [dic setObject:[NSString stringWithFormat:@"%@ 05:00:00",dateStr] forKey:@"condition3"];   // 时间下限
-//    
-//    [dic setObject:[NSString stringWithFormat:@"%@ 23:00:00",dateStrEnd] forKey:@"condition4"];   // 时间上限
-//    self.searchParamDic = dic;
-    
     [self requestGetCarModelInterfaceWithId:nil];
     // 配置百度地图
     [self mapConfig];
@@ -160,14 +102,11 @@
     _locService.delegate = self;
     
 //    [self mapView:_mapView regionDidChangeAnimated:YES];
-    
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //        [_mapView setZoomLevel:13.5];
 //    });
@@ -281,207 +220,6 @@
     
 }
 
-// 精确、模糊 筛选点击事件
-- (IBAction)checkBtnClick:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
-    
-    // 调整button的背景色
-    if (button.tag == 0)
-    {   // 精确
-        self.accurateBtnOutlet.selected = YES;
-        self.fuzzyBtnOutlet.selected = NO;
-        self.datePicker.datePickerMode = UIDatePickerModeTime;
-    }else{
-        // 模糊
-        self.fuzzyBtnOutlet.selected = YES;
-        self.accurateBtnOutlet.selected = NO;
-        self.datePicker.datePickerMode = UIDatePickerModeDate;
-    }
-    
-    self.pickerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    [self.view addSubview:self.pickerView];
-//    self.selectedView.hidden = YES;
-}
-- (IBAction)removePickerView:(id)sender {
-    [self.pickerView removeFromSuperview];
-}
-
-#pragma mark 展开选择教练时间段详情页
-- (IBAction)showCoachTimeClick:(id)sender
-{
-    self.chooseCoachTimeView.frame = CGRectMake(0, SCREEN_HEIGHT-92, SCREEN_WIDTH, SCREEN_HEIGHT);
-    [self.view addSubview:self.chooseCoachTimeView];
-    
-    [UIView animateWithDuration:0.35 //时长
-                          delay:0 //延迟时间
-                        options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
-                     animations:^{
-                         
-                         //动画设置区域
-                         self.chooseCoachTimeView.frame=CGRectMake(0, 0,SCREEN_WIDTH, SCREEN_HEIGHT);
-                         self.remainTimeView.alpha = 0;
-                         [self.showHideTimeDetailsBtn setImage:[UIImage imageNamed:@"btn_hide"] forState:UIControlStateNormal];
-                         [self.showHideTimeDetailsBtn removeTarget:self action:@selector(showCoachTimeClick:) forControlEvents:UIControlEventTouchUpInside];
-                         [self.showHideTimeDetailsBtn addTarget:self action:@selector(hideCoachTimeDetailsView:) forControlEvents:UIControlEventTouchUpInside];
-                         
-                     } completion:^(BOOL finish){
-                         //动画结束时调用
-                         //............
-//                         self.chooseCoachTimeView.superview.userInteractionEnabled = NO;
-                         _tapGestureRec2.enabled = NO;
-                     }];
-    
-//    self.chooseCoachTimeView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-//    [self.view addSubview:self.chooseCoachTimeView];
-    self.timeScrollView.contentSize = CGSizeMake(600, 0);
-    [self.timeScrollView addSubview:self.timeListView];
-}
-
-#pragma mark 教练时间选择action
-- (IBAction)timeButonClick:(id)sender
-{
-    // 移除所有的选择标记
-    for (id objc in self.timeDetailsContentView.subviews)
-    {
-        if ([objc isKindOfClass:[UIImageView class]])
-        {
-            UIImageView *imageView = (UIImageView *)objc;
-            [imageView removeFromSuperview];
-        }
-    }
-    
-    UIButton *button = (UIButton *)sender;
-    button.selected = !button.selected;
-    
-    BOOL _isHaveSelected;   // 是否有时间呗选择
-    _isHaveSelected = NO;
-    
-    int _hourNum;    // 选择的时长
-    _hourNum = 0;
-    
-    int _perHourPrice = 80; // 单价
-    
-    // 遍历view中得button，如果为被选中状态，添加标记
-    for (id objc in self.timeDetailsContentView.subviews)
-    {
-        if ([objc isKindOfClass:[UIButton class]])
-        {
-            UIButton *btn = (UIButton *)objc;
-            if (btn.selected)
-            {
-                _isHaveSelected = YES;
-                _hourNum++;
-                
-                CGFloat _x = btn.frame.origin.x;
-                CGFloat _y = btn.frame.origin.y;
-
-                UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_selected"]];
-                imageView.frame = CGRectMake(_x+22-10.5, _y+44-10.5, 21, 21);
-                [self.timeDetailsContentView addSubview:imageView];
-            }
-        }
-    }
-    
-    if (_isHaveSelected) {
-        self.perPriceView.hidden = YES;
-        self.sureAppointBtn.enabled = YES;
-    }else{
-        self.perPriceView.hidden = NO;
-        self.perPriceLabel.text = [NSString stringWithFormat:@"单价 %.1d元/小时", _perHourPrice];
-        self.sureAppointBtn.enabled = NO;
-    }
-    self.priceAndHourLabel.text = [NSString stringWithFormat:@"%d元/小时*%d", _perHourPrice, _hourNum];
-    self.allPriceLabel.text = [NSString stringWithFormat:@"合计%d元", _perHourPrice * _hourNum];
-}
-
-- (IBAction)hideCoachTimeDetailsView:(id)sender
-{
-    [UIView animateWithDuration:0.35 //时长
-                          delay:0 //延迟时间
-                        options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
-                     animations:^{
-                         
-                         //动画设置区域
-                         self.remainTimeView.alpha = 1;
-                         self.chooseCoachTimeView.frame=CGRectMake(0, SCREEN_HEIGHT - 92, SCREEN_WIDTH, SCREEN_HEIGHT);
-                         [self.showHideTimeDetailsBtn removeTarget:self action:@selector(hideCoachTimeDetailsView:) forControlEvents:UIControlEventTouchUpInside];
-                         [self.showHideTimeDetailsBtn addTarget:self action:@selector(showCoachTimeClick:) forControlEvents:UIControlEventTouchUpInside];
-                         [self.showHideTimeDetailsBtn setImage:[UIImage imageNamed:@"btn_show"] forState:UIControlStateNormal];
-                         
-                     } completion:^(BOOL finish){
-                         //动画结束时调用
-                         //............
-//                         [self.chooseCoachTimeView removeFromSuperview];
-                         _tapGestureRec2.enabled = YES;
-                     }];
-}
-
-#pragma mark 点击预约
-- (IBAction)appointClick:(id)sender {
-    self.checkNumView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-//    [self.view addSubview:self.checkNumView];
-//    [self makeToast:@"预约成功"];
-    
-//    [self requestBookCoachInterface];
-}
-
-- (IBAction)hideAppointResultView:(id)sender {
-    [self.appointResultView removeFromSuperview];
-}
-
-#pragma mark 显示教练详细信息view
-- (IBAction)showCoachDetailsViewClik:(id)sender
-{
-    [self requestGetCoachDetailInterface];
-    
-    self.coachDetailsViewAll.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT-145);
-    [self.view addSubview:self.coachDetailsViewAll];
-    [UIView animateWithDuration:0.35
-                          delay:0
-                        options:UIViewAnimationOptionTransitionFlipFromLeft
-                     animations:^{
-                         self.coachDetailsViewAll.frame = CGRectMake(0, 145, SCREEN_WIDTH, SCREEN_HEIGHT - 145);
-                     }completion:^(BOOL finished) {
-                         self.showHideTimeDetailsBtn.enabled = NO;
-                     }];
-}
-
-- (IBAction)hideCoachDetailsViewClick:(id)sender
-{
-    self.coachDetailsViewAll.frame = CGRectMake(0, 145, SCREEN_WIDTH, SCREEN_HEIGHT - 145);
-    [self.view addSubview:self.coachDetailsViewAll];
-    [UIView animateWithDuration:0.35
-                          delay:0
-                        options:UIViewAnimationOptionTransitionFlipFromLeft
-                     animations:^{
-                         self.coachDetailsViewAll.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT-145);
-                     }completion:^(BOOL finished) {
-                         [self.coachDetailsViewAll removeFromSuperview];
-                         self.showHideTimeDetailsBtn.enabled = YES;
-                     }];
-}
-
-// 动画显示效果
-- (void)animationOfBlock
-{
-    self.coachDetailsView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
-    
-    [UIView animateWithDuration:1 //时长
-                          delay:0 //延迟时间
-                        options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
-                     animations:^{
-                         
-                         //动画设置区域
-                         self.coachDetailsView.frame=CGRectMake(50, 50,SCREEN_WIDTH, SCREEN_HEIGHT);
-                         
-                     } completion:^(BOOL finish){
-                         //动画结束时调用
-                         //............
-                     }];
-    
-}
-
 #pragma mark 打电话
 - (IBAction)phoneCallClick:(id)sender
 {
@@ -495,15 +233,6 @@
     }
     
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNum]];
-}
-
-#pragma mark 确认提交
-- (IBAction)sureSubmitClick:(id)sender
-{
-    [self.checkNumView removeFromSuperview];
-    self.appointResultView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    [self.view addSubview:self.appointResultView];
-//    [self.appointResultView removeFromSuperview];
 }
 
 #pragma mark - 教练详情
@@ -526,42 +255,6 @@
     [self presentViewController:navigationController animated:YES completion:nil];
     
     
-}
-
-
-#pragma mark - keyboard
-- (void)keyboardWillShow:(NSNotification *)notification
-{
-    NSDictionary *userInfo = [notification userInfo];
-    
-    NSValue* aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    CGRect keyboardRect = [aValue CGRectValue];
-    keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
-    _keyboardTop = keyboardRect.size.height;
-    
-    self.checkNumView.frame = CGRectMake(0, -_keyboardTop, SCREEN_WIDTH, SCREEN_HEIGHT);
-    NSLog(@"keyboardWillShow");
-}
-
-- (void)keyboardWillHide:(NSNotification *)notification
-{
-    self.checkNumView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-}
-
-- (IBAction)hideKeyboardClick:(id)sender {
-    [self.driveNumLabel resignFirstResponder];
-    [self.studentNumLabel resignFirstResponder];
-}
-
-// 阻挡点击响应传递到底层
-- (IBAction)ignoreNextTouch:(id)sender {
-    
-}
-
-- (IBAction)orderDetailsClick:(id)sender {
-    MyOrderDetailViewController *viewController = [[MyOrderDetailViewController alloc] initWithNibName:@"MyOrderDetailViewController" bundle:nil];
-    [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
-    [self.appointResultView removeFromSuperview];
 }
 
 #pragma mark - BaiduMap
@@ -732,18 +425,21 @@
 
 // 获取当前所在城市名字
 - (void)searchCurrentCityName {
-    //发起反向地理编码检索
-    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
-    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
-    reverseGeoCodeSearchOption.reverseGeoPoint = delegate.userCoordinate;
-    
-    BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
-    _geoSearcher.delegate = self;
-    BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
-    if (flag) {
-        NSLog(@"地理编码检索");
-    } else {
-        NSLog(@"地理编码检索失败");
+    CommonUtil *commonUtil = [CommonUtil currentUtil];
+    if ([commonUtil isLogin:NO]) {
+        //发起反向地理编码检索
+        BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
+        AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+        reverseGeoCodeSearchOption.reverseGeoPoint = delegate.userCoordinate;
+        
+        BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
+        _geoSearcher.delegate = self;
+        BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
+        if (flag) {
+            NSLog(@"地理编码检索");
+        } else {
+            NSLog(@"地理编码检索失败");
+        }
     }
 }
 
@@ -754,6 +450,7 @@
     NSString *cityName = @"";
     if (subStrArray.count > 1) {
         cityName = subStrArray[1];
+        cityName = [cityName stringByReplacingOccurrencesOfString:@"市" withString:@""];
     }
     
     // 城市名不相等
@@ -768,39 +465,39 @@
 }
 
 // 顶部弹框提示
-- (UIView *)createTopAlertView {
-    UIView *topAlertView = [[UIView alloc] init];
-    CGFloat topAlertViewW = SCREEN_WIDTH;
-    CGFloat topAlertViewH = 30;
-    CGFloat topAlertViewX = 0;
-    CGFloat topAlertViewY = -30;
-    topAlertView.frame = CGRectMake(topAlertViewX, topAlertViewY, topAlertViewW, topAlertViewH);
-    topAlertView.backgroundColor = [UIColor yellowColor];
-    
-    UILabel *cityAlertLabel = [[UILabel alloc] init];
-    [topAlertView addSubview:cityAlertLabel];
-    CGFloat cityAlertLabelW = SCREEN_WIDTH - 20;
-    CGFloat cityAlertLabelH = topAlertViewH;
-    CGFloat cityAlertLabelX = (SCREEN_WIDTH - cityAlertLabelW) / 2;
-    CGFloat cityAlertLabelY = 0;
-    cityAlertLabel.frame = CGRectMake(cityAlertLabelX, cityAlertLabelY, cityAlertLabelW, cityAlertLabelH);
-    cityAlertLabel.backgroundColor = [UIColor yellowColor];
-    // 文本显示属性
-    cityAlertLabel.font = [UIFont systemFontOfSize:12];
-    cityAlertLabel.textColor = [UIColor blackColor];
-    cityAlertLabel.textAlignment = NSTextAlignmentLeft;
-    cityAlertLabel.numberOfLines = 0;
-    cityAlertLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    cityAlertLabel.text = @"注意：您所处城市与您设置的驾考城市不一致，可在个人信息设置处选择您的驾考城市。";
-    
-    UIButton *fyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [topAlertView addSubview:fyBtn];
-    fyBtn.frame = topAlertView.bounds;
-    fyBtn.backgroundColor = [UIColor clearColor];
-    [fyBtn addTarget:self action:@selector(clickToHideCityAlertView:) forControlEvents:UIControlEventTouchUpInside];
-    
-    return topAlertView;
-}
+//- (UIView *)createTopAlertView {
+//    UIView *topAlertView = [[UIView alloc] init];
+//    CGFloat topAlertViewW = SCREEN_WIDTH;
+//    CGFloat topAlertViewH = 30;
+//    CGFloat topAlertViewX = 0;
+//    CGFloat topAlertViewY = -30;
+//    topAlertView.frame = CGRectMake(topAlertViewX, topAlertViewY, topAlertViewW, topAlertViewH);
+//    topAlertView.backgroundColor = [UIColor yellowColor];
+//    
+//    UILabel *cityAlertLabel = [[UILabel alloc] init];
+//    [topAlertView addSubview:cityAlertLabel];
+//    CGFloat cityAlertLabelW = SCREEN_WIDTH - 20;
+//    CGFloat cityAlertLabelH = topAlertViewH;
+//    CGFloat cityAlertLabelX = (SCREEN_WIDTH - cityAlertLabelW) / 2;
+//    CGFloat cityAlertLabelY = 0;
+//    cityAlertLabel.frame = CGRectMake(cityAlertLabelX, cityAlertLabelY, cityAlertLabelW, cityAlertLabelH);
+//    cityAlertLabel.backgroundColor = [UIColor yellowColor];
+//    // 文本显示属性
+//    cityAlertLabel.font = [UIFont systemFontOfSize:12];
+//    cityAlertLabel.textColor = [UIColor blackColor];
+//    cityAlertLabel.textAlignment = NSTextAlignmentLeft;
+//    cityAlertLabel.numberOfLines = 0;
+//    cityAlertLabel.lineBreakMode = NSLineBreakByWordWrapping;
+//    cityAlertLabel.text = @"注意：您所处城市与您设置的驾考城市不一致，可在个人信息设置处选择您的驾考城市。";
+//    
+//    UIButton *fyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [topAlertView addSubview:fyBtn];
+//    fyBtn.frame = topAlertView.bounds;
+//    fyBtn.backgroundColor = [UIColor clearColor];
+//    [fyBtn addTarget:self action:@selector(clickToHideCityAlertView:) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    return topAlertView;
+//}
 
 #pragma mark - Map Action
 // 设置用户位置为屏幕中心
@@ -809,7 +506,7 @@
     //地图初始位置设定
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [_mapView setCenterCoordinate:appDelegate.userCoordinate animated:YES];
-    [_mapView setZoomLevel:13.5];
+    [_mapView setZoomLevel:13];
     
     CLLocationCoordinate2D zuobiao = [_mapView convertPoint:CGPointMake(0, 0) toCoordinateFromView:_mapView];
     
@@ -932,61 +629,6 @@
         self.isGetData = NO;
     }];
 
-}
-
-// 请求教练详情
-- (void)requestGetCoachDetailInterface
-{
-    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
-    [paramDic setObject:_coachId forKey:@"coachid"];
-    
-    if (_coachId.length == 0) return;
-    
-    
-    NSString *uri = @"/sbook?action=GetCoachDetail";
-    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        if ([responseObject[@"code"] integerValue] == 1)
-        {
-            
-            NSDictionary *coachinfo = responseObject[@"coachinfo"];
-            self.detailsCoachName.text = [coachinfo[@"realname"] description];
-            int sex = [coachinfo[@"gender"] intValue];
-            switch (sex) {
-                case 0:
-                    self.detailsSex.text = @"未设置";
-                    break;
-                case 1:
-                    self.detailsSex.text = @"男";
-                    break;
-                case 2:
-                    self.detailsSex.text = @"女";
-                    break;
-                    
-                default:
-                    break;
-            }
-            self.detailsAge.text = [coachinfo[@"age"] description];
-            self.detailsAddress.text = [coachinfo[@"address"] description];
-            self.detailsCardnum.text = [coachinfo[@"id_cardnum"] description];
-            self.detailsCoachCardnum.text = [coachinfo[@"coach_cardnum"] description];
-            self.detailsCarType.text = [coachinfo[@""] description];
-            self.detailsCarNum.text = [coachinfo[@""] description];
-            self.detailsCoachSchool.text = [coachinfo[@"drive_school"] description];
-            self.detailsCoachLevel.text = [coachinfo[@""] description];
-            self.detailsCocahComment.text = [NSString stringWithFormat:@"自我评价：%@", [coachinfo[@"selfeval"] description]];
-        }else{
-            NSString *message = responseObject[@"message"];
-            [self makeToast:message];
-        }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [DejalBezelActivityView removeViewAnimated:YES];
-        [self makeToast:ERR_NETWORK];
-    }];
 }
 
 // 获取准教车型
@@ -1150,39 +792,6 @@
     [self requestGetNearByCoachInterfaceWithPointcenter:pointCenter andRadius:radius needLiadingShow:YES];
 }
 
-
-#pragma mark - UIScrollViewDelegate
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (scrollView == _timeScrollView)
-    {
-        int n = _timeScrollView.contentOffset.x / 73;
-        if (_timeScrollView.contentOffset.x > (50 + 73*n)) n++;
-        [_timeScrollView setContentOffset:CGPointMake(13+73*n, 0) animated:YES];
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    if (scrollView == _timeScrollView)
-    {
-        int n = _timeScrollView.contentOffset.x / 73;
-        if (_timeScrollView.contentOffset.x > (50 + 73*n)) n++;
-        [_timeScrollView setContentOffset:CGPointMake(13+73*n, 0) animated:YES];
-    }
-    
-}
-
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    if (scrollView == _timeScrollView)
-//    {
-//        int x = _timeScrollView.contentOffset.x;
-//        NSLog(@".contentOffset.x == %d", x);
-//    }
-//    
-//}
-
 + (MainViewController *)sharedMainController
 {
     static MainViewController *mainVC;
@@ -1204,9 +813,9 @@
 }
 
 // 旧需求的汽车点击事件
-- (IBAction)carBtnClick:(id)sender
+- (void)carBtnClick:(id)sender
 {
-    [self removeCoachHeadControl];
+//    [self removeCoachHeadControl];
     
     // 添加底部的教练信息栏
     UIButton *button = (UIButton *)sender;
@@ -1297,9 +906,6 @@
 
 - (void)closeDetailsView
 {
-    //    for (id objc in self.view.subviews) {
-    //        if ([objc isEqual:self.chooseCoachTimeView]) {
-    
     self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT - 122, SCREEN_WIDTH, 122);
     [UIView animateWithDuration:0.35 //时长
                           delay:0 //延迟时间
@@ -1316,10 +922,8 @@
                          [self.coachInfoView removeFromSuperview];
                          [self.closeDetailBtn removeFromSuperview];
                      }];
-    //        }
-    //    }
-    self.selectedView.hidden = YES;
-    [self removeCoachHeadControl];
+
+//    [self removeCoachHeadControl];
     [[SliderViewController sharedSliderController] closeSideBar];
     
     // 改变汽车图标状态
@@ -1330,22 +934,22 @@
 }
 
 // 移除教练头像control
-- (void)removeCoachHeadControl
-{
-    for (id objc in self.view.subviews)
-    {
-        if ([objc isKindOfClass:[UIControl class]])
-        {
-            UIControl *contro = (UIControl *)objc;
-            
-            // tag = 1 为教练头像control
-            if (contro.tag == 1)
-            {
-                [contro removeFromSuperview];
-            }
-        }
-    }
-}
+//- (void)removeCoachHeadControl
+//{
+//    for (id objc in self.view.subviews)
+//    {
+//        if ([objc isKindOfClass:[UIControl class]])
+//        {
+//            UIControl *contro = (UIControl *)objc;
+//            
+//            // tag = 1 为教练头像control
+//            if (contro.tag == 1)
+//            {
+//                [contro removeFromSuperview];
+//            }
+//        }
+//    }
+//}
 
 - (IBAction)clickForAllData:(id)sender {
     self.searchParamDic = nil;

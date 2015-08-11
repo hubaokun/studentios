@@ -988,110 +988,110 @@
     
 }
 
-- (void)requestGetCoachList
-{
-    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
-    NSString *searchStr = self.searchTextField.text;
-    [paramDic setObject:searchStr forKey:@"condition1"];   // 搜索
-    
-    NSString *starLevel = nil;
-    for (id objc in self.starLevelView.subviews) {
-        if ([objc isKindOfClass:[UIButton class]]) {
-            UIButton *button = (UIButton *)objc;
-            if (button.selected) {
-                int tag = (int)button.tag;
-                starLevel = [NSString stringWithFormat:@"%d", 5 - tag];
-            }
-        }
-    }
-    
-    if (starLevel && ![starLevel isEqualToString:@"5"]) {
-        [paramDic setObject:starLevel forKey:@"condition2"];   // 星级查询条件下限<根据这个字段查询星级在某个值以上的教练>
-    }
-    
-    NSString *dateDown = self.dateBeginLabel.text;  // 日期下线
-    
-    //    NSString *dateDown = @"2015-01-31";  // 日期下线
-    NSString *timeDown = self.timeBeginLabel.text;  // 时间下线
-    if ([timeDown intValue] < 10) {
-        timeDown = [NSString stringWithFormat:@"0%@", timeDown];
-    }
-    NSString *dateTimeDown = [NSString stringWithFormat:@"%@ %@:00:00", dateDown, timeDown];
-    [paramDic setObject:dateTimeDown forKey:@"condition3"];   // 时间下限
-    
-    NSString *dateUp = self.dateEndLabel.text;  // 日期上线
-    //    NSString *dateUp = @"2015-03-01";  // 日期上线
-    NSString *timeUp = self.timeEndLabel.text;  // 时间上线
-    if ([timeUp intValue] < 10) {
-        timeUp = [NSString stringWithFormat:@"0%@", timeUp];
-    }
-    NSString *dateTimeUp = [NSString stringWithFormat:@"%@ %@:00:00", dateUp, timeUp];
-    [paramDic setObject:dateTimeUp forKey:@"condition4"];   // 时间上限
-    
-    NSString *sex = @"0";
-    [paramDic setObject:sex forKey:@"condition5"];   // 性别 1.男 2.女 0.不限
-    
-    NSString *priceDown = self.priceLowTextField.text;
-    if (priceDown) {
-        [paramDic setObject:priceDown forKey:@"condition8"];   // 价格下限
-    }
-    
-    NSString *priceUp = self.priceHighTextField.text;
-    if (priceUp) {
-        [paramDic setObject:priceUp forKey:@"condition9"];   // 价格上限
-    }
-    
-    NSString *carTypeId = @"0";
-    [paramDic setObject:carTypeId forKey:@"condition10"];   // 车型ID  0.不限
-    
-    NSString *pageNum = @"0";
-    [paramDic setObject:pageNum forKey:@"pagenum"];
-    
-    // 测试账号studentID
-    AppDelegate *deleget = [UIApplication sharedApplication].delegate;
-    if (![CommonUtil isEmpty:deleget.userid]) {
-        if ([deleget.userid isEqualToString:@"18"]) {
-            paramDic[@"studentid"] = deleget.userid;
-        }
-    }
-    
-    // 城市id
-    NSString *cityID = [USERDICT[@"cityid"] description];
-    if (![CommonUtil isEmpty:cityID]) {
-        paramDic[@"cityid"] = cityID;
-    }
-    
-    NSString *uri = @"/sbook?action=GetCoachList";
-    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
-    
-    [DejalBezelActivityView activityViewForView:self.view];
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.requestSerializer.timeoutInterval = 20;     // 网络超时时长设置
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        [DejalBezelActivityView removeViewAnimated:YES];
-        
-        if ([responseObject[@"code"] integerValue] == 1)
-        {
-            [CommonUtil saveObjectToUD:paramDic key:@"searchParamDic"];
-            
-            [self dismissViewControllerAnimated:YES completion:nil];
-            
-        }else{
-            NSString *message = responseObject[@"message"];
-            [self makeToast:message];
-            
-            NSLog(@"code = %@",  responseObject[@"code"]);
-            NSLog(@"message = %@", responseObject[@"message"]);
-        }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [DejalBezelActivityView removeViewAnimated:YES];
-        NSLog(@"GetNearByCoach == %@", ERR_NETWORK);
-        [self makeToast:ERR_NETWORK];
-    }];
-}
+//- (void)requestGetCoachList
+//{
+//    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+//    NSString *searchStr = self.searchTextField.text;
+//    [paramDic setObject:searchStr forKey:@"condition1"];   // 搜索
+//    
+//    NSString *starLevel = nil;
+//    for (id objc in self.starLevelView.subviews) {
+//        if ([objc isKindOfClass:[UIButton class]]) {
+//            UIButton *button = (UIButton *)objc;
+//            if (button.selected) {
+//                int tag = (int)button.tag;
+//                starLevel = [NSString stringWithFormat:@"%d", 5 - tag];
+//            }
+//        }
+//    }
+//    
+//    if (starLevel && ![starLevel isEqualToString:@"5"]) {
+//        [paramDic setObject:starLevel forKey:@"condition2"];   // 星级查询条件下限<根据这个字段查询星级在某个值以上的教练>
+//    }
+//    
+//    NSString *dateDown = self.dateBeginLabel.text;  // 日期下线
+//    
+//    //    NSString *dateDown = @"2015-01-31";  // 日期下线
+//    NSString *timeDown = self.timeBeginLabel.text;  // 时间下线
+//    if ([timeDown intValue] < 10) {
+//        timeDown = [NSString stringWithFormat:@"0%@", timeDown];
+//    }
+//    NSString *dateTimeDown = [NSString stringWithFormat:@"%@ %@:00:00", dateDown, timeDown];
+//    [paramDic setObject:dateTimeDown forKey:@"condition3"];   // 时间下限
+//    
+//    NSString *dateUp = self.dateEndLabel.text;  // 日期上线
+//    //    NSString *dateUp = @"2015-03-01";  // 日期上线
+//    NSString *timeUp = self.timeEndLabel.text;  // 时间上线
+//    if ([timeUp intValue] < 10) {
+//        timeUp = [NSString stringWithFormat:@"0%@", timeUp];
+//    }
+//    NSString *dateTimeUp = [NSString stringWithFormat:@"%@ %@:00:00", dateUp, timeUp];
+//    [paramDic setObject:dateTimeUp forKey:@"condition4"];   // 时间上限
+//    
+//    NSString *sex = @"0";
+//    [paramDic setObject:sex forKey:@"condition5"];   // 性别 1.男 2.女 0.不限
+//    
+//    NSString *priceDown = self.priceLowTextField.text;
+//    if (priceDown) {
+//        [paramDic setObject:priceDown forKey:@"condition8"];   // 价格下限
+//    }
+//    
+//    NSString *priceUp = self.priceHighTextField.text;
+//    if (priceUp) {
+//        [paramDic setObject:priceUp forKey:@"condition9"];   // 价格上限
+//    }
+//    
+//    NSString *carTypeId = @"0";
+//    [paramDic setObject:carTypeId forKey:@"condition10"];   // 车型ID  0.不限
+//    
+//    NSString *pageNum = @"0";
+//    [paramDic setObject:pageNum forKey:@"pagenum"];
+//    
+//    // 测试账号studentID
+//    AppDelegate *deleget = [UIApplication sharedApplication].delegate;
+//    if (![CommonUtil isEmpty:deleget.userid]) {
+//        if ([deleget.userid isEqualToString:@"18"]) {
+//            paramDic[@"studentid"] = deleget.userid;
+//        }
+//    }
+//    
+//    // 城市id
+//    NSString *cityID = [USERDICT[@"cityid"] description];
+//    if (![CommonUtil isEmpty:cityID]) {
+//        paramDic[@"cityid"] = cityID;
+//    }
+//    
+//    NSString *uri = @"/sbook?action=GetCoachList";
+//    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
+//    
+//    [DejalBezelActivityView activityViewForView:self.view];
+//    
+//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    manager.requestSerializer.timeoutInterval = 20;     // 网络超时时长设置
+//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+//    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        
+//        [DejalBezelActivityView removeViewAnimated:YES];
+//        
+//        if ([responseObject[@"code"] integerValue] == 1)
+//        {
+//            [CommonUtil saveObjectToUD:paramDic key:@"searchParamDic"];
+//            
+//            [self dismissViewControllerAnimated:YES completion:nil];
+//            
+//        }else{
+//            NSString *message = responseObject[@"message"];
+//            [self makeToast:message];
+//            
+//            NSLog(@"code = %@",  responseObject[@"code"]);
+//            NSLog(@"message = %@", responseObject[@"message"]);
+//        }
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        [DejalBezelActivityView removeViewAnimated:YES];
+//        NSLog(@"GetNearByCoach == %@", ERR_NETWORK);
+//        [self makeToast:ERR_NETWORK];
+//    }];
+//}
 
 #pragma mark - PickerVIew
 // 行高
