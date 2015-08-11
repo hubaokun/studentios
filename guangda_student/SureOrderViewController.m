@@ -679,12 +679,15 @@
                                            userInfo:nil
                                             repeats:NO];
         }
-        else if (code == -1 ) {
-            [self makeToast:@"版本太旧了哦,请退出程序后再次进入,程序将自动更新"];
+        else if (code == 4 ) {
+            [self makeToast:@"版本太旧,预约失败,请更新至最新版本!"];
         }
         else if (code == 10) {
             [self letoutResultViewWithType:3];
             NSLog(@"book_failed : code = %d  message = %@", code, message);
+        }
+        else if (code == -1) {
+            [self makeToast:@"当前网络繁忙，请稍后再试。"];
         }
         else {
             [self makeToast:message];
