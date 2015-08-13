@@ -149,7 +149,7 @@
             coachPhoneStr = [coachPhoneStr stringByReplacingOccurrencesOfString:@" " withString:@""];
             self.telphone = urgentStr;
             
-            CGSize size = [CommonUtil sizeWithString:coachInfoStr fontSize:15.0 sizewidth:(SCREEN_WIDTH - 20) sizeheight:CGFLOAT_MAX];
+            CGSize size = [CommonUtil sizeWithString:coachInfoStr fontSize:15.0 sizewidth:(SCREEN_WIDTH - 92) sizeheight:CGFLOAT_MAX];
             self.selfCommentHeight.constant = size.height;
             
             self.urgentPhone.text = [self isEmpty:@"电话"];

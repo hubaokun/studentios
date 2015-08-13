@@ -31,19 +31,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    //    self.detailContentView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 755);
-    //    [self.scrollView addSubview:self.detailContentView];
     
     self.selectContentView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 110);
     [self.scrollView addSubview:self.selectContentView];
     self.scrollView.contentSize = CGSizeMake(0, SCREEN_HEIGHT - 110);
-    self.timeWidth.constant = SCREEN_WIDTH/600*163;
-    
-    [self setButtonLayerInView:self.starLevelView];
-    [self setButtonLayerInView:self.sexView];
-    [self setButtonLayerInView:self.priceView];
-    [self setButtonLayerInView:self.carTypeView];
     
     self.btnGoSearch.layer.cornerRadius = 3;
     self.btnReset.layer.cornerRadius = 3;
@@ -75,8 +66,6 @@
     self.maxDate = [CommonUtil getDateForString:[NSString stringWithFormat:@"%ld-%ld-%ld 00:00:00",(long)year,(long)yue,(long)ri] format:nil];
     
     [self initWithDic];
-    
-    //    [self getAllTeachCarModel];
     
     [self getAllSubject];
     
@@ -127,50 +116,12 @@
     }else{
         self.dateBeginLabel.text = @"不限";
     }
-    [self buttonClick:self.subjectNoneButton];
 }
 
 // 设置各个选项的默认值
 - (IBAction)setSectionStatus:(id)sender
 {
-    
-    //    self.searchTextField.text = @"";
-    //    // 设置时间段默认显示时间
-    //    NSDate *nowDate = [NSDate date];
-    //    NSString *dateStr = [CommonUtil getStringForDate:nowDate format:@"yyyy-MM-dd"];
     self.dateBeginLabel.text = @"不限";
-    
-    //    NSDate *endDate = [[NSDate date] dateByAddingTimeInterval:30*24*60*60];
-    //    self.dateEndLabel.text = [CommonUtil getStringForDate:endDate format:@"yyyy-MM-dd"];
-    //    timeScreenBegin = [[CommonUtil getStringForDate:nowDate format:@"HH"] intValue];
-    //    timeScreenEnd = 23;
-    //    self.dateScreenBegin = nowDate;
-    //    self.dateScreenEnd = endDate;
-    //    self.timeBeginLabel.text = [CommonUtil getStringForDate:nowDate format:@"HH"];
-    //    self.timeEndLabel.text = @"23";
-    //    self.leftUpBtn2.enabled = NO;
-    //    self.rightDownBtn.enabled = NO;
-    //    self.leftUpBtn.enabled = NO;
-    //    self.rightDownBtn2.enabled = NO;
-    //
-    //    self.myYear = [CommonUtil getStringForDate:nowDate format:@"yyyy"];
-    //    self.myMonth = [CommonUtil getStringForDate:nowDate format:@"MM"];
-    //    self.myDay = [CommonUtil getStringForDate:nowDate format:@"dd"];
-    //
-    //    [self buttonClick:self.allSelectedStarLevelBtn];
-    //    [self buttonClick:self.allSelectedSexBtn];
-    //    [self buttonClick:self.allSelectedCarTypeBtn];
-    [self buttonClick:self.subjectNoneButton];
-    
-    //    _sex = 0;
-    //
-    //    self.priceLowTextField.text = nil;
-    //    self.priceHighTextField.text = nil;
-    //    [self deselectedButton:self.leapTypeBtn];
-    //    [self deselectedButton:self.midTypeBtn];
-    //    [self deselectedButton:self.goodTypeBtn];
-    //
-    //    self.carTypeId = @"0";
     self.subjectID = @"0";
 }
 
@@ -305,64 +256,7 @@
     button.layer.cornerRadius = 3;
 }
 
-// 价格区间buttonClick
-- (IBAction)buttonClick:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
-    if (!button.selected) {
-        // selected
-        button.selected = YES;
-        button.backgroundColor = RGB(80, 203, 140);
-        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gou_selected"]];
-        imageView.frame = CGRectMake(button.frame.origin.x-7, button.frame.origin.y-7, 14, 14);
-        imageView.tag = button.tag;
-        [button.superview addSubview:imageView];
-        
-        if (button.tag == 101) {
-            self.priceLowTextField.text = @"1";
-            self.priceHighTextField.text = @"50";
-            [self selectedButton:self.leapTypeBtn];
-            [self deselectedButton:self.midTypeBtn];
-            [self deselectedButton:self.goodTypeBtn];
-            
-        }else if (button.tag == 102) {
-            self.priceLowTextField.text = @"50";
-            self.priceHighTextField.text = @"100";
-            [self deselectedButton:self.leapTypeBtn];
-            [self selectedButton:self.midTypeBtn];
-            [self deselectedButton:self.goodTypeBtn];
-            
-        }else if (button.tag == 103) {
-            self.priceLowTextField.text = @"100";
-            self.priceHighTextField.text = @"150";
-            [self deselectedButton:self.leapTypeBtn];
-            [self deselectedButton:self.midTypeBtn];
-            [self selectedButton:self.goodTypeBtn];
-        }
-        
-        for (id objc in button.superview.subviews) {
-            // 移除其他的button的选中效果
-            if ([objc isKindOfClass:[UIButton class]]) {
-                UIButton *button2 = (UIButton *)objc;
-                if (button2.tag != button.tag) {
-                    button2.selected = NO;
-                    button2.backgroundColor = RGB(240, 243, 244);
-                    [button2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-                }
-            }
-            
-            if ([objc isKindOfClass:[UIImageView class]]) {
-                UIImageView *imageView2 = (UIImageView *)objc;
-                if (imageView2.tag != imageView.tag) {
-                    [imageView2 removeFromSuperview];
-                }
-            }
-        }
-    }
-    button.layer.cornerRadius = 3;
-}
+
 
 - (void)deselectedButton:(UIButton *)button
 {
@@ -402,11 +296,9 @@
     [button.superview addSubview:imageView];
 }
 
-- (IBAction)hideKeyboardClick:(id)sender
+- (void)hideKeyboardClick:(id)sender
 {
     [_searchTextField resignFirstResponder];
-    [_priceLowTextField resignFirstResponder];
-    [_priceHighTextField resignFirstResponder];
 }
 
 #pragma mark 完成 、 取消
@@ -461,48 +353,7 @@
     }else{
         self.leftUpBtn.enabled = YES;
     }
-    
-    
-    //    NSDate *endDate = [[NSDate date] initWithTimeInterval:30*24*60*60 sinceDate:[NSDate date]];
-    //
-    //    NSString *selectedDateStr = [NSString stringWithFormat:@"%@-%@-%@", _myYear, _myMonth, _myDay];
-    //    NSDate *selectedDate = [CommonUtil getDateForString:selectedDateStr format:@"yyyy-MM-dd"];
-    //    if (_upOrDown) {
-    //        // up
-    //        if (_dateOrTime) {
-    //            // up date
-    //            if ([selectedDate timeIntervalSinceDate:[NSDate date]] < 0.0) {
-    //                [self makeToast:@"开始日期不能早于当前日期"];
-    //                return;
-    //            }else if ([selectedDate timeIntervalSinceDate:self.dateScreenEnd] > 0.0) {
-    //                [self makeToast:@"开始日期不能晚于结束日期"];
-    //                return;
-    //            }
-    //            self.dateScreenBegin = selectedDate;
-    //            self.dateBeginLabel.text = selectedDateStr;
-    //        }else{
-    //            // up time
-    //            self.timeBeginLabel.text = @"5";
-    //        }
-    //    }else{
-    //        // down
-    //        if (_dateOrTime) {
-    //            // down date
-    //            if ([selectedDate timeIntervalSinceDate:self.dateScreenBegin] < 0.0) {
-    //                [self makeToast:@"结束日期不能早于开始日期"];
-    //                return;
-    //            }else if ([selectedDate timeIntervalSinceDate:endDate] > 0.0) {
-    //                [self makeToast:@"只能预约30天内的课程"];
-    //                return;
-    //            }
-    //
-    //            self.dateScreenEnd = selectedDate;
-    //            self.dateEndLabel.text = selectedDateStr;
-    //        }else{
-    //            // down time
-    //            self.timeEndLabel.text = @"5";
-    //        }
-    //    }
+  
     [self.selectView removeFromSuperview];
 }
 
@@ -515,21 +366,6 @@
     if (searchStr.length > 0) {
         [paramDic setObject:searchStr forKey:@"condition1"];   // 搜索
     }
-    
-    //    NSString *starLevel = nil;
-    //    for (id objc in self.starLevelView.subviews) {
-    //        if ([objc isKindOfClass:[UIButton class]]) {
-    //            UIButton *button = (UIButton *)objc;
-    //            if (button.selected) {
-    //                int tag = (int)button.tag;
-    //                starLevel = [NSString stringWithFormat:@"%d", 5 - tag];
-    //            }
-    //        }
-    //    }
-    //
-    //    if (starLevel && ![starLevel isEqualToString:@"5"]) {
-    //        [paramDic setObject:starLevel forKey:@"condition2"];   // 星级查询条件下限<根据这个字段查询星级在某个值以上的教练>
-    //    }
     
     NSString *dateDown = self.dateBeginLabel.text;  // 日期下线
     if(![@"不限" isEqualToString:dateDown]){
@@ -558,32 +394,7 @@
         [paramDic setObject:dateTimeDown forKey:@"condition3"];   // 时间下限
     }
     
-    
-    //    NSString *dateUp = self.dateEndLabel.text;  // 日期上线
-    //    NSString *timeUp = self.timeEndLabel.text;  // 时间上线
-    //    if ([timeUp intValue] < 10) {
-    //        timeUp = [NSString stringWithFormat:@"0%@", timeUp];
-    //    }
-    //
-    //    NSString *dateTimeUp = [NSString stringWithFormat:@"%@ %@:00:00", dateUp, timeUp];
-    //    [paramDic setObject:dateTimeUp forKey:@"condition4"];   // 时间上限
-    
-    //    [paramDic setObject:[NSString stringWithFormat:@"%d", _sex] forKey:@"condition5"];   // 性别 1.男 2.女 0.不限
-    
-    
     [paramDic setObject:_subjectID forKey:@"condition6"];
-    
-    //    NSString *priceDown = self.priceLowTextField.text;
-    //    if (priceDown) {
-    //        [paramDic setObject:priceDown forKey:@"condition8"];   // 价格下限
-    //    }
-    //
-    //    NSString *priceUp = self.priceHighTextField.text;
-    //    if (priceUp) {
-    //        [paramDic setObject:priceUp forKey:@"condition9"];   // 价格上限
-    //    }
-    //
-    //    [paramDic setObject:_carTypeId forKey:@"condition10"];   // 车型ID  0.不限
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"SearchCoachDict" object:paramDic];
     
@@ -627,15 +438,11 @@
         NSDate *selectedDate = [[NSDate date] initWithTimeInterval:24*60*60 sinceDate:self.dateScreenEnd];
         
         if (([selectedDate timeIntervalSinceDate:self.maxDate] > 0.0)) {
-            self.rightDownBtn.enabled = NO;
             [self makeToast:@"只能预约30天后的课程"];
             return;
         }
         
-        self.leftDownBtn.enabled = YES;
         self.dateScreenEnd = selectedDate;
-        NSString *selectedDateStr = [CommonUtil getStringForDate:selectedDate format:@"yyyy-MM-dd"];
-        self.dateEndLabel.text = selectedDateStr;
     }
 }
 
@@ -666,15 +473,11 @@
         NSDate *selectedDate = [[NSDate date] initWithTimeInterval:-24*60*60 sinceDate:self.dateScreenEnd];
         
         if ([selectedDate timeIntervalSinceDate:self.dateScreenBegin] < 0.0) {
-            self.leftDownBtn.enabled = NO;
             [self makeToast:@"结束时间不能早于开始时间"];
             return;
         }
         
-        self.rightDownBtn.enabled = YES;
         self.dateScreenEnd = selectedDate;
-        NSString *selectedDateStr = [CommonUtil getStringForDate:selectedDate format:@"yyyy-MM-dd"];
-        self.dateEndLabel.text = selectedDateStr;
     }
 }
 
@@ -696,10 +499,6 @@
             timeScreenBegin = 23;
             button.enabled = NO;
         }
-        if (timeScreenBegin > 5) {
-            self.leftUpBtn2.enabled = YES;
-        }
-        self.timeBeginLabel.text = [NSString stringWithFormat:@"%d", timeScreenBegin];
         
     }else{
         timeScreenEnd++;
@@ -707,38 +506,6 @@
             timeScreenEnd = 23;
             button.enabled = NO;
         }
-        if (timeScreenBegin > 5) {
-            self.leftDownBtn2.enabled = YES;
-        }
-        self.timeEndLabel.text = [NSString stringWithFormat:@"%d", timeScreenEnd];
-    }
-}
-
-- (IBAction)deleteTimeClick:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
-    if (button.tag == 0) {
-        timeScreenBegin--;
-        if (timeScreenBegin < 5 || timeScreenBegin == 5) {
-            timeScreenBegin = 5;
-            self.leftUpBtn2.enabled = NO;
-        }
-        if (timeScreenBegin < 23) {
-            self.rightUpBtn2.enabled = YES;
-        }
-        self.timeBeginLabel.text = [NSString stringWithFormat:@"%d", timeScreenBegin];
-        
-    }else{
-        timeScreenEnd--;
-        if (timeScreenEnd < 5 || timeScreenEnd == 5) {
-            timeScreenEnd = 5;
-            self.leftDownBtn2.enabled = NO;
-        }
-        if (timeScreenEnd < 23) {
-            self.rightDownBtn2.enabled = YES;
-        }
-        timeScreenEnd = timeScreenEnd %24;
-        self.timeEndLabel.text = [NSString stringWithFormat:@"%d", timeScreenEnd];
     }
 }
 
@@ -817,66 +584,6 @@
 }
 
 #pragma mark - 接口请求
-- (void)getAllTeachCarModel
-{
-    NSString *uri = @"/cmy?action=GetAllTeachCarModel";
-    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:nil RequestMethod:Request_GET];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    [manager GET:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        if ([responseObject[@"code"] integerValue] == 1) {
-            // 添加按钮
-            NSMutableArray *carList = [responseObject[@"teachcarlist"] mutableCopy];
-            NSDictionary *otherDic = @{@"modelname":@"其它", @"modelid":@"-1"};
-            [carList addObject:otherDic];
-            //            self.carTypeView
-            
-            int _row = 0;
-            CGFloat _x = 80+46+10;
-            CGFloat _y = 20;
-            
-            for (int i = 0; i < carList.count; i++) {
-                NSDictionary *carDic = carList[i];
-                
-                UIButton *carBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-                NSString *carName = carDic[@"modelname"];
-                NSString *carID= carDic[@"modelid"];
-                
-                // 计算字体宽度
-                CGSize titleSize = [CommonUtil sizeWithString:carName fontSize:13 sizewidth:0 sizeheight:30];
-                CGFloat _width = titleSize.width;
-                
-                if ((_x + _width + 10) > SCREEN_WIDTH) {
-                    _row++;
-                    _x = 80;
-                }
-                
-                _y = 20 + _row*(30 + 10);
-                carBtn.frame = CGRectMake(_x, _y, _width +20, 30);
-                [self.carTypeView addSubview:carBtn];
-                [carBtn setBackgroundColor:RGB(240, 243, 244)];
-                [carBtn setTitle:carName forState:UIControlStateNormal];
-                [carBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-                carBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-                carBtn.tag = [carID intValue];
-                carBtn.layer.cornerRadius = 3;
-                carBtn.layer.masksToBounds = YES;
-                [carBtn addTarget:self action:@selector(setTeacherCarTypeBtn:) forControlEvents:UIControlEventTouchUpInside];
-                
-                _x += _width + 20 + 10;
-            }
-            self.carViewHeight.constant = _y + 50;
-//            CGFloat _maxHeight = 540 + self.subjectView.frame.size.height + self.carTypeView.frame.size.height;
-            
-            self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH - 110);
-        }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        //        [self makeToast:@"获取车型失败"];
-        //        NSLog(@"获取车型失败");
-    }];
-    
-}
-
 - (void)getAllSubject
 {
     NSString *uri = @"/cmy?action=GetAllSubject";
@@ -933,9 +640,6 @@
                 }
                 _x += _width + 20 + 10;
             }
-            if(selectedButton){
-                [self buttonClick:selectedButton];
-            }
             
             self.selectSubjevtViewHeight.constant = _y + 50;
             //            CGFloat _maxHeight = 500 + self.carTypeView.frame.size.height + self.subjectView.frame.size.height;
@@ -987,111 +691,6 @@
     button.layer.cornerRadius = 3;
     
 }
-
-//- (void)requestGetCoachList
-//{
-//    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
-//    NSString *searchStr = self.searchTextField.text;
-//    [paramDic setObject:searchStr forKey:@"condition1"];   // 搜索
-//    
-//    NSString *starLevel = nil;
-//    for (id objc in self.starLevelView.subviews) {
-//        if ([objc isKindOfClass:[UIButton class]]) {
-//            UIButton *button = (UIButton *)objc;
-//            if (button.selected) {
-//                int tag = (int)button.tag;
-//                starLevel = [NSString stringWithFormat:@"%d", 5 - tag];
-//            }
-//        }
-//    }
-//    
-//    if (starLevel && ![starLevel isEqualToString:@"5"]) {
-//        [paramDic setObject:starLevel forKey:@"condition2"];   // 星级查询条件下限<根据这个字段查询星级在某个值以上的教练>
-//    }
-//    
-//    NSString *dateDown = self.dateBeginLabel.text;  // 日期下线
-//    
-//    //    NSString *dateDown = @"2015-01-31";  // 日期下线
-//    NSString *timeDown = self.timeBeginLabel.text;  // 时间下线
-//    if ([timeDown intValue] < 10) {
-//        timeDown = [NSString stringWithFormat:@"0%@", timeDown];
-//    }
-//    NSString *dateTimeDown = [NSString stringWithFormat:@"%@ %@:00:00", dateDown, timeDown];
-//    [paramDic setObject:dateTimeDown forKey:@"condition3"];   // 时间下限
-//    
-//    NSString *dateUp = self.dateEndLabel.text;  // 日期上线
-//    //    NSString *dateUp = @"2015-03-01";  // 日期上线
-//    NSString *timeUp = self.timeEndLabel.text;  // 时间上线
-//    if ([timeUp intValue] < 10) {
-//        timeUp = [NSString stringWithFormat:@"0%@", timeUp];
-//    }
-//    NSString *dateTimeUp = [NSString stringWithFormat:@"%@ %@:00:00", dateUp, timeUp];
-//    [paramDic setObject:dateTimeUp forKey:@"condition4"];   // 时间上限
-//    
-//    NSString *sex = @"0";
-//    [paramDic setObject:sex forKey:@"condition5"];   // 性别 1.男 2.女 0.不限
-//    
-//    NSString *priceDown = self.priceLowTextField.text;
-//    if (priceDown) {
-//        [paramDic setObject:priceDown forKey:@"condition8"];   // 价格下限
-//    }
-//    
-//    NSString *priceUp = self.priceHighTextField.text;
-//    if (priceUp) {
-//        [paramDic setObject:priceUp forKey:@"condition9"];   // 价格上限
-//    }
-//    
-//    NSString *carTypeId = @"0";
-//    [paramDic setObject:carTypeId forKey:@"condition10"];   // 车型ID  0.不限
-//    
-//    NSString *pageNum = @"0";
-//    [paramDic setObject:pageNum forKey:@"pagenum"];
-//    
-//    // 测试账号studentID
-//    AppDelegate *deleget = [UIApplication sharedApplication].delegate;
-//    if (![CommonUtil isEmpty:deleget.userid]) {
-//        if ([deleget.userid isEqualToString:@"18"]) {
-//            paramDic[@"studentid"] = deleget.userid;
-//        }
-//    }
-//    
-//    // 城市id
-//    NSString *cityID = [USERDICT[@"cityid"] description];
-//    if (![CommonUtil isEmpty:cityID]) {
-//        paramDic[@"cityid"] = cityID;
-//    }
-//    
-//    NSString *uri = @"/sbook?action=GetCoachList";
-//    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
-//    
-//    [DejalBezelActivityView activityViewForView:self.view];
-//    
-//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//    manager.requestSerializer.timeoutInterval = 20;     // 网络超时时长设置
-//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-//    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        
-//        [DejalBezelActivityView removeViewAnimated:YES];
-//        
-//        if ([responseObject[@"code"] integerValue] == 1)
-//        {
-//            [CommonUtil saveObjectToUD:paramDic key:@"searchParamDic"];
-//            
-//            [self dismissViewControllerAnimated:YES completion:nil];
-//            
-//        }else{
-//            NSString *message = responseObject[@"message"];
-//            [self makeToast:message];
-//            
-//            NSLog(@"code = %@",  responseObject[@"code"]);
-//            NSLog(@"message = %@", responseObject[@"message"]);
-//        }
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        [DejalBezelActivityView removeViewAnimated:YES];
-//        NSLog(@"GetNearByCoach == %@", ERR_NETWORK);
-//        [self makeToast:ERR_NETWORK];
-//    }];
-//}
 
 #pragma mark - PickerVIew
 // 行高
