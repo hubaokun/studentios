@@ -25,24 +25,16 @@
 @interface CoachListViewController ()
 <UITableViewDataSource, UITableViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIGestureRecognizerDelegate, DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient,UIAlertViewDelegate>
 {
-    UITapGestureRecognizer *_tapGestureRec2;
-    UISwipeGestureRecognizer *_swipGestureRecUp;
-    UISwipeGestureRecognizer *_swipGestureRecDown;
-    CGFloat _keyboardTop;
-    
     int _oldRow;
     
     NSInteger _searchPage;   // 检索页
 }
-@property (weak, nonatomic) IBOutlet UILabel *coachListTitleLabel;
-
 @property (strong, nonatomic) DSPullToRefreshManager *pullToRefresh;    // 下拉刷新
 @property (strong, nonatomic) DSBottomPullToMoreManager *pullToMore;    // 上拉加载
 @property (strong, nonatomic) NSMutableArray *coachList;    // 教练列表
 @property (strong, nonatomic) IBOutlet UILabel *coachRealName;
 @property (strong, nonatomic) IBOutlet UILabel *coachDetails;
 @property (strong, nonatomic) TQStarRatingView *starView;
-- (IBAction)coachListTitleTouch:(id)sender;
 
 @property (strong, nonatomic) NSDictionary *coachInfoDic;       // 教练资料
 
@@ -68,44 +60,6 @@
     //加载更多
     self.pullToMore = [[DSBottomPullToMoreManager alloc] initWithPullToMoreViewHeight:60.0 tableView:self.tableView withClient:self];
     
-    int _bili = _screenHeight/568;
-    self.shangXiaWu.constant = 20*_bili;
-    self.shijiuShiliu.constant = 20*_bili;
-    
-    _tapGestureRec2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeDetailsView)];
-    _tapGestureRec2.delegate=self;
-//    [self.view addGestureRecognizer:_tapGestureRec2];
-    //    _tapGestureRec2.enabled = NO;
-    
-    // 显示教练详情按钮 添加向上滑动手势
-    _swipGestureRecUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showCoachDetailsViewClik:)];
-    _swipGestureRecUp.delegate = self;
-    _swipGestureRecUp.direction = UISwipeGestureRecognizerDirectionUp;
-    [self.coachDetailShowBtn addGestureRecognizer:_swipGestureRecUp];
-    
-    // 隐藏教练详情按钮 添加向下滑动手势
-    _swipGestureRecDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideCoachDetailsViewClick:)];
-    _swipGestureRecDown.delegate = self;
-    _swipGestureRecDown.direction = UISwipeGestureRecognizerDirectionDown;
-    [self.coachDetailHideBtn addGestureRecognizer:_swipGestureRecDown];
-    
-    self.sureSubmitClick.layer.cornerRadius = 5;
-    self.sureSubmitClick.layer.borderWidth = 1;
-    self.sureSubmitClick.layer.borderColor = [[UIColor redColor] CGColor];
-    
-    self.appointResultContentView.layer.cornerRadius = 5;
-    //    self.appointResultContentView.layer.borderWidth = 1;
-    //    self.appointResultContentView.layer.borderColor = [[UIColor redColor] CGColor];
-    
-    self.timeDetailsScrollView.contentSize = CGSizeMake(0, 310);
-    self.timeDetailsView.frame = CGRectMake(0, 0, _screenWidth, MAX(310, _screenHeight - 107 - 154));
-    [self.timeDetailsScrollView addSubview:self.timeDetailsView];
-    
-    self.coachDetailWordView.frame = CGRectMake(0, 0, _screenWidth, 450);
-    self.coachDetailWordScroll.contentSize = CGSizeMake(0, 450);
-    [self.coachDetailWordScroll addSubview:self.coachDetailWordView];
-    
-//    [self requestGetCoachList];
     [self pullToRefreshTriggered:self.pullToRefresh];
     [_pullToMore setPullToMoreViewVisible:NO];
     
@@ -115,12 +69,6 @@
     
     // 筛选界面的观察者信息
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSearchCoachDict:) name:@"SearchCoachDict" object:nil];
-    
-    
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(coachListTitleTouch:)];
-    
-    tapGesture.delegate = self;
-    [self.chooseCoachTimeView addGestureRecognizer:tapGesture];
 
     if(self.searchParamDic){
         NSString *condition3 = self.searchParamDic[@"condition3"];
@@ -135,20 +83,6 @@
     }
 }
 
-
-- (IBAction)coachListTitleTouch:(id)sender {
-    if (self.chooseCoachTimeView.superview) {
-        [self closeDetailsView];
-    }
-}
-
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -159,7 +93,6 @@
 }
 
 #pragma mark - actions
-
 - (void)setSearchCoachDict:(id)dictionary
 {
     
@@ -341,11 +274,9 @@
 }
 
 #pragma mark 小汽车 button 点击事件
-- (IBAction)carBtnClick
+- (void)carBtnClick
 {
-    
     // 添加底部的教练信息栏
-    self.remainTimeView.alpha = 1;
     self.chooseCoachTimeView.frame = CGRectMake(0, _screenHeight, _screenWidth, 122);
     [self.view addSubview:self.chooseCoachTimeView];
     
@@ -381,12 +312,10 @@
                          
                      } completion:^(BOOL finish){
                          //动画结束时调用
-                         //............
                          [self.chooseCoachTimeView removeFromSuperview];
                      }];
     //        }
     //    }
-    self.selectedView.hidden = YES;
 //    [self removeCoachHeadControl];
 //    [[SliderViewController sharedSliderController] closeSideBar];
 }
@@ -409,47 +338,8 @@
     }
 }
 
-#pragma mark 教练列表按钮点击事件 (筛选)
-//- (IBAction)coachListClick:(id)sender
-//{
-//    CoachListViewController *viewController = [[CoachListViewController alloc] initWithNibName:@"CoachListViewController" bundle:nil];
-//    [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
-//}
-
-// 筛选按钮点击事件
-- (IBAction)selectedBtnClick:(id)sender
-{
-    self.selectedView.hidden = !self.selectedView.hidden;
-}
-
-// 精确、模糊 筛选点击事件
-- (IBAction)checkBtnClick:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
-    
-    // 调整button的背景色
-    if (button.tag == 0)
-    {   // 精确
-        self.accurateBtnOutlet.selected = YES;
-        self.fuzzyBtnOutlet.selected = NO;
-        self.datePicker.datePickerMode = UIDatePickerModeTime;
-    }else{
-        // 模糊
-        self.fuzzyBtnOutlet.selected = YES;
-        self.accurateBtnOutlet.selected = NO;
-        self.datePicker.datePickerMode = UIDatePickerModeDate;
-    }
-    
-    self.pickerView.frame = CGRectMake(0, 0, _screenWidth, _screenHeight);
-    [self.view addSubview:self.pickerView];
-    //    self.selectedView.hidden = YES;
-}
-- (IBAction)removePickerView:(id)sender {
-    [self.pickerView removeFromSuperview];
-}
-
 #pragma mark 展开选择教练时间段详情页
-- (IBAction)showCoachTimeClick:(id)sender
+- (void)showCoachTimeClick:(id)sender
 {
     self.chooseCoachTimeView.frame = CGRectMake(0, _screenHeight-171, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     [self.view addSubview:self.chooseCoachTimeView];
@@ -461,222 +351,10 @@
                          
                          //动画设置区域
                          self.chooseCoachTimeView.frame=CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-                         self.remainTimeView.alpha = 0;
-                         [self.showHideTimeDetailsBtn setImage:[UIImage imageNamed:@"btn_hide"] forState:UIControlStateNormal];
-                         [self.showHideTimeDetailsBtn removeTarget:self action:@selector(showCoachTimeClick:) forControlEvents:UIControlEventTouchUpInside];
-                         [self.showHideTimeDetailsBtn addTarget:self action:@selector(hideCoachTimeDetailsView:) forControlEvents:UIControlEventTouchUpInside];
                          
                      } completion:^(BOOL finish){
-                         //动画结束时调用
-                         //............
-                         //                         self.chooseCoachTimeView.superview.userInteractionEnabled = NO;
-                         _tapGestureRec2.enabled = NO;
                      }];
-    
-    //    self.chooseCoachTimeView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-    //    [self.view addSubview:self.chooseCoachTimeView];
-    self.timeScrollView.contentSize = CGSizeMake(600, 0);
-    [self.timeScrollView addSubview:self.timeListView];
-}
 
-#pragma mark 教练时间选择action
-- (IBAction)timeButonClick:(id)sender
-{
-    // 移除所有的选择标记
-    for (id objc in self.timeDetailsContentView.subviews)
-    {
-        if ([objc isKindOfClass:[UIImageView class]])
-        {
-            UIImageView *imageView = (UIImageView *)objc;
-            [imageView removeFromSuperview];
-        }
-    }
-    
-    UIButton *button = (UIButton *)sender;
-    button.selected = !button.selected;
-    
-    BOOL _isHaveSelected;   // 是否有时间呗选择
-    _isHaveSelected = NO;
-    
-    int _hourNum;    // 选择的时长
-    _hourNum = 0;
-    
-    int _perHourPrice = 80; // 单价
-    
-    // 遍历view中得button，如果为被选中状态，添加标记
-    for (id objc in self.timeDetailsContentView.subviews)
-    {
-        if ([objc isKindOfClass:[UIButton class]])
-        {
-            UIButton *btn = (UIButton *)objc;
-            if (btn.selected)
-            {
-                _isHaveSelected = YES;
-                _hourNum++;
-                
-                CGFloat _x = btn.frame.origin.x;
-                CGFloat _y = btn.frame.origin.y;
-                
-                UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_selected"]];
-                imageView.frame = CGRectMake(_x+22-10.5, _y+44-10.5, 21, 21);
-                [self.timeDetailsContentView addSubview:imageView];
-            }
-        }
-    }
-    
-    if (_isHaveSelected) {
-        self.perPriceView.hidden = YES;
-        self.sureAppointBtn.enabled = YES;
-    }else{
-        self.perPriceView.hidden = NO;
-        self.perPriceLabel.text = [NSString stringWithFormat:@"单价 %.1d元/小时", _perHourPrice];
-        self.sureAppointBtn.enabled = NO;
-    }
-    self.priceAndHourLabel.text = [NSString stringWithFormat:@"%d元/小时*%d", _perHourPrice, _hourNum];
-    self.allPriceLabel.text = [NSString stringWithFormat:@"合计%d元", _perHourPrice * _hourNum];
-}
-
-- (IBAction)hideCoachTimeDetailsView:(id)sender
-{
-    [UIView animateWithDuration:0.5 //时长
-                          delay:0 //延迟时间
-                        options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
-                     animations:^{
-                         
-                         //动画设置区域
-                         self.remainTimeView.alpha = 1;
-                         self.chooseCoachTimeView.frame=CGRectMake(0, _screenHeight - 171, _screenWidth, _screenHeight);
-                         [self.showHideTimeDetailsBtn removeTarget:self action:@selector(hideCoachTimeDetailsView:) forControlEvents:UIControlEventTouchUpInside];
-                         [self.showHideTimeDetailsBtn addTarget:self action:@selector(showCoachTimeClick:) forControlEvents:UIControlEventTouchUpInside];
-                         [self.showHideTimeDetailsBtn setImage:[UIImage imageNamed:@"btn_show"] forState:UIControlStateNormal];
-                         
-                     } completion:^(BOOL finish){
-                         //动画结束时调用
-                         //............
-                         //                         [self.chooseCoachTimeView removeFromSuperview];
-                         _tapGestureRec2.enabled = YES;
-                     }];
-}
-
-#pragma mark 点击预约
-- (IBAction)appointClick:(id)sender {
-    self.checkNumView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-    [self.view addSubview:self.checkNumView];
-    //    [self makeToast:@"预约成功"];
-}
-
-- (IBAction)hideAppointResultView:(id)sender {
-    [self.appointResultView removeFromSuperview];
-}
-
-#pragma mark 显示教练详细信息view
-- (IBAction)showCoachDetailsViewClik:(id)sender
-{
-    self.coachDetailsViewAll.frame = CGRectMake(0, _screenHeight, _screenWidth, _screenHeight-145);
-    [self.view addSubview:self.coachDetailsViewAll];
-    [UIView animateWithDuration:0.5
-                          delay:0
-                        options:UIViewAnimationOptionTransitionFlipFromLeft
-                     animations:^{
-                         self.coachDetailsViewAll.frame = CGRectMake(0, 145, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 145);
-                     }completion:^(BOOL finished) {
-                         self.showHideTimeDetailsBtn.enabled = NO;
-                     }];
-}
-
-- (IBAction)hideCoachDetailsViewClick:(id)sender
-{
-    self.coachDetailsViewAll.frame = CGRectMake(0, 145, _screenWidth, _screenHeight - 145);
-    [self.view addSubview:self.coachDetailsViewAll];
-    [UIView animateWithDuration:0.5
-                          delay:0
-                        options:UIViewAnimationOptionTransitionFlipFromLeft
-                     animations:^{
-                         self.coachDetailsViewAll.frame = CGRectMake(0, _screenHeight, _screenWidth, _screenHeight-145);
-                     }completion:^(BOOL finished) {
-                         [self.coachDetailsViewAll removeFromSuperview];
-                         self.showHideTimeDetailsBtn.enabled = YES;
-                     }];
-}
-
-// 动画显示效果
-- (void)animationOfBlock
-{
-    self.coachDetailsView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-    
-    [UIView animateWithDuration:1 //时长
-                          delay:0 //延迟时间
-                        options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
-                     animations:^{
-                         
-                         //动画设置区域
-                         self.coachDetailsView.frame=CGRectMake(50, 50,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-                         
-                     } completion:^(BOOL finish){
-                         //动画结束时调用
-                         //............
-                     }];
-    
-}
-
-#pragma mark 打电话
-- (IBAction)phoneCallClick:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
-    NSString *phoneNum = nil;
-    
-    if (button.tag == 0) {
-        phoneNum = @"telprompt:0517-82664711";
-    }else{
-        phoneNum = @"telprompt:18006784207";
-    }
-    
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNum]];
-}
-
-#pragma mark 确认提交
-- (IBAction)sureSubmitClick:(id)sender
-{
-    [self.checkNumView removeFromSuperview];
-    self.appointResultView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-    [self.view addSubview:self.appointResultView];
-    //    [self.appointResultView removeFromSuperview];
-}
-
-#pragma mark - keyboard
-- (void)keyboardWillShow:(NSNotification *)notification
-{
-    NSDictionary *userInfo = [notification userInfo];
-    
-    NSValue* aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    CGRect keyboardRect = [aValue CGRectValue];
-    keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
-    _keyboardTop = keyboardRect.size.height;
-    
-    self.checkNumView.frame = CGRectMake(0, -_keyboardTop, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-    NSLog(@"keyboardWillShow");
-}
-
-- (void)keyboardWillHide:(NSNotification *)notification
-{
-    self.checkNumView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-}
-
-- (IBAction)hideKeyboardClick:(id)sender {
-    [self.driveNumLabel resignFirstResponder];
-    [self.studentNumLabel resignFirstResponder];
-}
-
-// 阻挡点击响应传递到底层
-- (IBAction)ignoreNextTouch:(id)sender {
-    
-}
-
-- (IBAction)orderDetailsClick:(id)sender {
-    [self.appointResultView removeFromSuperview];
-    
-    MyOrderDetailViewController *viewController = [[MyOrderDetailViewController alloc] initWithNibName:@"MyOrderDetailViewController" bundle:nil];
-    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 #pragma mark - 接口请求
@@ -818,4 +496,28 @@
     self.allButton.hidden = YES;
     [self pullToRefreshTriggered:self.pullToRefresh];
 }
+
+#pragma mark - 废弃
+// 动画显示效果
+//- (void)animationOfBlock
+//{
+//    self.coachDetailsView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+//
+//    [UIView animateWithDuration:1 //时长
+//                          delay:0 //延迟时间
+//                        options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
+//                     animations:^{
+//
+//                         //动画设置区域
+//                         self.coachDetailsView.frame=CGRectMake(50, 50,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+//
+//                     } completion:^(BOOL finish){
+//                         //动画结束时调用
+//                         //............
+//                     }];
+//
+//}
+
+
+
 @end

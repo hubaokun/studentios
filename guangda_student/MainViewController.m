@@ -9,7 +9,6 @@
 #import "MainViewController.h"
 #import "SliderViewController.h"
 #import "CoachListViewController.h"
-#import "MyOrderDetailViewController.h"
 #import <BaiduMapAPI/BMapKit.h>
 #import "AppDelegate.h"
 #import "MyAnimatedAnnotationView.h"
@@ -236,26 +235,7 @@
 }
 
 #pragma mark - 教练详情
-- (IBAction)coachDetailsClick:(id)sender
-{
-    CoachDetailViewController *nextController = [[CoachDetailViewController alloc] initWithNibName:@"CoachDetailViewController" bundle:nil];
-    nextController.coachId = self.coachId;
-    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
-    navigationController.navigationBarHidden = YES;
-    [self presentViewController:navigationController animated:YES completion:nil];
-}
 
-- (IBAction)appointCoachClick:(id)sender
-{
-    AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
-    nextController.coachInfoDic = self.coachDic;
-    nextController.coachId = self.coachId;
-    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
-    navigationController.navigationBarHidden = YES;
-    [self presentViewController:navigationController animated:YES completion:nil];
-    
-    
-}
 
 #pragma mark - BaiduMap
 // 设置定位圆点属性
@@ -453,6 +433,11 @@
         cityName = [cityName stringByReplacingOccurrencesOfString:@"市" withString:@""];
     }
     
+    if ([CommonUtil isEmpty:cityName]) {
+        [self makeToast:@"注意：您还未设置驾考城市，请前往基本信息页面设置。" duration:5.0 position:@"bottom"];
+        return;
+    }
+    
     // 城市名不相等
     if (![cityName isEqualToString:self.cityName]) {
 //        UIView *cityAlertView = [self createTopAlertView];
@@ -460,44 +445,11 @@
 //        [UIView animateWithDuration:0.35 animations:^{
 //            cityAlertView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 30);
 //        }];
-        [self makeToast:@"注意：您所处城市与您设置的驾考城市不一致，可在个人信息里的基本信息页面选择并提交您的驾考城市。" duration:8.0 position:@"bottom"];
+        [self makeToast:@"注意：您设置的驾考城市不是当前城市，可前往基本信息页面修改。" duration:6.0 position:@"bottom"];
     }
 }
 
-// 顶部弹框提示
-//- (UIView *)createTopAlertView {
-//    UIView *topAlertView = [[UIView alloc] init];
-//    CGFloat topAlertViewW = SCREEN_WIDTH;
-//    CGFloat topAlertViewH = 30;
-//    CGFloat topAlertViewX = 0;
-//    CGFloat topAlertViewY = -30;
-//    topAlertView.frame = CGRectMake(topAlertViewX, topAlertViewY, topAlertViewW, topAlertViewH);
-//    topAlertView.backgroundColor = [UIColor yellowColor];
-//    
-//    UILabel *cityAlertLabel = [[UILabel alloc] init];
-//    [topAlertView addSubview:cityAlertLabel];
-//    CGFloat cityAlertLabelW = SCREEN_WIDTH - 20;
-//    CGFloat cityAlertLabelH = topAlertViewH;
-//    CGFloat cityAlertLabelX = (SCREEN_WIDTH - cityAlertLabelW) / 2;
-//    CGFloat cityAlertLabelY = 0;
-//    cityAlertLabel.frame = CGRectMake(cityAlertLabelX, cityAlertLabelY, cityAlertLabelW, cityAlertLabelH);
-//    cityAlertLabel.backgroundColor = [UIColor yellowColor];
-//    // 文本显示属性
-//    cityAlertLabel.font = [UIFont systemFontOfSize:12];
-//    cityAlertLabel.textColor = [UIColor blackColor];
-//    cityAlertLabel.textAlignment = NSTextAlignmentLeft;
-//    cityAlertLabel.numberOfLines = 0;
-//    cityAlertLabel.lineBreakMode = NSLineBreakByWordWrapping;
-//    cityAlertLabel.text = @"注意：您所处城市与您设置的驾考城市不一致，可在个人信息设置处选择您的驾考城市。";
-//    
-//    UIButton *fyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [topAlertView addSubview:fyBtn];
-//    fyBtn.frame = topAlertView.bounds;
-//    fyBtn.backgroundColor = [UIColor clearColor];
-//    [fyBtn addTarget:self action:@selector(clickToHideCityAlertView:) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    return topAlertView;
-//}
+
 
 #pragma mark - Map Action
 // 设置用户位置为屏幕中心
@@ -812,7 +764,7 @@
     }
 }
 
-// 旧需求的汽车点击事件
+// 汽车点击事件：教练信息
 - (void)carBtnClick:(id)sender
 {
 //    [self removeCoachHeadControl];
@@ -904,6 +856,7 @@
     self.selectedCar = carView;
 }
 
+// 关闭教练信息
 - (void)closeDetailsView
 {
     self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT - 122, SCREEN_WIDTH, 122);
@@ -933,24 +886,6 @@
     }
 }
 
-// 移除教练头像control
-//- (void)removeCoachHeadControl
-//{
-//    for (id objc in self.view.subviews)
-//    {
-//        if ([objc isKindOfClass:[UIControl class]])
-//        {
-//            UIControl *contro = (UIControl *)objc;
-//            
-//            // tag = 1 为教练头像control
-//            if (contro.tag == 1)
-//            {
-//                [contro removeFromSuperview];
-//            }
-//        }
-//    }
-//}
-
 - (IBAction)clickForAllData:(id)sender {
     self.searchParamDic = nil;
     self.allBtn.hidden = YES;
@@ -977,13 +912,89 @@
     [self requestGetNearByCoachInterfaceWithPointcenter:pointCenter andRadius:radius needLiadingShow:YES];
 }
 
-- (void)clickToHideCityAlertView:(UIButton *)sender {
-    UIView *cityAlertView = sender.superview;
-    [UIView animateWithDuration:0.35 animations:^{
-        cityAlertView.frame = CGRectMake(0, -30, SCREEN_WIDTH, 30);
-    }];
-    [cityAlertView removeFromSuperview];
+// 教练详情
+- (IBAction)coachDetailsClick:(id)sender
+{
+    CoachDetailViewController *nextController = [[CoachDetailViewController alloc] initWithNibName:@"CoachDetailViewController" bundle:nil];
+    nextController.coachId = self.coachId;
+    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
+    navigationController.navigationBarHidden = YES;
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
+
+// 预约教练
+- (IBAction)appointCoachClick:(id)sender
+{
+    AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
+    nextController.coachInfoDic = self.coachDic;
+    nextController.coachId = self.coachId;
+    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
+    navigationController.navigationBarHidden = YES;
+    [self presentViewController:navigationController animated:YES completion:nil];
+    
+    
 }
 
 #pragma mark - 废弃
+// 顶部弹框提示
+//- (UIView *)createTopAlertView {
+//    UIView *topAlertView = [[UIView alloc] init];
+//    CGFloat topAlertViewW = SCREEN_WIDTH;
+//    CGFloat topAlertViewH = 30;
+//    CGFloat topAlertViewX = 0;
+//    CGFloat topAlertViewY = -30;
+//    topAlertView.frame = CGRectMake(topAlertViewX, topAlertViewY, topAlertViewW, topAlertViewH);
+//    topAlertView.backgroundColor = [UIColor yellowColor];
+//
+//    UILabel *cityAlertLabel = [[UILabel alloc] init];
+//    [topAlertView addSubview:cityAlertLabel];
+//    CGFloat cityAlertLabelW = SCREEN_WIDTH - 20;
+//    CGFloat cityAlertLabelH = topAlertViewH;
+//    CGFloat cityAlertLabelX = (SCREEN_WIDTH - cityAlertLabelW) / 2;
+//    CGFloat cityAlertLabelY = 0;
+//    cityAlertLabel.frame = CGRectMake(cityAlertLabelX, cityAlertLabelY, cityAlertLabelW, cityAlertLabelH);
+//    cityAlertLabel.backgroundColor = [UIColor yellowColor];
+//    // 文本显示属性
+//    cityAlertLabel.font = [UIFont systemFontOfSize:12];
+//    cityAlertLabel.textColor = [UIColor blackColor];
+//    cityAlertLabel.textAlignment = NSTextAlignmentLeft;
+//    cityAlertLabel.numberOfLines = 0;
+//    cityAlertLabel.lineBreakMode = NSLineBreakByWordWrapping;
+//    cityAlertLabel.text = @"注意：您所处城市与您设置的驾考城市不一致，可在个人信息设置处选择您的驾考城市。";
+//
+//    UIButton *fyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [topAlertView addSubview:fyBtn];
+//    fyBtn.frame = topAlertView.bounds;
+//    fyBtn.backgroundColor = [UIColor clearColor];
+//    [fyBtn addTarget:self action:@selector(clickToHideCityAlertView:) forControlEvents:UIControlEventTouchUpInside];
+//
+//    return topAlertView;
+//}
+
+//- (void)clickToHideCityAlertView:(UIButton *)sender {
+//    UIView *cityAlertView = sender.superview;
+//    [UIView animateWithDuration:0.35 animations:^{
+//        cityAlertView.frame = CGRectMake(0, -30, SCREEN_WIDTH, 30);
+//    }];
+//    [cityAlertView removeFromSuperview];
+//}
+
+// 移除教练头像control
+//- (void)removeCoachHeadControl
+//{
+//    for (id objc in self.view.subviews)
+//    {
+//        if ([objc isKindOfClass:[UIControl class]])
+//        {
+//            UIControl *contro = (UIControl *)objc;
+//
+//            // tag = 1 为教练头像control
+//            if (contro.tag == 1)
+//            {
+//                [contro removeFromSuperview];
+//            }
+//        }
+//    }
+//}
+
 @end

@@ -23,6 +23,53 @@
     int _payType; // 支付方式 1.账户余额 2.学时券 3.小巴币
 }
 
+// orderinfo
+@property (strong, nonatomic) IBOutlet UIView *orderInfoView;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *orderInfoHeightCon;
+@property (strong, nonatomic) IBOutlet UILabel *coachNameLabel;
+@property (strong, nonatomic) IBOutlet UILabel *orderCreateDateLabel;
+@property (strong, nonatomic) IBOutlet UILabel *coachTelLabel;
+@property (strong, nonatomic) IBOutlet UILabel *coachPhoneLabel;
+@property (strong, nonatomic) IBOutlet UILabel *orderTimeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *orderAddrLabel;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *orderAddrLabelHeightCon;
+@property (strong, nonatomic) IBOutlet UIView *priceView;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *priceViewHeightCon;
+@property (strong, nonatomic) IBOutlet UILabel *costLabel;
+
+// btn
+@property (strong, nonatomic) IBOutlet UIButton *complainBtn;       // 投诉
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *complainBtnRightSpaceCon;
+@property (strong, nonatomic) IBOutlet UIButton *cancelComplainBtn; // 取消投诉
+@property (strong, nonatomic) IBOutlet UIButton *cancelOrderBtn;    // 取消订单
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *cancelOrderBtnRightSpaceCon;
+@property (strong, nonatomic) IBOutlet UIButton *confirmOnBtn;      // 确认上车
+@property (strong, nonatomic) IBOutlet UIButton *confirmDownBtn;    // 确认下车
+@property (strong, nonatomic) IBOutlet UIButton *evaluateBtn;       // 评价
+@property (weak, nonatomic) IBOutlet DSButton *continueAppointBtn;
+
+// 我对教练的评价
+@property (strong, nonatomic) IBOutlet UIView *seperateView1;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *seperateView1HeightCon;
+@property (strong, nonatomic) IBOutlet UIView *myEvaluationView;
+@property (assign, nonatomic) float scoreToCoach;
+@property (copy, nonatomic) NSString *myEvaluationStr;
+@property (strong, nonatomic) IBOutlet UILabel *myEvaluationLabel;
+@property (strong, nonatomic) IBOutlet UILabel *scoreToCoachLabel;
+
+// 教练对我的评价
+@property (strong, nonatomic) IBOutlet UIView *seperateView2;
+@property (strong, nonatomic) IBOutlet UIView *coachEvaluationView;
+@property (assign, nonatomic) float scoreToMe;
+@property (copy, nonatomic) NSString *evaluationStr;
+@property (strong, nonatomic) IBOutlet UILabel *coachEvaluationLabel;
+@property (strong, nonatomic) IBOutlet UILabel *scoreToMeLabel;
+
+// 提示框
+@property (strong, nonatomic) UIAlertView *confirmOnAlert;
+@property (strong, nonatomic) UIAlertView *confirmDownAlert;
+@property (strong, nonatomic) NSTimer *confirmTimer;
+
 @property (strong, nonatomic) IBOutlet UIView *moreOperationView; // 更多操作
 @property (strong, nonatomic) IBOutlet UIView *sureCancelOrderView; // 确认取消订单
 @property (strong, nonatomic) IBOutlet UILabel *cancelOrderBannerLabel; // 提示订单正在确认取消中
