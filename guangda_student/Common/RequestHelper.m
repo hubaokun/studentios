@@ -16,6 +16,7 @@
 
 + (NSString *)getFullUrl:(NSString *)uri {
     NSString* url= [NSString stringWithFormat:@"%@%@",REQUEST_HOST, uri];
+    NSLog(@"%@",url);
     return url;
 }
 
