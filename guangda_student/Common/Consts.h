@@ -13,14 +13,16 @@
 #define RGBA(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 #define _screenWidth [UIScreen mainScreen].bounds.size.width
 #define USERDICT [CommonUtil getObjectFromUD:@"UserInfo"]
+// app版本
+#define APP_VERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
-#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"    // 正式服
+//#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"    // 正式服
 //#define REQUEST_HOST   @"http://120.25.236.228:8080/dadmin/"          //测试服务器
 //#define REQUEST_HOST   @"http://192.168.1.103:8080/"       // 胡博
-//#define REQUEST_HOST   @"http://192.168.1.114:8080/xb/"       // 卢磊
+#define REQUEST_HOST   @"http://192.168.1.110:8080/xb/"       // 卢磊
 //#define REQUEST_HOST   @"http://192.168.1.133:8080/xiaoba/"   // 佳瑞
 
 /* 道顺 */
@@ -51,3 +53,6 @@
 //饶宏的id a3c621d83ef41c7a790a7c070062a9d3
 //老庄的id ac484d6da6021dbfd5eb750827d8c1e4
 #endif
+
+
+

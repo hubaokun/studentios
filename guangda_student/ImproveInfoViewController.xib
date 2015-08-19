@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -139,7 +139,7 @@
                                             </constraints>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I6Z-my-EOQ" userLabel="select">
-                                            <rect key="frame" x="12" y="45" width="551" height="20"/>
+                                            <rect key="frame" x="12" y="45" width="588" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="2Rn-EB-hIf"/>
                                             </constraints>
@@ -163,6 +163,7 @@
                                         <constraint firstAttribute="trailing" secondItem="hWZ-Fu-QPs" secondAttribute="trailing" constant="10" id="7Ck-vQ-gYD"/>
                                         <constraint firstAttribute="trailing" secondItem="6hQ-h0-ubp" secondAttribute="trailing" constant="37" id="C0N-xM-Voz"/>
                                         <constraint firstItem="9rL-RG-flM" firstAttribute="leading" secondItem="iOG-dn-0Ag" secondAttribute="leading" id="Hqh-z1-Jwh"/>
+                                        <constraint firstAttribute="trailing" secondItem="I6Z-my-EOQ" secondAttribute="trailing" id="VJ4-Te-UWp"/>
                                         <constraint firstItem="ZkF-OX-l8J" firstAttribute="top" secondItem="iOG-dn-0Ag" secondAttribute="top" constant="20" id="XCg-Jb-rOO"/>
                                         <constraint firstAttribute="bottom" secondItem="9rL-RG-flM" secondAttribute="bottom" id="Xax-wI-SpN"/>
                                         <constraint firstAttribute="trailing" secondItem="ZkF-OX-l8J" secondAttribute="trailing" constant="12" id="aVX-J0-Z9A"/>
@@ -171,7 +172,6 @@
                                         <constraint firstAttribute="height" constant="85" id="mF7-Gr-bRM"/>
                                         <constraint firstItem="ZkF-OX-l8J" firstAttribute="leading" secondItem="iOG-dn-0Ag" secondAttribute="leading" constant="12" id="tfP-a1-aGs"/>
                                         <constraint firstItem="6hQ-h0-ubp" firstAttribute="leading" secondItem="iOG-dn-0Ag" secondAttribute="leading" constant="12" id="xOa-lI-AWV"/>
-                                        <constraint firstItem="hWZ-Fu-QPs" firstAttribute="leading" secondItem="I6Z-my-EOQ" secondAttribute="trailing" constant="10" id="xQO-6E-BfP"/>
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F18-3M-cW5" userLabel="birthday">
@@ -187,7 +187,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" 请选择您的出生时间" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="W0x-w3-vwE" userLabel="content">
-                                            <rect key="frame" x="12" y="45" width="551" height="20"/>
+                                            <rect key="frame" x="12" y="45" width="588" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="hzK-sg-evY"/>
                                             </constraints>
@@ -223,7 +223,7 @@
                                         <constraint firstItem="gv5-sd-uv8" firstAttribute="leading" secondItem="F18-3M-cW5" secondAttribute="leading" id="0sy-4V-heS"/>
                                         <constraint firstItem="kXd-tb-0HL" firstAttribute="top" secondItem="F18-3M-cW5" secondAttribute="top" constant="45" id="4QS-Ty-Fdr"/>
                                         <constraint firstAttribute="trailing" secondItem="R3t-hF-565" secondAttribute="trailing" constant="12" id="6Xt-JJ-XUl"/>
-                                        <constraint firstAttribute="trailing" secondItem="W0x-w3-vwE" secondAttribute="trailing" constant="37" id="GIq-nc-amw"/>
+                                        <constraint firstAttribute="trailing" secondItem="W0x-w3-vwE" secondAttribute="trailing" id="GIq-nc-amw"/>
                                         <constraint firstItem="kXd-tb-0HL" firstAttribute="leading" secondItem="U2M-WH-gZY" secondAttribute="trailing" constant="10" id="RqN-jL-fBX"/>
                                         <constraint firstAttribute="height" constant="85" id="S9n-sL-whT"/>
                                         <constraint firstAttribute="trailing" secondItem="gv5-sd-uv8" secondAttribute="trailing" id="VBT-nL-QkR"/>

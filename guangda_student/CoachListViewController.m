@@ -417,13 +417,13 @@
             }
             
             NSMutableArray *array = [NSMutableArray arrayWithArray:self.coachList];
-            for (int i= 0; i<self.coachList.count; i++) {
-                NSDictionary *coachDic =self.coachList[i];
-                NSString *string = coachDic[@"phone"];
-                if ([string isEqualToString:@"18888888888"]) {
-                    [array removeObjectAtIndex:i];
-                }
-            }
+//            for (int i= 0; i<self.coachList.count; i++) {
+//                NSDictionary *coachDic =self.coachList[i];
+//                NSString *string = coachDic[@"phone"];
+//                if ([string isEqualToString:@"18888888888"]) {
+//                    [array removeObjectAtIndex:i];
+//                }
+//            }
             NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
             if (user_info) {
                 if ([[user_info[@"phone"] description] isEqualToString:@"18888888888"]) {

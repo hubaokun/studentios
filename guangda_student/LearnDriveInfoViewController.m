@@ -61,6 +61,13 @@
 - (void)settingView {
     [self.mainScrollView contentSizeToFit];
     
+    // 输入框右边距
+    UIView *rightPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 37, 20)];
+    self.stuCardIdField.rightView = rightPaddingView;
+    self.stuCardIdField.rightViewMode = UITextFieldViewModeWhileEditing;
+    self.idCardField.rightView = rightPaddingView;
+    self.idCardField.rightViewMode = UITextFieldViewModeWhileEditing;
+    
     // 设置是"跳过" 还是 "返回"
     if ([_isSkip isEqualToString:@"1"])
     {

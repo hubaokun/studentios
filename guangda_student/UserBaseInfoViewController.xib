@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -110,21 +110,21 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" 请输入手机号码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="30a-U5-yrM" userLabel="content">
-                                            <rect key="frame" x="12" y="45" width="551" height="20"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="20" id="3ZQ-Md-KnQ"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                        </textField>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_pencil_userinfocell" translatesAutoresizingMaskIntoConstraints="NO" id="hxq-FB-16z" userLabel="pencil">
+                                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_pencil_userinfocell" translatesAutoresizingMaskIntoConstraints="NO" id="hxq-FB-16z" userLabel="pencil">
                                             <rect key="frame" x="573" y="45" width="17" height="17"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="17" id="n1f-gx-cWm"/>
                                                 <constraint firstAttribute="width" constant="17" id="xhB-VJ-zUw"/>
                                             </constraints>
                                         </imageView>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" 请输入手机号码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="30a-U5-yrM" userLabel="content">
+                                            <rect key="frame" x="12" y="45" width="588" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="3ZQ-Md-KnQ"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                        </textField>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EGW-67-Edc" userLabel="bottomline">
                                             <rect key="frame" x="0.0" y="84" width="600" height="1"/>
                                             <color key="backgroundColor" red="0.82745098039999998" green="0.82745098039999998" blue="0.82745098039999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -138,7 +138,7 @@
                                         <constraint firstItem="wf2-0t-c7W" firstAttribute="top" secondItem="S9m-Sh-um7" secondAttribute="top" constant="20" id="3l8-nZ-zRa"/>
                                         <constraint firstItem="wf2-0t-c7W" firstAttribute="leading" secondItem="S9m-Sh-um7" secondAttribute="leading" constant="12" id="5p9-Ex-BDf"/>
                                         <constraint firstItem="EGW-67-Edc" firstAttribute="leading" secondItem="S9m-Sh-um7" secondAttribute="leading" id="Sf3-eO-APj"/>
-                                        <constraint firstAttribute="trailing" secondItem="30a-U5-yrM" secondAttribute="trailing" constant="37" id="UMi-RS-mZe"/>
+                                        <constraint firstAttribute="trailing" secondItem="30a-U5-yrM" secondAttribute="trailing" id="UMi-RS-mZe"/>
                                         <constraint firstAttribute="trailing" secondItem="hxq-FB-16z" secondAttribute="trailing" constant="10" id="Wmz-MF-dYi"/>
                                         <constraint firstItem="30a-U5-yrM" firstAttribute="leading" secondItem="S9m-Sh-um7" secondAttribute="leading" constant="12" id="ZJM-In-5Z4"/>
                                         <constraint firstAttribute="trailing" secondItem="wf2-0t-c7W" secondAttribute="trailing" constant="12" id="cPy-Tq-5Ud"/>
@@ -161,21 +161,21 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" 请输入真实姓名" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jt2-Mu-AzA" userLabel="content">
-                                            <rect key="frame" x="12" y="45" width="551" height="20"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="20" id="gUV-6X-Pzv"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <textInputTraits key="textInputTraits"/>
-                                        </textField>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_pencil_userinfocell" translatesAutoresizingMaskIntoConstraints="NO" id="iMy-Wm-5mQ" userLabel="pencil">
+                                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_pencil_userinfocell" translatesAutoresizingMaskIntoConstraints="NO" id="iMy-Wm-5mQ" userLabel="pencil">
                                             <rect key="frame" x="573" y="45" width="17" height="17"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="17" id="eI1-TK-Usv"/>
                                                 <constraint firstAttribute="width" constant="17" id="zMs-3b-0fG"/>
                                             </constraints>
                                         </imageView>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" 请输入真实姓名" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jt2-Mu-AzA" userLabel="content">
+                                            <rect key="frame" x="12" y="45" width="588" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="gUV-6X-Pzv"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e87-9x-Gx4" userLabel="bottomline">
                                             <rect key="frame" x="0.0" y="84" width="600" height="1"/>
                                             <color key="backgroundColor" red="0.82745098039999998" green="0.82745098039999998" blue="0.82745098039999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -191,7 +191,7 @@
                                         <constraint firstAttribute="trailing" secondItem="e87-9x-Gx4" secondAttribute="trailing" id="CJd-pS-mwB"/>
                                         <constraint firstItem="Jt2-Mu-AzA" firstAttribute="top" secondItem="ZUW-Dm-mn0" secondAttribute="bottom" constant="12" id="CRF-iZ-ao0"/>
                                         <constraint firstItem="ZUW-Dm-mn0" firstAttribute="leading" secondItem="hko-R6-EC2" secondAttribute="leading" constant="12" id="J8I-fS-Z4f"/>
-                                        <constraint firstAttribute="trailing" secondItem="Jt2-Mu-AzA" secondAttribute="trailing" constant="37" id="Nv1-8f-iie"/>
+                                        <constraint firstAttribute="trailing" secondItem="Jt2-Mu-AzA" secondAttribute="trailing" id="Nv1-8f-iie"/>
                                         <constraint firstItem="iMy-Wm-5mQ" firstAttribute="top" secondItem="hko-R6-EC2" secondAttribute="top" constant="45" id="aPB-FU-LrI"/>
                                         <constraint firstAttribute="trailing" secondItem="ZUW-Dm-mn0" secondAttribute="trailing" constant="12" id="cU1-dC-Qdk"/>
                                         <constraint firstItem="e87-9x-Gx4" firstAttribute="leading" secondItem="hko-R6-EC2" secondAttribute="leading" id="cvn-YM-aLW"/>
@@ -235,7 +235,7 @@
                                             </constraints>
                                         </view>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DD6-rI-RZK" userLabel="select">
-                                            <rect key="frame" x="12" y="45" width="551" height="20"/>
+                                            <rect key="frame" x="12" y="45" width="588" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="fc3-XK-xyV"/>
                                             </constraints>
@@ -257,12 +257,12 @@
                                         <constraint firstAttribute="height" constant="85" id="Kxh-6j-sDk"/>
                                         <constraint firstItem="2YF-sD-d2z" firstAttribute="top" secondItem="WfW-kB-9PB" secondAttribute="top" constant="20" id="NnO-nq-qQa"/>
                                         <constraint firstItem="2YF-sD-d2z" firstAttribute="leading" secondItem="WfW-kB-9PB" secondAttribute="leading" constant="12" id="SAm-yR-DT7"/>
-                                        <constraint firstItem="0co-Am-GpY" firstAttribute="leading" secondItem="DD6-rI-RZK" secondAttribute="trailing" constant="10" id="V46-ph-3V3"/>
                                         <constraint firstItem="kYD-5m-RA3" firstAttribute="leading" secondItem="WfW-kB-9PB" secondAttribute="leading" id="apK-Hk-IfT"/>
                                         <constraint firstAttribute="trailing" secondItem="0co-Am-GpY" secondAttribute="trailing" constant="10" id="dBH-UG-Wki"/>
                                         <constraint firstAttribute="trailing" secondItem="2YF-sD-d2z" secondAttribute="trailing" constant="12" id="fu9-d7-wgf"/>
                                         <constraint firstAttribute="trailing" secondItem="2tT-TG-86C" secondAttribute="trailing" constant="37" id="gyc-X6-H9c"/>
                                         <constraint firstAttribute="trailing" secondItem="kYD-5m-RA3" secondAttribute="trailing" id="j86-wQ-ODt"/>
+                                        <constraint firstAttribute="trailing" secondItem="DD6-rI-RZK" secondAttribute="trailing" id="xOk-Bo-5y1"/>
                                         <constraint firstItem="2tT-TG-86C" firstAttribute="leading" secondItem="WfW-kB-9PB" secondAttribute="leading" constant="12" id="z8m-TN-MdX"/>
                                     </constraints>
                                 </view>

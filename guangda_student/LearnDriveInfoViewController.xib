@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -125,7 +125,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" 请输入学员证号" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RA5-3Z-0ty" userLabel="content">
-                                            <rect key="frame" x="12" y="45" width="551" height="20"/>
+                                            <rect key="frame" x="12" y="45" width="588" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="U0P-Hd-xBu"/>
                                             </constraints>
@@ -153,7 +153,7 @@
                                         <constraint firstItem="ymY-ND-8X0" firstAttribute="leading" secondItem="1I8-qc-1I9" secondAttribute="leading" constant="12" id="4gG-pK-0hq"/>
                                         <constraint firstAttribute="trailing" secondItem="ymY-ND-8X0" secondAttribute="trailing" constant="12" id="9oH-BP-tBN"/>
                                         <constraint firstItem="LN5-jj-vjR" firstAttribute="top" secondItem="1I8-qc-1I9" secondAttribute="top" constant="45" id="Dqo-zL-W0O"/>
-                                        <constraint firstAttribute="trailing" secondItem="RA5-3Z-0ty" secondAttribute="trailing" constant="37" id="DyJ-bI-Nh3"/>
+                                        <constraint firstAttribute="trailing" secondItem="RA5-3Z-0ty" secondAttribute="trailing" id="DyJ-bI-Nh3"/>
                                         <constraint firstItem="RA5-3Z-0ty" firstAttribute="leading" secondItem="1I8-qc-1I9" secondAttribute="leading" constant="12" id="Gi2-aB-VYy"/>
                                         <constraint firstAttribute="height" constant="85" id="Kn0-v7-Wjz"/>
                                         <constraint firstAttribute="trailing" secondItem="LN5-jj-vjR" secondAttribute="trailing" constant="10" id="TIA-Uh-fmp"/>
@@ -191,7 +191,7 @@
                                             </constraints>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FhK-lP-oMr" userLabel="select">
-                                            <rect key="frame" x="12" y="45" width="551" height="20"/>
+                                            <rect key="frame" x="12" y="45" width="588" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="OKI-lH-fmn"/>
                                             </constraints>
@@ -216,10 +216,10 @@
                                         <constraint firstItem="Fos-gI-eeM" firstAttribute="leading" secondItem="QFH-7t-6VH" secondAttribute="leading" constant="12" id="3co-l1-Qat"/>
                                         <constraint firstItem="JRs-Mx-yh6" firstAttribute="top" secondItem="QFH-7t-6VH" secondAttribute="top" constant="45" id="ADs-fP-zpe"/>
                                         <constraint firstItem="FhK-lP-oMr" firstAttribute="leading" secondItem="QFH-7t-6VH" secondAttribute="leading" constant="12" id="AKk-U1-hbV"/>
+                                        <constraint firstAttribute="trailing" secondItem="FhK-lP-oMr" secondAttribute="trailing" id="Idh-7m-Vg1"/>
                                         <constraint firstItem="VcV-cN-5hY" firstAttribute="leading" secondItem="QFH-7t-6VH" secondAttribute="leading" id="Scj-eZ-4vw"/>
                                         <constraint firstAttribute="bottom" secondItem="VcV-cN-5hY" secondAttribute="bottom" id="VPP-pa-GDq"/>
                                         <constraint firstItem="Fos-gI-eeM" firstAttribute="top" secondItem="QFH-7t-6VH" secondAttribute="top" constant="20" id="aDh-hd-tj0"/>
-                                        <constraint firstItem="JRs-Mx-yh6" firstAttribute="leading" secondItem="FhK-lP-oMr" secondAttribute="trailing" constant="10" id="cqe-3B-r3X"/>
                                         <constraint firstAttribute="trailing" secondItem="JRs-Mx-yh6" secondAttribute="trailing" constant="10" id="eUZ-7D-Dxk"/>
                                         <constraint firstAttribute="height" constant="85" id="npQ-KP-DlW"/>
                                         <constraint firstAttribute="trailing" secondItem="Fos-gI-eeM" secondAttribute="trailing" constant="12" id="paN-vf-5tI"/>
@@ -242,7 +242,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" 请输入您的身份证号码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wWz-CV-GKr" userLabel="content">
-                                            <rect key="frame" x="12" y="45" width="551" height="20"/>
+                                            <rect key="frame" x="12" y="45" width="588" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="ag3-pl-ALs"/>
                                             </constraints>
@@ -266,7 +266,7 @@
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="wWz-CV-GKr" secondAttribute="trailing" constant="37" id="3EG-Sn-4uz"/>
+                                        <constraint firstAttribute="trailing" secondItem="wWz-CV-GKr" secondAttribute="trailing" id="3EG-Sn-4uz"/>
                                         <constraint firstItem="1yo-pv-46j" firstAttribute="top" secondItem="afs-8s-rbS" secondAttribute="top" constant="45" id="3oU-DL-H71"/>
                                         <constraint firstAttribute="trailing" secondItem="MFA-Ql-1vg" secondAttribute="trailing" id="5If-1I-BW4"/>
                                         <constraint firstAttribute="height" constant="85" id="HFo-9b-QkS"/>

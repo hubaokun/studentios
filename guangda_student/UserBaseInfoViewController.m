@@ -58,6 +58,11 @@
     self.nameField.delegate = self;
     [self.phoneField addTarget:self action:@selector(formatPhoneNumber:) forControlEvents:UIControlEventEditingChanged];
     
+    // 电话输入框右侧内边距
+    UIView *rightPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 37, 20)];
+    self.nameField.rightView = rightPaddingView;
+    self.nameField.rightViewMode = UITextFieldViewModeWhileEditing;
+    
     // 点击背景退出键盘
     [self keyboardHiddenFun];
     

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -13,6 +13,7 @@
                 <outlet property="mainScrollView" destination="Akx-eH-qBZ" id="cCp-FB-1kN"/>
                 <outlet property="moneyLabel" destination="5uk-JB-JaQ" id="aod-6Z-K9O"/>
                 <outlet property="msgView" destination="V79-VR-0Hn" id="o3w-gR-djp"/>
+                <outlet property="usedLabel" destination="tLn-YV-a1t" id="RtR-KL-mS0"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -257,10 +258,20 @@
                         <constraint firstAttribute="trailing" secondItem="B3j-Km-oIH" secondAttribute="trailing" constant="10" id="zFS-fA-iC7"/>
                     </constraints>
                 </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tLn-YV-a1t" userLabel="use">
+                    <rect key="frame" x="8" y="194" width="592" height="27"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="27" id="exj-lY-IEJ"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="4TP-8a-ASg" firstAttribute="leading" secondItem="V79-VR-0Hn" secondAttribute="leading" id="H5w-rG-cNM"/>
+                <constraint firstItem="tLn-YV-a1t" firstAttribute="top" secondItem="4TP-8a-ASg" secondAttribute="bottom" constant="8" id="JT5-ga-gk2"/>
+                <constraint firstItem="tLn-YV-a1t" firstAttribute="leading" secondItem="V79-VR-0Hn" secondAttribute="leading" constant="8" id="Ksq-dm-JWI"/>
                 <constraint firstItem="6XC-8h-agg" firstAttribute="leading" secondItem="V79-VR-0Hn" secondAttribute="leading" id="Lkf-2n-TqQ"/>
                 <constraint firstItem="6XC-8h-agg" firstAttribute="top" secondItem="V79-VR-0Hn" secondAttribute="top" id="OlR-2t-SXC"/>
                 <constraint firstAttribute="trailing" secondItem="4TP-8a-ASg" secondAttribute="trailing" id="UFg-2p-seC"/>
@@ -269,6 +280,7 @@
                 <constraint firstAttribute="trailing" secondItem="6XC-8h-agg" secondAttribute="trailing" id="dSN-7q-BV6"/>
                 <constraint firstItem="WCQ-t2-Wjz" firstAttribute="leading" secondItem="V79-VR-0Hn" secondAttribute="leading" id="fQw-eF-vCe"/>
                 <constraint firstItem="6XC-8h-agg" firstAttribute="top" secondItem="V79-VR-0Hn" secondAttribute="top" id="mrF-GD-yIy"/>
+                <constraint firstAttribute="trailing" secondItem="tLn-YV-a1t" secondAttribute="trailing" id="nhp-E9-Yev"/>
                 <constraint firstItem="WCQ-t2-Wjz" firstAttribute="top" secondItem="6XC-8h-agg" secondAttribute="bottom" id="wJg-QK-iu0"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

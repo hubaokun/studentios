@@ -130,10 +130,8 @@
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     [paramDic setObject:phoneNum forKey:@"phone"];
     [paramDic setObject:type forKey:@"type"];
-    // app版本
-    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-    [paramDic setObject:app_Version forKey:@"version"];
+    paramDic[@"devicetype"] = @"1"; // 设备类型
+    paramDic[@"version"] = APP_VERSION; // 版本号
     if ([type isEqualToString:@"1"])
     {
         [paramDic setObject:[CommonUtil md5:pwdStr] forKey:@"password"];
@@ -392,6 +390,8 @@
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     [paramDic setObject:phone forKey:@"phone"];
     [paramDic setObject:vcode forKey:@"password"];
+    paramDic[@"devicetype"] = @"1"; // 设备类型
+    paramDic[@"version"] = APP_VERSION; // 版本号
     
     NSString *uri = @"/suser?action=login";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];

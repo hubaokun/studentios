@@ -30,6 +30,7 @@
 - (IBAction)clickForCoin:(id)sender;
 
 
+@property (weak, nonatomic) IBOutlet UILabel *usedLabel;
 @end
 
 @implementation AccountListViewController
@@ -99,6 +100,14 @@
             _couponsum = [responseObject[@"couponsum"] description];
             _fCoinsum = [responseObject[@"fcoinsum"] description];
             _money = [responseObject[@"money"] description];
+            
+            NSString *consumeMoney = [responseObject[@"consumeMoney"] description];
+            NSString *consumeCoin = [responseObject[@"consumeCoin"] description];
+            NSString *consumeCoupon = [responseObject[@"consumeCoupon"] description];
+            self.usedLabel.text = [NSString stringWithFormat:@"已用余额:%@ 小巴币:%@ 学时券:%@", consumeMoney, consumeCoin, consumeCoupon];
+
+
+            
 //            self.alertView.frame = self.view.frame;
 //            [self.view addSubview:self.alertView];
 //            [self.navigationController popViewControllerAnimated:YES];

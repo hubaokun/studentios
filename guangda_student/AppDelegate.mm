@@ -443,6 +443,8 @@
         [params setObject:username forKey:@"phone"];
         [params setObject:password forKey:@"password"];
     }
+    params[@"devicetype"] = @"1"; // 设备类型
+    params[@"version"] = APP_VERSION; // 版本号
     
     NSString *uri = @"/suser?action=login";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:params RequestMethod:Request_POST];

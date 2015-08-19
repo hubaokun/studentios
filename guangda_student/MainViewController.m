@@ -457,9 +457,12 @@
 {
     //地图初始位置设定
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [_mapView setCenterCoordinate:appDelegate.userCoordinate animated:YES];
+    
+    [_mapView setCenterCoordinate:appDelegate.userCoordinate animated:NO];
     [_mapView setZoomLevel:13];
     
+    
+    // 取得地图最左上角点的经纬度
     CLLocationCoordinate2D zuobiao = [_mapView convertPoint:CGPointMake(0, 0) toCoordinateFromView:_mapView];
     
     // 计算两点之间的距离
