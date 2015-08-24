@@ -17,13 +17,9 @@
 // IBOutlet
 @property (strong, nonatomic) IBOutlet UIScrollView *coachTimeScrollView;
 @property (strong, nonatomic) IBOutlet UIButton *sureAppointBtn;
-@property (strong, nonatomic) IBOutlet UIScrollView *timeScrollView;    // 选择时间的横向滚动scrollView
-@property (strong, nonatomic) IBOutlet UIView *timeListView;
 @property (strong, nonatomic) IBOutlet SwipeView *swipeView;
 @property (strong, nonatomic) IBOutlet UILabel *coachRealName;
 @property (strong, nonatomic) IBOutlet UILabel *carAddress;
-@property (strong, nonatomic) IBOutlet UILabel *remainMoneyLabel;   // 账户余额
-@property (strong, nonatomic) IBOutlet UIButton *rechargeBtn;       // 充值btn
 @property (strong, nonatomic) IBOutlet UIView *coachDetailsTopView; // 教练信息顶部view
 @property (weak, nonatomic) IBOutlet UIButton *phoneBtn;
 

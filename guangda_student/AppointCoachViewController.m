@@ -20,13 +20,17 @@
 #import "AppDelegate.h"
 #import "DNCoach.h"
 #import "UserBaseInfoViewController.h"
-@interface AppointCoachViewController ()
-<SwipeViewDelegate, SwipeViewDataSource,UIAlertViewDelegate>
+#import "CourseTimetableViewController.h"
+
+@interface AppointCoachViewController () <SwipeViewDelegate, SwipeViewDataSource, UIAlertViewDelegate, CourseTimetableViewControllerDelegate, UIGestureRecognizerDelegate>
 {
     float _priceSum;   // 总价
     int _timeNum;    // 时间点的数量
-    float _remainMoney; // 用户余额
+    bool _pageIndex;        // 切换用页
+    NSUInteger _curPageNum; // 当前页
 }
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *remindTapRightSpaceCon;
 
 // 参数
 @property (strong, nonatomic) DNCoach *coach;
@@ -39,12 +43,13 @@
 @property (strong, nonatomic) NSString *nowSelectedDate;            // 当前选中的日期
 
 @property (strong, nonatomic) NSMutableArray *selectDateList;       // 上方用来选择的日期的label的list
-@property (strong, nonatomic) UIView *dateListView;
 
 // 接口返回的dateList
 @property (strong, nonatomic) NSArray *dateList;
 @property (strong, nonatomic) NSMutableArray *dateLabelList;
 @property (strong, nonatomic) NSMutableArray *dateTimeSelectedList;     // 被选中的时间点的列表  用于传递到下一个界面生成订单
+
+@property (strong, nonatomic) CourseTimetableViewController *curVC;
 
 @end
 
@@ -52,78 +57,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    
     self.coach = [DNCoach coachWithDict:self.coachInfoDic];
     
-//    // 请求刷新教练日程接口
-//    self.nowSelectedDate = [CommonUtil getStringForDate:[NSDate date] format:@"yyyy-MM-dd"];
-//    [self requestRefreshCoachSchedule];
-    
-//    self.coachTimeContentView.frame = self.coachTimeScrollView.bounds;
-//    [self.coachTimeScrollView addSubview:self.coachTimeContentView];
-    self.timeMutableList = [NSMutableArray array];
     self.dateTimeSelectedList = [NSMutableArray array];
     self.selectDateList = [NSMutableArray array];
     self.dateLabelList = [NSMutableArray array];
     
-    self.coachTimeContentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    [self.coachTimeScrollView addSubview:_coachTimeContentView];
-    
-//    self.timeListView.frame = CGRectMake(0, 0, 600, 40);
-//    [self.timeScrollView addSubview:_timeListView];
-    
-//    // 设置时间选择栏
-//    self.clipView.scrollView = self.timeScrollView;
-//    self.dateListView = [self getTimeForSelected];
-//    [self.timeScrollView addSubview:self.dateListView];
-//    self.timeScrollView.contentSize = CGSizeMake(self.dateListView.bounds.size.width, 0);
-//
-//    UIGestureRecognizer *gestureRecognizer = [[UIGestureRecognizer alloc] initWithTarget:self action:@selector(dateSelectClick:)];
-//    [self.clipView addGestureRecognizer:gestureRecognizer];
-    
-    CGFloat _y = 0;
-    // 提示语
-    UILabel *remindLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 3, SCREEN_WIDTH, 20)];
-    remindLabel.text = @"您预约的时间是指开始时间后的一个小时";
-    remindLabel.font = [UIFont systemFontOfSize:10];
-    remindLabel.textColor = RGB(184, 184, 184);
-    remindLabel.textAlignment = NSTextAlignmentCenter;
-    [_coachTimeContentView addSubview:remindLabel];
-    
-    _y += 26;
-    
-    CGFloat _width = (SCREEN_WIDTH - 60 - 28) / 4;
-    CGFloat _height = _width * 125/114;
-    
-    // 上午
-    UIView *morningView = [[UIView alloc] initWithFrame:CGRectMake(0, _y, SCREEN_WIDTH, _height*2+5)];
-    [_coachTimeContentView addSubview:morningView];
-    [self addTimePointWithView:morningView andMode:1 timeNum:7];
-    
-    _y += _height*2+15;
-    
-    // 下午
-    UIView *afternoonView = [[UIView alloc] initWithFrame:CGRectMake(0, _y, SCREEN_WIDTH, _height*2+5)];
-    [_coachTimeContentView addSubview:afternoonView];
-    [self addTimePointWithView:afternoonView andMode:2 timeNum:7];
-    
-    _y += _height*2+15;
-    
-    // 晚上
-    UIView *nightView = [[UIView alloc] initWithFrame:CGRectMake(0, _y, SCREEN_WIDTH, _height*2+5)];
-    [_coachTimeContentView addSubview:nightView];
-    [self addTimePointWithView:nightView andMode:3 timeNum:5];
-    
-    _y += _height*2+15;
-    
-    self.coachTimeScrollView.contentSize = CGSizeMake(0, _y);
-    
-    // 设置界面相关显示
-//    self.coachRealName.text = self.coachInfoDic[@"realname"];
-//    self.carAddress.text = self.coachInfoDic[@"detail"];
-//    NSString *scoreStr = [self.coachInfoDic[@"score"] description];
-//    int score = [scoreStr intValue];
+    self.coachTimeContentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 20, SCREEN_HEIGHT)];
+    [self.coachTimeScrollView addSubview:self.coachTimeContentView];
     
     if (self.coach.phone == nil) {
         self.phoneBtn.hidden = YES;
@@ -135,9 +76,7 @@
     self.carAddress.text = self.coach.detail;
     int score = [self.coach.score intValue];
     
-//    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"UserInfo"];
-//    _remainMoney = [userInfo[@"money"] floatValue];
-//    self.remainMoneyLabel.text = [NSString stringWithFormat:@"账户余额：%.1f元", _remainMoney];
+    // 教练综合评分
     TQStarRatingView *starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(10, 27, 88, 15)];
     [starView changeStarForegroundViewWithScore:score];
     [self.coachDetailsTopView addSubview:starView];
@@ -150,6 +89,9 @@
     _swipeView.wrapEnabled = NO;
     _swipeView.itemsPerPage = 1;
     _swipeView.truncateFinalPage = YES;
+    
+    // 添加教练课程表
+    [self timeTableAdd];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -162,40 +104,47 @@
     }
     [self requestRefreshCoachSchedule];
     [self refreshUserMoney];
-    
-    if (![[CommonUtil currentUtil] isLogin:NO]) {
-        self.remainMoneyLabel.hidden = YES;
-        self.rechargeBtn.hidden = YES;
-    }else{
-        
-        NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"UserInfo"];
-        _remainMoney = [userInfo[@"money"] floatValue];
-        self.remainMoneyLabel.text = [NSString stringWithFormat:@"账户余额：%.2f元", _remainMoney];
-        
-        self.remainMoneyLabel.hidden = NO;
-        self.rechargeBtn.hidden = NO;
-    }
 }
+
+// 添加教练课程表
+-(void) timeTableAdd
+{
+    for (int i = 0; i < 2; i++) {
+        CourseTimetableViewController *contentVC = [[CourseTimetableViewController alloc] init];
+        [self addChildViewController:contentVC];
+        contentVC.delegate = self;
+        if (i == 0) {
+            [self.coachTimeContentView addSubview:contentVC.view];
+        }
+    }
+    
+    // 左扫手势
+    UISwipeGestureRecognizer *swipeLeftGR = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+//    [swipeLeftGR setCancelsTouchesInView:YES];
+    [swipeLeftGR setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [self.coachTimeScrollView addGestureRecognizer:swipeLeftGR];
+    
+    // 右扫手势
+    UISwipeGestureRecognizer *swipeRightGR = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+//    [swipeRightGR setCancelsTouchesInView:YES];
+    [swipeRightGR setDirection:UISwipeGestureRecognizerDirectionRight];
+    [self.coachTimeScrollView addGestureRecognizer:swipeRightGR];
+}
+
+//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+//{
+//    if ([touch.view isKindOfClass:[UIButton class]]){
+//        return NO;
+//    }
+//    return YES;
+//}
 
 - (void)resetPriceNumStatus
 {
-    [self.dateTimeSelectedList removeAllObjects]; 
+    [self.dateTimeSelectedList removeAllObjects];
     _priceSum = 0;
     _timeNum = 0;
 
-//    for (int i = 0; i < 19; i++) {
-//        NSDictionary *dict = self.timeMutableList[i];
-//        UIButton *button = dict[@"button"];
-//        if (button.selected) {
-//            _timeNum++;
-//            UILabel *priceLabel = dict[@"priceLabel"];
-//            NSString *priceStr = priceLabel.text;
-//            float price = [priceStr floatValue];
-//            _priceSum += price;
-//            
-//        }
-//    }
-//    
     // 控制各控件的显示/隐藏
     if (_priceSum > 0 && _timeNum > 0) {
         self.timeNumLabel.text = [NSString stringWithFormat:@"已选择%d个小时", _timeNum];
@@ -208,70 +157,36 @@
         self.sureAppointBtn.enabled = NO;
         self.noTimeSelectedLabel.hidden = NO;
     }
-    
-    // 所有的按钮都回到未选择状态
-    [self deselectedAllButton];
 }
 
-/* 弹窗提示 
- type = 
- 0 余额不足
- 1 预约成功 已审核
- 2 预约成功 未审核
- 3 时间被抢订
- */
-- (void)letoutResultViewWithType:(int)type
+- (void)remindTapConfig:(NSDictionary *)dict
 {
-    self.appointResultView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    [self.view addSubview:self.appointResultView];
-    self.resultContentView.layer.cornerRadius = 10;
-    self.resultContentView.layer.masksToBounds = YES;
-    switch (type) {
-        case 0:
-            // 余额不足
-            self.resultImageView.image = [UIImage imageNamed:@"icon_no_money"];
-            self.resultStatusLabel.text = @"您的余额不足\n请充值";
-            self.resultStatusLabel.numberOfLines = 2;
-            self.resultStatusHeight.constant = 45;
-            self.resultDetailsLabel.hidden = YES;
-            self.contentViewHeight.constant = 220;
-            [self.appointResultBtn setTitle:@"去充值" forState:UIControlStateNormal];
-            [self.appointResultBtn addTarget:self action:@selector(rechargeClick:) forControlEvents:UIControlEventTouchUpInside];
-            break;
-            
-//        case 1:
-//            // 已审核
-//            self.resultImageView.image = [UIImage imageNamed:@"icon_appoint_success"];
-//            self.resultStatusLabel.text = @"预约成功";
-//            self.resultStatusLabel.numberOfLines = 1;
-//            self.resultStatusHeight.constant = 21;
-//            self.resultDetailsLabel.hidden = YES;
-//            self.contentViewHeight.constant = 220;
-//            [self.appointResultBtn addTarget:self action:@selector(orderDetailsClick:) forControlEvents:UIControlEventTouchUpInside];
-//            break;
-//            
-//        case 2:
-//            // 未审核
-//            self.resultImageView.image = [UIImage imageNamed:@"icon_appoint_success"];
-//            self.resultStatusLabel.text = @"预约成功";
-//            self.resultStatusLabel.numberOfLines = 1;
-//            self.resultStatusHeight.constant = 21;
-//            self.contentViewHeight.constant = 250;
-//            [self.appointResultBtn addTarget:self action:@selector(orderDetailsClick:) forControlEvents:UIControlEventTouchUpInside];
-//            break;
-//            
-//        case 3:
-//            self.resultImageView.image = nil;
-//            self.resultImageView.hidden = YES;
-//            self.contentViewHeight.constant = 175;
-//            self.resultStatusLabel.text = @"您预约的时间已被\n其他学员抢走了~";
-//            self.resultStatusLabel.numberOfLines = 2;
-//            self.resultStatusHeight.constant = 50;
-//            break;
-            
-        default:
-            break;
+    // 教练状态 0:未开课 1:已开课
+    int coachState = [dict[@"coachstate"] intValue];
+    // 提醒状态 1:已提醒过  0:未提醒
+    int remindState = [dict[@"remindstate"] intValue];
+    
+    if (coachState == 0 && remindState == 0) { // 提醒教练开课按钮显示
+        [self remindTapShow];
+    } else {
+        [self remindTapHide];
     }
+}
+
+- (void)remindTapShow
+{
+    [UIView animateWithDuration:0.25 animations:^{
+        self.remindTapRightSpaceCon.constant = 0;
+        [self.view layoutIfNeeded];
+    }];
+}
+
+- (void)remindTapHide
+{
+    [UIView animateWithDuration:0.25 animations:^{
+        self.remindTapRightSpaceCon.constant = -117;
+        [self.view layoutIfNeeded];
+    }];
 }
 
 - (IBAction)removeResultClick:(id)sender {
@@ -324,145 +239,19 @@
     return dateView;
 }
 
-#pragma mark - 添加上午视图
-//- (void)addTimeViewWithY:(CGFloat)pointY
-//{
-//    UIView *morningView = [[UIView alloc] initWithFrame:CGRectMake(0, pointY, SCREEN_WIDTH, SCREEN_HEIGHT)];
-//    [_coachTimeContentView addSubview:morningView];
-//    
-//    [self addTimePointWithView:morningView];
-//}
-
-// 添加时间点view
-- (void)addTimePointWithView:(UIView *)timeView andMode:(int)mode timeNum:(int)timeNum
-{
-    CGFloat _x = 0;
-    CGFloat _y = 0;
-    CGFloat _width = (SCREEN_WIDTH - 60 - 28) / 4;
-    CGFloat _height = _width * 125/114;
-    float _bili = SCREEN_WIDTH / 320;     // 比例
-    
-    int time = 0;
-    
-    // 上午标题
-    UILabel *timeTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 28, _height*2+5)];
-    timeTitleLabel.backgroundColor = RGB(115, 119, 128);
-    timeTitleLabel.textColor = [UIColor whiteColor];
-    timeTitleLabel.numberOfLines = 2;
-    timeTitleLabel.textAlignment = NSTextAlignmentCenter;
-    timeTitleLabel.layer.cornerRadius = 10;
-    timeTitleLabel.layer.masksToBounds = YES;
-    timeTitleLabel.font = [UIFont systemFontOfSize:12];
-    switch (mode) {
-        case 1:
-            timeTitleLabel.text = @"上\n午";
-            time = 5;
-            break;
-        case 2:
-            timeTitleLabel.text = @"下\n午";
-            time = 12;
-            break;
-        case 3:
-            timeTitleLabel.text = @"晚\n上";
-            time = 19;
-            break;
-            
-        default:
-            break;
-    }
-    [timeView addSubview:timeTitleLabel];
-    
-    UIImage *image1 = [UIImage imageNamed:@"time_point_bg_blue"];   // 正常状态
-    UIImage *image2 = [UIImage imageNamed:@"time_point_bg_grey"];   // 不可用
-    UIImage *image3 = [UIImage imageNamed:@"time_point_bg_green"];  // 选中
-    [image1 resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-    [image2 resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-    [image3 resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-    
-    // 时间点
-    for (int i = 0; i < timeNum; i++)
-    {
-        // 各个时间点的view
-        UIView *pointView = [[UIView alloc] initWithFrame:CGRectMake(38 + _x, _y, _width, _height)];
-//        pointView.backgroundColor = RGB(126, 207, 224);
-        pointView.layer.cornerRadius = 10;
-        [timeView addSubview:pointView];
-        
-        // 向view中添加子元素
-        
-        // 按钮
-        DSButton *button = [DSButton buttonWithType:UIButtonTypeCustom];
-        button.frame = pointView.bounds;
-        button.tag = time+i;    // tag = 时间点的值
-        [button setBackgroundImage:image1 forState:UIControlStateNormal];
-        [button setBackgroundImage:image2 forState:UIControlStateDisabled];
-        [button setBackgroundImage:image3 forState:UIControlStateSelected];
-        [button addTarget:self action:@selector(timeButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        button.enabled = NO;
-        [pointView addSubview:button];
-        
-//        button.value = @"120";
-        
-        // 时间点标识
-        UILabel *pointLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5*_bili, _width, 20*_bili)];
-        pointLabel.text = [NSString stringWithFormat:@"%d:00", time + i];
-        pointLabel.textColor = [UIColor whiteColor];
-        pointLabel.textAlignment = NSTextAlignmentCenter;
-        pointLabel.font = [UIFont systemFontOfSize:20];
-        pointLabel.tag = 1;
-        [pointView addSubview:pointLabel];
-        
-        // 科目标识
-        UILabel *classLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 29*_bili, _width, 15*_bili)];
-//        classLabel.text = @"科目三";
-        classLabel.textColor = RGB(52, 136, 153);
-        classLabel.textAlignment = NSTextAlignmentCenter;
-        classLabel.font = [UIFont systemFontOfSize:12];
-        classLabel.tag = 2;
-        [pointView addSubview:classLabel];
-        
-        // 价格/状态
-        UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 45*_bili, _width, 13)];
-//        priceLabel.text = @"120.0元";
-        priceLabel.textColor = RGB(52, 136, 153);
-        priceLabel.textAlignment = NSTextAlignmentCenter;
-        priceLabel.font = [UIFont systemFontOfSize:12];
-        priceLabel.tag = 3;
-        [pointView addSubview:priceLabel];
-        
-        NSMutableDictionary *timeDic = [NSMutableDictionary dictionary];
-        [timeDic setObject:pointLabel forKey:@"timeLabel"];
-        [timeDic setObject:classLabel forKey:@"classLabel"];
-        [timeDic setObject:priceLabel forKey:@"priceLabel"];
-        [timeDic setObject:button forKey:@"button"];
-        
-        [self.timeMutableList addObject:timeDic];
-//        NSLog(@"timeMutableList=== %@", _timeMutableList);
-        
-        // 设置xy值
-        _x += 10 + _width;
-        if (i == 3) {
-            _x = 0;
-            _y += 5 + _height;
-        }
-    }
-}
-
 #pragma mark - 请求接口
 // 刷新教练日程安排
 - (void)requestRefreshCoachSchedule
 {
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    
     AppDelegate *appdelegate = [UIApplication sharedApplication].delegate;
     NSString *userId = appdelegate.userid;
-    
-    NSString *date = self.nowSelectedDate;
-    
-    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
-    [paramDic setObject:_coachId forKey:@"coachid"];
-    [paramDic setObject:date forKey:@"date"];
     if (userId) {
         [paramDic setObject:userId forKey:@"studentid"];
     }
+    [paramDic setObject:_coachId forKey:@"coachid"];
+    [paramDic setObject:self.nowSelectedDate forKey:@"date"];
     // 版本号
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
@@ -478,116 +267,61 @@
     [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         [DejalBezelActivityView removeViewAnimated:YES];
+  
+        if ([responseObject[@"code"] integerValue] == 1) {
+            // 教练当天是否有开课
+            [self remindTapConfig:responseObject];
+//            self.dateList = responseObject[@"datelist"];
+            CourseTimetableViewController *curVC = self.childViewControllers[_pageIndex];
+            self.curVC = curVC;
+            curVC.dateList = responseObject[@"datelist"];
+            curVC.nowSelectedDate = self.nowSelectedDate;
+            curVC.dateTimeSelectedList = self.dateTimeSelectedList;
+            [curVC viewWillAppear:YES];
+            self.coachTimeScrollView.contentSize = CGSizeMake(0, curVC.viewHeight);
+        }else{
+            NSString *message = responseObject[@"message"];
+            [self makeToast:message];
+        }
         
-        [self resetSelectedButton];
-        
-        if ([responseObject[@"code"] integerValue] == 1)
-        {
-            CGFloat _width = (SCREEN_WIDTH - 60 - 28) / 4;
-            CGFloat _height = _width * 125/114;
-            float _bili = SCREEN_WIDTH / 320;     // 比例
-            
-            self.dateList = responseObject[@"datelist"];
-            
-            for (int i = 0; i < self.dateList.count; i++) {
-                NSDictionary *dateDic = [self.dateList objectAtIndex:i];        // 接口取到的数据
-                NSMutableDictionary *timeDic = [[self.timeMutableList objectAtIndex:i] mutableCopy]; // 本地存储的时间点的dic
-                
-                NSString *subjectName = [dateDic[@"subject"] description];
-                NSString *price = [dateDic[@"price"] description];
-                int isRest = [dateDic[@"isrest"] intValue];
-                NSString *isBooked = [dateDic[@"isbooked"] description];
-                
-                // 本地时间点view内的控件
-                UILabel *timeLabel = timeDic[@"timeLabel"];
-                UILabel *classLabel = timeDic[@"classLabel"];
-                UILabel *priceLabel = timeDic[@"priceLabel"];
-                DSButton *button = timeDic[@"button"];
-                
-                // 是否已经过期
-                NSString *passTimeStr = [dateDic[@"pasttime"] description];
-                int passedTime = [passTimeStr intValue];
-                
-                button.name = dateDic[@"addressdetail"];
-                
-                if (isRest == 0) {
-                    // 不休息
-                    timeLabel.textColor = [UIColor whiteColor];
-                    classLabel.text = subjectName;
-                    priceLabel.text = [NSString stringWithFormat:@"%.1f元", [price floatValue]];
-                    button.enabled = YES;
-                    button.value = price;
-                    priceLabel.textColor = RGB(52, 136, 153);
-                    classLabel.textColor = RGB(52, 136, 153);
-                    classLabel.hidden = button.selected;
-                    priceLabel.hidden = button.selected;
-                    if ([classLabel.text isEqualToString:@"科目三"]) {
-                        classLabel.textColor = RGB(255, 127, 17);
-                    }
-                    
-                    if ([isBooked isEqualToString:@"1"]) {//教练被别人预约
-                        // 被预约了
-                        timeLabel.textColor = RGB(179, 179, 179);
-                        classLabel.text = nil;
-                        priceLabel.text = @"教练已被\n别人预约";
-                        priceLabel.textColor = RGB(179, 179, 179);
-                        priceLabel.numberOfLines = 0;
-                        priceLabel.frame = CGRectMake(0, 45*_bili - 20, _width, 33);
-                        button.enabled = NO;
-                        button.selected = NO;
-                        priceLabel.hidden = NO;
-                    }else if ([isBooked isEqualToString:@"2"]) {//教练被自己预约
-                        // 已有课程
-                        timeLabel.textColor = RGB(179, 179, 179);
-                        classLabel.text = nil;
-                        priceLabel.text = @"您已预约\n这个教练";
-                        priceLabel.lineBreakMode = NSLineBreakByWordWrapping;
-                        priceLabel.textColor = [UIColor redColor];
-                        priceLabel.numberOfLines = 0;
-                        priceLabel.frame = CGRectMake(0, 45*_bili - 20, _width, 33);
-                        button.enabled = NO;
-                        button.selected = NO;
-                        priceLabel.hidden = NO;
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [DejalBezelActivityView removeViewAnimated:YES];
+        [self makeToast:ERR_NETWORK];
+    }];
+}
 
-                    }else if([isBooked isEqualToString:@"3"]){
-                        timeLabel.textColor = RGB(179, 179, 179);
-                        classLabel.text = nil;
-                        priceLabel.text = @"您已预约\n其他教练";
-                        priceLabel.lineBreakMode = NSLineBreakByWordWrapping;
-                        priceLabel.textColor = [UIColor redColor];
-                        priceLabel.numberOfLines = 0;
-                        priceLabel.frame = CGRectMake(0, 45*_bili - 20, _width, 33);
-                        button.enabled = NO;
-                        button.selected = NO;
-                        priceLabel.hidden = NO;
-                    }else{
-                        button.enabled = YES;
-                        priceLabel.frame = CGRectMake(0, 45*_bili, _width, 13);
-                        // 时间已过期
-                        if (passedTime == 1) {
-                            button.enabled = NO;
-                            timeLabel.textColor = RGB(179, 179, 179);
-                            priceLabel.textColor = RGB(179, 179, 179);
-                            classLabel.textColor = RGB(179, 179, 179);
-                        }else{
-                            button.enabled = YES;
-                        }
-                    }
-                    
-                }else{
-                    // 未开课
-                    priceLabel.frame = CGRectMake(0, 45*_bili, _width, 13);
-                    timeLabel.textColor = RGB(179, 179, 179);
-                    classLabel.hidden = YES;
-                    priceLabel.text = @"未开课";
-                    priceLabel.hidden = NO;
-                    priceLabel.textColor = RGB(179, 179, 179);
-                    button.enabled = NO;
-                }
-                
-                [timeDic setObject:button forKey:@"button"];
-                [self.timeMutableList replaceObjectAtIndex:i withObject:timeDic];
-            }
+// 提醒教练开课
+- (void)requestRemindCoach
+{
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    
+    AppDelegate *appdelegate = [UIApplication sharedApplication].delegate;
+    NSString *userId = appdelegate.userid;
+    if (userId) {
+        [paramDic setObject:userId forKey:@"studentid"];
+    }
+    [paramDic setObject:_coachId forKey:@"coachid"];
+    [paramDic setObject:self.nowSelectedDate forKey:@"date"];
+    // 版本号
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    [paramDic setObject:app_Version forKey:@"version"];
+    
+    NSString *uri = @"/sbook?action=REMINDCOACH";
+    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
+    
+    [DejalBezelActivityView activityViewForView:self.view];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        [DejalBezelActivityView removeViewAnimated:YES];
+        
+        if ([responseObject[@"code"] integerValue] == 1) {
+            // 教练当天是否有开课
+            [self remindTapHide];
+            [self makeToast:@"提醒教练开课成功"];
         }else{
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
@@ -637,9 +371,6 @@
             NSString *money = [responseObject[@"money"] description];
             NSString *fmoney = [responseObject[@"fmoney"] description];
             
-            _remainMoney = [money floatValue];
-            self.remainMoneyLabel.text = [NSString stringWithFormat:@"账户余额：%.2f元", [money doubleValue]];
-            
             [userInfoDic setObject:money forKey:@"money"];
             [userInfoDic setObject:fmoney forKey:@"fmoney"];
             
@@ -667,7 +398,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)timeButtonClick:(id)sender
+- (void)timeSelect:(DSButton *)sender
 {
     
     
@@ -688,14 +419,6 @@
     if (button.selected) {
         _priceSum += [button.value floatValue];
         _timeNum++;
-//        if (_remainMoney < _priceSum) {
-//            // 弹窗 提示余额不足
-//            [self letoutResultViewWithType:0];
-//            button.selected = NO;
-//            _priceSum -= [button.value floatValue];
-//            _timeNum--;
-//            return;
-//        }
     }else{
         _priceSum -= [button.value floatValue];
         _timeNum--;
@@ -734,14 +457,10 @@
     for (int i = 0; i < self.dateTimeSelectedList.count; i++) {
         NSDictionary *dic = self.dateTimeSelectedList[i];
         NSString *dateStr = dic[@"date"];
-        if ([dateStr isEqualToString:_nowSelectedDate]) {
+        if ([dateStr isEqualToString:self.nowSelectedDate]) {
             NSString *num = [NSString stringWithFormat:@"%d", i];
             [removeNum addObject:num];
         }
-    }
-    
-    for (int i=0; i<removeNum.count; i++) {
-        
     }
     
     NSMutableIndexSet *removeIndex = [NSMutableIndexSet indexSet];
@@ -751,21 +470,19 @@
         [removeIndex addIndex:num];
     }
     
-    
     [self.dateTimeSelectedList removeObjectsAtIndexes:removeIndex];
-    
     
     // 将已选择的时间点存储到 dateTimeSelectedList 数组中，用于传递到下一个界面
     NSMutableDictionary *dateTimesDic = [NSMutableDictionary dictionary];
-    [dateTimesDic setObject:_nowSelectedDate forKey:@"date"];
+    [dateTimesDic setObject:self.nowSelectedDate forKey:@"date"];
     
     NSMutableArray *timesList = [NSMutableArray array];
     
     NSMutableArray *selectArray = [NSMutableArray array];
     
-    for (int i=0; i<self.timeMutableList.count; i++) {
+    for (int i=0; i<self.curVC.timeMutableList.count; i++) {
         // 取出本地的时间点按钮字典
-        NSDictionary *timePointDic = self.timeMutableList[i];
+        NSDictionary *timePointDic = self.curVC.timeMutableList[i];
         DSButton *timeButton = timePointDic[@"button"];
         if (timeButton.selected) {
             UILabel *timeLabel = timePointDic[@"timeLabel"];
@@ -775,7 +492,7 @@
         }
     }
     
-    NSDictionary *timePointDic = self.timeMutableList[button.tag-5];
+    NSDictionary *timePointDic = self.curVC.timeMutableList[button.tag-5];
     UILabel *timeLabel = timePointDic[@"timeLabel"];
     NSString *time = timeLabel.text; //选中的时间
     
@@ -783,7 +500,7 @@
     if (button.tag-5 == 18) {
         time1 = @"0:00";
     }else{
-        NSDictionary *timePointDic1 = self.timeMutableList[button.tag-4];
+        NSDictionary *timePointDic1 = self.curVC.timeMutableList[button.tag-4];
         UILabel *timeLabel1 = timePointDic1[@"timeLabel"];
         time1 = timeLabel1.text;
     }
@@ -792,7 +509,7 @@
     if (button.tag-5 == 0) {
         time2 = @"0:00";
     }else{
-        NSDictionary *timePointDic2 = self.timeMutableList[button.tag-6];
+        NSDictionary *timePointDic2 = self.curVC.timeMutableList[button.tag-6];
         UILabel *timeLabel2 = timePointDic2[@"timeLabel"];
         time2 = timeLabel2.text;
     }
@@ -815,10 +532,10 @@
         [self makeToast:[NSString stringWithFormat:@"连续上课两小时很累，慎重考虑哦亲"]];
     }
     
-    for (int i = 0; i < self.timeMutableList.count; i++) {
+    for (int i = 0; i < self.curVC.timeMutableList.count; i++) {
 
         // 取出本地的时间点按钮字典
-        NSDictionary *timePointDic = self.timeMutableList[i];
+        NSDictionary *timePointDic = self.curVC.timeMutableList[i];
         DSButton *timeButton = timePointDic[@"button"];
         if (timeButton.selected) {
             
@@ -849,14 +566,7 @@
             [timePriceDic setObject:subject forKey:@"subject"];
             
             [timesList addObject:timePriceDic];
-//            if (i == 18) {
-//                NSArray *array = [NSArray arrayWithArray:timesList];
-//                [dateTimesDic setObject:array forKey:@"times"];
-//                
-//                NSDictionary *dic = [NSDictionary dictionaryWithDictionary:dateTimesDic];
-//                [self.dateTimeSelectedList addObject:dic];
-//            }
-//        }else{
+
             if (timesList.count != 0) {
                 NSArray *array = [NSArray arrayWithArray:timesList];
                 [dateTimesDic setObject:array forKey:@"times"];
@@ -867,13 +577,6 @@
             [timesList removeAllObjects];
         }
     }
-}
-
-// 充值
-- (IBAction)rechargeClick:(id)sender {
-    TypeinNumberViewController *viewController = [[TypeinNumberViewController alloc] initWithNibName:@"TypeinNumberViewController" bundle:nil];
-    viewController.status = @"1";
-    [self.navigationController  pushViewController:viewController animated:YES];
 }
 
 - (IBAction)sureAppointClick:(id)sender
@@ -912,56 +615,9 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNum]];
 }
 
-#pragma mark - UIScrollViewDelegate
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-}
-
-- (void)deselectedAllButton
-{
-    // 刷新按钮的状态
-    for (int i = 0; i < self.timeMutableList.count; i++)
-    {
-        NSDictionary *timeDic = [self.timeMutableList objectAtIndex:i]; // 本地存储的时间点的dic
-        DSButton *button = timeDic[@"button"];
-        button.selected = NO;
-    }
-}
-
-- (void)resetSelectedButton
-{
-    for (int i = 0; i < self.dateTimeSelectedList.count; i++)
-    {
-        NSDictionary *timeDiction = _dateTimeSelectedList[i];
-        NSString *dateSelected = timeDiction[@"date"];  // 被选中的日期
-        if ([dateSelected isEqualToString:_nowSelectedDate])
-        {
-            NSArray *timeArray = timeDiction[@"times"];
-            for (int j = 0; j < timeArray.count; j++)
-            {
-                NSDictionary *timesDic = timeArray[j];
-                NSString *timeStr = timesDic[@"time"];  // 被选中的时间点
-                
-                for (int k = 0; k < self.timeMutableList.count; k++)
-                {
-                    NSDictionary *timeDic = [self.timeMutableList objectAtIndex:k]; // 本地存储的时间点的dic
-                    UILabel *timeLabel = timeDic[@"timeLabel"];
-                    if ([timeLabel.text isEqualToString:timeStr])
-                    {
-                        DSButton *button = timeDic[@"button"];
-                        button.selected = YES;
-                        
-                        UILabel *classLabel = timeDic[@"classLabel"];
-                        UILabel *priceLabel = timeDic[@"priceLabel"];
-                        
-                        classLabel.hidden = YES;
-                        priceLabel.hidden = YES;
-                    }
-                }
-                
-            }
-        }
-    }
+// 提醒教练开课
+- (IBAction)remindCoachClick:(id)sender {
+    [self requestRemindCoach];
 }
 
 #pragma mark - UISwipeViewDelegate
@@ -976,7 +632,7 @@
     //normally we'd use a backing array
     //as shown in the basic iOS example
     //but for this example we haven't bothered
-    return 30;
+    return 10;
 }
 
 - (UIView *)swipeView:(SwipeView *)swipeView viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view
@@ -1014,13 +670,13 @@
 - (void)swipeView:(SwipeView *)swipeView didSelectItemAtIndex:(NSInteger)index
 {
     swipeView.currentPage = index;
+    _curPageNum = index;
     
     NSDate *date = [[NSDate date] initWithTimeInterval:24*60*60*index sinceDate:[NSDate date]];
     NSString *dateStr = [CommonUtil getStringForDate:date format:@"yyyy-MM-dd"];
     self.nowSelectedDate = dateStr;
     
     [self setDateLabelFont:index];
-    [self deselectedAllButton];
     [self requestRefreshCoachSchedule];
 }
 
@@ -1028,12 +684,12 @@
 {
 //    [swipeView reloadData];
     int index = (int)swipeView.currentPage;
+    _curPageNum = index;
     NSDate *date = [[NSDate date] initWithTimeInterval:24*60*60*index sinceDate:[NSDate date]];
     NSString *dateStr = [CommonUtil getStringForDate:date format:@"yyyy-MM-dd"];
     self.nowSelectedDate = dateStr;
     
     [self setDateLabelFont:index];
-    [self deselectedAllButton];
     [self requestRefreshCoachSchedule];
 }
 
@@ -1053,6 +709,53 @@
         }
         label.attributedText = attributeDateStr;
     }
+}
+
+- (void)handleSwipeFrom:(UISwipeGestureRecognizer *)swipeGR {
+    // 左扫
+    if (swipeGR.direction == UISwipeGestureRecognizerDirectionLeft) {
+        if (_curPageNum == 9) return;
+        _curPageNum++;
+        __weak id weakSelf = self;
+        CourseTimetableViewController *fromVC = self.childViewControllers[_pageIndex];
+        bool toIndex = !_pageIndex;
+        CourseTimetableViewController *toVC = self.childViewControllers[toIndex];
+        self.curVC = toVC;
+        [self transitionFromViewController:fromVC
+                          toViewController:toVC
+                                  duration:0.05
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{}
+                                completion:^(BOOL finished){
+                                    _pageIndex = toIndex;
+                                    [fromVC.view removeFromSuperview];
+                                    [toVC didMoveToParentViewController:weakSelf];
+                                    [self swipeView:self.swipeView didSelectItemAtIndex:_curPageNum];
+                                }];
+    }
+    // 右扫
+    if (swipeGR.direction == UISwipeGestureRecognizerDirectionRight) {
+        if (_curPageNum == 0) return;
+        _curPageNum--;
+        __weak id weakSelf = self;
+        CourseTimetableViewController *fromVC = self.childViewControllers[_pageIndex];
+        bool toIndex = !_pageIndex;
+        CourseTimetableViewController *toVC = self.childViewControllers[toIndex];
+        self.curVC = toVC;
+        [self transitionFromViewController:fromVC
+                          toViewController:toVC
+                                  duration:0.05
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{}
+                                completion:^(BOOL finished){
+                                    _pageIndex = toIndex;
+                                    [fromVC.view removeFromSuperview];
+                                    [toVC didMoveToParentViewController:weakSelf];
+                                    [self swipeView:self.swipeView didSelectItemAtIndex:_curPageNum];
+                                }];
+        
+    }
+    
 }
 
 @end

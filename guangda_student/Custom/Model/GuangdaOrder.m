@@ -15,17 +15,21 @@
 {
     if (self = [super init]) {
         // 订单信息
+        _coachInfoDict = dict[@"cuserinfo"];
         _coach = [GuangdaCoach coachWithDict:dict[@"cuserinfo"]];
-        _orderId = dict[@"orderid"];
-        _creatTime = dict[@"creat_time"];
-        _startTime = dict[@"start_time"];
-        _endTime = dict[@"end_time"];
+        _orderId = [dict[@"orderid"] description];
+        _creatTime = [dict[@"creat_time"] description];
+        _startTime = [dict[@"start_time"] description];
+        _endTime = [dict[@"end_time"] description];
         _detailAddr = [CommonUtil isEmpty:dict[@"detail"]]? @"暂无" : dict[@"detail"];
         _cost = [dict[@"total"] description];
         _minutes = [dict[@"hours"] intValue];
         _hourArray = dict[@"orderprice"];
         _studentState = [dict[@"studentstate"] intValue];
         _coachState = [dict[@"coachstate"] intValue];
+        _carLicense = [dict[@"carlicense"] description];
+        _modelid = [dict[@"modelid"] description];
+        _subjectName = [dict[@"subjectname"] description];
         // 按钮信息
         _canComplain = [dict[@"can_complaint"] intValue];
         _needUncomplain = [dict[@"need_uncomplaint"] intValue];
@@ -44,13 +48,89 @@
 
 + (NSMutableArray *)ordersWithArray:(NSArray *)array
 {
-    NSMutableArray *outcomeArray = [NSMutableArray array];
+    NSMutableArray *tempArray = [NSMutableArray array];
     if (array.count > 0) {
         for (NSDictionary *dict in array) {
-            [outcomeArray addObject:[GuangdaOrder orderWithDict:dict]];
+            [tempArray addObject:[GuangdaOrder orderWithDict:dict]];
         }
     }
-    return outcomeArray;
+    return tempArray;
+}
+
+// 未完成订单
++ (instancetype)unCompleteOrderWithDict:(NSDictionary *)dict
+{
+    GuangdaOrder *order = [[self alloc] initWithDict:dict];
+    order.orderType = OrderTypeUncomplete;
+    return order;
+}
+
++ (NSMutableArray *)unCompleteOrdersWithArray:(NSArray *)array
+{
+    NSMutableArray *tempArray = [NSMutableArray array];
+    if (array.count > 0) {
+        for (NSDictionary *dict in array) {
+            [tempArray addObject:[GuangdaOrder unCompleteOrderWithDict:dict]];
+        }
+    }
+    return tempArray;
+}
+
+// 待评价订单
++ (instancetype)waitEvaluateOrderWithDict:(NSDictionary *)dict
+{
+    GuangdaOrder *order = [[self alloc] initWithDict:dict];
+    order.orderType = OrderTypeWaitEvaluate;
+    return order;
+}
+
++ (NSMutableArray *)waitEvaluateOrdersWithArray:(NSArray *)array
+{
+    NSMutableArray *tempArray = [NSMutableArray array];
+    if (array.count > 0) {
+        for (NSDictionary *dict in array) {
+            [tempArray addObject:[GuangdaOrder waitEvaluateOrderWithDict:dict]];
+        }
+    }
+    return tempArray;
+}
+
+// 已完成订单
++ (instancetype)completeOrderWithDict:(NSDictionary *)dict
+{
+    GuangdaOrder *order = [[self alloc] initWithDict:dict];
+    order.orderType = OrderTypeComplete;
+    return order;
+}
+
++ (NSMutableArray *)completeOrdersWithArray:(NSArray *)array
+{
+    NSMutableArray *tempArray = [NSMutableArray array];
+    if (array.count > 0) {
+        for (NSDictionary *dict in array) {
+            [tempArray addObject:[GuangdaOrder completeOrderWithDict:dict]];
+        }
+    }
+    return tempArray;
+}
+
+// 已投诉订单
++ (instancetype)complainedOrderWithDict:(NSDictionary *)dict
+{
+    GuangdaOrder *order = [[self alloc] initWithDict:dict];
+    order.orderType = OrderTypeComplained;
+    return order;
+}
+
++ (NSMutableArray *)complainedOrdersWithArray:(NSArray *)array
+{
+    NSMutableArray *tempArray = [NSMutableArray array];
+    if (array.count > 0) {
+        for (NSDictionary *dict in array) {
+            [tempArray addObject:[GuangdaOrder complainedOrderWithDict:dict]];
+        }
+    }
+    return tempArray;
 }
 
 @end

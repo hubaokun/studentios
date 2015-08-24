@@ -10,7 +10,6 @@
 #import "SureOrderTableViewCell.h"
 #import <CoreText/CoreText.h>
 #import "MyOrderDetailViewController.h"
-#import "SelectOtherCouponViewController.h"
 #import "TypeinNumberViewController.h"
 #import "LoginViewController.h"
 #import "MyOrderViewController.h"
@@ -1030,12 +1029,6 @@
 - (IBAction)removeResultClick:(id)sender {
     [self.appointResultView removeFromSuperview];
     [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
-- (IBAction)clickForOtherCoupon:(id)sender {
-    SelectOtherCouponViewController *nextViewController = [[SelectOtherCouponViewController alloc] initWithNibName:@"SelectOtherCouponViewController" bundle:nil];
-    nextViewController.couponArray = [_couponArray mutableCopy];
-    [self.navigationController pushViewController:nextViewController animated:YES];
 }
 
 // 弹出选择支付方式view

@@ -104,13 +104,10 @@
             NSString *consumeMoney = [responseObject[@"consumeMoney"] description];
             NSString *consumeCoin = [responseObject[@"consumeCoin"] description];
             NSString *consumeCoupon = [responseObject[@"consumeCoupon"] description];
-            self.usedLabel.text = [NSString stringWithFormat:@"已用余额:%@ 小巴币:%@ 学时券:%@", consumeMoney, consumeCoin, consumeCoupon];
-
-
             
-//            self.alertView.frame = self.view.frame;
-//            [self.view addSubview:self.alertView];
-//            [self.navigationController popViewControllerAnimated:YES];
+            // 累计消费
+            self.usedLabel.text = [NSString stringWithFormat:@"累计消费：余额%@元 小巴币%@个 学时券%@张", consumeMoney, consumeCoin, consumeCoupon];
+
             [self setLabel];
         }else{
             NSString *message = responseObject[@"message"];

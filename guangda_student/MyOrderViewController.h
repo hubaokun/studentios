@@ -8,11 +8,6 @@
 
 #import "GreyTopViewController.h"
 
-typedef enum {
-    unCompleteOrder = 0,    // 0:未完成订单
-    waitEvaluationOrder,    // 1:待评价订单
-    completeOrder           // 2:已完成订单
-} myOrderType;
 
 @interface MyOrderViewController : GreyTopViewController
 
