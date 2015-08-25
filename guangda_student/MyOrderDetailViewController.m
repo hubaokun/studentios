@@ -178,8 +178,8 @@
         self.statusLabel.text = @"学车完成";
     }
     
-    // 投诉中订单
-    else if (self.order.orderType == OrderTypeComplained) {
+    // 待处理订单
+    else if (self.order.orderType == OrderTypeAbnormal) {
         self.statusLabel.text = @"投诉处理中...";
     }
 }
@@ -237,6 +237,7 @@
     [self orderStateTextConfig];
     
     // 订单编号
+    self.orderIDLabel.text = self.orderid;
     
     // 下单时间
     self.orderCreateDateLabel.text = self.order.creatTime;
@@ -320,10 +321,10 @@
     for (int i = 0; i < priceArray.count; i++) {
         // 获取数据
         NSDictionary *hourDict = priceArray[i];
-        int hour = [hourDict[@"hour"] intValue];
-        NSString *start = [NSString stringWithFormat:@"%d:00", hour];
-        NSString *end = [NSString stringWithFormat:@"%d:00", hour +1];
-        NSString *time = [NSString stringWithFormat:@"%@~%@", start, end];
+//        int hour = [hourDict[@"hour"] intValue];
+//        NSString *start = [NSString stringWithFormat:@"%d:00", hour];
+//        NSString *end = [NSString stringWithFormat:@"%d:00", hour +1];
+//        NSString *time = [NSString stringWithFormat:@"%@~%@", start, end];
         
         // 创建label
         UILabel *label = [[UILabel alloc] init];
@@ -334,7 +335,7 @@
         label.frame = CGRectMake(labelX, labelY, labelW, labelH);
         label.font = [UIFont systemFontOfSize:13];
         label.textColor = RGB(61, 61, 61);
-        label.text = time;
+        label.text = hourDict[@"subject"];
         
         [self.priceView addSubview:label];
         y = CGRectGetMaxY(label.frame);
@@ -480,8 +481,8 @@
         [self bookMoreBtnConfig:self.rightBtn];
     }
     
-    // 投诉中订单
-    else if (self.order.orderType == OrderTypeComplained) {
+    // 待处理订单
+    else if (self.order.orderType == OrderTypeAbnormal) {
         self.rightBtn.hidden = YES;
         self.leftBtn.hidden = YES;
     }
@@ -844,7 +845,7 @@
         self.order = [GuangdaOrder waitEvaluateOrderWithDict:self.orderInfoDic];
     } else if (self.orderType == OrderTypeComplete) {
         self.order = [GuangdaOrder completeOrderWithDict:self.orderInfoDic];
-    } else if (self.orderType == OrderTypeComplained) {
+    } else if (self.orderType == OrderTypeAbnormal) {
         self.order = [GuangdaOrder complainedOrderWithDict:self.orderInfoDic];
     }
     

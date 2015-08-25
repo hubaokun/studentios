@@ -25,6 +25,7 @@
         } else {
             _style = CommentStyleOneStudentGather;
         }
+        _score = [dict[@"score"] floatValue];
     }
     return self;
 }

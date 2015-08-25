@@ -12,7 +12,7 @@ typedef NS_OPTIONS(NSUInteger, OrderType) {
     OrderTypeUncomplete = 0,    // 未完成订单
     OrderTypeWaitEvaluate,      // 待评价订单
     OrderTypeComplete,          // 已完成订单
-    OrderTypeComplained,        // 已投诉订单
+    OrderTypeAbnormal,          // 待处理订单
 };
 
 @class GuangdaCoach;
@@ -34,7 +34,17 @@ typedef NS_OPTIONS(NSUInteger, OrderType) {
 @property (copy, nonatomic) NSString *carLicense;   // 牌照
 @property (copy, nonatomic) NSString *modelid;      // 准教车型
 @property (copy, nonatomic) NSString *subjectName;  // 科目
-@property (assign, nonatomic) int minutes;          // 距离订单开始的分钟数
+/* 
+ * 距离订单开始的分钟数，若不为正则代表订单某个特殊状态
+ * 0    订单即将开始
+ * -1   正在学车中...
+ * -2   等待投诉处理
+ * -3   等待确认上车
+ * -4   等待确认下车
+ * -5   投诉处理中...
+ * -6   客服协调中...
+ */
+@property (assign, nonatomic) int minutes;
 @property (assign, nonatomic) int studentState;     // 学员状态
 @property (assign, nonatomic) int coachState;       // 教练状态
 

@@ -24,5 +24,6 @@
 #import "RequestHelper.h"
 #import "UIViewController+Toast.h"
 #import "DejalActivityView.h"
+#import "UIView+Frame.h"
 
 #endif

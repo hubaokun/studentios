@@ -297,7 +297,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
     } else if (self.orderListType == OrderListTypeComplete) {
         targetController.orderType = OrderTypeComplete;
     } else if (self.orderListType == OrderListTypeComplained) {
-        targetController.orderType = OrderTypeComplained;
+        targetController.orderType = OrderTypeAbnormal;
     }
     [self.navigationController pushViewController:targetController animated:YES];
 }

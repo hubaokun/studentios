@@ -281,6 +281,7 @@
     
     XBComment *comment = self.commentArray[indexPath.row];
     cell.comment = comment;
+    cell.type = CommentCellTypeNewest;
     [cell loadData];
     
     return cell;

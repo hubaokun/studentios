@@ -101,7 +101,7 @@
                                         <constraint firstAttribute="width" constant="55" id="sNQ-he-s2P"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                    <state key="normal" title="已完成">
+                                    <state key="normal" title="已评价">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
@@ -116,7 +116,7 @@
                                         <constraint firstAttribute="width" constant="54" id="F0H-eT-JQu"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                    <state key="normal" title="投诉中">
+                                    <state key="normal" title="待处理">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>

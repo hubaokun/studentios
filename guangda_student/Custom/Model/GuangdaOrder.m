@@ -114,11 +114,11 @@
     return tempArray;
 }
 
-// 已投诉订单
+// 待处理订单
 + (instancetype)complainedOrderWithDict:(NSDictionary *)dict
 {
     GuangdaOrder *order = [[self alloc] initWithDict:dict];
-    order.orderType = OrderTypeComplained;
+    order.orderType = OrderTypeAbnormal;
     return order;
 }
 

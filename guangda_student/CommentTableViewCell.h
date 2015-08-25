@@ -9,12 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "XBComment.h"
 
+typedef NS_OPTIONS(NSUInteger, CommentCellType) {
+    CommentCellTypeUniversal = 0,   // 用于所有评价
+    CommentCellTypeNewest,          // 用于个人最新评价
+    CommentCellTypePersonal,        // 用于个人所有评价
+};
+
 @interface CommentTableViewCell : UITableViewCell
 @property (strong, nonatomic) XBComment *comment;
 @property (strong, nonatomic) IBOutlet UIImageView *avatar;
 @property (strong, nonatomic) IBOutlet UILabel *nick;
 @property (strong, nonatomic) IBOutlet UILabel *content;
 @property (strong, nonatomic) IBOutlet UILabel *time;
+
+@property (assign, nonatomic) CommentCellType type;
+
 
 - (void)loadData;
 + (CGFloat)calculateHeight:(XBComment *)comment;

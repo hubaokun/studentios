@@ -227,6 +227,11 @@
     
     XBComment *comment = self.commentArray[indexPath.row];
     cell.comment = comment;
+    if (self.type == 1) {
+        cell.type = CommentCellTypeUniversal;
+    } else {
+        cell.type = CommentCellTypePersonal;
+    }
     [cell loadData];
     return cell;
 }

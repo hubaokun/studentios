@@ -60,7 +60,7 @@
     // 教练
     self.coachLabel.text = [NSString stringWithFormat:@"教练: %@ (%@)", self.order.coach.realName, self.order.carLicense];
     
-    // 地址yuyueye
+    // 地址
     self.addrLabel.text = [NSString stringWithFormat:@"地址: %@", self.order.detailAddr];
     
     // 金额
@@ -80,9 +80,10 @@
 // 订单状态文字配置
 - (void)orderStateTextConfig
 {
+    int minutes = self.order.minutes;
+    
     // 未完成订单
     if (self.order.orderType == OrderTypeUncomplete) {
-        int minutes = self.order.minutes;
         if (minutes > 0) {
             if (minutes > 24 * 60) {
                 int days = minutes / (24 * 60);
@@ -121,9 +122,14 @@
         self.statusLabel.text = @"学车完成";
     }
     
-    // 投诉中订单
-    else if (self.order.orderType == OrderTypeComplained) {
-        self.statusLabel.text = @"投诉处理中...";
+    // 待处理订单
+    else if (self.order.orderType == OrderTypeAbnormal) {
+        if (minutes == -5) {
+            self.statusLabel.text = @"投诉处理中...";
+        }
+        else if (minutes == -6) {
+            self.statusLabel.text = @"客服协调中...";
+        }
     }
 }
 
@@ -165,8 +171,8 @@
         [self bookMoreBtnConfig:self.rightBtn];
     }
     
-    // 投诉中订单
-    else if (self.order.orderType == OrderTypeComplained) {
+    // 待处理订单
+    else if (self.order.orderType == OrderTypeAbnormal) {
         self.rightBtn.hidden = YES;
         self.leftBtn.hidden = YES;
     }

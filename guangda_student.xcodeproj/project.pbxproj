@@ -169,6 +169,7 @@
 		37F77F701AC8F0A3004D6A44 /* MyOrderEvaluationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37F77F6E1AC8F0A3004D6A44 /* MyOrderEvaluationViewController.xib */; };
 		7010253F1B89A8D200E6EF9E /* CourseTimetableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7010253D1B89A8D200E6EF9E /* CourseTimetableViewController.m */; };
 		701025401B89A8D200E6EF9E /* CourseTimetableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7010253E1B89A8D200E6EF9E /* CourseTimetableViewController.xib */; };
+		702592F01B8C3B980029F19E /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 702592EF1B8C3B980029F19E /* UIView+Frame.m */; };
 		702BB4671B610AF70023D993 /* china.plist in Resources */ = {isa = PBXBuildFile; fileRef = 702BB4661B610AF70023D993 /* china.plist */; };
 		705EAD701B6A4B3800035F76 /* GuangdaCoach.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD631B6A4B3800035F76 /* GuangdaCoach.m */; };
 		705EAD711B6A4B3800035F76 /* GuangdaOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD651B6A4B3800035F76 /* GuangdaOrder.m */; };
@@ -613,6 +614,8 @@
 		7010253C1B89A8D200E6EF9E /* CourseTimetableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseTimetableViewController.h; sourceTree = "<group>"; };
 		7010253D1B89A8D200E6EF9E /* CourseTimetableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseTimetableViewController.m; sourceTree = "<group>"; };
 		7010253E1B89A8D200E6EF9E /* CourseTimetableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CourseTimetableViewController.xib; sourceTree = "<group>"; };
+		702592EE1B8C3B980029F19E /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
+		702592EF1B8C3B980029F19E /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
 		702BB4661B610AF70023D993 /* china.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = china.plist; sourceTree = "<group>"; };
 		705EAD621B6A4B3800035F76 /* GuangdaCoach.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuangdaCoach.h; sourceTree = "<group>"; };
 		705EAD631B6A4B3800035F76 /* GuangdaCoach.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuangdaCoach.m; sourceTree = "<group>"; };
@@ -1163,6 +1166,8 @@
 				3179E6171AC284C600AFCFAA /* DateButton.h */,
 				3179E6181AC284C600AFCFAA /* DateButton.m */,
 				3179E61C1AC284C600AFCFAA /* DejalActivityView.h */,
+				702592EE1B8C3B980029F19E /* UIView+Frame.h */,
+				702592EF1B8C3B980029F19E /* UIView+Frame.m */,
 				3179E61D1AC284C600AFCFAA /* DejalActivityView.m */,
 				3179E61E1AC284C600AFCFAA /* DSButton.h */,
 				3179E61F1AC284C600AFCFAA /* DSButton.m */,
@@ -2004,6 +2009,7 @@
 				31C9D8EA1AD665AD006A4E80 /* Order.m in Sources */,
 				312D8DC01AC9508F00EF7546 /* AccountTableViewCell.m in Sources */,
 				B8E4ABE51AC54F6300D6B7DA /* CZPhotoPickerPermissionAlert.m in Sources */,
+				702592F01B8C3B980029F19E /* UIView+Frame.m in Sources */,
 				3179E6551AC284C600AFCFAA /* SDWebImageManager.m in Sources */,
 				3179E65A1AC284C600AFCFAA /* UIImage+WebP.m in Sources */,
 				375691C31AC922F500223501 /* CPTextViewPlaceholder.m in Sources */,
