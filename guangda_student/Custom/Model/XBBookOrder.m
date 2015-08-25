@@ -22,7 +22,8 @@
         _subject = infoDict[@"subject"];
         _time = [infoDict[@"time"] description];
         _payType = payTypeCoupon; // 默认为学时券支付
-        _isDeficit = NO;
+        _isDeficit = NO; // 默认余额充足
+        _delMoney = 0; // 默认小巴币支付数为0
     }
     return self;
 }

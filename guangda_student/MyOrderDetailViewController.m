@@ -137,9 +137,10 @@
 // 订单状态文字配置
 - (void)orderStateTextConfig
 {
+    int minutes = self.order.minutes;
+    
     // 未完成订单
     if (self.order.orderType == OrderTypeUncomplete) {
-        int minutes = self.order.minutes;
         if (minutes > 0) {
             if (minutes > 24 * 60) {
                 int days = minutes / (24 * 60);
@@ -180,7 +181,12 @@
     
     // 待处理订单
     else if (self.order.orderType == OrderTypeAbnormal) {
-        self.statusLabel.text = @"投诉处理中...";
+        if (minutes == -5) {
+            self.statusLabel.text = @"投诉处理中...";
+        }
+        else if (minutes == -6) {
+            self.statusLabel.text = @"客服协调中...";
+        }
     }
 }
 
@@ -365,6 +371,7 @@
     btn.layer.borderColor = borderColor;
     btn.layer.cornerRadius = cornerRadius;
     btn.backgroundColor = backgroundColor;
+    btn.hidden = NO;
     [btn setTitle:title forState:UIControlStateNormal];
     [btn setTitleColor:titleColor forState:UIControlStateNormal];
     [btn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
@@ -415,7 +422,7 @@
        cornerRadius:4
     backgroundColor:[UIColor whiteColor]
               title:@"投诉"
-         titleColor:[UIColor whiteColor]
+         titleColor:CUSTOM_GREY
              action:@selector(complainClick)];
 }
 
@@ -446,22 +453,23 @@
 // 按钮组配置
 - (void)operationBtnsConfig
 {
+    self.rightBtn.hidden = YES;
+    self.leftBtn.hidden = YES;
+    
     // 未完成订单
     if (self.order.orderType == OrderTypeUncomplete) {
         if (self.order.canCancel) { // 可以取消订单
-            self.leftBtn.hidden = YES;
             [self cancelOrderBtnConfig:self.rightBtn];
         }
         
         else {
             if (self.order.canUp) { // 可以确认上车
-                self.leftBtn.hidden = YES;
-                [self confirmOnBtnConfig:self.rightBtn];
+
             }
             
-            else { // 可以确认下车
-                self.leftBtn.hidden = YES;
+            else if (self.order.canDown) { // 可以确认下车
                 [self confirmDownBtnConfig:self.rightBtn];
+                [self complainBtnConfig:self.leftBtn];
             }
         }
     }
@@ -476,15 +484,13 @@
     
     // 已完成订单
     else if (self.order.orderType == OrderTypeComplete) {
-        self.leftBtn.hidden = YES;
         // 继续预约
         [self bookMoreBtnConfig:self.rightBtn];
     }
     
     // 待处理订单
     else if (self.order.orderType == OrderTypeAbnormal) {
-        self.rightBtn.hidden = YES;
-        self.leftBtn.hidden = YES;
+
     }
 }
 

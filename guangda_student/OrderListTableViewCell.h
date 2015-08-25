@@ -10,7 +10,6 @@
 #import "GuangdaOrder.h"
 
 @protocol OrderListTableViewCellDelegate <NSObject>
-@optional
 // 取消订单
 - (void)cancelOrder:(GuangdaOrder *)order;
 // 确认上车

@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 typedef enum {
-    payTypeCoupon = 0,  // 0:学时券支付
-    payTypeCoin,        // 1:小巴币支付
-    payTypeMoney        // 2:余额支付
+    payTypeCoupon = 1,  // 学时券支付
+    payTypeCoin,        // 小巴币支付
+    payTypeMoney,       // 余额支付
+    payTypeMix          // 小巴币、余额混合支付
 }   BookOrderPayType;
 @interface XBBookOrder : NSObject
 
@@ -21,6 +22,7 @@ typedef enum {
 @property (copy, nonatomic) NSString *time;             // 时间
 @property (assign, nonatomic) BookOrderPayType payType; // 支付方式
 @property (assign, nonatomic) BOOL isDeficit;           // 余额是否不足
+@property (assign, nonatomic) NSUInteger delMoney;      // 小巴币支付数目
 
 - (instancetype)initWithDict:(NSDictionary *)dict;
 + (instancetype)bookOrderWithDict:(NSDictionary *)dict;

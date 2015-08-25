@@ -77,9 +77,6 @@
 @property (strong, nonatomic) XBBookOrder *targetBookOrder;     // 当前操作订单
 @property (assign, nonatomic) BOOL moneyIsDeficit;              // 余额是否不足
 
-// 废弃
-- (IBAction)clickForOtherCoupon:(id)sender;
-
 @end
 
 @implementation SureOrderViewController

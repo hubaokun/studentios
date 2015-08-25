@@ -446,7 +446,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
                 if (self.complainedOrdersBtn.selected == NO) {
                     [self oneButtonSellected:self.complainedOrdersBtn];
                 }
-                [_orderList addObjectsFromArray:[GuangdaOrder completeOrdersWithArray:array]];
+                [_orderList addObjectsFromArray:[GuangdaOrder complainedOrdersWithArray:array]];
             }
             
             // 是否还有更多
@@ -545,7 +545,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
                 [_orderList addObjectsFromArray:[GuangdaOrder completeOrdersWithArray:array]];
             }
             else if (self.orderListType == OrderListTypeComplained) {
-                [_orderList addObjectsFromArray:[GuangdaOrder completeOrdersWithArray:array]];
+                [_orderList addObjectsFromArray:[GuangdaOrder complainedOrdersWithArray:array]];
             }
             
             // 是否还有更多
@@ -607,6 +607,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
         int code = [responseObject[@"code"] intValue];
         if (code == 1) {
 //            [self makeToast:@"订单已取消"];
+            [self clickForCloseMoreOperation:nil];
             [self postGetOrder];
         }else if(code == 95){
             NSString *message = responseObject[@"message"];
@@ -886,6 +887,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
 // 取消订单
 - (void)cancelOrder:(GuangdaOrder *)order
 {
+    self.cancelOrderId = order.orderId;
     [self.view addSubview:self.moreOperationView];
 }
 
@@ -925,7 +927,15 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
     }
 }
 
-// 评价订单
+// 投诉
+- (void)complain:(GuangdaOrder *)order
+{
+    MyOrderComplainViewController *nextVC = [[MyOrderComplainViewController alloc] init];
+    nextVC.orderid = order.orderId;
+    [self.navigationController pushViewController:nextVC animated:YES];
+}
+
+// 评价
 - (void)eveluate:(GuangdaOrder *)order
 {
     NSString *orderId = order.orderId;
