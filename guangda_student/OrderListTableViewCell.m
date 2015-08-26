@@ -58,7 +58,13 @@
     [self orderStateTextConfig];
     
     // 教练
-    self.coachLabel.text = [NSString stringWithFormat:@"教练: %@ (%@)", self.order.coach.realName, self.order.carLicense];
+    NSString *coachText = nil;
+    if ([CommonUtil isEmpty:self.order.carLicense]) {
+        coachText = [NSString stringWithFormat:@"教练: %@", self.order.coach.realName];
+    } else {
+        coachText = [NSString stringWithFormat:@"教练: %@ (%@)", self.order.coach.realName, self.order.carLicense];
+    }
+    self.coachLabel.text = coachText;
     
     // 地址
     self.addrLabel.text = [NSString stringWithFormat:@"地址: %@", self.order.detailAddr];

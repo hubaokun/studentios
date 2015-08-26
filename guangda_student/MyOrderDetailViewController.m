@@ -284,6 +284,8 @@
         [costStr appendString:@" (学时券支付)"];
     } else if (_payType == 3) {
         [costStr appendString:@" (小巴币支付)"];
+    } else if (_payType == 4) {
+        [costStr appendString:[NSString stringWithFormat:@" (余额支付,小巴币抵付%@元)", self.order.delMoney]];
     }
     self.costLabel.text = costStr;
     

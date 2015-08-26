@@ -23,6 +23,7 @@
         _endTime = [dict[@"end_time"] description];
         _detailAddr = [CommonUtil isEmpty:dict[@"detail"]]? @"暂无" : dict[@"detail"];
         _cost = [dict[@"total"] description];
+        _delMoney = [dict[@"delmoney"] description];
         _minutes = [dict[@"hours"] intValue];
         _hourArray = dict[@"orderprice"];
         _studentState = [dict[@"studentstate"] intValue];

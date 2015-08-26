@@ -132,6 +132,7 @@
     [paramDic setObject:type forKey:@"type"];
     paramDic[@"devicetype"] = @"1"; // 设备类型
     paramDic[@"version"] = APP_VERSION; // 版本号
+    paramDic[@"ostype"] = @"1"; // 操作平台
     if ([type isEqualToString:@"1"])
     {
         [paramDic setObject:[CommonUtil md5:pwdStr] forKey:@"password"];
@@ -392,6 +393,7 @@
     [paramDic setObject:vcode forKey:@"password"];
     paramDic[@"devicetype"] = @"1"; // 设备类型
     paramDic[@"version"] = APP_VERSION; // 版本号
+    paramDic[@"ostype"] = @"1"; // 操作平台
     
     NSString *uri = @"/suser?action=login";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];

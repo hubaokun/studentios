@@ -17,6 +17,8 @@
 
 #define FOOTVIEW_HEIGHT 48
 #define SELVIEW_HEIGHT 250
+#define MIXORDER_NEEDMONEY (float)([self.targetBookOrder.price intValue] - self.targetBookOrder.delMoney) // 混合支付订单所需余额数
+
 @interface SureOrderViewController ()<UITableViewDataSource, UITableViewDelegate> {
     int _validCouponNum; // 可用学时券总数
     int _validCoinNum; // 可用小巴币总数
@@ -69,7 +71,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *couponSelectBtn;
 @property (weak, nonatomic) IBOutlet UIButton *coinSelectBtn;
 @property (weak, nonatomic) IBOutlet UIButton *moneySelectBtn;
-@property (strong, nonatomic) UIButton *selectedBtn;
 @property (weak, nonatomic) IBOutlet UIView *bottomBar;
 
 // 页面数据
@@ -96,9 +97,6 @@
     self.canUsedMaxCouponCount = 1;
     
     [self getOrderArray];
-    
-    // 注册通知，选择小巴券后的操作
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeSelectCoupon:) name:@"changeSelectCoupon" object:nil];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
     view.backgroundColor = [UIColor whiteColor];
@@ -149,17 +147,29 @@
         _remainderMoney += [bookOrder.price floatValue];
     }
     
+    else if (bookOrder.payType == payTypeMix) { // 混合支付
+        [self selectMixButton];
+        _remainderCoinNum += bookOrder.delMoney;
+        _remainderMoney += (float)([bookOrder.price intValue] - bookOrder.delMoney);
+    }
+    
     [self allSelectBtnConfig:bookOrder];
     [self remainWealthShow:bookOrder];
 }
 
-// 初始化按钮组的选中状态
+// 选择单个支付按钮状态
 - (void)selectButton:(UIButton *)button {
     self.couponSelectBtn.selected = NO;
     self.coinSelectBtn.selected = NO;
     self.moneySelectBtn.selected = NO;
     button.selected = YES;
-    self.selectedBtn = button;
+}
+
+// 混合支付按钮状态
+- (void)selectMixButton {
+    self.couponSelectBtn.selected = NO;
+    self.coinSelectBtn.selected = YES;
+    self.moneySelectBtn.selected = YES;
 }
 
 // 配置所有选择按钮的状态
@@ -170,7 +180,7 @@
         [self validSelectBtn:self.couponSelectBtn];
     }
     
-    if (_remainderCoinNum < [bookOrder.price intValue] && self.coinSelectBtn.selected == NO) { // 已无更多小巴币
+    if (_remainderCoinNum ==0 && self.coinSelectBtn.selected == NO) { // 已无小巴币
         [self invalidSelectBtn:self.coinSelectBtn];
     } else {
         [self validSelectBtn:self.coinSelectBtn];
@@ -198,8 +208,17 @@
     if (_remainderMoney >= [bookOrder.price floatValue]) { // 余额足够支付
         remainMoneyStr =  [NSString stringWithFormat:@"%d元可用", (int)_remainderMoney];
     } else { // 余额不足
-        remainMoneyStr = [NSString stringWithFormat:@"余额不足"];
+        remainMoneyStr = [NSString stringWithFormat:@"余额不足，需充值"];
     }
+    if (bookOrder.payType == payTypeMix) {
+        self.remainCoinLabel.text = [NSString stringWithFormat:@"%d个可用，抵%d元", _remainderCoinNum, _remainderCoinNum];
+        if (_remainderMoney >= MIXORDER_NEEDMONEY) {
+            remainMoneyStr =  [NSString stringWithFormat:@"%d元可用", (int)_remainderMoney];
+        } else {
+            remainMoneyStr = [NSString stringWithFormat:@"余额不足，需充值"];
+        }
+    }
+    
     self.remainMoneyLabel.text = remainMoneyStr;
 }
 
@@ -223,94 +242,6 @@
     if(![self.navigationController.topViewController isKindOfClass:[LoginViewController class]]){
         LoginViewController *nextViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
         [self.navigationController pushViewController:nextViewController animated:YES];
-    }
-}
-
-- (void)changeSelectCoupon:(NSNotification*)dictionary{
-    NSDictionary * dic = dictionary.object;
-    if(dic){
-        NSArray *couponArray = dic[@"couponArray"];
-        NSArray *selectedCoupon = dic[@"selectedCoupon"];
-        NSString *orderIndex = dic[@"orderIndex"];
-        if(couponArray && selectedCoupon)
-            [self handelCouponChangeWithcouponArray:couponArray andselectedCoupon:selectedCoupon withIndex:[orderIndex intValue]];
-    }
-}
-
-- (void) handelCouponChangeWithcouponArray:(NSArray*) array andselectedCoupon:(NSArray*)selectedCoupon withIndex:(int)index{
-    NSDictionary *order = _orderArray[index];
-    [order setValue:selectedCoupon forKey:@"couponlist"];
-    [_orderArray replaceObjectAtIndex:index withObject:order];
-    
-    for (int i = 0; i < _couponArray.count; i++) {
-        NSDictionary *dic = _couponArray[i];
-        for (int j = 0; j < array.count; j++) {
-            NSDictionary *dic1 = array[j];
-            int recordid = [dic[@"recordid"] intValue];
-            int recordid1 = [dic1[@"recordid"] intValue];
-            if(recordid == recordid1){
-                [_couponArray replaceObjectAtIndex:i withObject:dic1];
-            }
-        }
-    }
-    [self.tableView reloadData];
-    
-    //计算小巴券的抵价
-    int count = 0;
-    int delmA = 0;
-    for(int i = 0; i < _orderArray.count; i++){
-        NSMutableDictionary *dic = [_orderArray[i] mutableCopy];
-        int priceAll = [dic[@"priceAll"] intValue];
-        int timecount = [dic[@"timecount"] intValue];
-        int timeUsedcount = 0;
-        int delm = 0;
-        NSArray *times = dic[@"times"];
-        if([[dic allKeys] containsObject:@"couponlist"]){
-            NSMutableArray *couponlist = [dic[@"couponlist"] mutableCopy];
-            if(couponlist){
-                count += couponlist.count;
-                for(int m = 0; m < couponlist.count; m++){
-                    NSDictionary *coupon = couponlist[m];
-                    int value = [coupon[@"value"] intValue];
-                    int coupontype = [coupon[@"coupontype"] intValue];
-                    if(coupontype == 1){
-                        int usedvalue = 0;
-                        for(int n = (timecount - timeUsedcount - 1); n >= 0;n--){
-                            if(usedvalue < value){
-                                usedvalue++;
-                                timeUsedcount++;
-                                NSDictionary *time = times[n];
-                                int price = [time[@"price"] intValue];
-                                if(delm + price <= priceAll){
-                                    delm += price;
-                                }else{
-                                    delm = priceAll;
-                                }
-                            }
-                        }
-                    }else{
-                        if(delm + value <= priceAll){
-                            delm += value;
-                        }else{
-                            delm = priceAll;
-                        }
-                    }
-                }
-            }
-        }
-        delmA += delm;
-        [dic setObject:[NSString stringWithFormat:@"%d",delm] forKey:@"delmoney"];
-        [_orderArray replaceObjectAtIndex:i withObject:dic];
-    }
-    
-    int sum = [self.priceSum intValue];
-    sum = sum - delmA;
-    self.payMoney = sum;
-    self.priceSumLabel.text = [NSString stringWithFormat:@"应付金额 %d元",sum];
-    if(delmA != 0){
-        self.couponCountLabel.text = [NSString stringWithFormat:@"共使用%d张优惠券:抵%d元",count,delmA];
-    }else{
-        self.couponCountLabel.text = @"当前没有使用优惠券";
     }
 }
 
@@ -443,7 +374,7 @@
     
     UILabel *payTypeLabel = [[UILabel alloc] init];
     [view addSubview:payTypeLabel];
-    CGFloat payTypeLabelW = 80;
+    CGFloat payTypeLabelW = 170;
     CGFloat payTypeLabelH = leftLabelH;
     CGFloat payTypeLabelX = arrowIconX - payTypeLabelW - 8;
     CGFloat payTypeLabelY = leftLabelY;
@@ -461,6 +392,9 @@
     }
     else if (bookOrder.payType == payTypeMoney) {
         payTypeLabel.text = @"账户余额";
+    }
+    else if (bookOrder.payType == payTypeMix) {
+        payTypeLabel.text = [NSString stringWithFormat:@"余额支付,小巴币抵%lu元", (unsigned long)bookOrder.delMoney];
     }
     
     // 选择支付方式
@@ -718,13 +652,11 @@
         }
         
         // 剩余订单默认用小巴币支付
-        int coinNeedCost = 0;
         if (_validCoinNum > 0) {
             // 一一提取剩下的订单
             for (; orderIndex < orderNum; orderIndex++) {
                 curBookOrder = self.bookOrdersArray[orderIndex];
-                coinNeedCost += [curBookOrder.price intValue];
-                if (_validCoinNum >= coinNeedCost) { // 当小巴币足以支付剩下订单时
+                if (_remainderCoinNum >= [curBookOrder.price intValue]) { // 当小巴币足以支付剩下订单时
                     curBookOrder.payType = payTypeCoin;
                     _remainderCoinNum -= [curBookOrder.price intValue];
                 } else {
@@ -733,14 +665,29 @@
             }
         }
         
+        // 若小巴币也剩余，接下来一单采用混合支付
+        if (orderIndex < orderNum) {
+            if (_remainderCoinNum > 0) {
+                curBookOrder = self.bookOrdersArray[orderIndex];
+                curBookOrder.payType = payTypeMix;
+                curBookOrder.delMoney = _remainderCoinNum; // 小巴币支付数目
+                _remainderCoinNum -= curBookOrder.delMoney;
+                _remainderMoney -= (float)([curBookOrder.price intValue] - curBookOrder.delMoney);
+                if (_remainderMoney < 0) { // 当余额不足时
+                    curBookOrder.isDeficit = YES;
+                } else {
+                    curBookOrder.isDeficit = NO;
+                }
+                orderIndex++;
+            }
+        }
+        
         // 再剩余订单默认用余额支付
-        float moneyNeedCost = 0.0;
         for (; orderIndex < orderNum; orderIndex++) {
             curBookOrder = self.bookOrdersArray[orderIndex];
             curBookOrder.payType = payTypeMoney;
-            moneyNeedCost += [curBookOrder.price floatValue];
             _remainderMoney -= [curBookOrder.price floatValue];
-            if (_validMoney < moneyNeedCost) { // 当余额不足时
+            if (_remainderMoney < 0) { // 当余额不足时
                 curBookOrder.isDeficit = YES;
             } else {
                 curBookOrder.isDeficit = NO;
@@ -764,28 +711,26 @@
                 couponCost += [bookOrder.price intValue];
             }
         }
-        couponPayStr = [NSString stringWithFormat:@"使用%d张学时券，抵%d元。", useCouponNum, couponCost];
+        couponPayStr = [NSString stringWithFormat:@"学时券%d张，抵%d元。", useCouponNum, couponCost];
     }
     
     // 小巴币支付统计
     NSString *coinPayStr = @"";
     int useCoinNum = _validCoinNum - _remainderCoinNum;
-    int coinCost = 0;
     if (useCoinNum > 0) {
-        coinCost = useCoinNum;
-        coinPayStr = [NSString stringWithFormat:@"使用%d个小巴币，抵%d元。", useCoinNum, coinCost];
+        coinPayStr = [NSString stringWithFormat:@"小巴币%d个，抵%d元。", useCoinNum, useCoinNum];
     }
     
     // 余额支付统计
     NSString *moneyPayStr = @"";
-    int needMoney = [self.priceSum intValue] - couponCost - coinCost;// 需要用余额支付的数目
+    int needMoney = [self.priceSum intValue] - couponCost - useCoinNum;// 需要用余额支付的数目
     if (_validMoney >= (float)needMoney) { // 余额充足
         if (needMoney > 0) { // 使用到余额支付时
-            moneyPayStr = [NSString stringWithFormat:@"使用余额支付%d元。", needMoney];
+            moneyPayStr = [NSString stringWithFormat:@"余额支付%d元。", needMoney];
         }
         self.moneyIsDeficit = NO;
     } else {
-        moneyPayStr = [NSString stringWithFormat:@"需用余额支付%d元,余额不足请充值！", needMoney];
+        moneyPayStr = [NSString stringWithFormat:@"需用余额支付%d元,余额不足！", needMoney];
         self.moneyIsDeficit = YES;
     }
     
@@ -851,7 +796,17 @@
         else if (bookOrder.payType == payTypeMoney) {
             payType = @"1";
         }
+        // 混合支付
+        else if (bookOrder.payType == payTypeMix) {
+            payType = @"4";
+            delMoney = [NSString stringWithFormat:@"%lu", (unsigned long)bookOrder.delMoney];
+        }
         
+        // 订单总额
+        NSString *total = [NSString stringWithFormat:@"%ld", (long)[bookOrder.price integerValue]];
+        
+        // 请求参数
+        [mutableDic setObject:total forKey:@"total"];
         [mutableDic setObject:recordid forKey:@"recordid"];
         [mutableDic setObject:delMoney forKey:@"delmoney"];
         [mutableDic setObject:payType forKey:@"paytype"];
@@ -1044,19 +999,27 @@
 
 // 选择支付方式
 - (IBAction)choosePayType:(UIButton *)sender {
-    if ([sender isEqual:self.selectedBtn]) {
+    if (sender.selected) {
+        if ([sender isEqual:self.coinSelectBtn] && self.targetBookOrder.payType == payTypeMix) {
+            [self selectButton:self.moneySelectBtn];
+            self.targetBookOrder.payType = payTypeMoney;
+        }
         return;
     }
     else {
         sender.selected = YES;
-        self.selectedBtn = sender;
         
         // 改变订单支付方式
         if ([sender isEqual:self.couponSelectBtn]) {
             self.targetBookOrder.payType = payTypeCoupon;
         }
         else if ([sender isEqual:self.coinSelectBtn]) {
-            self.targetBookOrder.payType = payTypeCoin;
+            if (_remainderCoinNum < [self.targetBookOrder.price intValue]) {
+                self.targetBookOrder.payType = payTypeMix;
+                self.targetBookOrder.delMoney = _remainderCoinNum;
+            } else {
+                self.targetBookOrder.payType = payTypeCoin;
+            }
         }
         else if ([sender isEqual:self.moneySelectBtn]) {
             self.targetBookOrder.payType = payTypeMoney;
@@ -1076,6 +1039,10 @@
     }
     else if (self.targetBookOrder.payType == payTypeMoney) {
         _remainderMoney -= [self.targetBookOrder.price floatValue];
+    }
+    else if (self.targetBookOrder.payType == payTypeMix) {
+        _remainderCoinNum -= self.targetBookOrder.delMoney;
+        _remainderMoney -= (float)([self.targetBookOrder.price intValue] - self.targetBookOrder.delMoney);
     }
     
     [UIView animateWithDuration:0.35 animations:^{

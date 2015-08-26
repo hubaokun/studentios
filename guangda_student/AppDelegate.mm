@@ -446,6 +446,9 @@
     params[@"devicetype"] = @"1"; // 设备类型
     params[@"version"] = APP_VERSION; // 版本号
     
+    // 操作平台
+    params[@"ostype"] = @"1";
+    
     NSString *uri = @"/suser?action=login";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:params RequestMethod:Request_POST];
     
