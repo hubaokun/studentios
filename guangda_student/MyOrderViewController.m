@@ -31,6 +31,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
     CGFloat _rowHeight;
     NSString *_pageNum;
     BMKLocationService *_locService;
+    int _alertType; // 提示框类型 1.确认上车 2.确认下车 3.取消投诉
 }
 @property (strong, nonatomic) DSPullToRefreshManager *pullToRefresh;    // 下拉刷新
 @property (strong, nonatomic) DSBottomPullToMoreManager *pullToMore;    // 上拉加载
@@ -57,6 +58,10 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
 @property (assign, nonatomic) OrderListType orderListType;
 @property (assign, nonatomic) OrderListType targetOrderListType;
 @property (strong, nonatomic) NSMutableArray *orderList;
+@property (copy, nonatomic) NSString *cancelOrderId;
+@property (copy, nonatomic) NSString *confirmOrderId;
+@property (copy, nonatomic) NSString *cancelComplainOrderId;
+@property (strong, nonatomic) NSTimer *confirmTimer;
 
 - (IBAction)clickForUnfinishedOrder:(id)sender;
 - (IBAction)clickForWaitEvaluateOrder:(id)sender;
@@ -151,139 +156,6 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
     cell.order = order;
     [cell loadData];
     return cell;
-    
-//    // 未完成订单
-//    if (self.orderListType == OrderListTypeUncomplete) {
-//        static NSString *ID = @"UnfinishedOrderTableViewCellIdentifier";
-//        UnfinishedOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-//        if (nil == cell) {
-//            [tableView registerNib:[UINib nibWithNibName:@"UnfinishedOrderTableViewCell" bundle:nil] forCellReuseIdentifier:ID];
-//            cell = [tableView dequeueReusableCellWithIdentifier:ID];
-//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        }
-//        
-//        // 取得数据
-//        NSDictionary *orderDic = _orderList[indexPath.row];
-//        
-//        // 加载数据
-//        GuangdaOrder *unfinishedOrder = [GuangdaOrder orderWithDict:orderDic];
-//        cell.unfinishedOrder = unfinishedOrder;
-//        [cell loadData:nil];
-//        
-//        // 按钮点击事件
-//        [cell.complainBtn removeTarget:self action:@selector(clickToComplain:) forControlEvents:UIControlEventTouchUpInside];
-//        [cell.complainBtn addTarget:self action:@selector(clickToComplain:) forControlEvents:UIControlEventTouchUpInside];
-//        cell.complainBtn.tag = 100 + indexPath.row;
-//        
-//        [cell.cancelComplainBtn removeTarget:self action:@selector(clickForCancelComplaint:) forControlEvents:UIControlEventTouchUpInside];
-//        [cell.cancelComplainBtn addTarget:self action:@selector(clickForCancelComplaint:) forControlEvents:UIControlEventTouchUpInside];
-//        cell.cancelComplainBtn.tag = 200 + indexPath.row;
-//        
-//        [cell.cancelOrderBtn removeTarget:self action:@selector(clickForCancelOrder:) forControlEvents:UIControlEventTouchUpInside];
-//        [cell.cancelOrderBtn addTarget:self action:@selector(clickForCancelOrder:) forControlEvents:UIControlEventTouchUpInside];
-//        cell.cancelOrderBtn.tag = 300 + indexPath.row;
-//        
-//
-//        [cell.confirmOnBtn removeTarget:self action:@selector(clickForConfirmOn:) forControlEvents:UIControlEventTouchUpInside];
-//        [cell.confirmOnBtn addTarget:self action:@selector(clickForConfirmOn:) forControlEvents:UIControlEventTouchUpInside];
-//        cell.confirmOnBtn.tag = 400 + indexPath.row;
-//        
-//        [cell.confirmDownBtn removeTarget:self action:@selector(clickForConfirmDown:) forControlEvents:UIControlEventTouchUpInside];
-//        [cell.confirmDownBtn addTarget:self action:@selector(clickForConfirmDown:) forControlEvents:UIControlEventTouchUpInside];
-//        cell.confirmDownBtn.tag = 500 + indexPath.row;
-//        
-//        [cell.evaluateBtn removeTarget:self action:@selector(clickToMyOrderEvaluation:) forControlEvents:UIControlEventTouchUpInside];
-//        [cell.evaluateBtn addTarget:self action:@selector(clickToMyOrderEvaluation:) forControlEvents:UIControlEventTouchUpInside];
-//        cell.evaluateBtn.tag = 600 + indexPath.row;
-//        
-//        [cell.continueAppointBtn removeTarget:self action:@selector(appointCoachClick:) forControlEvents:UIControlEventTouchUpInside];
-//        [cell.continueAppointBtn addTarget:self action:@selector(appointCoachClick:) forControlEvents:UIControlEventTouchUpInside];
-//        NSMutableDictionary *dict = [orderDic[@"cuserinfo"] mutableCopy];
-//        NSString *detail = [orderDic[@"detail"] description];
-//        [dict setObject:detail forKey:@"detail"];
-//        cell.continueAppointBtn.data = dict;
-//        
-//        return cell;
-//    }
-//    
-//    // 待评价订单
-//    else if (self.orderListType == OrderListTypeWaitEvaluate) {
-//        static NSString *ID = @"WaitEvaluationOrderTableViewCellIdentifier";
-//        WaitEvaluationOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-//        if (nil == cell) {
-//            [tableView registerNib:[UINib nibWithNibName:@"WaitEvaluationOrderTableViewCell" bundle:nil] forCellReuseIdentifier:ID];
-//            cell = [tableView dequeueReusableCellWithIdentifier:ID];
-//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        }
-//        
-//        // 取得数据
-//        NSDictionary *orderDic = _orderList[indexPath.row];
-//        
-//        // 加载数据
-//        GuangdaOrder *waitEvaluationOrder = [GuangdaOrder orderWithDict:orderDic];
-//        cell.waitEvaluationOrder = waitEvaluationOrder;
-//        [cell loadData:nil];
-//        
-//        // 按钮点击事件
-//        [cell.complainBtn removeTarget:self action:@selector(clickToComplain:) forControlEvents:UIControlEventTouchUpInside];
-//        [cell.complainBtn addTarget:self action:@selector(clickToComplain:) forControlEvents:UIControlEventTouchUpInside];
-//        cell.complainBtn.tag = 100 + indexPath.row;
-//        
-//        [cell.evaluateBtn removeTarget:self action:@selector(clickToMyOrderEvaluation:) forControlEvents:UIControlEventTouchUpInside];
-//        [cell.evaluateBtn addTarget:self action:@selector(clickToMyOrderEvaluation:) forControlEvents:UIControlEventTouchUpInside];
-//        cell.evaluateBtn.tag = 600 + indexPath.row;
-//        
-//        [cell.continueAppointBtn removeTarget:self action:@selector(appointCoachClick:) forControlEvents:UIControlEventTouchUpInside];
-//        [cell.continueAppointBtn addTarget:self action:@selector(appointCoachClick:) forControlEvents:UIControlEventTouchUpInside];
-//        NSMutableDictionary *dict = [orderDic[@"cuserinfo"] mutableCopy];
-//        NSString *detail = [orderDic[@"detail"] description];
-//        [dict setObject:detail forKey:@"detail"];
-//        cell.continueAppointBtn.data = dict;
-//
-//        return cell;
-//    }
-//    
-//    // 已完成订单
-//    else if (self.orderListType == OrderListTypeComplete){
-//        static NSString *ID = @"HistoricOrderTableViewCellIdentifier";
-//        HistoricOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-//        if (nil == cell) {
-//            [tableView registerNib:[UINib nibWithNibName:@"HistoricOrderTableViewCell" bundle:nil] forCellReuseIdentifier:ID];
-//            cell = [tableView dequeueReusableCellWithIdentifier:ID];
-//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//            [cell.complainBtn addTarget:self action:@selector(clickToComplain:) forControlEvents:UIControlEventTouchUpInside];
-//        }
-//        
-//        // 取得数据
-//        NSDictionary *orderDic = _orderList[indexPath.row];
-//        
-//        // 加载数据
-//        GuangdaOrder *historicOrder = [GuangdaOrder orderWithDict:orderDic];
-//        cell.historicOrder = historicOrder;
-//        [cell loadData:nil];
-//        
-//        // 按钮点击事件
-//        [cell.complainBtn removeTarget:self action:@selector(clickToComplain:) forControlEvents:UIControlEventTouchUpInside];
-//        [cell.complainBtn addTarget:self action:@selector(clickToComplain:) forControlEvents:UIControlEventTouchUpInside];
-//        cell.complainBtn.tag = 100 + indexPath.row;
-//        
-//        [cell.cancelComplainBtn removeTarget:self action:@selector(clickForCancelComplaint:) forControlEvents:UIControlEventTouchUpInside];
-//        [cell.cancelComplainBtn addTarget:self action:@selector(clickForCancelComplaint:) forControlEvents:UIControlEventTouchUpInside];
-//        cell.cancelComplainBtn.tag = 200 + indexPath.row;
-//        
-//        [cell.evaluateBtn removeTarget:self action:@selector(clickToMyOrderEvaluation:) forControlEvents:UIControlEventTouchUpInside];
-//        [cell.evaluateBtn addTarget:self action:@selector(clickToMyOrderEvaluation:) forControlEvents:UIControlEventTouchUpInside];
-//        cell.evaluateBtn.tag = 600 + indexPath.row;
-//        
-//        [cell.continueAppointBtn removeTarget:self action:@selector(appointCoachClick:) forControlEvents:UIControlEventTouchUpInside];
-//        [cell.continueAppointBtn addTarget:self action:@selector(appointCoachClick:) forControlEvents:UIControlEventTouchUpInside];
-//        NSMutableDictionary *dict = [orderDic[@"cuserinfo"] mutableCopy];
-//        NSString *detail = [orderDic[@"detail"] description];
-//        [dict setObject:detail forKey:@"detail"];
-//        cell.continueAppointBtn.data = dict;
-//
-//        return cell;
-//    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -608,7 +480,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
         if (code == 1) {
 //            [self makeToast:@"订单已取消"];
             [self clickForCloseMoreOperation:nil];
-            [self postGetOrder];
+            [self getFreshData];
         }else if(code == 95){
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
@@ -652,7 +524,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
         int code = [responseObject[@"code"] intValue] ;
         if (code == 1) {
             [self makeToast:@"取消投诉成功"];
-            [self postGetOrder];
+            [self getFreshData];
         }else if(code == 95){
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
@@ -703,7 +575,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
         int code = [responseObject[@"code"] intValue];
         if (code == 1) {
             [self makeToast:@"确认上车成功"];
-            [self postGetOrder];
+            [self getFreshData];
         }else if(code == 95){
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
@@ -891,13 +763,30 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
     [self.view addSubview:self.moreOperationView];
 }
 
+// 投诉
+- (void)complain:(GuangdaOrder *)order
+{
+    MyOrderComplainViewController *nextVC = [[MyOrderComplainViewController alloc] init];
+    nextVC.orderid = order.orderId;
+    [self.navigationController pushViewController:nextVC animated:YES];
+}
+
+// 取消投诉
+- (void)cancelComplain:(GuangdaOrder *)order
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确定要取消投诉？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    _alertType = 3;
+    self.cancelComplainOrderId = order.orderId;
+    [alert show];
+}
+
 // 确认上车
 - (void)confirmOn:(GuangdaOrder *)order
 {
     //定位
     [self startLocation];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确认上车？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    self.confirmOnAlert = alert;
+    _alertType = 1;
     [alert show];
     self.confirmOrderId = order.orderId;
 }
@@ -908,31 +797,27 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
     //定位
     [self startLocation];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确认下车？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    self.confirmDownAlert = alert;
+    _alertType = 2;
     [alert show];
     self.confirmOrderId = order.orderId;
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if ([alertView isEqual:self.confirmOnAlert]) { // 确认上车
+    if (_alertType == 1) { // 确认上车
         if (buttonIndex == 1) {
             [DejalBezelActivityView activityViewForView:self.view];
             self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(postConfirmOn) userInfo:nil repeats:NO];
         }
-    } else {
-        if (buttonIndex == 1) { // 确认下车
+    } else if (_alertType == 2) { // 确认下车
+        if (buttonIndex == 1) {
             [DejalBezelActivityView activityViewForView:self.view];
             self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(postConfirmDown) userInfo:nil repeats:NO];
         }
+    } else if (_alertType == 3) { // 取消投诉
+        if (buttonIndex == 1) {
+            [self postCancelComplaint:self.cancelComplainOrderId];
+        }
     }
-}
-
-// 投诉
-- (void)complain:(GuangdaOrder *)order
-{
-    MyOrderComplainViewController *nextVC = [[MyOrderComplainViewController alloc] init];
-    nextVC.orderid = order.orderId;
-    [self.navigationController pushViewController:nextVC animated:YES];
 }
 
 // 评价

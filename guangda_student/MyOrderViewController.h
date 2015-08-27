@@ -12,11 +12,6 @@
 @interface MyOrderViewController : GreyTopViewController
 
 @property (strong, nonatomic) IBOutlet UIImageView *bgImageView;
-@property (strong, nonatomic) UIAlertView *cancelOrderAlert;
-@property (copy, nonatomic) NSString *cancelOrderId;
-@property (strong, nonatomic) UIAlertView *confirmOnAlert;
-@property (strong, nonatomic) UIAlertView *confirmDownAlert;
-@property (copy, nonatomic) NSString *confirmOrderId;
-@property (strong, nonatomic) NSTimer *confirmTimer;
+
 
 @end

@@ -18,6 +18,8 @@
 - (void)confirmDown:(GuangdaOrder *)order;
 // 投诉
 - (void)complain:(GuangdaOrder *)order;
+// 取消投诉
+- (void)cancelComplain:(GuangdaOrder *)order;
 // 评价
 - (void)eveluate:(GuangdaOrder *)order;
 // 继续预约

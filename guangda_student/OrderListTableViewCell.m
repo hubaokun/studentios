@@ -178,6 +178,9 @@
     
     // 待处理订单
     else if (self.order.orderType == OrderTypeAbnormal) {
+        if (self.order.minutes == -5) { // 投诉订单
+            [self cancelComplainBtnConfig:self.rightBtn];
+        }
     }
 }
 
@@ -250,6 +253,18 @@
              action:@selector(complainClick)];
 }
 
+// 取消投诉按钮
+- (void)cancelComplainBtnConfig:(UIButton *)btn
+{
+    [self btnConfig:btn withBorderWidth:BORDER_WIDTH
+        borderColor:[CUSTOM_GREEN CGColor]
+       cornerRadius:4
+    backgroundColor:[UIColor whiteColor]
+              title:@"取消投诉"
+         titleColor:CUSTOM_GREEN
+             action:@selector(cancelComplainClick)];
+}
+
 // 评价按钮
 - (void)eveluateBtnConfig:(UIButton *)btn
 {
@@ -304,6 +319,14 @@
 {
     if ([self.delegate respondsToSelector:@selector(complain:)]) {
         [self.delegate complain:self.order];
+    }
+}
+
+// 取消投诉
+- (void)cancelComplainClick
+{
+    if ([self.delegate respondsToSelector:@selector(cancelComplain:)]) {
+        [self.delegate cancelComplain:self.order];
     }
 }
 

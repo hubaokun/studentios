@@ -35,6 +35,9 @@ typedef NS_OPTIONS(NSUInteger, OrderType) {
 @property (copy, nonatomic) NSString *carLicense;   // 牌照
 @property (copy, nonatomic) NSString *modelid;      // 准教车型
 @property (copy, nonatomic) NSString *subjectName;  // 科目
+@property (copy, nonatomic) NSString *reason;       // 投诉原因
+@property (copy, nonatomic) NSString *complaintContent;  // 投诉内容
+
 /* 
  * 距离订单开始的分钟数，若不为正则代表订单某个特殊状态
  * 0    订单即将开始

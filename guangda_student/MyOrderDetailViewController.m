@@ -18,13 +18,17 @@
 #define CUSTOM_GREY RGB(60, 60, 60)
 #define CUSTOM_GREEN RGB(80, 203, 140)
 #define BORDER_WIDTH 0.7
+#define COMPLAINLABEL_TOPSPACE 6.0
 
 @interface MyOrderDetailViewController () <StarRatingViewDelegate, BMKLocationServiceDelegate, BMKGeoCodeSearchDelegate, BMKGeneralDelegate, UIAlertViewDelegate> {
     CGFloat strHeight1;
     CGFloat strHeight2;
     BMKLocationService *_locService;
     int _payType; // 支付方式 1.账户余额 2.学时券 3.小巴币
+    int _alertType; // 提示框类型 1.确认上车 2.确认下车 3.取消投诉
 }
+
+@property (weak, nonatomic) IBOutlet UIScrollView *mainScrollView;
 
 // orderinfo
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;      // 订单状态
@@ -32,6 +36,7 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *orderInfoHeightCon;
 @property (weak, nonatomic) IBOutlet UILabel *orderIDLabel;
 @property (strong, nonatomic) IBOutlet UILabel *coachNameLabel;
+
 @property (strong, nonatomic) IBOutlet UILabel *orderCreateDateLabel;
 @property (strong, nonatomic) IBOutlet UILabel *coachPhoneLabel;
 @property (strong, nonatomic) IBOutlet UILabel *orderTimeLabel;
@@ -39,6 +44,14 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *orderAddrLabelHeightCon;
 @property (strong, nonatomic) IBOutlet UIView *priceView;
 @property (strong, nonatomic) IBOutlet UILabel *costLabel;
+// 投诉信息
+@property (weak, nonatomic) IBOutlet UIView *complainBar;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *complainBarHeightCon;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *complainBarTopSpaceCon;
+@property (weak, nonatomic) IBOutlet UIButton *complainBarBtn;
+@property (weak, nonatomic) UILabel *complainLabel;
+@property (assign, nonatomic) BOOL complainBarIsSpread; // 投诉信息是否已展开
+@property (assign, nonatomic) CGFloat increaseHeight; // 投诉信息展开需增加的高度
 
 // btn
 @property (weak, nonatomic) IBOutlet UIButton *rightBtn;        // 右边按钮
@@ -61,11 +74,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *coachEvaluationLabel;
 @property (strong, nonatomic) IBOutlet UILabel *scoreToMeLabel;
 
-// 提示框
-@property (strong, nonatomic) UIAlertView *confirmOnAlert;
-@property (strong, nonatomic) UIAlertView *confirmDownAlert;
-@property (strong, nonatomic) NSTimer *confirmTimer;
-
+// 取消订单
 @property (strong, nonatomic) IBOutlet UIView *moreOperationView; // 更多操作
 @property (strong, nonatomic) IBOutlet UIView *sureCancelOrderView; // 确认取消订单
 @property (strong, nonatomic) IBOutlet UILabel *cancelOrderBannerLabel; // 提示订单正在确认取消中
@@ -82,6 +91,7 @@
 @property (strong, nonatomic) NSDictionary *evaluationDic;      // 教练对我的评价
 
 //用户定位
+@property (strong, nonatomic) NSTimer *confirmTimer;
 @property (nonatomic) CLLocationCoordinate2D userCoordinate;
 @property (strong, nonatomic) NSString *cityName;//城市
 @property (strong, nonatomic) NSString *address;//地址
@@ -157,9 +167,9 @@
         else if (minutes == -1) {
             self.statusLabel.text = @"正在学车中...";
         }
-        else if (minutes == -2) {
-            self.statusLabel.text = @"等待投诉处理";
-        }
+//        else if (minutes == -2) {
+//            self.statusLabel.text = @"等待投诉处理";
+//        }
         else if (minutes == -3) {
             self.statusLabel.text = @"等待确认上车";
         }
@@ -236,6 +246,9 @@
 
 // 显示订单信息
 - (void)orderInfoViewShowData {
+    // 投诉信息
+    [self complainBarConfig];
+    
     // 教练
     self.coachNameLabel.text = [NSString stringWithFormat:@"%@ 教练", self.coach.realName];
     
@@ -309,7 +322,10 @@
     _coachEvaluationViewHeight.constant = _coachEvaluationViewHeight.constant - 13 + strHeight2;
     
     _orderInfoHeightCon.constant = _orderInfoHeightCon.constant - 13 + addrStrHeight - 13 +priceViewHeight;
-    _mainViewHeight.constant = _mainViewHeight.constant - 13 + addrStrHeight - 26 + strHeight1 + strHeight2 - 13 + priceViewHeight;
+    if (self.order.minutes == -5) { // 投诉中订单
+        _orderInfoHeightCon.constant += _complainBarHeightCon.constant;
+    }
+    _mainViewHeight.constant = _orderInfoHeightCon.constant + _myEvaluationViewHeight.constant + _coachEvaluationViewHeight.constant + 22;
     
     // 按钮配置
     [self operationBtnsConfig];
@@ -320,6 +336,77 @@
     } else {
         self.cancelOrderBannerLabel.hidden = YES;
     }
+}
+
+// 投诉信息view
+- (void)complainBarConfig {
+    if (self.order.minutes == -5) {
+        self.complainBar.hidden = NO;
+        self.complainBarTopSpaceCon.constant = 0;
+        self.complainLabel.hidden = YES;
+        self.complainBarIsSpread = NO;
+        
+        UILabel *complainLabel = [[UILabel alloc] init];
+        self.complainLabel = complainLabel;
+        [self.complainBar addSubview:complainLabel];
+        CGFloat complainLabelW = SCREEN_WIDTH - 42;
+        CGFloat complainLabelH = 0;
+        CGFloat complainLabelX = 10;
+        CGFloat complainLabelY = 25 + COMPLAINLABEL_TOPSPACE; // 25是title的底部y值
+        complainLabel.frame = CGRectMake(complainLabelX, complainLabelY, complainLabelW, complainLabelH);
+        complainLabel.backgroundColor = [UIColor clearColor];
+        complainLabel.font = [UIFont systemFontOfSize:13];
+        complainLabel.textAlignment = NSTextAlignmentLeft;
+        complainLabel.numberOfLines = 0;
+        complainLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    }
+}
+
+// 展开投诉信息
+- (void)complainBarSpread {
+    if ([CommonUtil isEmpty:self.complainLabel.text]) {
+        // 投诉内容
+        NSString *reson = [NSString stringWithFormat:@"#%@#", self.order.reason];
+        NSString *content = self.order.complaintContent;
+        NSString *complainStr = [NSString stringWithFormat:@"%@%@", reson, content];
+        
+        NSMutableAttributedString *complainAts = [[NSMutableAttributedString alloc] initWithString:complainStr];
+        [complainAts addAttribute:NSForegroundColorAttributeName value:RGB(84, 204, 153) range:NSMakeRange(0, reson.length)];
+        [complainAts addAttribute:NSForegroundColorAttributeName value:RGB(61, 61, 61) range:NSMakeRange(reson.length, content.length)];
+        self.complainLabel.attributedText = complainAts;
+        
+        // 根据投诉的内容设置控件高度
+        CGFloat complainLabelHeight = [CommonUtil sizeWithString:complainStr fontSize:13 sizewidth:self.complainLabel.width sizeheight:MAXFLOAT].height;
+        self.complainLabel.height = complainLabelHeight;
+        self.increaseHeight = complainLabelHeight + COMPLAINLABEL_TOPSPACE;
+        
+    }
+    
+    [self.complainBarBtn setImage:[UIImage imageNamed:@"icon_myorder_uparrow"] forState:UIControlStateNormal];
+    self.complainLabel.hidden = NO;
+    self.complainBarIsSpread = YES;
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        self.complainBarHeightCon.constant += self.increaseHeight;
+        self.orderInfoHeightCon.constant += self.increaseHeight;
+        self.mainViewHeight.constant += self.increaseHeight;
+        [self.view layoutIfNeeded];
+    }];
+}
+
+// 收起投诉信息
+- (void)complainBarFold {
+    [self.complainBarBtn setImage:[UIImage imageNamed:@"icon_myorder_downarrow"] forState:UIControlStateNormal];
+    self.complainBarIsSpread = NO;
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        self.complainBarHeightCon.constant -= self.increaseHeight;
+        self.orderInfoHeightCon.constant -= self.increaseHeight;
+        self.mainViewHeight.constant -= self.increaseHeight;
+        [self.view layoutIfNeeded];
+    }completion:^(BOOL finished) {
+        self.complainLabel.hidden = YES;
+    }];
 }
 
 // 科目车型(需求更改导致)
@@ -428,6 +515,18 @@
              action:@selector(complainClick)];
 }
 
+// 取消投诉按钮
+- (void)cancelComplainBtnConfig:(UIButton *)btn
+{
+    [self btnConfig:btn withBorderWidth:BORDER_WIDTH
+        borderColor:[CUSTOM_GREEN CGColor]
+       cornerRadius:4
+    backgroundColor:[UIColor whiteColor]
+              title:@"取消投诉"
+         titleColor:CUSTOM_GREEN
+             action:@selector(cancelComplainClick)];
+}
+
 // 评价按钮
 - (void)eveluateBtnConfig:(UIButton *)btn
 {
@@ -468,7 +567,6 @@
             if (self.order.canUp) { // 可以确认上车
 
             }
-            
             else if (self.order.canDown) { // 可以确认下车
                 [self confirmDownBtnConfig:self.rightBtn];
                 [self complainBtnConfig:self.leftBtn];
@@ -492,7 +590,9 @@
     
     // 待处理订单
     else if (self.order.orderType == OrderTypeAbnormal) {
-
+        if (self.order.minutes == -5) { // 投诉订单
+            [self cancelComplainBtnConfig:self.rightBtn];
+        }
     }
 }
 
@@ -632,7 +732,7 @@
         if (code == 1) {
             [self printDic:responseObject withTitle:@"订单详细-取消投诉"];
             [self makeToast:@"已取消投诉"];
-            [self viewWillAppear:YES];
+            [self.navigationController popViewControllerAnimated:YES];
         }else if(code == 95){
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
@@ -898,16 +998,18 @@
 }
 
 // 取消投诉
-//- (void)clickForCancelComplain {
-//    [self postCancelComplaint];
-//}
+- (void)cancelComplainClick {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确定要取消投诉？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    _alertType = 3;
+    [alert show];
+}
 
 // 确认上车
 - (void)confirmOnClick {
     //定位
     [self startLocation];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确认上车？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    self.confirmOnAlert = alert;
+    _alertType = 1;
     [alert show];
 }
 
@@ -916,24 +1018,30 @@
     //定位
     [self startLocation];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确认下车？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    self.confirmDownAlert = alert;
+    _alertType = 2;
     [alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     // 确认上车
-    if ([alertView isEqual:self.confirmOnAlert]) {
+    if (_alertType == 1) {
         if (buttonIndex == 1) {
             [DejalBezelActivityView activityViewForView:self.view];
             self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(postConfirmOn) userInfo:nil repeats:NO];
         }
     }
     // 确认下车
-    else {
+    else if (_alertType == 2) {
         if (buttonIndex == 1) {
             [DejalBezelActivityView activityViewForView:self.view];
             self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(postConfirmDown) userInfo:nil repeats:NO];
             //            [self performSelector:@selector(postConfirmDown:) withObject:self.confirmOrderId afterDelay:5];
+        }
+    }
+    // 取消投诉
+    else if (_alertType == 3) {
+        if (buttonIndex == 1) {
+            [self postCancelComplaint];
         }
     }
 }
@@ -952,8 +1060,7 @@
 }
 
 // 继续预约
-- (void)bookMoreClick
-{
+- (void)bookMoreClick {
     // 预约教练
     AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
     nextController.coachInfoDic = self.order.coachInfoDict;
@@ -961,6 +1068,15 @@
     UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
     navigationController.navigationBarHidden = YES;
     [self presentViewController:navigationController animated:YES completion:nil];
+}
+
+// 投诉内容
+- (IBAction)complainBarClick {
+    if (self.complainBarIsSpread) {
+        [self complainBarFold];
+    } else {
+        [self complainBarSpread];
+    }
 }
 
 - (IBAction)backClick:(id)sender

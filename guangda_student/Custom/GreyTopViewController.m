@@ -14,7 +14,7 @@
 
 @implementation GreyTopViewController
 
-//此方法设置的是白色子体
+//此方法设置的是黑色子体
 //******************************************
 - (UIStatusBarStyle)preferredStatusBarStyle
 {

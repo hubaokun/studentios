@@ -532,6 +532,10 @@
 -(void)startRequestAdvertisement{
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"model"] = @"1"; // 1:ios 2:安卓
+    params[@"width"] = [NSString stringWithFormat:@"%d", (int)SCREEN_WIDTH * 2]; // 屏幕宽，单位：像素
+    params[@"height"] = [NSString stringWithFormat:@"%d", (int)SCREEN_HEIGHT * 2]; // 屏幕高，单位：像素
+    
     NSString *uri = @"/system?action=CHECKCONFIG";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:params RequestMethod:Request_POST];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
