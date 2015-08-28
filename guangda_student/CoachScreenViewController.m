@@ -58,7 +58,6 @@
     // 设置默认值
     _sex = 0;
     
-    
     self.maxDate = [CommonUtil addDate2:[NSDate date] year:0 month:0 day:29];
     NSInteger year = [CommonUtil getYearOfDate:self.maxDate];
     NSInteger yue = [CommonUtil getMonthOfDate:self.maxDate];
@@ -395,10 +394,10 @@
     }
     
     [paramDic setObject:_subjectID forKey:@"condition6"];
-    
+    paramDic[@"comefrom"] = self.comeFrom;
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"SearchCoachDict" object:paramDic];
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
 #pragma mark - 时间选择操作

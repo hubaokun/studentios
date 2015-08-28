@@ -488,6 +488,7 @@
 - (IBAction)clickForGoSearch:(id)sender {
     CoachScreenViewController *nextController = [[CoachScreenViewController alloc] initWithNibName:@"CoachScreenViewController" bundle:nil];
     nextController.searchDic = self.searchParamDic;
+    nextController.comeFrom = @"2";
     [self presentViewController:nextController animated:YES completion:nil];
     
 }

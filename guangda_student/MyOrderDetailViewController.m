@@ -331,7 +331,7 @@
     [self operationBtnsConfig];
 
     // 订单是否正在取消中
-    if ((self.order.studentState == 4) && (self.order.coachState != 4)) {
+    if ((self.order.studentState == 4) && (self.order.coachState != 4) &&(self.order.minutes != -6)) {
         self.cancelOrderBannerLabel.hidden = NO;
     } else {
         self.cancelOrderBannerLabel.hidden = YES;

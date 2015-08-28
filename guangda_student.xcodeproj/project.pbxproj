@@ -1219,15 +1219,13 @@
 		3179E6A11AC2AF8A00AFCFAA /* class */ = {
 			isa = PBXGroup;
 			children = (
-				7198890B1B639C55000940D3 /* XiaobaServe */,
-				716E271B1B53DD37009CE9E1 /* SignUpToStudy */,
-				713694931B51627700F6D573 /* OnlineTest */,
+				7198890B1B639C55000940D3 /* XiaobaServe（小巴服务） */,
 				B968AF621B1DC0E200806043 /* coupon（小巴券） */,
 				B85CA0731AC3F4E400934B22 /* login（登录） */,
 				315067B61AC3DEAF000C1C13 /* home（地图主页） */,
 				37994CF51AC3D8EB008E30E5 /* UserInfo（个人信息） */,
 				3179E6A21AC2AFD300AFCFAA /* MyOrder（我的订单） */,
-				3179E6A61AC2B05700AFCFAA /* account（账户） */,
+				3179E6A61AC2B05700AFCFAA /* account（钱包） */,
 				3179E6A51AC2B03F00AFCFAA /* systemMessage（系统消息） */,
 				3179E6A41AC2AFF900AFCFAA /* complaint（投诉） */,
 				3179E6A31AC2AFEB00AFCFAA /* setting（设置） */,
@@ -1298,7 +1296,7 @@
 			name = "systemMessage（系统消息）";
 			sourceTree = "<group>";
 		};
-		3179E6A61AC2B05700AFCFAA /* account（账户） */ = {
+		3179E6A61AC2B05700AFCFAA /* account（钱包） */ = {
 			isa = PBXGroup;
 			children = (
 				716E27261B53DD56009CE9E1 /* AccountListViewController.h */,
@@ -1329,7 +1327,7 @@
 				719889071B637691000940D3 /* UserRuleTableViewCell.m */,
 				719889081B637691000940D3 /* UserRuleTableViewCell.xib */,
 			);
-			name = "account（账户）";
+			name = "account（钱包）";
 			sourceTree = "<group>";
 		};
 		31C9D8861AD665AD006A4E80 /* AlipaySDK */ = {
@@ -1648,7 +1646,8 @@
 				713694951B51627700F6D573 /* OnlineTestViewController.m */,
 				713694961B51627700F6D573 /* OnlineTestViewController.xib */,
 			);
-			path = OnlineTest;
+			name = OnlineTest;
+			path = ../OnlineTest;
 			sourceTree = "<group>";
 		};
 		716E271B1B53DD37009CE9E1 /* SignUpToStudy */ = {
@@ -1661,16 +1660,20 @@
 				716E27201B53DD37009CE9E1 /* SignUpViewController.m */,
 				716E27211B53DD37009CE9E1 /* SignUpViewController.xib */,
 			);
-			path = SignUpToStudy;
+			name = SignUpToStudy;
+			path = ../SignUpToStudy;
 			sourceTree = "<group>";
 		};
-		7198890B1B639C55000940D3 /* XiaobaServe */ = {
+		7198890B1B639C55000940D3 /* XiaobaServe（小巴服务） */ = {
 			isa = PBXGroup;
 			children = (
+				713694931B51627700F6D573 /* OnlineTest */,
+				716E271B1B53DD37009CE9E1 /* SignUpToStudy */,
 				7198890C1B639C72000940D3 /* XiaobaServeViewController.h */,
 				7198890D1B639C72000940D3 /* XiaobaServeViewController.m */,
 				7198890E1B639C72000940D3 /* XiaobaServeViewController.xib */,
 			);
+			name = "XiaobaServe（小巴服务）";
 			path = XiaobaServe;
 			sourceTree = "<group>";
 		};
@@ -2112,8 +2115,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2181,8 +2184,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (4M69N8MMVJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fangying Lyu (G2MHM2W3M2)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/TencentOpenAPI",

@@ -9,10 +9,14 @@
 #import "ComplaintTableViewCell.h"
 #import "UIImageView+WebCache.h"
 
+#define CUSTOM_GREEN RGB(80, 203, 140)
+
 @implementation ComplaintTableViewCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    self.btnCancelOutlet.layer.borderWidth = 0.7;
+    self.btnCancelOutlet.layer.borderColor =  [CUSTOM_GREEN CGColor];
+    self.btnCancelOutlet.layer.cornerRadius = 4;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -11,8 +11,10 @@
 
 @interface CoachScreenViewController : GreyTopViewController
 
-@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+/* input */
+@property (copy, nonatomic) NSString *comeFrom; // 1:从主页跳转过来 2:从教练列表跳转过来
 
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UITextField *searchTextField;
 @property (strong, nonatomic) IBOutlet UIButton *btnGoSearch;
 @property (strong, nonatomic) IBOutlet UIButton *btnReset;

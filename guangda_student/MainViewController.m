@@ -191,7 +191,12 @@
     NSString *pointCenter = [NSString stringWithFormat:@"%f,%f", c2.longitude, c2.latitude];
     NSString *radius = [NSString stringWithFormat:@"%f", dis/1000];
     
-    [self requestGetNearByCoachInterfaceWithPointcenter:pointCenter andRadius:radius  needLiadingShow:YES];
+    NSString *comeFrom = self.searchParamDic[@"comefrom"];
+    if ([comeFrom isEqualToString:@"2"]) { // 来自教练列表的消息
+        [self requestGetNearByCoachInterfaceWithPointcenter:pointCenter andRadius:radius  needLiadingShow:NO];
+    } else {
+        [self requestGetNearByCoachInterfaceWithPointcenter:pointCenter andRadius:radius  needLiadingShow:YES];
+    }
 
 }
 
@@ -206,15 +211,10 @@
 // 筛选按钮点击事件
 - (IBAction)selectedBtnClick:(id)sender
 {
-//    if (self.filterButton.tag==1) {
-//        [self.filterButton setImage:[UIImage imageNamed:@"icon_time_selection"] forState:UIControlStateNormal];
-//        self.filterButton.tag=0;
-//    }
-//    else
-//    {
     //跳转至筛选
     CoachScreenViewController *nextController = [[CoachScreenViewController alloc] initWithNibName:@"CoachScreenViewController" bundle:nil];
     nextController.searchDic = self.searchParamDic;
+    nextController.comeFrom = @"1";
     [self presentViewController:nextController animated:YES completion:nil];
     
 }
