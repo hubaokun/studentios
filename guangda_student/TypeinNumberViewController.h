@@ -10,6 +10,7 @@
 
 @interface TypeinNumberViewController : GreyTopViewController
 
+/* input */
 @property (strong, nonatomic) NSString *status;     // 状态 1充值/2提现
 
 @end

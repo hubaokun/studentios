@@ -10,4 +10,8 @@
 
 @interface SignUpViewController : GreyTopViewController
 
+/* input */
+@property (copy, nonatomic) NSString *cityName;
+@property (copy, nonatomic) NSString *cityID;
+
 @end

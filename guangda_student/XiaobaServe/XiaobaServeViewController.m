@@ -153,6 +153,8 @@
 - (IBAction)clickForSign:(id)sender {
     if ([[CommonUtil currentUtil] isLogin]) {
         SignUpViewController *nextViewController = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+        nextViewController.cityID = self.cityID;
+        nextViewController.cityName = self.cityName;
         [self.navigationController pushViewController:nextViewController animated:YES];
     }
 }

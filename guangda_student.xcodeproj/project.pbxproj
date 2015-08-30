@@ -170,6 +170,8 @@
 		7010253F1B89A8D200E6EF9E /* CourseTimetableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7010253D1B89A8D200E6EF9E /* CourseTimetableViewController.m */; };
 		701025401B89A8D200E6EF9E /* CourseTimetableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7010253E1B89A8D200E6EF9E /* CourseTimetableViewController.xib */; };
 		702592F01B8C3B980029F19E /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 702592EF1B8C3B980029F19E /* UIView+Frame.m */; };
+		7025DC191B90472C00A70011 /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7025DC171B90472C00A70011 /* ActivityViewController.m */; };
+		7025DC1A1B90472C00A70011 /* ActivityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7025DC181B90472C00A70011 /* ActivityViewController.xib */; };
 		702BB4671B610AF70023D993 /* china.plist in Resources */ = {isa = PBXBuildFile; fileRef = 702BB4661B610AF70023D993 /* china.plist */; };
 		705EAD701B6A4B3800035F76 /* GuangdaCoach.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD631B6A4B3800035F76 /* GuangdaCoach.m */; };
 		705EAD711B6A4B3800035F76 /* GuangdaOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD651B6A4B3800035F76 /* GuangdaOrder.m */; };
@@ -183,6 +185,8 @@
 		70CC16671B6F4EA600084296 /* libMobClickGameLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */; };
 		70E9BE3B1B846CBE00137D86 /* OrderListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E9BE391B846CBE00137D86 /* OrderListTableViewCell.m */; };
 		70E9BE3C1B846CBE00137D86 /* OrderListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70E9BE3A1B846CBE00137D86 /* OrderListTableViewCell.xib */; };
+		70ED4B841B908DF6003DF624 /* XBExameCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 70ED4B831B908DF6003DF624 /* XBExameCity.m */; };
+		70ED4B871B9092D2003DF624 /* XBExame.m in Sources */ = {isa = PBXBuildFile; fileRef = 70ED4B861B9092D2003DF624 /* XBExame.m */; };
 		713694851B4E3CF500F6D573 /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */; };
 		713694971B51627700F6D573 /* OnlineTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 713694951B51627700F6D573 /* OnlineTestViewController.m */; };
 		713694981B51627700F6D573 /* OnlineTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 713694961B51627700F6D573 /* OnlineTestViewController.xib */; };
@@ -616,6 +620,9 @@
 		7010253E1B89A8D200E6EF9E /* CourseTimetableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CourseTimetableViewController.xib; sourceTree = "<group>"; };
 		702592EE1B8C3B980029F19E /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
 		702592EF1B8C3B980029F19E /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
+		7025DC161B90472C00A70011 /* ActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityViewController.h; sourceTree = "<group>"; };
+		7025DC171B90472C00A70011 /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
+		7025DC181B90472C00A70011 /* ActivityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityViewController.xib; sourceTree = "<group>"; };
 		702BB4661B610AF70023D993 /* china.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = china.plist; sourceTree = "<group>"; };
 		705EAD621B6A4B3800035F76 /* GuangdaCoach.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuangdaCoach.h; sourceTree = "<group>"; };
 		705EAD631B6A4B3800035F76 /* GuangdaCoach.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuangdaCoach.m; sourceTree = "<group>"; };
@@ -642,6 +649,10 @@
 		70E9BE381B846CBE00137D86 /* OrderListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderListTableViewCell.h; sourceTree = "<group>"; };
 		70E9BE391B846CBE00137D86 /* OrderListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderListTableViewCell.m; sourceTree = "<group>"; };
 		70E9BE3A1B846CBE00137D86 /* OrderListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OrderListTableViewCell.xib; sourceTree = "<group>"; };
+		70ED4B821B908DF6003DF624 /* XBExameCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBExameCity.h; sourceTree = "<group>"; };
+		70ED4B831B908DF6003DF624 /* XBExameCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBExameCity.m; sourceTree = "<group>"; };
+		70ED4B851B9092D2003DF624 /* XBExame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBExame.h; sourceTree = "<group>"; };
+		70ED4B861B9092D2003DF624 /* XBExame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBExame.m; sourceTree = "<group>"; };
 		713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = 3rdparty/BaiduMapAPI.framework; sourceTree = "<group>"; };
 		713694941B51627700F6D573 /* OnlineTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlineTestViewController.h; sourceTree = "<group>"; };
 		713694951B51627700F6D573 /* OnlineTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlineTestViewController.m; sourceTree = "<group>"; };
@@ -923,6 +934,9 @@
 				3179E6921AC2929B00AFCFAA /* MainViewController.xib */,
 				3179E6951AC2AAB000AFCFAA /* RightViewController.h */,
 				3179E6961AC2AAB000AFCFAA /* RightViewController.m */,
+				7025DC161B90472C00A70011 /* ActivityViewController.h */,
+				7025DC171B90472C00A70011 /* ActivityViewController.m */,
+				7025DC181B90472C00A70011 /* ActivityViewController.xib */,
 				71BA03121B61E948004C500B /* Images.xcassets */,
 				3179E5801AC2843400AFCFAA /* Supporting Files */,
 			);
@@ -1220,7 +1234,6 @@
 			isa = PBXGroup;
 			children = (
 				7198890B1B639C55000940D3 /* XiaobaServe（小巴服务） */,
-				B968AF621B1DC0E200806043 /* coupon（小巴券） */,
 				B85CA0731AC3F4E400934B22 /* login（登录） */,
 				315067B61AC3DEAF000C1C13 /* home（地图主页） */,
 				37994CF51AC3D8EB008E30E5 /* UserInfo（个人信息） */,
@@ -1299,6 +1312,7 @@
 		3179E6A61AC2B05700AFCFAA /* account（钱包） */ = {
 			isa = PBXGroup;
 			children = (
+				B968AF621B1DC0E200806043 /* coupon（小巴券） */,
 				716E27261B53DD56009CE9E1 /* AccountListViewController.h */,
 				716E27271B53DD56009CE9E1 /* AccountListViewController.m */,
 				716E27281B53DD56009CE9E1 /* AccountListViewController.xib */,
@@ -1603,6 +1617,10 @@
 				705EAD631B6A4B3800035F76 /* GuangdaCoach.m */,
 				705EAD641B6A4B3800035F76 /* GuangdaOrder.h */,
 				705EAD651B6A4B3800035F76 /* GuangdaOrder.m */,
+				70ED4B821B908DF6003DF624 /* XBExameCity.h */,
+				70ED4B831B908DF6003DF624 /* XBExameCity.m */,
+				70ED4B851B9092D2003DF624 /* XBExame.h */,
+				70ED4B861B9092D2003DF624 /* XBExame.m */,
 				705EAD661B6A4B3800035F76 /* XBArea.h */,
 				705EAD671B6A4B3800035F76 /* XBArea.m */,
 				705EAD6A1B6A4B3800035F76 /* XBCity.h */,
@@ -1848,6 +1866,7 @@
 				37F77F701AC8F0A3004D6A44 /* MyOrderEvaluationViewController.xib in Resources */,
 				B85CA06D1AC3A04100934B22 /* LoginViewController.xib in Resources */,
 				B952DCCB1B04DFD000229402 /* statedictionary.plist in Resources */,
+				7025DC1A1B90472C00A70011 /* ActivityViewController.xib in Resources */,
 				B9187BED1B09B3C300366081 /* FindPwdViewController.xib in Resources */,
 				315067C11AC3DF06000C1C13 /* CoachListViewController.xib in Resources */,
 				716E272A1B53DD56009CE9E1 /* AccountListViewController.xib in Resources */,
@@ -1901,6 +1920,7 @@
 				B85CA0771AC3F54E00934B22 /* RegistMsgViewController.m in Sources */,
 				315067C01AC3DF06000C1C13 /* CoachListViewController.m in Sources */,
 				B8C43B921ACD33EE00C96629 /* ChangePwdViewController.m in Sources */,
+				7025DC191B90472C00A70011 /* ActivityViewController.m in Sources */,
 				3179E6571AC284C600AFCFAA /* UIButton+WebCache.m in Sources */,
 				319D3DF01ACD33850098FBFC /* TypeinNumberViewController.m in Sources */,
 				315067BB1AC3DEF9000C1C13 /* CoachListTableViewCell.m in Sources */,
@@ -1935,6 +1955,7 @@
 				316485101AE8E2C300887A18 /* AppointCoachViewController.m in Sources */,
 				B85CA06C1AC3A04100934B22 /* LoginViewController.m in Sources */,
 				314F4E201AEA423F00DD8FC6 /* CoachScreenViewController.m in Sources */,
+				70ED4B871B9092D2003DF624 /* XBExame.m in Sources */,
 				3179E6681AC284C600AFCFAA /* RequestHelper.m in Sources */,
 				3179E6611AC284C600AFCFAA /* CommonUtil+Date.m in Sources */,
 				3179E6AF1AC2B08600AFCFAA /* AccountViewController.m in Sources */,
@@ -2002,6 +2023,7 @@
 				31C9D8ED1AD665AD006A4E80 /* DataVerifier.m in Sources */,
 				719889091B637691000940D3 /* UserRuleTableViewCell.m in Sources */,
 				3179E6BE1AC2B0CB00AFCFAA /* SettingViewController.m in Sources */,
+				70ED4B841B908DF6003DF624 /* XBExameCity.m in Sources */,
 				71BA02F51B61D581004C500B /* CoinListTableViewCell.m in Sources */,
 				3179E6631AC284C600AFCFAA /* DateButton.m in Sources */,
 				B8E4ABE31AC54F6300D6B7DA /* CZCropPreviewOverlayView.m in Sources */,

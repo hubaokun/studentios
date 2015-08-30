@@ -533,9 +533,9 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"model"] = @"1"; // 1:ios 2:安卓
+    params[@"type"] = @"2"; // 1:教练 2:学员
     params[@"width"] = [NSString stringWithFormat:@"%d", (int)SCREEN_WIDTH * 2]; // 屏幕宽，单位：像素
     params[@"height"] = [NSString stringWithFormat:@"%d", (int)SCREEN_HEIGHT * 2]; // 屏幕高，单位：像素
-    
     NSString *uri = @"/adver?action=GETADVERTISEMENT";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:params RequestMethod:Request_POST];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
@@ -543,7 +543,7 @@
     [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSString *code = [responseObject[@"code"] description];
         if ([code isEqualToString:@"1"]) {
-            self.advertisementConfig = responseObject[@"config"];
+            self.advertisementConfig = responseObject;
         }
         // 发送通知取消主线程阻塞
         [self performSelectorOnMainThread:@selector(receivedAdvertisement) withObject:nil waitUntilDone:NO];
@@ -562,9 +562,9 @@
     // 如果取得广告页
     if (self.advertisementConfig) {
         NSDictionary *config = self.advertisementConfig;
-        NSString *advertisement_flag = [config[@"advertisement_flag"] description];
-        if ([advertisement_flag isEqualToString:@"1"]) {
-            NSString *advertisement_url = [config[@"advertisement_url"] description];
+        NSString *s_flash_flag = [config[@"s_flash_flag"] description];
+        if ([s_flash_flag isEqualToString:@"1"]) {
+            NSString *advertisement_url = [config[@"s_img_ios_flash"] description];
             self.lunchView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
             [self.window addSubview:self.lunchView];
             UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height)];

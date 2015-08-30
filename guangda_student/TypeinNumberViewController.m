@@ -281,7 +281,7 @@
 //                [[NSNotificationCenter defaultCenter] postNotificationName:@"alipaySuccessStudent" object:nil];
                 [self makeToast:@"充值成功"];
                 [self.navigationController popViewControllerAnimated:YES];
-            }else{
+            } else {
                 [self makeToast:@"充值失败"];
             }
 //            NSLog(@"post alipaySuccessStudent");
