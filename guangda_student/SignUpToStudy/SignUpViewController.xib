@@ -20,6 +20,7 @@
                 <outlet property="picker" destination="2Hc-e8-GBo" id="Dgj-5t-PM0"/>
                 <outlet property="priceLabel" destination="eGW-Xr-hXT" id="RZO-jB-sW9"/>
                 <outlet property="recordView" destination="U2F-D3-dv4" id="ySV-UA-Bda"/>
+                <outlet property="recordViewHeightCon" destination="fwh-gr-fHY" id="vqi-HU-PEk"/>
                 <outlet property="selectView" destination="9Vf-Ps-VUH" id="5bM-Bg-Kek"/>
                 <outlet property="signUpBtn" destination="ZeP-Uc-fD1" id="9zB-jS-sbs"/>
                 <outlet property="sureBtn" destination="F2x-wg-bMx" id="gde-i9-xCj"/>
@@ -367,7 +368,7 @@
                     </connections>
                 </button>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U2F-D3-dv4" userLabel="recordView">
-                    <rect key="frame" x="0.0" y="299" width="600" height="300"/>
+                    <rect key="frame" x="0.0" y="299" width="600" height="0.0"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DNo-5L-kf5" userLabel="line">
                             <rect key="frame" x="14" y="10" width="572" height="1"/>
@@ -439,7 +440,7 @@
                         <constraint firstItem="03b-C6-Af4" firstAttribute="top" secondItem="U2F-D3-dv4" secondAttribute="top" id="OTG-y8-UIa"/>
                         <constraint firstItem="uqm-tx-2jO" firstAttribute="leading" secondItem="MZM-K9-0h8" secondAttribute="trailing" id="Ti2-TY-B7E"/>
                         <constraint firstItem="MZM-K9-0h8" firstAttribute="top" secondItem="03b-C6-Af4" secondAttribute="bottom" constant="19" id="ZVc-dq-XRe"/>
-                        <constraint firstAttribute="height" constant="300" id="fwh-gr-fHY"/>
+                        <constraint firstAttribute="height" id="fwh-gr-fHY"/>
                         <constraint firstAttribute="trailing" secondItem="uqm-tx-2jO" secondAttribute="trailing" constant="10" id="jZB-BL-MmI"/>
                         <constraint firstItem="ttg-lu-P7W" firstAttribute="top" secondItem="MZM-K9-0h8" secondAttribute="bottom" constant="11" id="koD-SY-XSn"/>
                         <constraint firstAttribute="trailing" secondItem="DNo-5L-kf5" secondAttribute="trailing" constant="14" id="qgg-Ww-F7S"/>
@@ -448,10 +449,46 @@
                         <constraint firstItem="MZM-K9-0h8" firstAttribute="leading" secondItem="U2F-D3-dv4" secondAttribute="leading" constant="10" id="yEe-5Q-SCU"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4aF-af-kfN" userLabel="serve">
+                    <rect key="frame" x="0.0" y="299" width="600" height="50"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小巴客服欢迎您来咨询，" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mkj-5H-mlC">
+                            <rect key="frame" x="14" y="15" width="143" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="143" id="ZZu-Jm-xFC"/>
+                                <constraint firstAttribute="height" constant="21" id="wbA-SD-woS"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="0.52941176470588236" green="0.52941176470588236" blue="0.52941176470588236" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ETO-sO-XUh">
+                            <rect key="frame" x="157" y="14" width="130" height="22"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="22" id="6r6-Y4-FUe"/>
+                                <constraint firstAttribute="width" constant="130" id="N50-yo-hiA"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <state key="normal" title="  群号：470384808" image="ico_qq">
+                                <color key="titleColor" red="0.52941176469999995" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="centerY" secondItem="mkj-5H-mlC" secondAttribute="centerY" id="5Od-gj-t2h"/>
+                        <constraint firstAttribute="height" constant="50" id="DrR-Am-Lli"/>
+                        <constraint firstItem="mkj-5H-mlC" firstAttribute="leading" secondItem="4aF-af-kfN" secondAttribute="leading" constant="14" id="GFh-7q-q6r"/>
+                        <constraint firstItem="ETO-sO-XUh" firstAttribute="leading" secondItem="mkj-5H-mlC" secondAttribute="trailing" id="Kug-v0-SeM"/>
+                        <constraint firstAttribute="centerY" secondItem="ETO-sO-XUh" secondAttribute="centerY" id="yRW-lI-BJo"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="ZeP-Uc-fD1" firstAttribute="top" secondItem="yr6-ng-VVp" secondAttribute="bottom" id="6ck-uO-Llp"/>
+                <constraint firstItem="4aF-af-kfN" firstAttribute="leading" secondItem="lyg-rc-OeV" secondAttribute="leading" id="CId-MB-YUL"/>
                 <constraint firstItem="6nY-9j-Xr5" firstAttribute="top" secondItem="lyg-rc-OeV" secondAttribute="top" id="K0b-zK-TUw"/>
                 <constraint firstAttribute="trailing" secondItem="U2F-D3-dv4" secondAttribute="trailing" id="KWM-HC-sWC"/>
                 <constraint firstItem="yr6-ng-VVp" firstAttribute="top" secondItem="6nY-9j-Xr5" secondAttribute="bottom" id="MDR-BU-8eO"/>
@@ -460,6 +497,8 @@
                 <constraint firstAttribute="centerX" secondItem="ZeP-Uc-fD1" secondAttribute="centerX" id="Rtt-IC-mzy"/>
                 <constraint firstAttribute="trailing" secondItem="yr6-ng-VVp" secondAttribute="trailing" id="btI-Rn-S30"/>
                 <constraint firstAttribute="trailing" secondItem="6nY-9j-Xr5" secondAttribute="trailing" id="gxC-DZ-6e4"/>
+                <constraint firstItem="4aF-af-kfN" firstAttribute="top" secondItem="U2F-D3-dv4" secondAttribute="bottom" id="nF1-0P-SUJ"/>
+                <constraint firstAttribute="trailing" secondItem="4aF-af-kfN" secondAttribute="trailing" id="qPU-qG-JHa"/>
                 <constraint firstItem="6nY-9j-Xr5" firstAttribute="leading" secondItem="lyg-rc-OeV" secondAttribute="leading" id="xo3-oT-Q7t"/>
                 <constraint firstItem="U2F-D3-dv4" firstAttribute="top" secondItem="ZeP-Uc-fD1" secondAttribute="bottom" constant="24" id="zc7-1g-Vf8"/>
             </constraints>
@@ -468,7 +507,7 @@
             <nil key="simulatedBottomBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="313" y="970"/>
+            <point key="canvasLocation" x="336" y="926"/>
         </view>
         <view contentMode="scaleToFill" id="9Vf-Ps-VUH" userLabel="selectView">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
@@ -623,6 +662,7 @@
     <resources>
         <image name="arrow_back_userinfohome" width="10" height="18"/>
         <image name="comment_arrow" width="11" height="20"/>
+        <image name="ico_qq" width="11" height="12"/>
         <image name="icon_close" width="11" height="11"/>
         <image name="报名成功" width="22" height="22"/>
     </resources>

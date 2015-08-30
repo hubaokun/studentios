@@ -35,6 +35,7 @@
 
 // 报名记录
 @property (weak, nonatomic) IBOutlet UIView *recordView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *recordViewHeightCon;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *payedPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
@@ -74,7 +75,7 @@
 
 #pragma mark - 页面设置
 - (void)viewConfig {
-    self.mainView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    self.mainView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 382);
     [self.mainScrollView addSubview:self.mainView];
     self.selectView.frame = [UIScreen mainScreen].bounds;
     self.signUpBtn.layer.cornerRadius = 3;
@@ -149,17 +150,23 @@
     self.cityLabel.text = self.exameState[@"cityname"];
     self.typeLabel.text = self.exameState[@"model"];
     
-    self.priceLabel.hidden = NO;
+    
     NSString *marketPrice = [self.exameState[@"marketprice"] description];
     NSString *xbPrice = [self.exameState[@"xiaobaprice"] description];
-    self.priceLabel.attributedText = [self priceStrCreateByMarketPrice:marketPrice xbPrice:xbPrice];
-   
-    // 显示报名记录
-    self.recordView.hidden = NO;
-    NSDictionary *userDict = USERDICT;
-    self.titleLabel.text = [NSString stringWithFormat:@"%@-%@", userDict[@"realname"], self.exameState[@"model"]];
-    self.payedPriceLabel.text = [NSString stringWithFormat:@"%@元", self.exameState[@"xiaobaprice"]];
-    self.dateLabel.text = [self.exameState[@"enrolltime"] description];
+    if ([CommonUtil isEmpty:marketPrice]) { // 如果是不需要付钱的报名，则不显示价格与支付信息
+        return;
+    } else {
+        self.priceLabel.hidden = NO;
+        self.priceLabel.attributedText = [self priceStrCreateByMarketPrice:marketPrice xbPrice:xbPrice];
+        
+        // 显示报名记录
+        self.recordView.hidden = NO;
+        self.recordViewHeightCon.constant = 82;
+        NSDictionary *userDict = USERDICT;
+        self.titleLabel.text = [NSString stringWithFormat:@"%@-%@", userDict[@"realname"], self.exameState[@"model"]];
+        self.payedPriceLabel.text = [NSString stringWithFormat:@"%@元", self.exameState[@"xiaobaprice"]];
+        self.dateLabel.text = [self.exameState[@"enrolltime"] description];
+    }
 }
 
 #pragma mark - PickerVIew
