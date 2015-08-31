@@ -18,6 +18,9 @@
 }
 @property (strong, nonatomic) IBOutlet TPKeyboardAvoidingScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet UIButton *commitBtn;
+@property (weak, nonatomic) IBOutlet UIButton *backBtn;
+
+
 // 城市选择
 
 @property (strong, nonatomic) IBOutlet UITextField *cityField;
@@ -54,6 +57,10 @@
 
 #pragma mark - 页面设置
 - (void)settingView {
+    if (self.comeFrom == 1) {
+        self.backBtn.hidden = YES;
+    }
+    
     self.phoneField.delegate = self;
     self.nameField.delegate = self;
     [self.phoneField addTarget:self action:@selector(formatPhoneNumber:) forControlEvents:UIControlEventEditingChanged];

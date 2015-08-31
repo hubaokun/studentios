@@ -10,4 +10,6 @@
 
 @interface RecommendCodeViewController : GreyTopViewController
 
+@property (assign, nonatomic) int popType;
+
 @end

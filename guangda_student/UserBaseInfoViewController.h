@@ -20,4 +20,6 @@
 @property (strong, nonatomic) IBOutlet UIImageView *namePencilImage;
 @property (copy, nonatomic) NSString *realName;
 
+@property (assign, nonatomic) int comeFrom; // 1:从报名页面跳转过来
+
 @end

@@ -20,6 +20,8 @@
 #import "MobClick.h"
 #import "UIImageView+WebCache.h"
 #import "RecommendCodeViewController.h"
+#import "ActivityViewController.h"
+
 @interface AppDelegate ()
 <BMKLocationServiceDelegate, WeiboSDKDelegate,BMKGeoCodeSearchDelegate>
 {
@@ -558,7 +560,7 @@
 }
 
 // 显示广告页
-- (void)showAdvertisment {
+- (void)showAdvertisment {    
     // 如果取得广告页
     if (self.advertisementConfig) {
         NSDictionary *config = self.advertisementConfig;
@@ -574,11 +576,14 @@
         }
     }
     // 未取得
-    else {}
+    else {
+        
+    }
 }
 
 - (void)removeLun {
     [self.lunchView removeFromSuperview];
+//    [self.window addSubview:self.actVC.view];
 }
 
 @end

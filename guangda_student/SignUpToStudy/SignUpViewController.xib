@@ -55,7 +55,7 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="backClick:" destination="-1" eventType="touchUpInside" id="nFI-79-YLw"/>
+                                <action selector="backClick:" destination="-1" eventType="touchUpInside" id="2Qn-kL-kAK"/>
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="学车报名" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7LY-cD-Xbz" userLabel="注册">

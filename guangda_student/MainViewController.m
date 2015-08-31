@@ -21,9 +21,12 @@
 #import "XiaobaServeViewController.h"
 #import "ImproveInfoViewController.h"
 #import "RecommendCodeViewController.h"
+#import "SignUpViewController.h"
+
 @interface MainViewController ()<UIGestureRecognizerDelegate, BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationServiceDelegate>
 {
     BMKLocationService *_locService;
+    int _actFlag; // 活动类型 0:不显示 1:跳转到url 2:内部功能
 }
 
 @property (strong, nonatomic) NSDictionary *coachDic;
@@ -38,6 +41,10 @@
 
 @property (strong, nonatomic) UIButton *closeDetailBtn; // 关闭底部教练信息窗口
 @property (strong, nonatomic) MyAnimatedAnnotationView *selectedCar; // 选中的汽车
+
+@property (strong, nonatomic) IBOutlet UIView *actView;
+@property (weak, nonatomic) IBOutlet UIImageView *advImageView;
+@property (copy, nonatomic) NSString *actUrl;
 
 @end
 
@@ -92,6 +99,10 @@
     
     // 检查定位城市和用户设置的城市是否一致
     [self performSelector:@selector(searchCurrentCityName) withObject:nil afterDelay:5.0f];
+    
+    // 请求弹窗广告
+    self.actView.frame = [UIScreen mainScreen].bounds;
+    [self postGetActivityInfo];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -106,9 +117,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [_mapView setZoomLevel:13.5];
-//    });
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -485,6 +493,47 @@
 }
 
 #pragma mark - 请求接口
+// 获取活动弹窗信息
+- (void)postGetActivityInfo {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+    NSString *studentId = [CommonUtil stringForID:USERDICT[@"studentid"]];
+    [params setObject:studentId forKey:@"studentid"];
+    [params setObject:[CommonUtil stringForID:USERDICT[@"token"]] forKey:@"token"];
+    params[@"model"] = @"1"; // 1:ios 2:安卓
+    params[@"type"] = @"2"; // 1:教练 2:学员
+    params[@"width"] = [NSString stringWithFormat:@"%d", (int)SCREEN_WIDTH * 2]; // 屏幕宽，单位：像素
+    params[@"height"] = [NSString stringWithFormat:@"%d", (int)SCREEN_HEIGHT * 2]; // 屏幕高，单位：像素
+    NSString *uri = @"/adver?action=GETADVERTISEMENT";
+    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:params RequestMethod:Request_POST];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [DejalBezelActivityView activityViewForView:self.view];
+    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        [DejalBezelActivityView removeViewAnimated:YES];
+        int code = [responseObject[@"code"] intValue];
+        if (code == 1) {
+            _actFlag = [responseObject[@"s_flag"] intValue];
+            if (_actFlag != 0) {
+                NSString *advImageUrl = responseObject[@"s_img_ios"];
+                self.actUrl = responseObject[@"s_url"];
+                // 显示广告图片
+                [self.advImageView sd_setImageWithURL:[NSURL URLWithString:advImageUrl] placeholderImage:[UIImage imageNamed:@"im_adverro"]];
+                [self.view addSubview:self.actView];
+            }
+        }else{
+            NSString *message = responseObject[@"message"];
+            [self makeToast:message];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [DejalBezelActivityView removeViewAnimated:YES];
+        NSLog(@"连接失败");
+        [self makeToast:ERR_NETWORK];
+    }];
+}
+
 // 请求获取周边教练接口 (中心点坐标 半径 筛选的条件)
 - (void)requestGetNearByCoachInterfaceWithPointcenter:(NSString *)pointcenter
                                             andRadius:(NSString *)radius needLiadingShow:(BOOL) need
@@ -938,66 +987,20 @@
     
 }
 
-#pragma mark - 废弃
-// 顶部弹框提示
-//- (UIView *)createTopAlertView {
-//    UIView *topAlertView = [[UIView alloc] init];
-//    CGFloat topAlertViewW = SCREEN_WIDTH;
-//    CGFloat topAlertViewH = 30;
-//    CGFloat topAlertViewX = 0;
-//    CGFloat topAlertViewY = -30;
-//    topAlertView.frame = CGRectMake(topAlertViewX, topAlertViewY, topAlertViewW, topAlertViewH);
-//    topAlertView.backgroundColor = [UIColor yellowColor];
-//
-//    UILabel *cityAlertLabel = [[UILabel alloc] init];
-//    [topAlertView addSubview:cityAlertLabel];
-//    CGFloat cityAlertLabelW = SCREEN_WIDTH - 20;
-//    CGFloat cityAlertLabelH = topAlertViewH;
-//    CGFloat cityAlertLabelX = (SCREEN_WIDTH - cityAlertLabelW) / 2;
-//    CGFloat cityAlertLabelY = 0;
-//    cityAlertLabel.frame = CGRectMake(cityAlertLabelX, cityAlertLabelY, cityAlertLabelW, cityAlertLabelH);
-//    cityAlertLabel.backgroundColor = [UIColor yellowColor];
-//    // 文本显示属性
-//    cityAlertLabel.font = [UIFont systemFontOfSize:12];
-//    cityAlertLabel.textColor = [UIColor blackColor];
-//    cityAlertLabel.textAlignment = NSTextAlignmentLeft;
-//    cityAlertLabel.numberOfLines = 0;
-//    cityAlertLabel.lineBreakMode = NSLineBreakByWordWrapping;
-//    cityAlertLabel.text = @"注意：您所处城市与您设置的驾考城市不一致，可在个人信息设置处选择您的驾考城市。";
-//
-//    UIButton *fyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [topAlertView addSubview:fyBtn];
-//    fyBtn.frame = topAlertView.bounds;
-//    fyBtn.backgroundColor = [UIColor clearColor];
-//    [fyBtn addTarget:self action:@selector(clickToHideCityAlertView:) forControlEvents:UIControlEventTouchUpInside];
-//
-//    return topAlertView;
-//}
+- (IBAction)closeAdvClick:(id)sender {
+    [self.actView removeFromSuperview];
+    self.actView = nil;
+}
 
-//- (void)clickToHideCityAlertView:(UIButton *)sender {
-//    UIView *cityAlertView = sender.superview;
-//    [UIView animateWithDuration:0.35 animations:^{
-//        cityAlertView.frame = CGRectMake(0, -30, SCREEN_WIDTH, 30);
-//    }];
-//    [cityAlertView removeFromSuperview];
-//}
-
-// 移除教练头像control
-//- (void)removeCoachHeadControl
-//{
-//    for (id objc in self.view.subviews)
-//    {
-//        if ([objc isKindOfClass:[UIControl class]])
-//        {
-//            UIControl *contro = (UIControl *)objc;
-//
-//            // tag = 1 为教练头像control
-//            if (contro.tag == 1)
-//            {
-//                [contro removeFromSuperview];
-//            }
-//        }
-//    }
-//}
+- (IBAction)advClick:(id)sender {
+    [self closeAdvClick:nil];
+    if (_actFlag == 1) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.actUrl]];
+    } else {
+        SignUpViewController *nextVC = [[SignUpViewController alloc] init];
+        nextVC.comeFrom = 2;
+        [[SliderViewController sharedSliderController].navigationController pushViewController:nextVC animated:YES];
+    }
+}
 
 @end

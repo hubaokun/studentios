@@ -9,31 +9,29 @@
 #import "CoinListViewController.h"
 #import "CoinListTableViewCell.h"
 #import "UseRuleViewController.h"
-#import "DSPullToRefreshManager.h"
-#import "DSBottomPullToMoreManager.h"
 #import <CoreText/CoreText.h>
 
-@interface CoinListViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient,DSBottomPullToMoreManagerClient> {
+#define ITEM_HEIGHT 48
+
+@interface CoinListViewController ()<UITableViewDataSource, UITableViewDelegate> {
     int _curPage;
     int _searchPage;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *mainTableview;
 @property (strong, nonatomic) IBOutlet UIView *headView;
-
 @property (strong, nonatomic) IBOutlet UILabel *totalCoinLabel;
+@property (weak, nonatomic) IBOutlet UILabel *fCoinSumLabel; // 冻结小巴币
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentViewTopSpace;
 
-@property (strong, nonatomic) IBOutlet UILabel *coinCount1;
-@property (strong, nonatomic) IBOutlet UILabel *coinCount2;
-@property (strong, nonatomic) IBOutlet UILabel *coinCount3;
-@property (strong, nonatomic) IBOutlet UILabel *coinName1;
-@property (strong, nonatomic) IBOutlet UILabel *coinName2;
-@property (strong, nonatomic) IBOutlet UILabel *coinName3;
-@property (weak, nonatomic) IBOutlet UILabel *fCoinSumLabel;
+
+// 小巴币可用对象列表
+@property (weak, nonatomic) IBOutlet UIView *ownerListView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *ownerListViewHeightCon;
 
 // 页面数据
+@property (strong, nonatomic) NSArray *ownerArray; // 小巴币限用对象列表
 @property (strong, nonatomic) NSMutableArray *coinsArray;
-@property (copy , nonatomic) NSString *coachName; // 限定使用教练的名字
 
 @end
 
@@ -41,15 +39,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self postGetCoinList];
     
     self.mainTableview.delegate = self;
     self.mainTableview.dataSource = self;
-    
-    CGRect viewRect = [[UIScreen mainScreen] bounds];
-    [self.headView setFrame:CGRectMake(0, 64, viewRect.size.width, 144)];
-//    self.mainTableview.tableHeaderView = self.headView;
-    [self.view addSubview:self.headView];
     
     NSString *coinsum = self.coinSum;
     NSString *coinStr = [NSString stringWithFormat:@"%@ 个", coinsum];
@@ -57,9 +49,84 @@
     [string3 addAttribute:(NSString *)kCTFontAttributeName value:[UIFont systemFontOfSize:32] range:NSMakeRange(0,coinsum.length)];
     [string3 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0,coinsum.length)];
     self.totalCoinLabel.attributedText = string3;
-    
     self.fCoinSumLabel.text = [NSString stringWithFormat:@"(冻结数额: %@个)", self.fCoinSum];;
+    
+    [self postGetOwnerList];
 }
+
+- (void)ownerListViewConfig {
+    int count = (int)self.ownerArray.count;
+    for (int i = 0; i < count; i++) {
+        NSDictionary *dict = self.ownerArray[i];
+        UIView *item = nil;
+        if (i == count - 1) { // 最后一行不需要分隔线
+            item = [self ownerItemCreate:dict index:i needLine:NO];
+        } else {
+            item = [self ownerItemCreate:dict index:i needLine:YES];
+        }
+        [self.ownerListView addSubview:item];
+    }
+    self.ownerListViewHeightCon.constant = ITEM_HEIGHT * count;
+    
+    self.headView.frame = CGRectMake(0, 64, SCREEN_WIDTH, 144 + self.ownerListViewHeightCon.constant);
+    [self.view addSubview:self.headView];
+    self.contentViewTopSpace.constant = self.headView.height;
+}
+
+- (UIView *)ownerItemCreate:(NSDictionary *)dict index:(int)index needLine:(BOOL)need {
+    UIView *itemView = [[UIView alloc] init];
+    CGFloat itemViewW = SCREEN_WIDTH;
+    CGFloat itemViewH = ITEM_HEIGHT;
+    CGFloat itemViewX = 0;
+    CGFloat itemViewY = itemViewH * index;
+    itemView.frame = CGRectMake(itemViewX, itemViewY, itemViewW, itemViewH);
+    itemView.backgroundColor = [UIColor clearColor];
+    
+    // 小巴币个数
+    UILabel *numLabel = [[UILabel alloc] init];
+    [itemView addSubview:numLabel];
+    CGFloat numLabelW = 54;
+    CGFloat numLabelH = itemViewH;
+    CGFloat numLabelX = 24;
+    CGFloat numLabelY = 0;
+    numLabel.frame = CGRectMake(numLabelX, numLabelY, numLabelW, numLabelH);
+    numLabel.backgroundColor = [UIColor clearColor];
+    numLabel.font = [UIFont systemFontOfSize:16];
+    NSString *num = [dict[@"coin"] description];
+    NSString *numTxet = [NSString stringWithFormat:@"%@个", num];
+    NSMutableAttributedString *numStr = [[NSMutableAttributedString alloc] initWithString:numTxet];
+    [numStr addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0, num.length)];
+    [numStr addAttribute:NSForegroundColorAttributeName value:RGB(78, 78, 78) range:NSMakeRange(num.length, 1)];
+    numLabel.attributedText = numStr;
+    
+    // 限用对象
+    UILabel *desLabel = [[UILabel alloc] init];
+    [itemView addSubview:desLabel];
+    CGFloat desLabelX = CGRectGetMaxX(numLabel.frame) + 25;
+    CGFloat desLabelY = 0;
+    CGFloat desLabelW = SCREEN_WIDTH - desLabelX - 10;
+    CGFloat desLabelH = numLabelH;
+    desLabel.frame = CGRectMake(desLabelX, desLabelY, desLabelW, desLabelH);
+    desLabel.backgroundColor = [UIColor clearColor];
+    desLabel.font = [UIFont systemFontOfSize:15];
+    desLabel.textColor = RGB(78, 78, 78);
+    desLabel.text = dict[@"msg"];
+    
+    // 分隔线
+    if (need) {
+        UIView *line = [[UIView alloc] init];
+        [itemView addSubview:line];
+        CGFloat lineX = numLabelX;
+        CGFloat lineY = ITEM_HEIGHT - 1;
+        CGFloat lineW = SCREEN_WIDTH - lineX - 10;
+        CGFloat lineH = 1;
+        line.frame = CGRectMake(lineX, lineY, lineW, lineH);
+        line.backgroundColor = RGB(223, 223, 223);
+    }
+    
+    return itemView;
+}
+
 #pragma mark - UITableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -86,6 +153,39 @@
 }
 
 #pragma mark - 网络请求
+// 获取小巴币可用对象列表
+- (void)postGetOwnerList {
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    NSString *studentId = [CommonUtil stringForID:USERDICT[@"studentid"]];
+    [paramDic setObject:studentId forKey:@"studentid"];
+    NSString *uri = @"/suser?action=GETCOINAFFILIATION";
+    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [DejalBezelActivityView activityViewForView:self.view];
+    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        [DejalBezelActivityView removeViewAnimated:YES];
+        int code = [responseObject[@"code"] intValue];
+        if (code == 1) {
+            self.ownerArray = responseObject[@"coinaffiliationlist"];
+            [self ownerListViewConfig];
+            [self postGetCoinList];
+        }else if(code == 95){
+            
+        }else{
+            NSString *message = responseObject[@"message"];
+            [self makeToast:message];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [DejalBezelActivityView removeViewAnimated:YES];
+        NSLog(@"连接失败");
+        [self makeToast:ERR_NETWORK];
+    }];
+}
+
+
 // 获取小巴币列表
 - (void)postGetCoinList {
     NSString *studentId = [CommonUtil stringForID:USERDICT[@"studentid"]];
@@ -106,7 +206,6 @@
         if (code == 1) {
             NSArray *coinsInfoList = responseObject[@"recordlist"];
             self.coinsArray = [XBCoin coinsWithArray:coinsInfoList];
-            self.coachName = [responseObject[@"coachname"] description];
 
             [self.mainTableview reloadData];
         }else if(code == 95){

@@ -94,17 +94,22 @@
 }
 
 - (IBAction)clickForPop:(id)sender {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    if ([app.isregister isEqualToString:@"1"]) {
-        LearnDriveInfoViewController *nextController = [[LearnDriveInfoViewController alloc] initWithNibName:@"LearnDriveInfoViewController" bundle:nil];
-        nextController.isSkip = @"1";
-        [self.navigationController pushViewController:nextController animated:YES];
-        app.isregister = @"0";
-        app.isInvited = @"0";
-
-    }else{
-        app.isInvited = @"0";
-        app.isregister = @"0";
+//    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+//    if ([app.isregister isEqualToString:@"1"]) {
+//        LearnDriveInfoViewController *nextController = [[LearnDriveInfoViewController alloc] initWithNibName:@"LearnDriveInfoViewController" bundle:nil];
+//        nextController.isSkip = @"1";
+//        [self.navigationController pushViewController:nextController animated:YES];
+//        app.isregister = @"0";
+//        app.isInvited = @"0";
+//
+//    }else{
+//        app.isInvited = @"0";
+//        app.isregister = @"0";
+//        [self.navigationController popToRootViewControllerAnimated:YES];
+//    }
+    if (self.popType == 1) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }

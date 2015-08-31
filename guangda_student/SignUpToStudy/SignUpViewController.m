@@ -8,6 +8,8 @@
 
 #import "SignUpViewController.h"
 #import "SelfServiceSignUpViewController.h"
+#import "SliderViewController.h"
+#import "LoginViewController.h"
 #import "UserBaseInfoViewController.h"
 #import "XBExame.h"
 #import "XBExameCity.h"
@@ -58,6 +60,8 @@
 @property (strong, nonatomic) NSMutableArray *exameArray;
 @property (assign, nonatomic) BOOL cityInclude; // 自己设置的城市是否包含在开通城市内
 @property (strong, nonatomic) NSDictionary *exameState;
+@property (copy, nonatomic) NSString *cityName;
+@property (copy, nonatomic) NSString *cityID;
 
 @end
 
@@ -65,12 +69,32 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self viewConfig];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self postGetExameState];
+    if ([[CommonUtil currentUtil] isLogin:NO]) { // 已登录
+        if ([self infoIsPerfect]) {
+            [self viewConfig];
+            [self postGetExameState];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请先完善您的个人信息" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            alert.tag = 999;
+            [alert show];
+        }
+    } else {
+        LoginViewController *nextVC = [[LoginViewController alloc] init];
+        nextVC.comeFrom = 1;
+        [[SliderViewController sharedSliderController].navigationController pushViewController:nextVC animated:YES];
+    }
+}
+
+// 判断用户是否设置了姓名和城市
+- (BOOL)infoIsPerfect {
+    NSDictionary *userDict = USERDICT;
+    NSString *name = userDict[@"realname"];
+    NSString *addr = userDict[@"locationname"];
+    return ((![CommonUtil isEmpty:name]) && (![CommonUtil isEmpty:addr]));
 }
 
 #pragma mark - 页面设置
@@ -90,6 +114,20 @@
     NSDictionary *userDict = USERDICT;
     self.nameLabel.text = userDict[@"realname"];
     self.phonelabel.text = userDict[@"phone"];
+    
+    NSString *addr = userDict[@"locationname"];
+    // 城市名
+    if (![CommonUtil isEmpty:addr]) {
+        NSArray *subStrArray = [addr componentsSeparatedByString:@"-"];
+        if (subStrArray.count == 2) {
+            addr = [NSString stringWithFormat:@"%@",subStrArray[0]];
+        }
+        else if (subStrArray.count == 3) {
+            addr = [NSString stringWithFormat:@"%@",subStrArray[1]];
+        }
+    }
+    self.cityName = addr;
+    self.cityID = userDict[@"cityid"];
     
     self.mainScrollView.contentSize = CGSizeMake(0, self.mainView.height);
 }
@@ -117,11 +155,18 @@
 }
 
 - (NSMutableAttributedString *)priceStrCreateByMarketPrice:(NSString *)mPrice xbPrice:(NSString*)xbPrice {
-    NSString *str1 = @"小巴一口价 ";
+    NSString *str1 = @"小巴价 ";
     NSString *str2 = xbPrice;
-    NSString *str3 = @"元   ";
-    NSString *str4 = [NSString stringWithFormat:@"市场价：%@元", mPrice];
-    NSString *priceText = [NSString stringWithFormat:@"%@%@%@%@", str1, str2, str3, str4];
+    NSString *str3 = @"元 (不含政府收费)   ";
+    NSString *str4 = nil;
+    NSString *priceText = nil;
+    if ([mPrice isEqualToString:@"0"]) {
+        priceText = [NSString stringWithFormat:@"%@%@%@", str1, str2, str3];
+    } else {
+        str4 = [NSString stringWithFormat:@"市场价：%@元", mPrice];
+        priceText = [NSString stringWithFormat:@"%@%@%@%@", str1, str2, str3, str4];
+    }
+    
     NSMutableAttributedString *priceStr = [[NSMutableAttributedString alloc] initWithString:priceText];
     NSUInteger loc = 0;
     [priceStr addAttribute:NSForegroundColorAttributeName value:RGB(170, 170, 170) range:NSMakeRange(loc,str1.length)];
@@ -133,9 +178,13 @@
     [priceStr addAttribute:NSForegroundColorAttributeName value:RGB(247, 100, 92) range:NSMakeRange(loc, str3.length)];
     [priceStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(loc, str3.length)];
     loc += str3.length;
-    [priceStr addAttribute:NSForegroundColorAttributeName value:RGB(170, 170, 170) range:NSMakeRange(loc, str4.length)];
-    [priceStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(loc, str4.length)];
-    [priceStr addAttribute:NSStrikethroughStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(loc, str4.length)];
+    
+    if (![mPrice isEqualToString:@"0"]) {
+        [priceStr addAttribute:NSForegroundColorAttributeName value:RGB(170, 170, 170) range:NSMakeRange(loc, str4.length)];
+        [priceStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(loc, str4.length)];
+        [priceStr addAttribute:NSStrikethroughStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(loc, str4.length)];
+    }
+    
     return priceStr;
 }
 
@@ -170,30 +219,39 @@
 
 #pragma mark - PickerVIew
 - (void)cityDataConfig {
-    // 检索自己设置的城市是否在开通城市里
-    BOOL include = NO;
-    XBExameCity *myCity = nil;
-    for (XBExameCity *city in self.cityArray) {
-        if ([self.cityID isEqualToString:city.cityID]) {
-            myCity = city;
-            include = YES;
-            break;
+    if (self.cityArray) {
+        // 检索自己设置的城市是否在开通城市里
+        BOOL include = NO;
+        XBExameCity *myCity = nil;
+        for (XBExameCity *city in self.cityArray) {
+            if ([self.cityID isEqualToString:city.cityID]) {
+                myCity = city;
+                include = YES;
+                break;
+            }
         }
-    }
-    self.cityInclude = include;
-    
-    // 如果包含在内，将设置的城市挪动到数组第一位
-    if (include) {
-        [self.cityArray removeObject:myCity];
-        [self.cityArray insertObject:myCity atIndex:0];
-    }
-    // 如果不包含，在第一位插入
-    else {
-        myCity = [[XBExameCity alloc] init];
+        self.cityInclude = include;
+        
+        // 如果包含在内，将设置的城市挪动到数组第一位
+        if (include) {
+            [self.cityArray removeObject:myCity];
+            [self.cityArray insertObject:myCity atIndex:0];
+        }
+        // 如果不包含，在第一位插入
+        else {
+            myCity = [[XBExameCity alloc] init];
+            myCity.cityID = self.cityID;
+            myCity.cityName = self.cityName;
+            [self.cityArray insertObject:myCity atIndex:0];
+        }
+    } else {
+        self.cityArray = [NSMutableArray array];
+        XBExameCity *myCity = [[XBExameCity alloc] init];
         myCity.cityID = self.cityID;
         myCity.cityName = self.cityName;
         [self.cityArray insertObject:myCity atIndex:0];
     }
+   
     
     self.curExameCity = self.cityArray[0];
     self.cityLabel.text = self.curExameCity.cityName;
@@ -537,9 +595,16 @@
     
 }
 
+# pragma mark - Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    [self viewWillAppear:YES];
+    if (alertView.tag == 999) {
+        UserBaseInfoViewController *nextVC = [[UserBaseInfoViewController alloc] init];
+        nextVC.comeFrom = 1;
+        [[SliderViewController sharedSliderController].navigationController pushViewController:nextVC animated:YES];
+    } else {
+        [self viewWillAppear:YES];
+    }
 }
 
 #pragma mark - action
@@ -607,6 +672,15 @@
 - (IBAction)closeAlertViewClick:(id)sender
 {
     [self.alertView removeFromSuperview];
+}
+
+- (IBAction)backClick:(id)sender
+{
+    if (self.comeFrom == 1) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        [[SliderViewController sharedSliderController].navigationController popViewControllerAnimated:YES];
+    }
 }
 
 @end

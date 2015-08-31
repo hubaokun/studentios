@@ -10,8 +10,6 @@
 
 @interface SignUpViewController : GreyTopViewController
 
-/* input */
-@property (copy, nonatomic) NSString *cityName;
-@property (copy, nonatomic) NSString *cityID;
+@property (assign, nonatomic) int comeFrom; // 1:从小巴客服页面跳转过来 2.从地图主页跳转过来
 
 @end

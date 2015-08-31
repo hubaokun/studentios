@@ -16,4 +16,6 @@
 @property (strong, nonatomic) IBOutlet JKCountDownButton *vcodeButton;
 - (IBAction)clickForVcodeButton:(id)sender;
 
+@property (assign, nonatomic) int comeFrom; // 1:从报名页面跳转来
+
 @end

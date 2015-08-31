@@ -50,8 +50,7 @@
     
     //注册监听，防止键盘遮挡视图
     self.searchTextField.delegate = self;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
     
     self.myPickerDate = [[MyDate alloc] initWithMaxDayFromNow:29];
     
@@ -72,14 +71,21 @@
     self.subjectID = @"0";
 }
 
--(void)viewDidAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH - 110);
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 
@@ -104,9 +110,6 @@
             }else{
                 self.leftUpBtn.enabled = YES;
             }
-            //            _myYear = [NSString stringWithFormat:@"%ld",(long)[CommonUtil getYearOfDate:selectedDate]];
-            //            _myMonth = [NSString stringWithFormat:@"%ld",(long)[CommonUtil getMonthOfDate:selectedDate]];
-            //            _myDay = [NSString stringWithFormat:@"%ld",(long)[CommonUtil getdayOfDate:selectedDate]];
             
         }else{
             self.dateBeginLabel.text = @"不限";
@@ -526,22 +529,16 @@
     CGRect textFrame = self.nowTextField.superview.frame;
     CGFloat textFieldY = textFrame.origin.y + CGRectGetHeight(textFrame);
     
-    //将footview始终置于键盘上方
-    footViewRect.origin.y = keyboardTop - footViewRect.size.height;
-    
-    
     // Get the duration of the animation.
     NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSTimeInterval animationDuration;
     [animationDurationValue getValue:&animationDuration];
-    animationDuration += 0.1f;
-    // Animate the resize of the text view's frame in sync with the keyboard's appearance.
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:animationDuration];
-    [self.footView setFrame:footViewRect];
-    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:NO];
-    
-    [UIView commitAnimations];
+
+    //将footview始终置于键盘上方
+    footViewRect.origin.y = keyboardTop - footViewRect.size.height;
+    [UIView animateWithDuration:animationDuration animations:^{
+        self.footView.frame = footViewRect;
+    }];
     
     if(textFieldY < keyboardTop) {
         //键盘没有挡住输入框

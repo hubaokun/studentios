@@ -10,4 +10,8 @@
 
 @interface ActivityViewController : GreyTopViewController
 
+@property (copy, nonatomic) NSString *advImageUrl;
+
+- (void)postGetActivityInfo;
+
 @end

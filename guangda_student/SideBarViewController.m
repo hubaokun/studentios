@@ -123,35 +123,38 @@
         self.userNameLabel.text = @"账号未登录";
         self.phoneNumLabel.text = @"";
         [self.userLogo setImage:[UIImage imageNamed:@"login_icon"]];
+        self.addrLabel.text = @"";
     }
 }
 
 - (void)showName {
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"UserInfo"];
-    NSString *userName = [userInfo objectForKey:@"realname"];
-    NSString *phoneNum = [userInfo objectForKey:@"phone"];
-    NSString *avatarUrlStr = [userInfo[@"avatarurl"] description];
-    NSString *addr = userInfo[@"locationname"];
-    if(![CommonUtil isEmpty:userName]){
-        self.userNameLabel.text = userName;
-    }else{
-        self.userNameLabel.text = @"未设置";
-    }
-    self.phoneNumLabel.text = phoneNum;
-    [self.userLogo sd_setImageWithURL:[NSURL URLWithString:avatarUrlStr] placeholderImage:[UIImage imageNamed:@"login_icon"]];
-    
-    // 城市名
-    if ([CommonUtil isEmpty:addr]) {
-        self.addrLabel.text = @"请设置驾考城市";
-    } else {
-        NSArray *subStrArray = [addr componentsSeparatedByString:@"-"];
-        if (subStrArray.count == 2) {
-            addr = [NSString stringWithFormat:@"%@",subStrArray[0]];
+    if (([[CommonUtil currentUtil] isLogin:NO])) {
+        NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"UserInfo"];
+        NSString *userName = [userInfo objectForKey:@"realname"];
+        NSString *phoneNum = [userInfo objectForKey:@"phone"];
+        NSString *avatarUrlStr = [userInfo[@"avatarurl"] description];
+        NSString *addr = userInfo[@"locationname"];
+        if(![CommonUtil isEmpty:userName]){
+            self.userNameLabel.text = userName;
+        } else {
+            self.userNameLabel.text = @"未设置";
         }
-        else if (subStrArray.count == 3) {
-            addr = [NSString stringWithFormat:@"%@",subStrArray[1]];
+        self.phoneNumLabel.text = phoneNum;
+        [self.userLogo sd_setImageWithURL:[NSURL URLWithString:avatarUrlStr] placeholderImage:[UIImage imageNamed:@"login_icon"]];
+        
+        // 城市名
+        if ([CommonUtil isEmpty:addr]) {
+            self.addrLabel.text = @"请设置驾考城市";
+        } else {
+            NSArray *subStrArray = [addr componentsSeparatedByString:@"-"];
+            if (subStrArray.count == 2) {
+                addr = [NSString stringWithFormat:@"%@",subStrArray[0]];
+            }
+            else if (subStrArray.count == 3) {
+                addr = [NSString stringWithFormat:@"%@",subStrArray[1]];
+            }
+            self.addrLabel.text = addr;
         }
-        self.addrLabel.text = addr;
     }
 }
 

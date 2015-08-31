@@ -433,13 +433,22 @@
             
             if (isInvited == 1) {    //1代表未被邀请，0代表已被邀请
                 RecommendCodeViewController *nextController = [[RecommendCodeViewController alloc] initWithNibName:@"RecommendCodeViewController" bundle:nil];
+                if (self.comeFrom == 1) {
+                    nextController.popType = 1;
+                    [self.navigationController popViewControllerAnimated:NO];
+                }
+                
                 [self.navigationController pushViewController:nextController animated:YES];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"loginSuccess" object:nil];
                 return;
             }
             
             if(isregister == 0){
-                [self.navigationController popToRootViewControllerAnimated:YES];
+                if (self.comeFrom == 1) {
+                    [[SliderViewController sharedSliderController].navigationController popViewControllerAnimated:YES];
+                } else {
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
             }else{
                 LearnDriveInfoViewController *nextController = [[LearnDriveInfoViewController alloc] initWithNibName:@"LearnDriveInfoViewController" bundle:nil];
                 nextController.isSkip = @"1";

@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserBaseInfoViewController">
             <connections>
+                <outlet property="backBtn" destination="I8s-Q0-NY0" id="52m-MA-iIj"/>
                 <outlet property="cityConfirmBtn" destination="XZt-2s-4TY" id="ufP-Jj-VNs"/>
                 <outlet property="cityField" destination="2tT-TG-86C" id="aD4-Wr-Ab5"/>
                 <outlet property="cityPicker" destination="g09-0T-meQ" id="A8f-Wu-JoM"/>

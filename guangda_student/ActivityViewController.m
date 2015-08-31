@@ -76,9 +76,13 @@
 }
 
 - (IBAction)advClick:(id)sender {
+    NSLog(@"adv");
+    [self.view removeFromSuperview];
 }
 
 - (IBAction)closeClick:(id)sender {
+    NSLog(@"close");
+    [self.view removeFromSuperview];
 }
 
 

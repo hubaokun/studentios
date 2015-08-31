@@ -7,9 +7,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CoinListViewController">
             <connections>
+                <outlet property="contentViewTopSpace" destination="gvB-0n-3Ic" id="Ywc-lm-IWr"/>
                 <outlet property="fCoinSumLabel" destination="Kn9-E6-CoI" id="C94-da-pEk"/>
                 <outlet property="headView" destination="irj-Mw-Jni" id="KxE-kA-luR"/>
                 <outlet property="mainTableview" destination="aBh-LB-JUf" id="b3L-6L-2wb"/>
+                <outlet property="ownerListView" destination="lms-ho-Rys" id="sun-ib-eOk"/>
+                <outlet property="ownerListViewHeightCon" destination="09g-xR-7dn" id="Uaf-lu-bqf"/>
                 <outlet property="totalCoinLabel" destination="1s4-GZ-QAn" id="3yk-lu-LO9"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -115,7 +118,7 @@
             </constraints>
         </view>
         <view contentMode="scaleToFill" id="irj-Mw-Jni" userLabel="headView">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="123"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="144"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0个" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1s4-GZ-QAn">
@@ -158,16 +161,38 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lms-ho-Rys" userLabel="ownerlist">
-                    <rect key="frame" x="0.0" y="73" width="600" height="0.0"/>
+                    <rect key="frame" x="0.0" y="88" width="600" height="0.0"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VAp-tf-FsU" userLabel="topline">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
+                            <color key="backgroundColor" red="0.79607843140000001" green="0.79607843140000001" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="jMx-nh-yjc"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nSh-XL-PpT" userLabel="bottomline">
+                            <rect key="frame" x="0.0" y="-1" width="600" height="1"/>
+                            <color key="backgroundColor" red="0.79607843140000001" green="0.79607843140000001" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="gRK-rK-a78"/>
+                            </constraints>
+                        </view>
+                    </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" id="09g-xR-7dn"/>
+                        <constraint firstItem="nSh-XL-PpT" firstAttribute="leading" secondItem="lms-ho-Rys" secondAttribute="leading" id="QQV-4d-UNj"/>
+                        <constraint firstAttribute="trailing" secondItem="VAp-tf-FsU" secondAttribute="trailing" id="agV-ch-MXs"/>
+                        <constraint firstItem="VAp-tf-FsU" firstAttribute="top" secondItem="lms-ho-Rys" secondAttribute="top" id="hXI-cz-Xcb"/>
+                        <constraint firstAttribute="bottom" secondItem="nSh-XL-PpT" secondAttribute="bottom" id="o49-0P-b4f"/>
+                        <constraint firstAttribute="trailing" secondItem="nSh-XL-PpT" secondAttribute="trailing" id="pvA-Td-nnc"/>
+                        <constraint firstItem="VAp-tf-FsU" firstAttribute="leading" secondItem="lms-ho-Rys" secondAttribute="leading" id="rY4-TB-eqZ"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ENB-Qp-rtm" userLabel="title">
-                    <rect key="frame" x="0.0" y="81" width="600" height="42"/>
+                    <rect key="frame" x="0.0" y="102" width="600" height="42"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gkJ-3d-xZ8" userLabel="underline">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gkJ-3d-xZ8" userLabel="line">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
                             <color key="backgroundColor" red="0.79607843140000001" green="0.79607843140000001" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -198,8 +223,8 @@
             </subviews>
             <color key="backgroundColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="lms-ho-Rys" firstAttribute="top" secondItem="Kn9-E6-CoI" secondAttribute="bottom" id="4Pr-Au-rox"/>
-                <constraint firstItem="ENB-Qp-rtm" firstAttribute="top" secondItem="lms-ho-Rys" secondAttribute="bottom" constant="8" id="H3S-ZN-Z7G"/>
+                <constraint firstItem="lms-ho-Rys" firstAttribute="top" secondItem="Kn9-E6-CoI" secondAttribute="bottom" constant="15" id="4Pr-Au-rox"/>
+                <constraint firstItem="ENB-Qp-rtm" firstAttribute="top" secondItem="lms-ho-Rys" secondAttribute="bottom" constant="14" id="H3S-ZN-Z7G"/>
                 <constraint firstItem="Kn9-E6-CoI" firstAttribute="leading" secondItem="irj-Mw-Jni" secondAttribute="leading" constant="18" id="Iw6-UE-Lu0"/>
                 <constraint firstItem="lms-ho-Rys" firstAttribute="leading" secondItem="irj-Mw-Jni" secondAttribute="leading" id="PZP-zW-vNM"/>
                 <constraint firstItem="1s4-GZ-QAn" firstAttribute="top" secondItem="irj-Mw-Jni" secondAttribute="top" id="X48-eV-0Mr"/>
