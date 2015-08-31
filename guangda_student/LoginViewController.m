@@ -333,6 +333,10 @@
     return YES;
 }
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    
+}
+
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
     if (textField == self.loginNameTextField) {

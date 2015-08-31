@@ -29,7 +29,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *coinName1;
 @property (strong, nonatomic) IBOutlet UILabel *coinName2;
 @property (strong, nonatomic) IBOutlet UILabel *coinName3;
-@property (weak, nonatomic) IBOutlet UILabel *describeLabel; // 小巴币描述
 @property (weak, nonatomic) IBOutlet UILabel *fCoinSumLabel;
 
 // 页面数据
@@ -59,7 +58,6 @@
     [string3 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0,coinsum.length)];
     self.totalCoinLabel.attributedText = string3;
     
-    self.describeLabel.text = @"仅限在预约您的驾校教练时使用";
     self.fCoinSumLabel.text = [NSString stringWithFormat:@"(冻结数额: %@个)", self.fCoinSum];;
 }
 #pragma mark - UITableView
@@ -109,19 +107,10 @@
             NSArray *coinsInfoList = responseObject[@"recordlist"];
             self.coinsArray = [XBCoin coinsWithArray:coinsInfoList];
             self.coachName = [responseObject[@"coachname"] description];
-            if (![CommonUtil isEmpty:self.coachName]) {
-                self.describeLabel.text = [NSString stringWithFormat:@"仅限在预约%@教练时使用", self.coachName];
-            }
+
             [self.mainTableview reloadData];
         }else if(code == 95){
-//            NSString *message = responseObject[@"message"];
-//            [self makeToast:message];
-//            [CommonUtil logout];
-//            [NSTimer scheduledTimerWithTimeInterval:0.5
-//                                             target:self
-//                                           selector:@selector(backLogin)
-//                                           userInfo:nil
-//                                            repeats:NO];
+            
         }else{
             NSString *message = responseObject[@"message"];
             [self makeToast:message];

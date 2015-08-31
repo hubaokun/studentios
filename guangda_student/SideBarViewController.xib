@@ -260,7 +260,7 @@
                                         <action selector="messageClick:" destination="-1" eventType="touchUpInside" id="M9n-xS-aCx"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="系统消息" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbC-49-Dq9">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="消息" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbC-49-Dq9">
                                     <rect key="frame" x="0.0" y="70" width="115" height="21"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="115" id="4EJ-If-hs7"/>
@@ -339,7 +339,7 @@
                                         <action selector="settingClick:" destination="-1" eventType="touchUpInside" id="YM3-nm-8TB"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设置" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZgD-VG-MSw">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="系统" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZgD-VG-MSw">
                                     <rect key="frame" x="0.0" y="70" width="115" height="21"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="21" id="DaK-z2-kmR"/>

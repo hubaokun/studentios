@@ -150,10 +150,9 @@
     self.cityLabel.text = self.exameState[@"cityname"];
     self.typeLabel.text = self.exameState[@"model"];
     
-    
     NSString *marketPrice = [self.exameState[@"marketprice"] description];
     NSString *xbPrice = [self.exameState[@"xiaobaprice"] description];
-    if ([CommonUtil isEmpty:marketPrice]) { // 如果是不需要付钱的报名，则不显示价格与支付信息
+    if ([CommonUtil isEmpty:xbPrice]) { // 如果是不需要付钱的报名，则不显示价格与支付信息
         return;
     } else {
         self.priceLabel.hidden = NO;
@@ -173,16 +172,24 @@
 - (void)cityDataConfig {
     // 检索自己设置的城市是否在开通城市里
     BOOL include = NO;
+    XBExameCity *myCity = nil;
     for (XBExameCity *city in self.cityArray) {
         if ([self.cityID isEqualToString:city.cityID]) {
+            myCity = city;
             include = YES;
             break;
         }
     }
     self.cityInclude = include;
-    // 如果不包含在内，将设置的城市添加到数组第一位
-    if (!include) {
-        XBExameCity *myCity = [[XBExameCity alloc] init];
+    
+    // 如果包含在内，将设置的城市挪动到数组第一位
+    if (include) {
+        [self.cityArray removeObject:myCity];
+        [self.cityArray insertObject:myCity atIndex:0];
+    }
+    // 如果不包含，在第一位插入
+    else {
+        myCity = [[XBExameCity alloc] init];
         myCity.cityID = self.cityID;
         myCity.cityName = self.cityName;
         [self.cityArray insertObject:myCity atIndex:0];
@@ -280,11 +287,12 @@
         
         if ([responseObject[@"code"] integerValue] == 1) {
             self.exameState = responseObject;
-            int state = [responseObject[@"state"] intValue];
-            if (state == 1) { // 已报名
+            int enrollState = [responseObject[@"enrollstate"] intValue]; // 0:未报名 1:已报名
+            int enrollPay = [responseObject[@"enrollpay"] intValue]; // -1:不需要付费 0:未付费 1:已付费
+            if (enrollState == 1 && (enrollPay == -1 || enrollPay == 1)) { // 已报名
                 [self haveSigedViewConfig];
             }
-            else if (state == 0) { // 未报名
+            else if (enrollState == 0) { // 未报名
                 [self postGetExameCity];
             }
             
