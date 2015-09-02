@@ -57,6 +57,7 @@
 
 #pragma mark - 页面设置
 - (void)settingView {
+    // 从报名页面跳转过来
     if (self.comeFrom == 1) {
         self.backBtn.hidden = YES;
     }
@@ -500,6 +501,12 @@
 - (IBAction)backClick:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+//跳过
+- (void)clickForJump
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 

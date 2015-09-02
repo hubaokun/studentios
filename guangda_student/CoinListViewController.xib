@@ -116,6 +116,7 @@
                 <constraint firstItem="M8V-Yk-I7R" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ozo-XM-xXT"/>
                 <constraint firstAttribute="trailing" secondItem="LHP-VY-gSJ" secondAttribute="trailing" id="y0J-mZ-1gV"/>
             </constraints>
+            <point key="canvasLocation" x="-91" y="-28"/>
         </view>
         <view contentMode="scaleToFill" id="irj-Mw-Jni" userLabel="headView">
             <rect key="frame" x="0.0" y="0.0" width="600" height="144"/>

@@ -15,6 +15,7 @@
 #import "WeiboSDK.h"
 #import "LearnDriveInfoViewController.h"
 #import "RecommendCodeViewController.h"
+#import "UserBaseInfoViewController.h"
 #import <TencentOpenAPI/TencentOAuth.h>
 
 @interface LoginViewController ()<UITextFieldDelegate, TencentSessionDelegate>{
@@ -450,9 +451,11 @@
                     [self.navigationController popToRootViewControllerAnimated:YES];
                 }
             }else{
-                LearnDriveInfoViewController *nextController = [[LearnDriveInfoViewController alloc] initWithNibName:@"LearnDriveInfoViewController" bundle:nil];
-                nextController.isSkip = @"1";
-                [self.navigationController pushViewController:nextController animated:YES];
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                
+//                LearnDriveInfoViewController *nextController = [[LearnDriveInfoViewController alloc] initWithNibName:@"LearnDriveInfoViewController" bundle:nil];
+//                nextController.isSkip = @"1";
+//                [self.navigationController pushViewController:nextController animated:YES];
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:@"loginSuccess" object:nil];
         }else{

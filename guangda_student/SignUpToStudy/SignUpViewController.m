@@ -20,7 +20,10 @@
 
 #define CITY_OUT ([self.curExameCity.cityID isEqualToString:self.cityID] && (self.cityInclude == NO))
 
-@interface SignUpViewController ()<UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+@interface SignUpViewController ()<UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate> {
+    int _enrollState;
+    int _enrollPay;
+}
 
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet UIView *mainView;
@@ -201,7 +204,7 @@
     
     NSString *marketPrice = [self.exameState[@"marketprice"] description];
     NSString *xbPrice = [self.exameState[@"xiaobaprice"] description];
-    if ([CommonUtil isEmpty:xbPrice]) { // 如果是不需要付钱的报名，则不显示价格与支付信息
+    if (_enrollPay == -1) { // 如果是不需要付钱的报名，则不显示价格与支付信息
         return;
     } else {
         self.priceLabel.hidden = NO;
@@ -347,10 +350,12 @@
             self.exameState = responseObject;
             int enrollState = [responseObject[@"enrollstate"] intValue]; // 0:未报名 1:已报名
             int enrollPay = [responseObject[@"enrollpay"] intValue]; // -1:不需要付费 0:未付费 1:已付费
+            _enrollState = enrollState;
+            _enrollPay = enrollPay;
             if (enrollState == 1 && (enrollPay == -1 || enrollPay == 1)) { // 已报名
                 [self haveSigedViewConfig];
             }
-            else if (enrollState == 0) { // 未报名
+            else { // 未报名
                 [self postGetExameCity];
             }
             

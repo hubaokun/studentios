@@ -56,6 +56,12 @@
 
 - (void)ownerListViewConfig {
     int count = (int)self.ownerArray.count;
+    if (count) {
+        self.ownerListView.hidden = NO;
+    } else {
+        self.ownerListView.hidden = YES;
+    }
+    
     for (int i = 0; i < count; i++) {
         NSDictionary *dict = self.ownerArray[i];
         UIView *item = nil;
