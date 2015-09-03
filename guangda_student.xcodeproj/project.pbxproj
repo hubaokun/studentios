@@ -173,6 +173,7 @@
 		7025DC191B90472C00A70011 /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7025DC171B90472C00A70011 /* ActivityViewController.m */; };
 		7025DC1A1B90472C00A70011 /* ActivityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7025DC181B90472C00A70011 /* ActivityViewController.xib */; };
 		702BB4671B610AF70023D993 /* china.plist in Resources */ = {isa = PBXBuildFile; fileRef = 702BB4661B610AF70023D993 /* china.plist */; };
+		7057A6631B9855CB003E5B61 /* XBSchool.m in Sources */ = {isa = PBXBuildFile; fileRef = 7057A6621B9855CB003E5B61 /* XBSchool.m */; };
 		705EAD701B6A4B3800035F76 /* GuangdaCoach.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD631B6A4B3800035F76 /* GuangdaCoach.m */; };
 		705EAD711B6A4B3800035F76 /* GuangdaOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD651B6A4B3800035F76 /* GuangdaOrder.m */; };
 		705EAD721B6A4B3800035F76 /* XBArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD671B6A4B3800035F76 /* XBArea.m */; };
@@ -180,6 +181,8 @@
 		705EAD741B6A4B3800035F76 /* XBCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD6B1B6A4B3800035F76 /* XBCity.m */; };
 		705EAD751B6A4B3800035F76 /* XBCoupon.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD6D1B6A4B3800035F76 /* XBCoupon.m */; };
 		705EAD761B6A4B3800035F76 /* XBProvince.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD6F1B6A4B3800035F76 /* XBProvince.m */; };
+		7064EA181B969A960010AC88 /* BlackPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7064EA171B969A960010AC88 /* BlackPickerView.m */; };
+		7064EA1A1B969BDF0010AC88 /* BlackPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7064EA191B969BDF0010AC88 /* BlackPickerView.xib */; };
 		708600551B799EFC00CB09DA /* XBComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 708600541B799EFC00CB09DA /* XBComment.m */; };
 		70CC165F1B6BC13D00084296 /* XBCoin.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CC165E1B6BC13D00084296 /* XBCoin.m */; };
 		70CC16671B6F4EA600084296 /* libMobClickGameLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */; };
@@ -624,6 +627,8 @@
 		7025DC171B90472C00A70011 /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
 		7025DC181B90472C00A70011 /* ActivityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityViewController.xib; sourceTree = "<group>"; };
 		702BB4661B610AF70023D993 /* china.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = china.plist; sourceTree = "<group>"; };
+		7057A6611B9855CB003E5B61 /* XBSchool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBSchool.h; sourceTree = "<group>"; };
+		7057A6621B9855CB003E5B61 /* XBSchool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBSchool.m; sourceTree = "<group>"; };
 		705EAD621B6A4B3800035F76 /* GuangdaCoach.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuangdaCoach.h; sourceTree = "<group>"; };
 		705EAD631B6A4B3800035F76 /* GuangdaCoach.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuangdaCoach.m; sourceTree = "<group>"; };
 		705EAD641B6A4B3800035F76 /* GuangdaOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuangdaOrder.h; sourceTree = "<group>"; };
@@ -638,6 +643,9 @@
 		705EAD6D1B6A4B3800035F76 /* XBCoupon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBCoupon.m; sourceTree = "<group>"; };
 		705EAD6E1B6A4B3800035F76 /* XBProvince.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBProvince.h; sourceTree = "<group>"; };
 		705EAD6F1B6A4B3800035F76 /* XBProvince.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBProvince.m; sourceTree = "<group>"; };
+		7064EA161B969A960010AC88 /* BlackPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackPickerView.h; sourceTree = "<group>"; };
+		7064EA171B969A960010AC88 /* BlackPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackPickerView.m; sourceTree = "<group>"; };
+		7064EA191B969BDF0010AC88 /* BlackPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BlackPickerView.xib; sourceTree = "<group>"; };
 		708600531B799EFC00CB09DA /* XBComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBComment.h; sourceTree = "<group>"; };
 		708600541B799EFC00CB09DA /* XBComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBComment.m; sourceTree = "<group>"; };
 		70CC165D1B6BC13C00084296 /* XBCoin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBCoin.h; sourceTree = "<group>"; };
@@ -1215,6 +1223,9 @@
 				3179E6301AC284C600AFCFAA /* GreyTopViewController.m */,
 				3179E6311AC284C600AFCFAA /* UIPlaceHolderTextView.h */,
 				3179E6321AC284C600AFCFAA /* UIPlaceHolderTextView.m */,
+				7064EA161B969A960010AC88 /* BlackPickerView.h */,
+				7064EA171B969A960010AC88 /* BlackPickerView.m */,
+				7064EA191B969BDF0010AC88 /* BlackPickerView.xib */,
 				3179E6331AC284C600AFCFAA /* UIViewController+Toast.h */,
 				3179E6341AC284C600AFCFAA /* UIViewController+Toast.m */,
 			);
@@ -1633,6 +1644,8 @@
 				705EAD691B6A4B3800035F76 /* XBBookOrder.m */,
 				70CC165D1B6BC13C00084296 /* XBCoin.h */,
 				70CC165E1B6BC13D00084296 /* XBCoin.m */,
+				7057A6611B9855CB003E5B61 /* XBSchool.h */,
+				7057A6621B9855CB003E5B61 /* XBSchool.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1838,6 +1851,7 @@
 				70E9BE3C1B846CBE00137D86 /* OrderListTableViewCell.xib in Resources */,
 				3179E66A1AC284C600AFCFAA /* TimePickerViewController.xib in Resources */,
 				376A19CD1ADCDC2C004F1FE3 /* foregroundStar@2x.png in Resources */,
+				7064EA1A1B969BDF0010AC88 /* BlackPickerView.xib in Resources */,
 				B9994CBF1B20225900F710DF /* CommentTableViewCell.xib in Resources */,
 				318D3EFC1AE1007800FEC417 /* RegistVercodeViewController.xib in Resources */,
 				37994CFA1AC3D901008E30E5 /* UserInfoHomeViewController.xib in Resources */,
@@ -1935,6 +1949,7 @@
 				3179E6591AC284C600AFCFAA /* UIImage+MultiFormat.m in Sources */,
 				B96708801B26EEE400F418EB /* OpenUDID.m in Sources */,
 				3179E6931AC2929B00AFCFAA /* MainViewController.m in Sources */,
+				7064EA181B969A960010AC88 /* BlackPickerView.m in Sources */,
 				31C9D8F21AD665AD006A4E80 /* RSADataVerifier.m in Sources */,
 				3179E63A1AC284C600AFCFAA /* AFURLConnectionOperation.m in Sources */,
 				B968AF6E1B1DE11D00806043 /* CouponTableViewCell.m in Sources */,
@@ -2017,6 +2032,7 @@
 				379CB7931ACBAF820051CA36 /* MyOrderComplainViewController.m in Sources */,
 				3179E6541AC284C600AFCFAA /* SDWebImageManager+MJ.m in Sources */,
 				3179E6561AC284C600AFCFAA /* SDWebImagePrefetcher.m in Sources */,
+				7057A6631B9855CB003E5B61 /* XBSchool.m in Sources */,
 				71BA02F91B61D581004C500B /* UseRuleViewController.m in Sources */,
 				3179E6361AC284C600AFCFAA /* AFHTTPRequestOperationManager.m in Sources */,
 				3179E6691AC284C600AFCFAA /* TimePickerViewController.m in Sources */,

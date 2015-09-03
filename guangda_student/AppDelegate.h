@@ -28,6 +28,7 @@
 //用户定位
 @property (nonatomic) CLLocationCoordinate2D userCoordinate;
 @property (strong, nonatomic) BMKUserLocation *userLocation;
+@property (copy, nonatomic) NSString *locateCity; // 定位到的城市
 
 //新浪微博
 @property (strong, nonatomic) NSString *wbtoken;

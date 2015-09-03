@@ -129,7 +129,7 @@
                         <action selector="clickForServe:" destination="-1" eventType="touchUpInside" id="HUS-WO-gAW"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lE4-tg-pbT">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lE4-tg-pbT" userLabel="bottomview">
                     <rect key="frame" x="0.0" y="520" width="600" height="80"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v7G-na-G5o">

@@ -323,7 +323,6 @@
     
     if (error == BMK_SEARCH_NO_ERROR) {
         self.locationResult = result;
-        
         [self updateUserAddress];
     }
 }

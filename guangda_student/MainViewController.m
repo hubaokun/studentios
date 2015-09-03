@@ -22,6 +22,9 @@
 #import "ImproveInfoViewController.h"
 #import "RecommendCodeViewController.h"
 #import "SignUpViewController.h"
+#import "XBSchool.h"
+
+#define ZOOM_LEVEL 14.5 // 地图缩放级别
 
 @interface MainViewController ()<UIGestureRecognizerDelegate, BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationServiceDelegate>
 {
@@ -52,7 +55,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     self.footView.hidden = YES;
 
     self.carModelLabelList = [NSMutableArray array];
@@ -66,14 +68,14 @@
     self.closeDetailBtn.alpha = 0;
     [self.closeDetailBtn addTarget:self action:@selector(closeDetailsView) forControlEvents:UIControlEventTouchUpInside];
     
-    self.mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 80)];
 //    self.mapContentView = mapView;
     _locService = [[BMKLocationService alloc] init];
     _locService.delegate = self;
-    self.mapView.compassPosition = CGPointMake(8, 88);
+    _mapView.compassPosition = CGPointMake(8, 88);
     
     //设置地图缩放级别
-    [_mapView setZoomLevel:13];
+    [_mapView setZoomLevel:ZOOM_LEVEL];
     _mapView.showMapScaleBar = YES;
     _mapView.mapScaleBarPosition = CGPointMake(10+43, SCREEN_HEIGHT-15-30-8);
     
@@ -180,30 +182,12 @@
         self.allBtn.hidden = NO;
     }
     
-    //刷新数据
-    CLLocationCoordinate2D zuobiao = [_mapView convertPoint:CGPointMake(0, 0) toCoordinateFromView:_mapView];
-    
-    // 计算两点之间的距离
-    CLLocationCoordinate2D c1;
-    c1.latitude = zuobiao.latitude;
-    c1.longitude = zuobiao.longitude;
-    BMKMapPoint mp1 = BMKMapPointForCoordinate(c1);
-    
-    CLLocationCoordinate2D c2;  // 屏幕中心点
-    c2.latitude = _mapView.centerCoordinate.latitude;
-    c2.longitude = _mapView.centerCoordinate.longitude;
-    BMKMapPoint mp2 = BMKMapPointForCoordinate(c2);
-    
-    CLLocationDistance dis = BMKMetersBetweenMapPoints(mp1, mp2);
-    
-    NSString *pointCenter = [NSString stringWithFormat:@"%f,%f", c2.longitude, c2.latitude];
-    NSString *radius = [NSString stringWithFormat:@"%f", dis/1000];
     
     NSString *comeFrom = self.searchParamDic[@"comefrom"];
     if ([comeFrom isEqualToString:@"2"]) { // 来自教练列表的消息
-        [self requestGetNearByCoachInterfaceWithPointcenter:pointCenter andRadius:radius  needLiadingShow:NO];
+        [self nearCoachRequest:NO];
     } else {
-        [self requestGetNearByCoachInterfaceWithPointcenter:pointCenter andRadius:radius  needLiadingShow:YES];
+        [self nearCoachRequest:YES];
     }
 
 }
@@ -333,27 +317,7 @@
 // 滑动结束后回调
 - (void)mapView:(BMKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
-
-    CLLocationCoordinate2D zuobiao = [_mapView convertPoint:CGPointMake(0, 0) toCoordinateFromView:_mapView];
-    
-    // 计算两点之间的距离
-    CLLocationCoordinate2D c1;
-    c1.latitude = zuobiao.latitude;
-    c1.longitude = zuobiao.longitude;
-    BMKMapPoint mp1 = BMKMapPointForCoordinate(c1);
-    
-    CLLocationCoordinate2D c2;  // 屏幕中心点
-    c2.latitude = _mapView.centerCoordinate.latitude;
-    c2.longitude = _mapView.centerCoordinate.longitude;
-    BMKMapPoint mp2 = BMKMapPointForCoordinate(c2);
-    
-    CLLocationDistance dis = BMKMetersBetweenMapPoints(mp1, mp2);
-    
-    NSString *pointCenter = [NSString stringWithFormat:@"%f,%f", c2.longitude, c2.latitude];
-    NSString *radius = [NSString stringWithFormat:@"%f", dis/1000];
-    
-    [self requestGetNearByCoachInterfaceWithPointcenter:pointCenter andRadius:radius  needLiadingShow:NO];
-
+    [self nearCoachRequest:NO];
 }
 
 // 添加标注
@@ -467,29 +431,9 @@
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     [_mapView setCenterCoordinate:appDelegate.userCoordinate animated:NO];
-    [_mapView setZoomLevel:13];
+    [_mapView setZoomLevel:ZOOM_LEVEL];
     
-    
-    // 取得地图最左上角点的经纬度
-    CLLocationCoordinate2D zuobiao = [_mapView convertPoint:CGPointMake(0, 0) toCoordinateFromView:_mapView];
-    
-    // 计算两点之间的距离
-    CLLocationCoordinate2D c1;
-    c1.latitude = zuobiao.latitude;
-    c1.longitude = zuobiao.longitude;
-    BMKMapPoint mp1 = BMKMapPointForCoordinate(c1);
-    
-    CLLocationCoordinate2D c2;  // 屏幕中心点
-    c2.latitude = _mapView.centerCoordinate.latitude;
-    c2.longitude = _mapView.centerCoordinate.longitude;
-    BMKMapPoint mp2 = BMKMapPointForCoordinate(c2);
-    
-    CLLocationDistance dis = BMKMetersBetweenMapPoints(mp1, mp2);
-    
-    NSString *pointCenter = [NSString stringWithFormat:@"%f,%f", c2.longitude, c2.latitude];
-    NSString *radius = [NSString stringWithFormat:@"%f", dis/1000];
-    
-    [self requestGetNearByCoachInterfaceWithPointcenter:pointCenter andRadius:radius needLiadingShow:YES];
+    [self nearCoachRequest:YES];
 }
 
 #pragma mark - 请求接口
@@ -629,6 +573,7 @@
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [DejalBezelActivityView removeViewAnimated:YES];
+        NSLog(@"getnearbycoach err");
         [self makeToast:ERR_NETWORK];
         self.isGetData = NO;
     }];
@@ -773,27 +718,45 @@
     self.selectedCarModelImageView = imageView;
     self.selectedCarModelLabel = label;
     
-    CLLocationCoordinate2D zuobiao = [_mapView convertPoint:CGPointMake(0, 0) toCoordinateFromView:_mapView];
+    [self nearCoachRequest:YES];
+}
 
+// 取屏幕中点经纬度，取半径值并调用接口取附近教练
+- (void)nearCoachRequest:(BOOL)needLiadingShow {
+//    CLLocationCoordinate2D zuobiao = [_mapView convertPoint:CGPointMake(0, 0) toCoordinateFromView:_mapView];
+    
+    
     // 计算两点之间的距离
+//    CLLocationCoordinate2D c1;
+//    c1.latitude = zuobiao.latitude;
+//    c1.longitude = zuobiao.longitude;
+//    BMKMapPoint mp1 = BMKMapPointForCoordinate(c1);
+    
+    // 屏幕顶部中点
+    CLLocationCoordinate2D screenTop = [_mapView convertPoint:CGPointMake((SCREEN_WIDTH/2), 0) toCoordinateFromView:_mapView];
     CLLocationCoordinate2D c1;
-    c1.latitude = zuobiao.latitude;
-    c1.longitude = zuobiao.longitude;
+    c1.latitude = screenTop.latitude;
+    c1.longitude = screenTop.longitude;
     BMKMapPoint mp1 = BMKMapPointForCoordinate(c1);
-
-    CLLocationCoordinate2D c2;  // 屏幕中心点
+    
+//    CLLocationCoordinate2D c2;  // 屏幕中心点
+//    c2.latitude = _mapView.centerCoordinate.latitude;
+//    c2.longitude = _mapView.centerCoordinate.longitude;
+//    BMKMapPoint mp2 = BMKMapPointForCoordinate(c2);
+    
+    // 地图view中心点
+    CLLocationCoordinate2D c2;
     c2.latitude = _mapView.centerCoordinate.latitude;
     c2.longitude = _mapView.centerCoordinate.longitude;
     BMKMapPoint mp2 = BMKMapPointForCoordinate(c2);
-
+    
     CLLocationDistance dis = BMKMetersBetweenMapPoints(mp1, mp2);
-
+    
     NSString *pointCenter = [NSString stringWithFormat:@"%f,%f", c2.longitude, c2.latitude];
     NSString *radius = [NSString stringWithFormat:@"%f", dis/1000];
     
-    self.carModelId = sender.value;
     self.isGetData = NO;
-    [self requestGetNearByCoachInterfaceWithPointcenter:pointCenter andRadius:radius needLiadingShow:YES];
+    [self requestGetNearByCoachInterfaceWithPointcenter:pointCenter andRadius:radius needLiadingShow:needLiadingShow];
 }
 
 + (MainViewController *)sharedMainController
@@ -942,26 +905,7 @@
     self.searchParamDic = nil;
     self.allBtn.hidden = YES;
     
-    //刷新数据
-    CLLocationCoordinate2D zuobiao = [_mapView convertPoint:CGPointMake(0, 0) toCoordinateFromView:_mapView];
-    
-    // 计算两点之间的距离
-    CLLocationCoordinate2D c1;
-    c1.latitude = zuobiao.latitude;
-    c1.longitude = zuobiao.longitude;
-    BMKMapPoint mp1 = BMKMapPointForCoordinate(c1);
-    
-    CLLocationCoordinate2D c2;  // 屏幕中心点
-    c2.latitude = _mapView.centerCoordinate.latitude;
-    c2.longitude = _mapView.centerCoordinate.longitude;
-    BMKMapPoint mp2 = BMKMapPointForCoordinate(c2);
-    
-    CLLocationDistance dis = BMKMetersBetweenMapPoints(mp1, mp2);
-    
-    NSString *pointCenter = [NSString stringWithFormat:@"%f,%f", c2.longitude, c2.latitude];
-    NSString *radius = [NSString stringWithFormat:@"%f", dis/1000];
-    
-    [self requestGetNearByCoachInterfaceWithPointcenter:pointCenter andRadius:radius needLiadingShow:YES];
+    [self nearCoachRequest:YES];
 }
 
 // 教练详情

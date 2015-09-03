@@ -374,6 +374,14 @@
         paramDic[@"cityid"] = cityID;
     }
     
+    // 定位城市名
+    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    NSString *locateCityName = delegate.locationResult.addressDetail.city;
+    locateCityName = [locateCityName stringByReplacingOccurrencesOfString:@"市" withString:@""]; // 去掉城市名里的“市”
+    if (![CommonUtil isEmpty:locateCityName]) {
+        paramDic[@"fixedposition"] = locateCityName;
+    }
+    
     // 测试账号studentID
     AppDelegate *deleget = [UIApplication sharedApplication].delegate;
     if (![CommonUtil isEmpty:deleget.userid]) {
@@ -450,7 +458,6 @@
         [DejalBezelActivityView removeViewAnimated:YES];
         [_pullToRefresh tableViewReloadFinishedAnimated:YES];
         [_pullToMore tableViewReloadFinished];
-        NSLog(@"GetNearByCoach == %@", ERR_NETWORK);
         [self makeToast:ERR_NETWORK];
     }];
 }
