@@ -33,6 +33,9 @@
 @property (strong, nonatomic) DSBottomPullToMoreManager *pullToMore;    // 上拉加载
 @property (strong, nonatomic) NSMutableArray *coachList;    // 教练列表
 @property (strong, nonatomic) IBOutlet UILabel *coachRealName;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coachNameLabelWidthCon;
+@property (weak, nonatomic) IBOutlet UIImageView *genderImage;
+
 @property (strong, nonatomic) IBOutlet UILabel *coachDetails;
 @property (strong, nonatomic) TQStarRatingView *starView;
 
@@ -229,18 +232,27 @@
         NSString *genderStr = nil;
         if (gender == 1) {
             genderStr = @"男";
+            [self.genderImage setImage:[UIImage imageNamed:@"icon_male"]];
         }else if (gender == 2)
         {
             genderStr = @"女";
+            [self.genderImage setImage:[UIImage imageNamed:@"icon_female"]];
         }else{
             genderStr = @"未设置";
+            [self.genderImage setImage:[UIImage imageNamed:@"icon_male"]];
         }
         
         self.coachId = [coachInfoDict[@"coachid"] description];
         self.userLogo.layer.cornerRadius = self.userLogo.bounds.size.width/2;
         self.userLogo.layer.masksToBounds = YES;
         [self.userLogo sd_setImageWithURL:[NSURL URLWithString:avatarStr] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
-        self.coachRealName.text = [NSString stringWithFormat:@"%@(%@)", coachName, genderStr];
+        
+        // 教练名
+        self.coachRealName.text = [NSString stringWithFormat:@"%@", coachName];
+        // 设置教练名label长度
+        CGFloat realNameStrWidth = [CommonUtil sizeWithString:coachName fontSize:17 sizewidth:MAXFLOAT sizeheight:21].width;
+        self.coachNameLabelWidthCon.constant = realNameStrWidth;
+        
 //        self.coachRealName.text = coachName;
         self.coachDetails.text = coachdetail;
         [self.starView changeStarForegroundViewWithScore:score];

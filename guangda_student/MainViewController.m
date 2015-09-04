@@ -718,6 +718,7 @@
     self.selectedCarModelImageView = imageView;
     self.selectedCarModelLabel = label;
     
+    self.carModelId = sender.value;
     [self nearCoachRequest:YES];
 }
 
