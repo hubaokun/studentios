@@ -174,8 +174,9 @@
         
         int code = [responseObject[@"code"] intValue];
         if (code == 1) {
-            [self printDic:responseObject withTitle:@"评论订单"];
-            [self makeToast:@"提交成功"];
+//            [self printDic:responseObject withTitle:@"评论订单"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"EvaluateSuccess" object:nil];
+            [self makeToast:@"评论成功"];
             [self.navigationController popViewControllerAnimated:YES];
         }else if(code == 95){
             NSString *message = responseObject[@"message"];

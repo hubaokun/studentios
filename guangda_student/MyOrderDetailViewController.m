@@ -109,6 +109,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // 监听订单变化消息
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orderEvaluateSuccess) name:@"EvaluateSuccess" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orderComplainSuccess) name:@"ComplainSuccess" object:nil];
     [self settingView];
 }
 
@@ -942,6 +945,15 @@
         self.address = result.address;
         [self.confirmTimer fire];
     }
+}
+
+#pragma mark - 监听
+- (void)orderEvaluateSuccess {
+    self.orderType = OrderTypeComplete;
+}
+
+- (void)orderComplainSuccess {
+    self.orderType = OrderTypeAbnormal;
 }
 
 #pragma mark - 数据处理

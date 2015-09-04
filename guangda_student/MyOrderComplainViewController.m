@@ -245,8 +245,9 @@
         
         int code = [responseObject[@"code"] intValue];
         if (code == 1) {
-            [self printDic:responseObject withTitle:@"订单投诉-提交"];
-            [self makeToast:@"提交成功"];
+//            [self printDic:responseObject withTitle:@"订单投诉-提交"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ComplainSuccess" object:nil];
+            [self makeToast:@"投诉成功"];
             [self.navigationController popViewControllerAnimated:YES];
         }else if(code == 95){
             NSString *message = responseObject[@"message"];
