@@ -63,12 +63,12 @@
     
     // 关闭底部教练信息窗口
     self.closeDetailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.closeDetailBtn.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    self.closeDetailBtn.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 80);
     self.closeDetailBtn.backgroundColor = [UIColor blackColor];
     self.closeDetailBtn.alpha = 0;
     [self.closeDetailBtn addTarget:self action:@selector(closeDetailsView) forControlEvents:UIControlEventTouchUpInside];
     
-    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 80)];
+    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
 //    self.mapContentView = mapView;
     _locService = [[BMKLocationService alloc] init];
     _locService.delegate = self;

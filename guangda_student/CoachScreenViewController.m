@@ -83,6 +83,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [_searchTextField resignFirstResponder];
+}
+
 #pragma mark - ViewConfig
 - (void)staticViewConfig {
     self.selectContentView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 110);
@@ -102,11 +106,19 @@
     self.selectView.frame = [UIScreen mainScreen].bounds;
     
     // 点击背景退出键盘
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboardClick:)];
-    tapGestureRecognizer.numberOfTapsRequired = 1;
-    [self.selectContentView addGestureRecognizer: tapGestureRecognizer];   // 只需要点击非文字输入区域就会响应
-    [self.selectView addGestureRecognizer:tapGestureRecognizer];
-    [tapGestureRecognizer setCancelsTouchesInView:YES];
+    UITapGestureRecognizer *tapGestureRecognizer1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboardClick:)];
+    tapGestureRecognizer1.numberOfTapsRequired = 1;
+    [self.selectContentView addGestureRecognizer: tapGestureRecognizer1];
+    [tapGestureRecognizer1 setCancelsTouchesInView:NO];
+    
+    
+    UITapGestureRecognizer *tapGestureRecognizer2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboardClick:)];
+    tapGestureRecognizer2.numberOfTapsRequired = 1;
+    [self.selectView addGestureRecognizer:tapGestureRecognizer2];
+    
+    
+    
+    
     
     // 监听驾校搜索输入框
     [self.schoolNameInputField addTarget:self action:@selector(inputSchoolNameChanged:) forControlEvents:UIControlEventEditingChanged];
@@ -148,7 +160,7 @@
             self.selectSchool = nil;
         } else {
             XBSchool *school = [[XBSchool alloc] init];
-            school.ID = self.searchDic[@"driveschollid"];
+            school.ID = self.searchDic[@"driverschoolid"];
             school.name = schoolName;
             self.selectSchool = school;
             self.schoolLabel.text = schoolName;
@@ -243,8 +255,11 @@
 
 - (void)hideKeyboardClick:(id)sender
 {
-    [_searchTextField resignFirstResponder];
-    [_schoolNameInputField resignFirstResponder];
+    if (_pickerIsShown) {
+        [_schoolNameInputField resignFirstResponder];
+    } else {
+        [_searchTextField resignFirstResponder];
+    }
 }
 
 #pragma mark - 监听
@@ -369,9 +384,16 @@
         [DejalBezelActivityView removeViewAnimated:YES];
         
         if ([responseObject[@"code"] integerValue] == 1) {
+            NSArray *schools = responseObject[@"dslist"];
+            if (schools == nil || schools.count == 0) {
+                [self makeToast:@"抱歉，没有可选的驾校"];
+                return;
+            }
             self.schoolArray = [XBSchool schoolsWithArray:responseObject[@"dslist"]];
             self.matchedSchoolArray = [NSMutableArray arrayWithArray:self.schoolArray];
             [self chooseSchoolClick:nil];
+        } else {
+            [self makeToast:responseObject[@"message"]];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self makeToast:ERR_NETWORK];
@@ -643,7 +665,7 @@
     
     // 驾校
     if (self.selectSchool) {
-        paramDic[@"driveschollid"] = self.selectSchool.ID;
+        paramDic[@"driverschoolid"] = self.selectSchool.ID;
         paramDic[@"driveschoolname"] = self.selectSchool.name;
     }
     
