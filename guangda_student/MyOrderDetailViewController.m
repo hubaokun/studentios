@@ -837,6 +837,7 @@
         int code = [responseObject[@"code"] intValue];
         if (code == 1) {
             [self makeToast:@"确认下车成功"];
+            self.orderType = OrderTypeWaitEvaluate;
             [self viewWillAppear:YES];
         }else if(code == 95){
             NSString *message = responseObject[@"message"];
