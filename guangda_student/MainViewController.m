@@ -53,43 +53,28 @@
 
 @implementation MainViewController
 
++ (MainViewController *)sharedMainController
+{
+    static MainViewController *mainVC;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        mainVC = [[self alloc] init];
+    });
+    
+    return mainVC;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.footView.hidden = YES;
+    [self staticViewConfig];
+    
 
     self.carModelLabelList = [NSMutableArray array];
     self.carModelImageViewList = [NSMutableArray array];
+    self.annotationsList = [NSMutableArray array];
     self.isGetData = NO;
     
-    // 关闭底部教练信息窗口
-    self.closeDetailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.closeDetailBtn.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 80);
-    self.closeDetailBtn.backgroundColor = [UIColor blackColor];
-    self.closeDetailBtn.alpha = 0;
-    [self.closeDetailBtn addTarget:self action:@selector(closeDetailsView) forControlEvents:UIControlEventTouchUpInside];
-    
-    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-//    self.mapContentView = mapView;
-    _locService = [[BMKLocationService alloc] init];
-    _locService.delegate = self;
-    _mapView.compassPosition = CGPointMake(8, 88);
-    
-    //设置地图缩放级别
-    [_mapView setZoomLevel:ZOOM_LEVEL];
-    _mapView.showMapScaleBar = YES;
-    _mapView.mapScaleBarPosition = CGPointMake(10+43, SCREEN_HEIGHT-15-30-8);
-    
-    [self.mapContentView addSubview:_mapView];//初始化BMKLocationService
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setMapLocation) name:@"setMapLocation" object:nil];
-    
-    self.annotationsList = [NSMutableArray array];
-    
-//     教练信息 星级View
-    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 100, 15, 87, 15)];
-    [self.coachInfoView addSubview:_starView];
-    
-    self.userLogo.layer.cornerRadius = self.userLogo.bounds.size.width/2;
-    self.userLogo.layer.masksToBounds = YES;
     
     // 筛选界面的观察者信息
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSearchCoachDict:) name:@"SearchCoachDict" object:nil];
@@ -102,9 +87,15 @@
     // 检查定位城市和用户设置的城市是否一致
     [self performSelector:@selector(searchCurrentCityName) withObject:nil afterDelay:5.0f];
     
-    // 请求弹窗广告
     self.actView.frame = [UIScreen mainScreen].bounds;
-    [self postGetActivityInfo];
+    // 弹窗广告
+    AppDelegate *app = APP_DELEGATE;
+    if (![CommonUtil isEmpty:app.locateCity]) { // 如果app已取得用户定位城市
+        [self postGetActivityInfo];
+    }
+    else { // 监视城市定位
+        [app addObserver:self forKeyPath:@"locateCity" options:NSKeyValueObservingOptionNew context:nil];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -127,6 +118,50 @@
     _locService.delegate = nil;
 }
 
+// 监视城市定位的回调
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"locateCity"]) {
+        AppDelegate *app = APP_DELEGATE;
+        if (![CommonUtil isEmpty:app.locateCity]) {
+            [self postGetActivityInfo];
+            [app removeObserver:self forKeyPath:@"locateCity"];
+        }
+    }
+}
+
+#pragma mark - ViewConfig
+- (void)staticViewConfig {
+    self.footView.hidden = YES;
+    
+    // 关闭底部教练信息的按钮
+    self.closeDetailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.closeDetailBtn.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 80);
+    self.closeDetailBtn.backgroundColor = [UIColor blackColor];
+    self.closeDetailBtn.alpha = 0;
+    [self.closeDetailBtn addTarget:self action:@selector(closeDetailsView) forControlEvents:UIControlEventTouchUpInside];
+    
+    // 教练信息,星级View
+    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 100, 15, 87, 15)];
+    [self.coachInfoView addSubview:_starView];
+    // 头像圆角
+    self.userLogo.layer.cornerRadius = self.userLogo.bounds.size.width/2;
+    self.userLogo.layer.masksToBounds = YES;
+
+    // 创建百度地图
+    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    [self.mapContentView addSubview:_mapView];//初始化BMKLocationService
+    _locService = [[BMKLocationService alloc] init];
+    _locService.delegate = self;
+    _mapView.compassPosition = CGPointMake(8, 88);
+    
+    //设置地图缩放级别
+    [_mapView setZoomLevel:ZOOM_LEVEL];
+    _mapView.showMapScaleBar = YES;
+    _mapView.mapScaleBarPosition = CGPointMake(10+43, SCREEN_HEIGHT-15-30-8);
+}
+
+#pragma mark - BaiduMap
+// 地图配置
 - (void)mapConfig {
     //设定地图View能否支持旋转
     _mapView.rotateEnabled = NO;
@@ -138,98 +173,6 @@
     _mapView.overlookEnabled = NO;
 }
 
-- (IBAction)leftItemClick:(id)sender
-{
-    BOOL _isShow = [SliderViewController sharedSliderController].isLeftViewShow;
-    if (_isShow) {
-        [SliderViewController sharedSliderController].isLeftViewShow = NO;
-        [[SliderViewController sharedSliderController] closeSideBar];
-    }else{
-        [SliderViewController sharedSliderController].isLeftViewShow = YES;
-        [[SliderViewController sharedSliderController] leftItemClick];
-        //通知更新小红点显示
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"haveMessageNoRead" object:self];
-    }
-}
-
-- (void)setSearchCoachDict:(id)dictionary
-{
-    
-    if (dictionary == nil) {
-        self.allBtn.hidden = YES;
-        return;
-    }
-    
-    if ([dictionary isKindOfClass:[NSNotification class]])
-    {
-        NSNotification *notification = (NSNotification *)dictionary;
-        if ([CommonUtil isEmpty:notification.object])
-        {
-            self.allBtn.hidden = YES;
-            self.searchParamDic = nil;
-            return;
-        }
-        self.searchParamDic = [NSMutableDictionary dictionaryWithDictionary:notification.object];
-    } else {
-        self.searchParamDic = [NSMutableDictionary dictionaryWithDictionary:dictionary];
-    }
-    
-    NSString *condition3 = self.searchParamDic[@"condition3"];
-    NSString *condition6 = self.searchParamDic[@"condition6"];
-    if([CommonUtil isEmpty:condition3] && [CommonUtil isEmpty:condition6]){
-        self.allBtn.hidden = YES;
-    }else{
-        self.allBtn.hidden = NO;
-    }
-    
-    
-    NSString *comeFrom = self.searchParamDic[@"comefrom"];
-    if ([comeFrom isEqualToString:@"2"]) { // 来自教练列表的消息
-        [self nearCoachRequest:NO];
-    } else {
-        [self nearCoachRequest:YES];
-    }
-
-}
-
-#pragma mark 教练列表按钮点击事件 (筛选)
-- (IBAction)coachListClick:(id)sender
-{
-    CoachListViewController *viewController = [[CoachListViewController alloc] initWithNibName:@"CoachListViewController" bundle:nil];
-    viewController.searchParamDic = self.searchParamDic;
-    [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
-}
-
-// 筛选按钮点击事件
-- (IBAction)selectedBtnClick:(id)sender
-{
-    //跳转至筛选
-    CoachScreenViewController *nextController = [[CoachScreenViewController alloc] initWithNibName:@"CoachScreenViewController" bundle:nil];
-    nextController.searchDic = self.searchParamDic;
-    nextController.comeFrom = @"1";
-    [self presentViewController:nextController animated:YES completion:nil];
-    
-}
-
-#pragma mark 打电话
-- (IBAction)phoneCallClick:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
-    NSString *phoneNum = nil;
-    
-    if (button.tag == 0) {
-        phoneNum = @"telprompt:0517-82664711";
-    }else{
-        phoneNum = @"telprompt:18006784207";
-    }
-    
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNum]];
-}
-
-#pragma mark - 教练详情
-
-
-#pragma mark - BaiduMap
 // 设置定位圆点属性
 -(void)setUserImage
 {
@@ -241,7 +184,6 @@
     param.isRotateAngleValid = YES;
 //    param.locationViewImgName = @"icon_improveinfo_contactaddr";
     [_mapView updateLocationViewWithParam:param];
-    NSLog(@"setUserImage");
 }
 
 - (void)setMapLocation
@@ -428,7 +370,7 @@
 - (IBAction)setUserLocationToMid:(id)sender
 {
     //地图初始位置设定
-    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    AppDelegate *appDelegate = APP_DELEGATE;
     
     [_mapView setCenterCoordinate:appDelegate.userCoordinate animated:NO];
     [_mapView setZoomLevel:ZOOM_LEVEL];
@@ -436,11 +378,10 @@
     [self nearCoachRequest:YES];
 }
 
-#pragma mark - 请求接口
+#pragma mark - 网络请求
 // 获取活动弹窗信息
 - (void)postGetActivityInfo {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    
     NSString *studentId = [CommonUtil stringForID:USERDICT[@"studentid"]];
     [params setObject:studentId forKey:@"studentid"];
     [params setObject:[CommonUtil stringForID:USERDICT[@"token"]] forKey:@"token"];
@@ -448,6 +389,8 @@
     params[@"type"] = @"2"; // 1:教练 2:学员
     params[@"width"] = [NSString stringWithFormat:@"%d", (int)SCREEN_WIDTH * 2]; // 屏幕宽，单位：像素
     params[@"height"] = [NSString stringWithFormat:@"%d", (int)SCREEN_HEIGHT * 2]; // 屏幕高，单位：像素
+    AppDelegate *app = APP_DELEGATE;
+    params[@"cityname"] = app.locateCity; // 定位城市
     NSString *uri = @"/adver?action=GETADVERTISEMENT";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:params RequestMethod:Request_POST];
     
@@ -613,6 +556,7 @@
     }];
 }
 
+// 添加底部车型选择条
 - (void)addCarModelWithList:(NSArray *)modellist
 {
     int num = (int)modellist.count;
@@ -760,18 +704,82 @@
     [self requestGetNearByCoachInterfaceWithPointcenter:pointCenter andRadius:radius needLiadingShow:needLiadingShow];
 }
 
-+ (MainViewController *)sharedMainController
+#pragma mark - Custom
+// 设置筛选信息
+- (void)setSearchCoachDict:(id)dictionary
 {
-    static MainViewController *mainVC;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        mainVC = [[self alloc] init];
-    });
     
-    return mainVC;
+    if (dictionary == nil) {
+        self.allBtn.hidden = YES;
+        return;
+    }
+    
+    if ([dictionary isKindOfClass:[NSNotification class]])
+    {
+        NSNotification *notification = (NSNotification *)dictionary;
+        if ([CommonUtil isEmpty:notification.object])
+        {
+            self.allBtn.hidden = YES;
+            self.searchParamDic = nil;
+            return;
+        }
+        self.searchParamDic = [NSMutableDictionary dictionaryWithDictionary:notification.object];
+    } else {
+        self.searchParamDic = [NSMutableDictionary dictionaryWithDictionary:dictionary];
+    }
+    
+    NSString *condition3 = self.searchParamDic[@"condition3"];
+    NSString *condition6 = self.searchParamDic[@"condition6"];
+    if([CommonUtil isEmpty:condition3] && [CommonUtil isEmpty:condition6]){
+        self.allBtn.hidden = YES;
+    }else{
+        self.allBtn.hidden = NO;
+    }
+    
+    
+    NSString *comeFrom = self.searchParamDic[@"comefrom"];
+    if ([comeFrom isEqualToString:@"2"]) { // 来自教练列表的消息
+        [self nearCoachRequest:NO];
+    } else {
+        [self nearCoachRequest:YES];
+    }
+    
 }
 
-#pragma mark - actions
+#pragma mark - Actions
+// 打开、关闭侧边栏
+- (IBAction)leftItemClick:(id)sender
+{
+    BOOL _isShow = [SliderViewController sharedSliderController].isLeftViewShow;
+    if (_isShow) {
+        [SliderViewController sharedSliderController].isLeftViewShow = NO;
+        [[SliderViewController sharedSliderController] closeSideBar];
+    }else{
+        [SliderViewController sharedSliderController].isLeftViewShow = YES;
+        [[SliderViewController sharedSliderController] leftItemClick];
+        //通知更新小红点显示
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"haveMessageNoRead" object:self];
+    }
+}
+
+- (IBAction)coachListClick:(id)sender
+{
+    CoachListViewController *viewController = [[CoachListViewController alloc] initWithNibName:@"CoachListViewController" bundle:nil];
+    viewController.searchParamDic = self.searchParamDic;
+    [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
+}
+
+// 筛选按钮点击事件
+- (IBAction)selectedBtnClick:(id)sender
+{
+    //跳转至筛选
+    CoachScreenViewController *nextController = [[CoachScreenViewController alloc] initWithNibName:@"CoachScreenViewController" bundle:nil];
+    nextController.searchDic = self.searchParamDic;
+    nextController.comeFrom = @"1";
+    [self presentViewController:nextController animated:YES completion:nil];
+    
+}
+
 // 在线报名、预约考试等服务
 - (IBAction)clickForServe:(id)sender {
     if ([[CommonUtil currentUtil] isLogin]) {
@@ -902,6 +910,7 @@
     }
 }
 
+// 显示全部教练
 - (IBAction)clickForAllData:(id)sender {
     self.searchParamDic = nil;
     self.allBtn.hidden = YES;
@@ -932,11 +941,13 @@
     
 }
 
+// 关闭弹窗广告
 - (IBAction)closeAdvClick:(id)sender {
     [self.actView removeFromSuperview];
     self.actView = nil;
 }
 
+// 弹窗广告跳转
 - (IBAction)advClick:(id)sender {
     [self closeAdvClick:nil];
     if (_actFlag == 1) {

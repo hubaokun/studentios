@@ -192,7 +192,7 @@
 }
 
 
-// 获取小巴币列表
+// 获取小巴币明细列表
 - (void)postGetCoinList {
     NSString *studentId = [CommonUtil stringForID:USERDICT[@"studentid"]];
     

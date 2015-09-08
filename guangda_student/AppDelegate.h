@@ -15,6 +15,8 @@
 #import <BaiduMapAPI/BMKLocationService.h>
 #import "OpenUDID.h"
 
+#define APP_DELEGATE ([UIApplication sharedApplication].delegate)
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (nonatomic) BOOL flgAutoLogin;

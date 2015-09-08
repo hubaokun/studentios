@@ -72,6 +72,7 @@
     [self showName];
 }
 
+// 是否显示小红点，提示有消息未读
 - (void)showRedPoint
 {
     

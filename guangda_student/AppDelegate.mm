@@ -28,7 +28,7 @@
     BMKMapManager* _mapManager;
     BMKLocationService *_locService;
     BOOL _advertisementReceived;
-    UINavigationController *navi;
+    UINavigationController *_navi;
 }
 
 // 广告
@@ -68,23 +68,12 @@
 //    [WeiboSDK registerApp:kAppKey_Weibo];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-   
     
-//    if (![[CommonUtil currentUtil] isLogin:NO]) {
-//        UINavigationController *navi = nil;
-//        LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-//        navi = [[UINavigationController alloc] initWithRootViewController:viewController];
-//        
-//        navi.navigationBarHidden = YES;
-//        self.window.rootViewController= navi;
-//    }else{
-//        [self jumpToMainController];
-//    }
-    
+    // 自动登录
     [self autoLogin];
     
-    [self jumpToMainController];
+    // 生成地图主页
+    [self createMainController];
     
     // 要使用百度地图，请先启动BaiduMapManager
     _mapManager = [[BMKMapManager alloc]init];
@@ -97,8 +86,8 @@
     // Add the navigation controller's view to the window and display.
 //    [self.window addSubview:navigationController.view];
     [self startLocation];
+    
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    [self.window makeKeyAndVisible];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
@@ -111,38 +100,33 @@
     
     [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
     [[PgyManager sharedPgyManager] setEnableFeedback:NO]; //关闭用户反馈功能
-    
     [[PgyManager sharedPgyManager] setThemeColor:[UIColor blackColor]];
-    
 //    [[PgyManager sharedPgyManager] setShakingThreshold:3.0];//开发者可以自定义摇一摇的灵敏度，默认为2.3，数值越小灵敏度越高。
 //    [[PgyManager sharedPgyManager] showFeedbackView];//直接显示用户反馈画面
-    
     [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
     
     //友盟社会化分享与统计
-    [MobClick startWithAppkey:@"55bf12f8e0f55a95d7002184" reportPolicy:BATCH   channelId:@"pgy"];
+    [MobClick startWithAppkey:@"55bf12f8e0f55a95d7002184" reportPolicy:BATCH channelId:@"pgy"];
     
-    // 广告页面
+    // 广告闪屏页
     [NSThread detachNewThreadSelector:@selector(startRequestAdvertisement) toTarget:self withObject:nil]; // 异步发起网络请求
     while (!_advertisementReceived) { // 阻塞主线程
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
     }
     [self showAdvertisment];
+    
     return YES;
 }
 
 //在此接收设备号
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
-    //[self addDeviceToken:deviceToken];
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     self.deviceToken = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
-//    [self autoLogin];
     [self updateUserAddress];
     // NSLog(@"deviceToken:%@", _deviceToken);
     //上传设备信息
     //[self toUploadDeviceInfo];
     //[[NSNotificationCenter defaultCenter] postNotificationName:@"ReceiveTopMessage" object:nil];
-    
 }
 
 
@@ -183,17 +167,14 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ReceiveTopMessage" object:nil];
     
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-//    NSString *message = [[userInfo objectForKey:@"aps"]objectForKey:@"alert"];
-//    
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-//    [alert show];
+
     //通知更新小红点显示
     [[NSNotificationCenter defaultCenter] postNotificationName:@"haveMessageNoRead" object:self];
 }
 
 
-// 跳转主界面
-- (void)jumpToMainController {
+// 生成地图主界面
+- (void)createMainController {
     [SliderViewController sharedSliderController].LeftVC=[[SideBarViewController alloc] initWithNibName:@"SideBarViewController" bundle:nil];
     [SliderViewController sharedSliderController].RightVC=[[RightViewController alloc] init];
     [SliderViewController sharedSliderController].LeftSContentScale=1.0;
@@ -201,18 +182,10 @@
     [SliderViewController sharedSliderController].LeftSCloseDuration=0.3;
     [SliderViewController sharedSliderController].LeftSJudgeOffset=[UIScreen mainScreen].bounds.size.width-230.00;
     [SliderViewController sharedSliderController].LeftSContentOffset = 230.0;
-    
-    navi = nil;
-//    if ([CommonUtil isEmpty:_userid]) {
-//        LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-//        navi = [[UINavigationController alloc] initWithRootViewController:viewController];
-//        
-//    } else {
-    
-    navi = [[UINavigationController alloc] initWithRootViewController:[SliderViewController sharedSliderController]];
-//    }
-    navi.navigationBarHidden = YES;
-    self.window.rootViewController= navi;
+
+    _navi = [[UINavigationController alloc] initWithRootViewController:[SliderViewController sharedSliderController]];
+    _navi.navigationBarHidden = YES;
+    self.window.rootViewController= _navi;
 }
 
 #pragma mark - 第三方url调用
@@ -236,7 +209,7 @@
 //    
 //    return YES;
 //}
-//
+
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     
     NSString *string =[url absoluteString];
@@ -300,7 +273,7 @@
         NSLog(@"定位成功");
     }
     
-//    //发起反向地理编码检索
+    // 发起反向地理编码检索
     BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
     reverseGeoCodeSearchOption.reverseGeoPoint = _userCoordinate;
     
@@ -332,6 +305,8 @@
         NSString *provience = self.locationResult.addressDetail.province;
         NSString *city = self.locationResult.addressDetail.city;
         NSString *area = self.locationResult.addressDetail.district;
+        
+        self.locateCity = city;
         
         NSString *version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
         NSString *buildVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
@@ -446,9 +421,7 @@
     }
     params[@"devicetype"] = @"1"; // 设备类型
     params[@"version"] = APP_VERSION; // 版本号
-    
-    // 操作平台
-    params[@"ostype"] = @"1";
+    params[@"ostype"] = @"1"; // 操作平台
     
     NSString *uri = @"/suser?action=login";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:params RequestMethod:Request_POST];
@@ -457,9 +430,7 @@
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        [DejalBezelActivityView removeViewAnimated:YES];
         NSString *code = responseObject[@"code"];
-        
         if ([code intValue] == 1) {
             NSDictionary *user = [responseObject objectForKey:@"UserInfo"];
             NSNumber *studentID = user[@"studentid"];
@@ -473,7 +444,7 @@
             
             if ([self.isInvited integerValue]== 1) {    //1代表未被邀请，0代表已被邀请
                 RecommendCodeViewController *nextController = [[RecommendCodeViewController alloc] initWithNibName:@"RecommendCodeViewController" bundle:nil];
-                [navi pushViewController:nextController animated:YES];
+                [_navi pushViewController:nextController animated:YES];
             }
             
             // 3秒后在异步线程中上传设备号
@@ -531,6 +502,8 @@
 #pragma mark - 广告页相关
 //获取是否要使用广告
 -(void)startRequestAdvertisement{
+    NSThread *cur = [NSThread currentThread];
+    NSLog(@"curThread == %@", cur);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"model"] = @"1"; // 1:ios 2:安卓
@@ -553,7 +526,7 @@
     }];
 }
 
-// 接收到广告
+// 广告接口请求结束
 - (void)receivedAdvertisement {
     _advertisementReceived = YES;
 }
@@ -571,7 +544,7 @@
             UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height)];
             [imageV sd_setImageWithURL:[NSURL URLWithString:advertisement_url] placeholderImage:[UIImage imageNamed:@"default1.jpg"]]; [self.lunchView addSubview:imageV];
             [self.window bringSubviewToFront:self.lunchView];
-            [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeLun) userInfo:nil repeats:NO];
+            [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeLun:) userInfo:nil repeats:NO];
         }
     }
     // 未取得
@@ -580,9 +553,10 @@
     }
 }
 
-- (void)removeLun {
+// 移除广告页
+- (void)removeLun:(NSTimer *)timer {
     [self.lunchView removeFromSuperview];
-//    [self.window addSubview:self.actVC.view];
+    self.lunchView = nil;
 }
 
 @end

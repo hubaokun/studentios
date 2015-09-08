@@ -38,7 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self performSelector:@selector(showMainView) withObject:nil afterDelay:0.1f];
-    [self GETWALLETINFO];
+    [self postGetWalletInfo];
 //    self.coinView.hidden = YES;
 }
 
@@ -76,12 +76,11 @@
 }
 
 #pragma mark - 接口方法
-// 提交用户信息一键报名
-- (void)GETWALLETINFO {
-    NSString *studentId = [CommonUtil stringForID:USERDICT[@"studentid"]];
-    
+// 获取钱包信息
+- (void)postGetWalletInfo {
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
-    [paramDic setObject:studentId forKey:@"studentid"];
+    [paramDic setObject:USERDICT[@"studentid"] forKey:@"studentid"];
+    [paramDic setObject:USERDICT[@"token"] forKey:@"token"];
     NSString *uri = @"/suser?action=GETSTUDENTWALLETINFO";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
     
@@ -104,7 +103,7 @@
             NSString *consumeCoupon = [responseObject[@"consumeCoupon"] description];
             
             // 累计消费
-            self.usedLabel.text = [NSString stringWithFormat:@"累计消费：余额%@元 小巴币%@个 学时券%@张", consumeMoney, consumeCoin, consumeCoupon];
+            self.usedLabel.text = [NSString stringWithFormat:@"累计消费：金额%@元 小巴币%@个 学时券%@张", consumeMoney, consumeCoin, consumeCoupon];
 
             [self setLabel];
         }else{
