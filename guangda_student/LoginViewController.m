@@ -315,7 +315,7 @@
 }
 
 #pragma mark - 输入框代理
-#pragma mark 点击返回按钮
+// 点击返回按钮
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     return YES;
@@ -352,6 +352,21 @@
             self.pwdUnderline.backgroundColor = RGB(206, 206, 206);
         }else{
             self.pwdUnderline.backgroundColor = [UIColor redColor];
+        }
+    }
+    return YES;
+}
+
+// 手机号不得超过11位
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{  //string就是此时输入的那个字符 textField就是此时正在输入的那个输入框 返回YES就是可以改变输入框的值 NO相反
+    
+    if (self.loginNameTextField == textField)
+    {
+        NSString * toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string]; //得到输入框的内容
+        if ([toBeString length] > 11) { //如果输入框内容大于11则弹出警告
+            [self makeToast:@"手机号不得超过11位"];
+            return NO;
         }
     }
     return YES;

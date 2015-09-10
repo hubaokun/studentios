@@ -10,6 +10,8 @@
 #import "AccountViewController.h"
 #import "CouponListViewController.h"
 #import "CoinListViewController.h"
+#import "LoginViewController.h"
+
 @interface AccountListViewController ()
 {
     NSString *_couponsum;
@@ -90,8 +92,8 @@
     [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         [DejalBezelActivityView removeViewAnimated:YES];
-        
-        if ([responseObject[@"code"] integerValue] == 1) {
+        int code = [responseObject[@"code"] intValue];
+        if (code == 1) {
             NSLog(@"message ===== %@", responseObject[@"message"]);
             _coinsum = [responseObject[@"coinsum"] description];
             _couponsum = [responseObject[@"couponsum"] description];
@@ -106,7 +108,17 @@
             self.usedLabel.text = [NSString stringWithFormat:@"累计消费：金额%@元 小巴币%@个 学时券%@张", consumeMoney, consumeCoin, consumeCoupon];
 
             [self setLabel];
-        }else{
+        }else if(code == 95){
+            NSString *message = responseObject[@"message"];
+            [self makeToast:message];
+            [CommonUtil logout];
+            [NSTimer scheduledTimerWithTimeInterval:0.5
+                                             target:self
+                                           selector:@selector(backLogin)
+                                           userInfo:nil
+                                            repeats:NO];
+        }
+        else{
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
             
@@ -119,6 +131,12 @@
     
 }
 
+- (void) backLogin{
+    if(![self.navigationController.topViewController isKindOfClass:[LoginViewController class]]){
+        LoginViewController *nextViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        [self.navigationController pushViewController:nextViewController animated:YES];
+    }
+}
 
 - (void)setLabel
 {

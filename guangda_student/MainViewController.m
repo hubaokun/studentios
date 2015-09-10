@@ -75,7 +75,6 @@
     self.isGetData = NO;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setMapLocation) name:@"setMapLocation" object:nil];
-    
     // 筛选界面的观察者信息
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSearchCoachDict:) name:@"SearchCoachDict" object:nil];
     
@@ -197,7 +196,7 @@
     
     //地图初始位置设定
     [_locService startUserLocationService];
-    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    AppDelegate *appDelegate = APP_DELEGATE;
     [_mapView setCenterCoordinate:appDelegate.userCoordinate animated:NO];
     
     _mapView.showsUserLocation = NO;
