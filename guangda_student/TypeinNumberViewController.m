@@ -64,6 +64,7 @@
     [paramDic setObject:studentId forKey:@"studentid"];
     [paramDic setObject:[CommonUtil stringForID:USERDICT[@"token"]] forKey:@"token"];
     [paramDic setObject:moneyNum forKey:@"amount"];
+    [paramDic setObject:@"0" forKey:@"resource"];
     
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_GET];
     
@@ -131,6 +132,7 @@
     [paramDic setObject:studentId forKey:@"studentid"];
     [paramDic setObject:[CommonUtil stringForID:USERDICT[@"token"]] forKey:@"token"];
     [paramDic setObject:moneyNum forKey:@"count"];
+    [paramDic setObject:@"0" forKey:@"resource"];
     
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_GET];
     

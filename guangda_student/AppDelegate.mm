@@ -404,6 +404,7 @@
     }
 }
 
+#pragma mark - 网络请求
 //自动登录
 - (void)autoLogin {
     
