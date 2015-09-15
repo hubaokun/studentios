@@ -289,7 +289,6 @@
 		70BDB3B21BA81A9B00E97322 /* EMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BDB2481BA81A9B00E97322 /* EMNavigationController.m */; };
 		70BDB3B31BA81A9B00E97322 /* EMSearchDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BDB24A1BA81A9B00E97322 /* EMSearchDisplayController.m */; };
 		70BDB3B41BA81A9B00E97322 /* XHMessageTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BDB24C1BA81A9B00E97322 /* XHMessageTextView.m */; };
-		70BDB3B51BA81A9B00E97322 /* EaseMob.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 70BDB2B71BA81A9B00E97322 /* EaseMob.bundle */; };
 		70BDB3B61BA81A9B00E97322 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 70BDB2B81BA81A9B00E97322 /* InfoPlist.strings */; };
 		70BDB3B71BA81A9B00E97322 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 70BDB2BA1BA81A9B00E97322 /* Localizable.strings */; };
 		70BDB3B81BA81A9B00E97322 /* 114.png in Resources */ = {isa = PBXBuildFile; fileRef = 70BDB2BF1BA81A9B00E97322 /* 114.png */; };
@@ -423,6 +422,7 @@
 		70BDB4381BA81A9B00E97322 /* chat_sender_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70BDB3491BA81A9B00E97322 /* chat_sender_bg@2x.png */; };
 		70BDB4391BA81A9B00E97322 /* 回收站@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70BDB34A1BA81A9B00E97322 /* 回收站@2x.png */; };
 		70BDB43A1BA81A9B00E97322 /* 回收站@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70BDB34B1BA81A9B00E97322 /* 回收站@3x.png */; };
+		70BDB43C1BA81D3F00E97322 /* EaseMob.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 70BDB43B1BA81D3F00E97322 /* EaseMob.bundle */; };
 		70CC165F1B6BC13D00084296 /* XBCoin.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CC165E1B6BC13D00084296 /* XBCoin.m */; };
 		70CC16671B6F4EA600084296 /* libMobClickGameLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */; };
 		70E9BE3B1B846CBE00137D86 /* OrderListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E9BE391B846CBE00137D86 /* OrderListTableViewCell.m */; };
@@ -1198,7 +1198,6 @@
 		70BDB2B21BA81A9B00E97322 /* EMNetworkMonitorDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMNetworkMonitorDefs.h; sourceTree = "<group>"; };
 		70BDB2B41BA81A9B00E97322 /* EMError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMError.h; sourceTree = "<group>"; };
 		70BDB2B51BA81A9B00E97322 /* EMErrorDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMErrorDefs.h; sourceTree = "<group>"; };
-		70BDB2B71BA81A9B00E97322 /* EaseMob.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EaseMob.bundle; sourceTree = "<group>"; };
 		70BDB2B91BA81A9B00E97322 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		70BDB2BB1BA81A9B00E97322 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		70BDB2BC1BA81A9B00E97322 /* LocalDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalDefine.h; sourceTree = "<group>"; };
@@ -1333,6 +1332,7 @@
 		70BDB3491BA81A9B00E97322 /* chat_sender_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_sender_bg@2x.png"; sourceTree = "<group>"; };
 		70BDB34A1BA81A9B00E97322 /* 回收站@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "回收站@2x.png"; sourceTree = "<group>"; };
 		70BDB34B1BA81A9B00E97322 /* 回收站@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "回收站@3x.png"; sourceTree = "<group>"; };
+		70BDB43B1BA81D3F00E97322 /* EaseMob.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EaseMob.bundle; sourceTree = "<group>"; };
 		70CC165D1B6BC13C00084296 /* XBCoin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBCoin.h; sourceTree = "<group>"; };
 		70CC165E1B6BC13D00084296 /* XBCoin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBCoin.m; sourceTree = "<group>"; };
 		70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickGameLibrary.a; sourceTree = "<group>"; };
@@ -3112,7 +3112,7 @@
 		70BDB2B61BA81A9B00E97322 /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				70BDB2B71BA81A9B00E97322 /* EaseMob.bundle */,
+				70BDB43B1BA81D3F00E97322 /* EaseMob.bundle */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -3642,7 +3642,6 @@
 				70BDB3FC1BA81A9B00E97322 /* call_silence_h@2x.png in Resources */,
 				315067C11AC3DF06000C1C13 /* CoachListViewController.xib in Resources */,
 				716E272A1B53DD56009CE9E1 /* AccountListViewController.xib in Resources */,
-				70BDB3B51BA81A9B00E97322 /* EaseMob.bundle in Resources */,
 				70BDB3C81BA81A9B00E97322 /* chatFire_audioPlaying1@2x.png in Resources */,
 				B852422F1ACA62180032E276 /* SettingBindingViewController.xib in Resources */,
 				70BDB3E51BA81A9B00E97322 /* VoiceSearchFeedback013.png in Resources */,
@@ -3692,6 +3691,7 @@
 				312D8DC11AC9508F00EF7546 /* AccountTableViewCell.xib in Resources */,
 				70BDB4381BA81A9B00E97322 /* chat_sender_bg@2x.png in Resources */,
 				70BDB3F81BA81A9B00E97322 /* call_out_h@2x.png in Resources */,
+				70BDB43C1BA81D3F00E97322 /* EaseMob.bundle in Resources */,
 				70BDB3C31BA81A9B00E97322 /* 客服@2x.png in Resources */,
 				70BDB3FA1BA81A9B00E97322 /* call_silence@2x.png in Resources */,
 				70BDB3E01BA81A9B00E97322 /* VoiceSearchFeedback010@2x.png in Resources */,
