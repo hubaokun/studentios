@@ -184,7 +184,6 @@
 		7064EA181B969A960010AC88 /* BlackPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7064EA171B969A960010AC88 /* BlackPickerView.m */; };
 		7064EA1A1B969BDF0010AC88 /* BlackPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7064EA191B969BDF0010AC88 /* BlackPickerView.xib */; };
 		708600551B799EFC00CB09DA /* XBComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 708600541B799EFC00CB09DA /* XBComment.m */; };
-		70C467801BA80C740064F37E /* libEaseMobClientSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C4677E1BA80C740064F37E /* libEaseMobClientSDK.a */; };
 		70CC165F1B6BC13D00084296 /* XBCoin.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CC165E1B6BC13D00084296 /* XBCoin.m */; };
 		70CC16671B6F4EA600084296 /* libMobClickGameLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */; };
 		70E9BE3B1B846CBE00137D86 /* OrderListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E9BE391B846CBE00137D86 /* OrderListTableViewCell.m */; };
@@ -895,8 +894,6 @@
 		7064EA191B969BDF0010AC88 /* BlackPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BlackPickerView.xib; sourceTree = "<group>"; };
 		708600531B799EFC00CB09DA /* XBComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBComment.h; sourceTree = "<group>"; };
 		708600541B799EFC00CB09DA /* XBComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBComment.m; sourceTree = "<group>"; };
-		70C4677E1BA80C740064F37E /* libEaseMobClientSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEaseMobClientSDK.a; sourceTree = "<group>"; };
-		70C4677F1BA80C740064F37E /* libEaseMobClientSDKLite.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEaseMobClientSDKLite.a; sourceTree = "<group>"; };
 		70CC165D1B6BC13C00084296 /* XBCoin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBCoin.h; sourceTree = "<group>"; };
 		70CC165E1B6BC13D00084296 /* XBCoin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBCoin.m; sourceTree = "<group>"; };
 		70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickGameLibrary.a; sourceTree = "<group>"; };
@@ -1476,7 +1473,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70C467801BA80C740064F37E /* libEaseMobClientSDK.a in Frameworks */,
 				A0717E131BA6B4020090DA33 /* Accounts.framework in Frameworks */,
 				A0717E111BA6B3FA0090DA33 /* Social.framework in Frameworks */,
 				A0717E0F1BA6B3D90090DA33 /* libxml2.dylib in Frameworks */,
@@ -2372,15 +2368,6 @@
 			name = model;
 			sourceTree = "<group>";
 		};
-		70C4677D1BA80C740064F37E /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				70C4677E1BA80C740064F37E /* libEaseMobClientSDK.a */,
-				70C4677F1BA80C740064F37E /* libEaseMobClientSDKLite.a */,
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
 		70CC16621B6F4EA600084296 /* umsdk_iOS_game_idfa_3.5.10.0 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2921,7 +2908,6 @@
 		A0717C021BA6B2ED0090DA33 /* EaseMobSDK */ = {
 			isa = PBXGroup;
 			children = (
-				70C4677D1BA80C740064F37E /* lib */,
 				A0717C031BA6B2ED0090DA33 /* include */,
 				A0717C6E1BA6B2ED0090DA33 /* resources */,
 			);
