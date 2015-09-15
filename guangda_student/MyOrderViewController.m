@@ -75,7 +75,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
     [super viewDidLoad];
     self.orderListType = OrderListTypeUncomplete;
     _orderList = [NSMutableArray array];
-    _rowHeight = 214;
+    _rowHeight = 235;
     [self settingView];
     
     //刷新加载

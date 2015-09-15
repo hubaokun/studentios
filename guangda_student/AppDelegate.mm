@@ -22,8 +22,13 @@
 #import "RecommendCodeViewController.h"
 #import "ActivityViewController.h"
 
+//环信
+#import "EaseMob.h"
+#import "LocalDefine.h"
+#import "AppDelegate+EaseMob.h"
+
 @interface AppDelegate ()
-<BMKLocationServiceDelegate, WeiboSDKDelegate,BMKGeoCodeSearchDelegate>
+<BMKLocationServiceDelegate, WeiboSDKDelegate,BMKGeoCodeSearchDelegate,UIApplicationDelegate, IChatManagerDelegate>
 {
     BMKMapManager* _mapManager;
     BMKLocationService *_locService;
@@ -60,8 +65,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // 初始化环信SDK，详细内容在AppDelegate+EaseMob.m 文件中
+    //下面这句话不注释就变成环信了= =
+    //[self loginStateChange:nil];
+    [self easemobApplication:application didFinishLaunchingWithOptions:launchOptions];
+    //设置是否自动登录
+    [[EaseMob sharedInstance].chatManager setIsAutoLoginEnabled:NO];
+    
+    
     // 注册APNS
-    [self registerRemoteNotification];
+//    [self registerRemoteNotification];
     
     // 注册微博
 //    [WeiboSDK enableDebugMode:YES];
@@ -98,12 +111,12 @@
     // 设置用户反馈界面激活方式为摇一摇
     //    [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeShake];
     
-    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
-    [[PgyManager sharedPgyManager] setEnableFeedback:NO]; //关闭用户反馈功能
-    [[PgyManager sharedPgyManager] setThemeColor:[UIColor blackColor]];
+//    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
+//    [[PgyManager sharedPgyManager] setEnableFeedback:NO]; //关闭用户反馈功能
+//    [[PgyManager sharedPgyManager] setThemeColor:[UIColor blackColor]];
 //    [[PgyManager sharedPgyManager] setShakingThreshold:3.0];//开发者可以自定义摇一摇的灵敏度，默认为2.3，数值越小灵敏度越高。
 //    [[PgyManager sharedPgyManager] showFeedbackView];//直接显示用户反馈画面
-    [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
+//    [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
     
     //友盟社会化分享与统计
     [MobClick startWithAppkey:@"55bf12f8e0f55a95d7002184" reportPolicy:BATCH channelId:@"pgy"];
@@ -120,6 +133,7 @@
 
 //在此接收设备号
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+//    [[EaseMob sharedInstance] application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     self.deviceToken = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
     [self updateUserAddress];
@@ -148,7 +162,7 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
+//    [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -301,6 +315,8 @@
 }
 
 - (void) updateUserAddress{
+//    NSLog(@"deviceToken ==== %@", self.deviceToken);
+//    NSLog(@"locationResult ==== %@", self.locationResult);
     if(![CommonUtil isEmpty:self.deviceToken] && self.locationResult){
         NSString *provience = self.locationResult.addressDetail.province;
         NSString *city = self.locationResult.addressDetail.city;
@@ -433,6 +449,10 @@
         
         NSString *code = responseObject[@"code"];
         if ([code intValue] == 1) {
+            
+            //登录环信
+            [[EMIMHelper defaultHelper] loginEasemobSDK];
+            
             NSDictionary *user = [responseObject objectForKey:@"UserInfo"];
             NSNumber *studentID = user[@"studentid"];
             self.userid = [NSString stringWithFormat:@"%@", studentID];

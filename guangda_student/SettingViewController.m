@@ -156,5 +156,7 @@
     LoginViewController *nextController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
     [self.navigationController pushViewController:nextController animated:YES];
     
+    [[EMIMHelper defaultHelper] logOut];
+    
 }
 @end

@@ -10,6 +10,9 @@
 #import "SignUpViewController.h"
 #import "UserBaseInfoViewController.h"
 
+#import "EMIMHelper.h"
+#import "ChatViewController.h"
+
 @interface XiaobaServeViewController ()
 
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
@@ -41,6 +44,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.cityBtn addTarget:self action:@selector(clickToImproveInfoView) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.ServeBtn addTarget:self action:@selector(chatItemAction) forControlEvents:UIControlEventTouchUpInside];
+}
+
+#pragma mark - private action
+
+- (void)chatItemAction
+{
+    [self chatAction:nil];
+}
+
+- (void)chatAction:(NSNotification *)notification
+{
+    [[EMIMHelper defaultHelper] loginEasemobSDK];
+    NSString *cname = [[EMIMHelper defaultHelper] cname];
+    ChatViewController *chatController = [[ChatViewController alloc] initWithChatter:cname isGroup:NO];
+    chatController.title = @"在线客服";
+    if (notification.object) {
+        chatController.commodityInfo = (NSDictionary *)notification.object;
+    }
+    [self.navigationController pushViewController:chatController animated:YES];
+    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

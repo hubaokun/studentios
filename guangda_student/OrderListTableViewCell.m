@@ -16,7 +16,6 @@
 @interface OrderListTableViewCell ()
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;        // 时间
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;        // 日期
-@property (weak, nonatomic) IBOutlet UILabel *couresTypeLabel;  // 科目类型
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;      // 订单状态
 @property (weak, nonatomic) IBOutlet UILabel *coachLabel;       // 教练
 @property (weak, nonatomic) IBOutlet UILabel *addrLabel;        // 地址
@@ -51,26 +50,44 @@
     self.dateLabel.text = startDateStr;
     self.timeLabel.text = [NSString stringWithFormat:@"%@ - %@", startTimeStr, endTimeStr];
     
-    // 科目类型
-    self.couresTypeLabel.text = self.order.subjectName;
-    
     // 订单状态文字
     [self orderStateTextConfig];
     
     // 教练
     NSString *coachText = nil;
+    NSString *nameStr = [NSString stringWithFormat:@"教练: %@", self.order.coach.realName];
+    NSString *carStr = nil;
     if ([CommonUtil isEmpty:self.order.carLicense]) {
-        coachText = [NSString stringWithFormat:@"教练: %@", self.order.coach.realName];
+        coachText =  nameStr;
     } else {
-        coachText = [NSString stringWithFormat:@"教练: %@ (%@)", self.order.coach.realName, self.order.carLicense];
+        carStr = [NSString stringWithFormat:@" (%@)", self.order.carLicense];
+        coachText = [NSString stringWithFormat:@"%@%@", nameStr, carStr];
     }
-    self.coachLabel.text = coachText;
+    NSMutableAttributedString *coachAttText = [[NSMutableAttributedString alloc] initWithString:coachText];
+    if (![CommonUtil isEmpty:self.order.carLicense]) {
+       [coachAttText addAttribute:NSForegroundColorAttributeName value:RGB(170, 170, 170) range:NSMakeRange(nameStr.length, carStr.length)];
+    }
+    self.coachLabel.attributedText = coachAttText;
+
     
     // 地址
     self.addrLabel.text = [NSString stringWithFormat:@"地址: %@", self.order.detailAddr];
     
-    // 金额
-    self.costLabel.text = [NSString stringWithFormat:@"金额: ￥%@", self.order.cost];
+    // 金额 科目类型
+    NSString *costText = nil;
+    NSString *costStr = [NSString stringWithFormat:@"金额: %@", self.order.cost];
+    NSString *subjectStr = self.order.subjectName;
+    if ([CommonUtil isEmpty:subjectStr]) {
+        costText = costStr;
+    } else {
+        subjectStr = [NSString stringWithFormat:@" (%@)", subjectStr];
+        costText = [NSString stringWithFormat:@"%@%@", costStr, subjectStr];
+    }
+    NSMutableAttributedString *costAttText = [[NSMutableAttributedString alloc] initWithString:costText];
+    if (![CommonUtil isEmpty:subjectStr]) {
+        [costAttText addAttribute:NSForegroundColorAttributeName value:RGB(170, 170, 170) range:NSMakeRange(costStr.length, subjectStr.length)];
+    }
+    self.costLabel.attributedText = costAttText;
     
     // 按钮配置
     [self operationBtnsConfig];

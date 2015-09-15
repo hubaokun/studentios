@@ -438,6 +438,9 @@
             [CommonUtil saveObjectToUD:vcode key:@"loginpassword"];
             [CommonUtil saveObjectToUD:@"1" key:@"logintype"];
             
+            //环信登录
+            [[EMIMHelper defaultHelper] loginEasemobSDK];
+            
             int isregister = [[responseObject objectForKey:@"isregister"] intValue];
             delegate.isregister = [NSString stringWithFormat:@"%d",isregister];
             int isInvited = [[responseObject objectForKey:@"isInvited"] intValue];

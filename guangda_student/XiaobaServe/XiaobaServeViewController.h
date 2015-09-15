@@ -9,5 +9,6 @@
 #import "GreyTopViewController.h"
 
 @interface XiaobaServeViewController : GreyTopViewController
+@property (strong, nonatomic) IBOutlet UIButton *ServeBtn;
 
 @end
