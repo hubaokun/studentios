@@ -34,8 +34,8 @@
     
     _takePicButton =[UIButton buttonWithType:UIButtonTypeCustom];
     [_takePicButton setFrame:CGRectMake(insets, 10, CHAT_BUTTON_SIZE , CHAT_BUTTON_SIZE)];
-    [_takePicButton setImage:[UIImage imageNamed:@"chatBar_colorMore_camera"] forState:UIControlStateNormal];
-    [_takePicButton setImage:[UIImage imageNamed:@"chatBar_colorMore_cameraSelected"] forState:UIControlStateHighlighted];
+    [_takePicButton setImage:[UIImage imageNamed:@"cam"] forState:UIControlStateNormal];
+//    [_takePicButton setImage:[UIImage imageNamed:@"chatBar_colorMore_cameraSelected"] forState:UIControlStateHighlighted];
     [_takePicButton addTarget:self action:@selector(takePicAction) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_takePicButton];
     
@@ -49,8 +49,8 @@
     
     _photoButton =[UIButton buttonWithType:UIButtonTypeCustom];
     [_photoButton setFrame:CGRectMake(insets * 2 + CHAT_BUTTON_SIZE, 10, CHAT_BUTTON_SIZE , CHAT_BUTTON_SIZE)];
-    [_photoButton setImage:[UIImage imageNamed:@"chatBar_colorMore_photo"] forState:UIControlStateNormal];
-    [_photoButton setImage:[UIImage imageNamed:@"chatBar_colorMore_photoSelected"] forState:UIControlStateHighlighted];
+    [_photoButton setImage:[UIImage imageNamed:@"图片"] forState:UIControlStateNormal];
+//    [_photoButton setImage:[UIImage imageNamed:@"chatBar_colorMore_photoSelected"] forState:UIControlStateHighlighted];
     [_photoButton addTarget:self action:@selector(photoAction) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_photoButton];
     
@@ -67,7 +67,7 @@
     [_locationButton setImage:[UIImage imageNamed:@"chatBar_colorMore_location"] forState:UIControlStateNormal];
     [_locationButton setImage:[UIImage imageNamed:@"chatBar_colorMore_locationSelected"] forState:UIControlStateHighlighted];
     [_locationButton addTarget:self action:@selector(locationAction) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:_locationButton];
+//    [self addSubview:_locationButton];
     
     UILabel *locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(insets * 3 + CHAT_BUTTON_SIZE * 2, CGRectGetMaxY(_locationButton.frame), CGRectGetWidth(_locationButton.frame), 20)];
     locationLabel.backgroundColor = [UIColor clearColor];
@@ -75,7 +75,7 @@
     locationLabel.textAlignment = NSTextAlignmentCenter;
     locationLabel.font = [UIFont systemFontOfSize:14.0];
     locationLabel.textColor = [UIColor grayColor];
-    [self addSubview:locationLabel];
+//    [self addSubview:locationLabel];
     
     CGRect frame = self.frame;
     frame.size.height = 100;

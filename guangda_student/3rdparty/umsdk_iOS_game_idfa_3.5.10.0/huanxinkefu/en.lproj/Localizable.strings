@@ -49,7 +49,6 @@
 "customerChat" = "Customer";
 "customerUser" = "IM Customer";
 "commonProblems" = "CommonProblems";
-//"commonProblems" = "常见问题";
 "restart" = "Restart";
 "restartInfo" = "Configuration information need to reboot to take effect";
 
@@ -87,7 +86,6 @@
 "message.beginReceiveOffine" = "begin to receive offline messages";
 "message.endReceiveOffine" = "end to receive offline messages";
 "message.toolBar.inputPlaceHolder" = "input a new message";
-"message.toolBar.inputPlaceHolder" = " ";
 "message.toolBar.record.upCancel" = " Fingers up slide, cancel sending ";
 "message.toolBar.record.loosenCancel" = " loosen the fingers, to cancel sending ";
 "message.toolBar.record.touch" = "hold down to talk";
