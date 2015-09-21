@@ -45,7 +45,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *coachPhone;     // 教练电话
 @property (assign, nonatomic) int studentNum; // 评论人数
 @property (assign, nonatomic) int count; // 总条数
-@property (strong, nonatomic) NSString *telphone;//教练电话
+@property (strong, nonatomic) NSString *phone;//教练电话
 
 // 页面数据
 @property (strong, nonatomic) NSMutableArray *commentArray;
@@ -143,11 +143,11 @@
             }
             self.selfComment.text = coachInfoStr;
             
-            NSString *urgentStr = [coachInfo[@"telphone"] description];
-            NSString *coachPhoneStr = [coachInfo[@"telphone"] description];
+            NSString *urgentStr = [coachInfo[@"phone"] description];
+            NSString *coachPhoneStr = [coachInfo[@"phone"] description];
             urgentStr = [urgentStr stringByReplacingOccurrencesOfString:@" " withString:@""];
             coachPhoneStr = [coachPhoneStr stringByReplacingOccurrencesOfString:@" " withString:@""];
-            self.telphone = urgentStr;
+            self.phone = urgentStr;
             
             CGSize size = [CommonUtil sizeWithString:coachInfoStr fontSize:15.0 sizewidth:(SCREEN_WIDTH - 92) sizeheight:CGFLOAT_MAX];
             self.selfCommentHeight.constant = size.height;
@@ -372,16 +372,16 @@
     NSString *phoneNum = nil;
     
     if (button.tag == 0) {
-        if (self.telphone.length > 3) {
-            phoneNum = [NSString stringWithFormat:@"telprompt:%@", self.telphone];
+        if (self.phone.length > 3) {
+            phoneNum = [NSString stringWithFormat:@"telprompt:%@", self.phone];
         }else{
             [self makeToast:@"该教练暂无电话"];
             return;
         }
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNum]];
     }else{
-        if (self.telphone.length > 3) {
-            phoneNum = [NSString stringWithFormat:@"sms://%@", self.telphone];
+        if (self.phone.length > 3) {
+            phoneNum = [NSString stringWithFormat:@"sms://%@", self.phone];
         }else{
             [self makeToast:@"该教练暂无电话"];
             return;

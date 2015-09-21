@@ -91,7 +91,7 @@
     // 小巴币个数
     UILabel *numLabel = [[UILabel alloc] init];
     [itemView addSubview:numLabel];
-    CGFloat numLabelW = 54;
+    CGFloat numLabelW = 59;
     CGFloat numLabelH = itemViewH;
     CGFloat numLabelX = 24;
     CGFloat numLabelY = 0;
