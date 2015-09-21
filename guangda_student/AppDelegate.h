@@ -26,6 +26,7 @@
 @property (nonatomic, copy) NSString *userid;
 @property (nonatomic, copy) NSString *isregister;
 @property (nonatomic, copy) NSString *isInvited;
+@property (strong, nonatomic) NSMutableDictionary *searchDict; // 教练搜索条件
 
 //用户定位
 @property (nonatomic) CLLocationCoordinate2D userCoordinate;

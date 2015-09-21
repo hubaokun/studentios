@@ -77,6 +77,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setMapLocation) name:@"setMapLocation" object:nil];
     // 筛选界面的观察者信息
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSearchCoachDict:) name:@"SearchCoachDict" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ResetSearchCoachDict) name:@"ResetCoachDict" object:nil];
     
     [self requestGetCarModelInterfaceWithId:nil];
     // 配置百度地图
@@ -743,6 +744,10 @@
         [self nearCoachRequest:YES];
     }
     
+}
+
+- (void)ResetSearchCoachDict {
+    [self clickForAllData:nil];
 }
 
 #pragma mark - Actions

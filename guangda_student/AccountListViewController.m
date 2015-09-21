@@ -105,7 +105,7 @@
             NSString *consumeCoupon = [responseObject[@"consumeCoupon"] description];
             
             // 累计消费
-            self.usedLabel.text = [NSString stringWithFormat:@"累计消费：金额%@元 小巴币%@个 学时券%@张", consumeMoney, consumeCoin, consumeCoupon];
+            self.usedLabel.text = [NSString stringWithFormat:@"金额%@元 小巴币%@个 学时券%@张", consumeMoney, consumeCoin, consumeCoupon];
 
             [self setLabel];
         }else if(code == 95){

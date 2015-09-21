@@ -515,6 +515,7 @@
     self.searchParamDic = nil;
     self.allButton.hidden = YES;
     [self pullToRefreshTriggered:self.pullToRefresh];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ResetCoachDict" object:nil];
 }
 
 #pragma mark - 废弃

@@ -730,53 +730,53 @@
 }
 
 // 完成日期选择
-- (IBAction)clickForDateDone:(id)sender
-{
-    
-    NSString *selectedDateStr = [NSString stringWithFormat:@"%@-%@-%@", _myYear, _myMonth, _myDay];
-    NSDate *selectedDate = [CommonUtil getDateForString:selectedDateStr format:@"yyyy-MM-dd"];
-    NSInteger year = [CommonUtil getYearOfDate:selectedDate];
-    NSInteger day = [CommonUtil getdayOfDate:selectedDate];
-    NSInteger month = [CommonUtil getMonthOfDate:selectedDate];
-    
-    NSDate *now = [NSDate date];
-    NSInteger yearNow = [CommonUtil getYearOfDate:now];
-    NSInteger dayNow = [CommonUtil getdayOfDate:now];
-    NSInteger monthNow = [CommonUtil getMonthOfDate:now];
-    
-    if(year < yearNow){
-        [self makeToast:@"开始日期不能早于当前日期"];
-        return;
-    }else if(month < monthNow){
-        [self makeToast:@"开始日期不能早于当前日期"];
-        return;
-    }else if(year == yearNow && month == monthNow && day < dayNow){
-        [self makeToast:@"开始日期不能早于当前日期"];
-        return;
-    }
-    
-    if(([selectedDate timeIntervalSinceDate:self.maxDate] > 0.0)){
-        [self makeToast:@"最多只能筛选30天的数据"];
-        return;
-    }
-    
-    self.dateScreenBegin = selectedDate;
-    self.dateBeginLabel.text = selectedDateStr;
-    
-    if (([selectedDate timeIntervalSinceDate:self.maxDate] >= 0.0)) {
-        self.rightUpBtn.enabled = NO;
-    }else{
-        self.rightUpBtn.enabled = YES;
-    }
-    
-    if(([selectedDate timeIntervalSinceDate:[NSDate date]] <= 0.0)){
-        self.leftUpBtn.enabled = NO;
-    }else{
-        self.leftUpBtn.enabled = YES;
-    }
-    
-    [self.selectView removeFromSuperview];
-}
+//- (IBAction)clickForDateDone:(id)sender
+//{
+//    
+//    NSString *selectedDateStr = [NSString stringWithFormat:@"%@-%@-%@", _myYear, _myMonth, _myDay];
+//    NSDate *selectedDate = [CommonUtil getDateForString:selectedDateStr format:@"yyyy-MM-dd"];
+//    NSInteger year = [CommonUtil getYearOfDate:selectedDate];
+//    NSInteger day = [CommonUtil getdayOfDate:selectedDate];
+//    NSInteger month = [CommonUtil getMonthOfDate:selectedDate];
+//    
+//    NSDate *now = [NSDate date];
+//    NSInteger yearNow = [CommonUtil getYearOfDate:now];
+//    NSInteger dayNow = [CommonUtil getdayOfDate:now];
+//    NSInteger monthNow = [CommonUtil getMonthOfDate:now];
+//    
+//    if(year < yearNow){
+//        [self makeToast:@"开始日期不能早于当前日期"];
+//        return;
+//    }else if(month < monthNow){
+//        [self makeToast:@"开始日期不能早于当前日期"];
+//        return;
+//    }else if(year == yearNow && month == monthNow && day < dayNow){
+//        [self makeToast:@"开始日期不能早于当前日期"];
+//        return;
+//    }
+//    
+//    if(([selectedDate timeIntervalSinceDate:self.maxDate] > 0.0)){
+//        [self makeToast:@"最多只能筛选30天的数据"];
+//        return;
+//    }
+//    
+//    self.dateScreenBegin = selectedDate;
+//    self.dateBeginLabel.text = selectedDateStr;
+//    
+//    if (([selectedDate timeIntervalSinceDate:self.maxDate] >= 0.0)) {
+//        self.rightUpBtn.enabled = NO;
+//    }else{
+//        self.rightUpBtn.enabled = YES;
+//    }
+//    
+//    if(([selectedDate timeIntervalSinceDate:[NSDate date]] <= 0.0)){
+//        self.leftUpBtn.enabled = NO;
+//    }else{
+//        self.leftUpBtn.enabled = YES;
+//    }
+//    
+//    [self.selectView removeFromSuperview];
+//}
 
 
 
