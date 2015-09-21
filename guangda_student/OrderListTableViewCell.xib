@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -12,14 +12,14 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="235"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="234.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YRc-u1-3qO" userLabel="date">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="39"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_calendar_orderlist" translatesAutoresizingMaskIntoConstraints="NO" id="Pkl-79-Bw3" userLabel="calendar">
-                                <rect key="frame" x="10" y="13.5" width="12" height="12"/>
+                                <rect key="frame" x="10" y="13" width="12" height="12"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="12" id="cVY-Pr-7Lz"/>
                                     <constraint firstAttribute="height" constant="12" id="cW4-MF-OSL"/>
@@ -56,17 +56,17 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00 - 00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e7k-2o-zxO" userLabel="time">
-                        <rect key="frame" x="10" y="51" width="117" height="22"/>
+                        <rect key="frame" x="10" y="51" width="121" height="22"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="117" id="QSq-F8-4WI"/>
+                            <constraint firstAttribute="width" constant="121" id="QSq-F8-4WI"/>
                             <constraint firstAttribute="height" constant="22" id="iE8-9r-fVM"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Net-4U-v65" userLabel="status">
-                        <rect key="frame" x="145" y="51" width="161" height="16"/>
+                        <rect key="frame" x="149" y="54" width="157" height="16"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="yde-y0-0gx"/>
                         </constraints>
@@ -151,6 +151,7 @@
                 <constraints>
                     <constraint firstItem="aER-Ab-WkO" firstAttribute="leading" secondItem="ckI-Yh-kof" secondAttribute="trailing" constant="10" id="1Od-aa-2ht"/>
                     <constraint firstItem="YRc-u1-3qO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="2BI-1R-Pxk"/>
+                    <constraint firstItem="Net-4U-v65" firstAttribute="centerY" secondItem="e7k-2o-zxO" secondAttribute="centerY" id="4if-7O-euU"/>
                     <constraint firstItem="e7k-2o-zxO" firstAttribute="top" secondItem="YRc-u1-3qO" secondAttribute="bottom" constant="12" id="7wG-Se-kYc"/>
                     <constraint firstAttribute="trailing" secondItem="YRc-u1-3qO" secondAttribute="trailing" id="8lj-QV-WCr"/>
                     <constraint firstAttribute="trailingMargin" secondItem="hZk-TY-tSQ" secondAttribute="trailing" constant="6" id="Ceu-pz-YFT"/>
@@ -164,7 +165,6 @@
                     <constraint firstItem="hZk-TY-tSQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Mv6-te-V0l"/>
                     <constraint firstItem="hvh-fu-c5f" firstAttribute="top" secondItem="YRc-u1-3qO" secondAttribute="bottom" constant="45" id="Ovv-pG-aiZ"/>
                     <constraint firstAttribute="trailing" secondItem="ofJ-UD-khl" secondAttribute="trailing" constant="10" id="TGV-fl-vcj"/>
-                    <constraint firstItem="Net-4U-v65" firstAttribute="top" secondItem="e7k-2o-zxO" secondAttribute="top" id="Xuc-3g-Akn"/>
                     <constraint firstItem="YRc-u1-3qO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="ZMW-jc-xwa"/>
                     <constraint firstItem="lyS-zw-maE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="f55-tj-XTv"/>
                     <constraint firstItem="e7k-2o-zxO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="fzw-tW-K3X"/>

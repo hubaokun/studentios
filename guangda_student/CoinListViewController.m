@@ -164,6 +164,8 @@
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     NSString *studentId = [CommonUtil stringForID:USERDICT[@"studentid"]];
     [paramDic setObject:studentId forKey:@"studentid"];
+    [paramDic setObject:[CommonUtil stringForID:USERDICT[@"token"]] forKey:@"token"];
+
     NSString *uri = @"/suser?action=GETCOINAFFILIATION";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
     
@@ -198,7 +200,7 @@
     
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     [paramDic setObject:studentId forKey:@"studentid"];
-//    [paramDic setObject:[CommonUtil stringForID:USERDICT[@"token"]] forKey:@"token"];
+    [paramDic setObject:[CommonUtil stringForID:USERDICT[@"token"]] forKey:@"token"];
     
     NSString *uri = @"/suser?action=GETSTUDENTCOINRECORDLIST";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];

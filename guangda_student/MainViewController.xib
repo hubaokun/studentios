@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController">
@@ -295,7 +295,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ClD-pp-Fjm">
+                <view alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ClD-pp-Fjm">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1CC-0z-lmn">
@@ -317,14 +317,14 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JST-9Z-F6T">
-                            <rect key="frame" x="155" y="124.5" width="290" height="381"/>
+                            <rect key="frame" x="155" y="124" width="290" height="381"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="290" id="Ihs-z7-OWh"/>
                                 <constraint firstAttribute="height" constant="381" id="xoj-tD-knQ"/>
                             </constraints>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3rn-Cz-Brt" userLabel="advBtn">
-                            <rect key="frame" x="155" y="129.5" width="290" height="381"/>
+                            <rect key="frame" x="155" y="129" width="290" height="381"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="381" id="DzY-BX-NwG"/>
@@ -338,12 +338,12 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uv4-pc-fGW" userLabel="closeBtn">
-                            <rect key="frame" x="385" y="68.5" width="60" height="61"/>
+                            <rect key="frame" x="395" y="129" width="50" height="40"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="60" id="fuq-C6-M36"/>
-                                <constraint firstAttribute="height" constant="61" id="taE-y0-ZuX"/>
+                                <constraint firstAttribute="width" constant="50" id="itk-V7-o9F"/>
+                                <constraint firstAttribute="height" constant="40" id="oHE-nB-dhr"/>
                             </constraints>
-                            <state key="normal" image="ic_close">
+                            <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -353,10 +353,10 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="uv4-pc-fGW" firstAttribute="leading" secondItem="3rn-Cz-Brt" secondAttribute="trailing" constant="-60" id="DMc-Dy-82Y"/>
+                        <constraint firstItem="uv4-pc-fGW" firstAttribute="top" secondItem="3rn-Cz-Brt" secondAttribute="top" id="8Lh-kD-3fF"/>
                         <constraint firstAttribute="centerY" secondItem="JST-9Z-F6T" secondAttribute="centerY" constant="-15" id="EVU-RF-sgd"/>
                         <constraint firstAttribute="centerX" secondItem="JST-9Z-F6T" secondAttribute="centerX" id="OZx-Qa-fG2"/>
-                        <constraint firstItem="3rn-Cz-Brt" firstAttribute="top" secondItem="uv4-pc-fGW" secondAttribute="bottom" id="gU9-FF-Gg4"/>
+                        <constraint firstItem="uv4-pc-fGW" firstAttribute="trailing" secondItem="3rn-Cz-Brt" secondAttribute="trailing" id="ZGI-Hy-RvR"/>
                         <constraint firstAttribute="centerY" secondItem="3rn-Cz-Brt" secondAttribute="centerY" constant="-20" id="nf5-RU-own"/>
                         <constraint firstAttribute="centerX" secondItem="3rn-Cz-Brt" secondAttribute="centerX" id="xTK-3T-blu"/>
                     </constraints>
@@ -381,7 +381,6 @@
     <resources>
         <image name="all_btn" width="52" height="52"/>
         <image name="coach_details_btn" width="143" height="35"/>
-        <image name="ic_close" width="22" height="61"/>
         <image name="ic_小巴服务" width="66" height="66"/>
         <image name="ic_我的" width="52" height="52"/>
         <image name="lesson_appoint_btn" width="143" height="35"/>
