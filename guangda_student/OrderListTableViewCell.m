@@ -95,6 +95,8 @@
     // 订单是否正在取消中
     if ((self.order.orderType == OrderTypeUncomplete) && (self.order.studentState == 4) && (self.order.coachState != 4)) {
         self.cancelOrderBannerLabel.hidden = NO;
+        self.leftBtn.hidden = YES;
+        self.rightBtn.hidden = YES;
     } else {
         self.cancelOrderBannerLabel.hidden = YES;
     }

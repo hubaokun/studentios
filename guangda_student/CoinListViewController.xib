@@ -119,22 +119,22 @@
             <point key="canvasLocation" x="-91" y="-28"/>
         </view>
         <view contentMode="scaleToFill" id="irj-Mw-Jni" userLabel="headView">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="144"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="119"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0个" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1s4-GZ-QAn">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="48"/>
+                    <rect key="frame" x="0.0" y="10" width="600" height="48"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="48" id="noB-Gg-OSR"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kn9-E6-CoI">
-                    <rect key="frame" x="18" y="48" width="564" height="25"/>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kn9-E6-CoI">
+                    <rect key="frame" x="18" y="58" width="564" height="0.0"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="25" id="nLY-D6-HTV"/>
+                        <constraint firstAttribute="height" id="nLY-D6-HTV"/>
                     </constraints>
                     <attributedString key="attributedText">
                         <fragment content="（冻结数额：">
@@ -162,7 +162,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lms-ho-Rys" userLabel="ownerlist">
-                    <rect key="frame" x="0.0" y="88" width="600" height="0.0"/>
+                    <rect key="frame" x="0.0" y="73" width="600" height="0.0"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VAp-tf-FsU" userLabel="topline">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
@@ -191,7 +191,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ENB-Qp-rtm" userLabel="title">
-                    <rect key="frame" x="0.0" y="102" width="600" height="42"/>
+                    <rect key="frame" x="0.0" y="77" width="600" height="42"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gkJ-3d-xZ8" userLabel="line">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
@@ -225,10 +225,10 @@
             <color key="backgroundColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="lms-ho-Rys" firstAttribute="top" secondItem="Kn9-E6-CoI" secondAttribute="bottom" constant="15" id="4Pr-Au-rox"/>
-                <constraint firstItem="ENB-Qp-rtm" firstAttribute="top" secondItem="lms-ho-Rys" secondAttribute="bottom" constant="14" id="H3S-ZN-Z7G"/>
+                <constraint firstItem="ENB-Qp-rtm" firstAttribute="top" secondItem="lms-ho-Rys" secondAttribute="bottom" constant="4" id="H3S-ZN-Z7G"/>
                 <constraint firstItem="Kn9-E6-CoI" firstAttribute="leading" secondItem="irj-Mw-Jni" secondAttribute="leading" constant="18" id="Iw6-UE-Lu0"/>
                 <constraint firstItem="lms-ho-Rys" firstAttribute="leading" secondItem="irj-Mw-Jni" secondAttribute="leading" id="PZP-zW-vNM"/>
-                <constraint firstItem="1s4-GZ-QAn" firstAttribute="top" secondItem="irj-Mw-Jni" secondAttribute="top" id="X48-eV-0Mr"/>
+                <constraint firstItem="1s4-GZ-QAn" firstAttribute="top" secondItem="irj-Mw-Jni" secondAttribute="top" constant="10" id="X48-eV-0Mr"/>
                 <constraint firstAttribute="trailing" secondItem="lms-ho-Rys" secondAttribute="trailing" id="ZSa-4m-hhr"/>
                 <constraint firstAttribute="trailing" secondItem="1s4-GZ-QAn" secondAttribute="trailing" id="cBD-Jo-mYA"/>
                 <constraint firstItem="ENB-Qp-rtm" firstAttribute="leading" secondItem="irj-Mw-Jni" secondAttribute="leading" id="cJU-MO-A16"/>

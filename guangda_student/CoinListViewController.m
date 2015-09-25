@@ -74,7 +74,7 @@
     }
     self.ownerListViewHeightCon.constant = ITEM_HEIGHT * count;
     
-    self.headView.frame = CGRectMake(0, 64, SCREEN_WIDTH, 144 + self.ownerListViewHeightCon.constant);
+    self.headView.frame = CGRectMake(0, 64, SCREEN_WIDTH, 119 + self.ownerListViewHeightCon.constant);
     [self.view addSubview:self.headView];
     self.contentViewTopSpace.constant = self.headView.height;
 }

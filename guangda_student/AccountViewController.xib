@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AccountViewController">
@@ -87,7 +87,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dWR-FE-biM">
-                    <rect key="frame" x="10" y="74" width="580" height="130"/>
+                    <rect key="frame" x="10" y="74" width="580" height="105"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="当前余额(元)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i02-A4-cko">
                             <rect key="frame" x="240" y="17" width="100" height="21"/>
@@ -107,10 +107,10 @@
                             <color key="textColor" red="0.31372549019607843" green="0.79607843137254897" blue="0.5490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xhv-Dl-QY5">
-                            <rect key="frame" x="8" y="91" width="564" height="25"/>
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xhv-Dl-QY5">
+                            <rect key="frame" x="8" y="91" width="564" height="0.0"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="25" id="8X6-pM-tTQ"/>
+                                <constraint firstAttribute="height" id="8X6-pM-tTQ"/>
                             </constraints>
                             <attributedString key="attributedText">
                                 <fragment content="（冻结金额：">
@@ -142,7 +142,7 @@
                     <constraints>
                         <constraint firstItem="Xhv-Dl-QY5" firstAttribute="top" secondItem="yyS-5S-SV1" secondAttribute="bottom" constant="15" id="2Gb-Im-YQP"/>
                         <constraint firstItem="yyS-5S-SV1" firstAttribute="top" secondItem="i02-A4-cko" secondAttribute="bottom" constant="8" id="E9B-Y7-R64"/>
-                        <constraint firstAttribute="height" constant="130" id="IU8-1u-0zG"/>
+                        <constraint firstAttribute="height" constant="105" id="IU8-1u-0zG"/>
                         <constraint firstAttribute="trailing" secondItem="yyS-5S-SV1" secondAttribute="trailing" id="N7C-NN-Fsv"/>
                         <constraint firstAttribute="centerX" secondItem="i02-A4-cko" secondAttribute="centerX" id="Ooe-42-mSq"/>
                         <constraint firstItem="yyS-5S-SV1" firstAttribute="leading" secondItem="dWR-FE-biM" secondAttribute="leading" id="ZZw-B2-Erk"/>
@@ -152,7 +152,7 @@
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="cnI-e7-oWb">
-                    <rect key="frame" x="0.0" y="214" width="600" height="323"/>
+                    <rect key="frame" x="0.0" y="189" width="600" height="348"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="Cxf-It-FG2"/>
