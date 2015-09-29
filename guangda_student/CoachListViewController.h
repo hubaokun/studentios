@@ -7,11 +7,12 @@
 //
 
 #import "GreyTopViewController.h"
+#import "MainViewController.h"
 
 @interface CoachListViewController : GreyTopViewController
 
+/* input */
 @property (strong, nonatomic) NSDictionary *searchParamDic; // 需要传入的参数
-@property (strong, nonatomic) NSString *coachId;
 
 @property (strong, nonatomic) IBOutlet UIView *chooseView;
 @property (strong, nonatomic) IBOutlet UIButton *accurateBtnOutlet;     // 精确筛选

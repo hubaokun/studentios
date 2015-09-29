@@ -11,6 +11,9 @@
 
 @interface AppointCoachViewController : GreyTopViewController
 
+/* input */
+@property (copy, nonatomic) NSString *carModelID;
+
 @property (strong, nonatomic) NSDictionary *coachInfoDic;
 @property (strong, nonatomic) NSString *coachId;
 

@@ -29,9 +29,10 @@
     
     NSInteger _searchPage;   // 检索页
 }
+
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) DSPullToRefreshManager *pullToRefresh;    // 下拉刷新
 @property (strong, nonatomic) DSBottomPullToMoreManager *pullToMore;    // 上拉加载
-@property (strong, nonatomic) NSMutableArray *coachList;    // 教练列表
 @property (strong, nonatomic) IBOutlet UILabel *coachRealName;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *coachNameLabelWidthCon;
 @property (weak, nonatomic) IBOutlet UIImageView *genderImage;
@@ -39,10 +40,17 @@
 @property (strong, nonatomic) IBOutlet UILabel *coachDetails;
 @property (strong, nonatomic) TQStarRatingView *starView;
 
+@property (strong, nonatomic) NSMutableArray *coachList;    // 教练列表
 @property (strong, nonatomic) NSDictionary *coachInfoDic;       // 教练资料
+@property (strong, nonatomic) NSString *coachId;
+
+@property (copy, nonatomic) NSString *carModelID;        // 车型
 
 - (IBAction)clickForGoMap:(id)sender;
 - (IBAction)clickForGoSearch:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UIButton *screenBtn;
+
 @property (strong, nonatomic) IBOutlet UIButton *allButton;
 - (IBAction)clickForAllData:(id)sender;
 
@@ -53,8 +61,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     _oldRow = 12138;
+    
+    // 车型
+    self.carModelID = [MainViewController readCarModelID];
     
     self.coachList = [NSMutableArray array];
     //刷新加载
@@ -73,17 +83,27 @@
     // 筛选界面的观察者信息
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSearchCoachDict:) name:@"SearchCoachDict" object:nil];
 
-    if(self.searchParamDic){
-        NSString *condition3 = self.searchParamDic[@"condition3"];
-        NSString *condition6 = self.searchParamDic[@"condition6"];
-        if([CommonUtil isEmpty:condition3] && [CommonUtil isEmpty:condition6]){
-            self.allButton.hidden = YES;
-        }else{
-            self.allButton.hidden = NO;
-        }
-    }else{
+    // 导航栏
+    if ([self.carModelID isEqualToString:@"19"]) { // 陪驾
+        self.titleLabel.text = @"陪驾列表";
+        self.screenBtn.hidden = YES;
         self.allButton.hidden = YES;
+    } else {
+        self.titleLabel.text = @"教练列表";
+        if(self.searchParamDic){
+            NSString *condition3 = self.searchParamDic[@"condition3"];
+            NSString *condition6 = self.searchParamDic[@"condition6"];
+            if([CommonUtil isEmpty:condition3] && [CommonUtil isEmpty:condition6]){
+                self.allButton.hidden = YES;
+            }else{
+                self.allButton.hidden = NO;
+            }
+        }else{
+            self.allButton.hidden = YES;
+        }
     }
+    
+    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -173,45 +193,12 @@
     {
         [tableView registerNib:[UINib nibWithNibName:@"CoachListTableViewCell" bundle:nil] forCellReuseIdentifier:cellident];
         cell = [tableView dequeueReusableCellWithIdentifier:cellident];
-        cell.userLogo.layer.cornerRadius = cell.userLogo.bounds.size.width / 2;
-        cell.userLogo.layer.masksToBounds = YES;
+        
     }
-    
-    NSDictionary *coachDic = self.coachList[indexPath.row];
-    NSString *logoUrl = coachDic[@"avatarurl"];
-    cell.userLogo.layer.cornerRadius = cell.userLogo.bounds.size.width/2;
-    cell.userLogo.layer.masksToBounds = YES;
-    [cell.userLogo sd_setImageWithURL:[NSURL URLWithString:logoUrl] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
-    
-    NSString *sumnum = [coachDic[@"sumnum"] description];
-    NSString *sumnumStr = [NSString stringWithFormat:@"总单数:%@",sumnum];
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:sumnumStr];
-    [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(4,sumnum.length)];
-    cell.orderCount.attributedText = string;
-    
-    cell.userName.text = coachDic[@"realname"];
-//    NSString *coachInfoStr = nil;
-    NSString *detail = coachDic[@"detail"];
-    NSString *schoolName = coachDic[@"drive_school"];
-    if ([CommonUtil isEmpty:schoolName]) {
-        cell.driveSchoolLabel.text = @"";
-    } else {
-        cell.driveSchoolLabel.text = schoolName;
-    }
-    cell.contentDetailLabel.text = detail;
-    
-    [cell.starView changeStarForegroundViewWithScore:[[coachDic[@"score"] description] floatValue]];
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-    
-    // 教练是否开课
-    int courseState = [coachDic[@"coursestate"] intValue];
-    if (courseState == 0) { // 未开课
-        cell.contentView.alpha = 0.5;
-    } else {
-        cell.contentView.alpha = 1.0;
-    }
+    cell.carModelID = self.carModelID;
+    NSDictionary *coachDic = self.coachList[indexPath.row];
+    [cell loadData:coachDic];
     
     return cell;
 }
@@ -279,6 +266,7 @@
     AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
     nextController.coachId = self.coachId;
     nextController.coachInfoDic = self.coachInfoDic;
+    nextController.carModelID = self.carModelID;
     UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
     navigationController.navigationBarHidden = YES;
     [self presentViewController:navigationController animated:YES completion:nil];
@@ -406,6 +394,11 @@
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     [paramDic setObject:app_Version forKey:@"version"];
+    
+    // 车型ID
+    if (![CommonUtil isEmpty:self.carModelID]) {
+        [paramDic setObject:self.carModelID forKey:@"condition11"];
+    }
     
     NSString *uri = @"/sbook?action=GetCoachList";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];

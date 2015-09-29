@@ -830,11 +830,15 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
 }
 
 // 继续预约
-- (void)bookMore:(NSDictionary *)coachInfoDict
+- (void)bookMore:(GuangdaOrder *)order
 {
+    NSDictionary *coachInfoDict = order.coachInfoDict;
     AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
     nextController.coachInfoDic = coachInfoDict;
     nextController.coachId = [coachInfoDict[@"coachid"] description];
+    if ([order.subjectID isEqualToString:@"4"]) {
+        nextController.carModelID = @"19";
+    }
     UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
     navigationController.navigationBarHidden = YES;
     [self presentViewController:navigationController animated:YES completion:nil];

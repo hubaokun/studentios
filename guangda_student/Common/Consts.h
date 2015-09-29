@@ -40,6 +40,10 @@
 //QQ AppKey
 #define kAppID_QQ               @"1104472861"
 
+//微信 AppKey
+#define kAppID_Weixin           @"wxabb11606edd48e8c"
+#define kAppSecret_Weixin       @"b999d199e62843f2349a05d1ae477c60"
+
 //百度 AppKey
 //#define kAppKey_Baidu           @"hLR2f2QZeTDuE2g7rFLVo0bc"    //微信版
 #define kAppKey_Baidu           @"tf3pVGsiRgGMBjxnaefjNlIt"  //appstore

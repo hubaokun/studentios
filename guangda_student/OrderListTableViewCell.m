@@ -361,7 +361,7 @@
 - (void)bookMoreClick
 {
     if ([self.delegate respondsToSelector:@selector(bookMore:)]) {
-        [self.delegate bookMore:self.order.coachInfoDict];
+        [self.delegate bookMore:self.order];
     }
 }
 

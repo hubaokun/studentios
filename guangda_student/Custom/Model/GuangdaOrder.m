@@ -31,6 +31,7 @@
         _carLicense = [dict[@"carlicense"] description];
         _modelid = [dict[@"modelid"] description];
         _subjectName = [dict[@"subjectname"] description];
+        _subjectID = [dict[@"subjectid"] description];
         _reason = [dict[@"reason"] description];
         _complaintContent = [dict[@"complaintcontent"] description];
         // 按钮信息

@@ -14,6 +14,7 @@
 #import "LoginViewController.h"
 #import "MyOrderViewController.h"
 #import "XBBookOrder.h"
+#import "MainViewController.h"
 
 #define FOOTVIEW_HEIGHT 48
 #define SELVIEW_HEIGHT 250
@@ -484,21 +485,21 @@
 #pragma mark - 接口请求
 // 获取可用的账户余额、小巴币、小巴券数目及小巴券列表
 - (void) getCanUseCouponList {
-    [DejalBezelActivityView activityViewForView:self.view];
-    
-    NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
-    
-    NSString *uri = @"/sbook?action=GetCanUseCouponList";
-    
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
     [paramDic setObject:user_info[@"studentid"] forKey:@"studentid"];
     [paramDic setObject:user_info[@"token"] forKey:@"token"];
     [paramDic setObject:self.coachId forKey:@"coachid"];
+    if (![CommonUtil isEmpty:self.carModelID]) {
+        [paramDic setObject:self.carModelID forKey:@"modelid"];
+    }
     
+    NSString *uri = @"/sbook?action=GetCanUseCouponList";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_GET];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [DejalBezelActivityView activityViewForView:self.view];
     [manager GET:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         [DejalBezelActivityView removeViewAnimated:YES];

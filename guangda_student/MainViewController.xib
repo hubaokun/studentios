@@ -20,6 +20,7 @@
                 <outlet property="mapContentView" destination="nPb-aX-GWX" id="dme-JX-x6d"/>
                 <outlet property="orderCountLabel" destination="IBa-fs-vQJ" id="Is1-Rv-iLc"/>
                 <outlet property="orderCountLabelWidthCon" destination="v3p-4N-dbt" id="4Vo-cS-Ebu"/>
+                <outlet property="screenBtn" destination="FET-wW-Q8T" id="Zbb-cr-8Vq"/>
                 <outlet property="userLogo" destination="EAh-rp-bWZ" id="Qxw-j7-MeD"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -132,7 +133,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lE4-tg-pbT" userLabel="bottomview">
                     <rect key="frame" x="0.0" y="520" width="600" height="80"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v7G-na-G5o">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v7G-na-G5o" userLabel="topLine">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
                             <color key="backgroundColor" red="0.64313725490196072" green="0.6705882352941176" blue="0.74117647058823533" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -338,10 +339,10 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uv4-pc-fGW" userLabel="closeBtn">
-                            <rect key="frame" x="395" y="129" width="50" height="40"/>
+                            <rect key="frame" x="395" y="99" width="80" height="70"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="50" id="itk-V7-o9F"/>
-                                <constraint firstAttribute="height" constant="40" id="oHE-nB-dhr"/>
+                                <constraint firstAttribute="width" constant="80" id="itk-V7-o9F"/>
+                                <constraint firstAttribute="height" constant="70" id="oHE-nB-dhr"/>
                             </constraints>
                             <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -353,10 +354,10 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="uv4-pc-fGW" firstAttribute="top" secondItem="3rn-Cz-Brt" secondAttribute="top" id="8Lh-kD-3fF"/>
+                        <constraint firstItem="uv4-pc-fGW" firstAttribute="top" secondItem="3rn-Cz-Brt" secondAttribute="top" constant="-30" id="8Lh-kD-3fF"/>
                         <constraint firstAttribute="centerY" secondItem="JST-9Z-F6T" secondAttribute="centerY" constant="-15" id="EVU-RF-sgd"/>
                         <constraint firstAttribute="centerX" secondItem="JST-9Z-F6T" secondAttribute="centerX" id="OZx-Qa-fG2"/>
-                        <constraint firstItem="uv4-pc-fGW" firstAttribute="trailing" secondItem="3rn-Cz-Brt" secondAttribute="trailing" id="ZGI-Hy-RvR"/>
+                        <constraint firstItem="uv4-pc-fGW" firstAttribute="trailing" secondItem="3rn-Cz-Brt" secondAttribute="trailing" constant="30" id="ZGI-Hy-RvR"/>
                         <constraint firstAttribute="centerY" secondItem="3rn-Cz-Brt" secondAttribute="centerY" constant="-20" id="nf5-RU-own"/>
                         <constraint firstAttribute="centerX" secondItem="3rn-Cz-Brt" secondAttribute="centerX" id="xTK-3T-blu"/>
                     </constraints>
@@ -375,7 +376,7 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="392" y="843"/>
+            <point key="canvasLocation" x="386" y="657"/>
         </view>
     </objects>
     <resources>

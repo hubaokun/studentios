@@ -28,16 +28,16 @@
 @property (nonatomic, copy) NSString *isInvited;
 @property (strong, nonatomic) NSMutableDictionary *searchDict; // 教练搜索条件
 
-//用户定位
+// 用户定位
 @property (nonatomic) CLLocationCoordinate2D userCoordinate;
 @property (strong, nonatomic) BMKUserLocation *userLocation;
 @property (copy, nonatomic) NSString *locateCity; // 定位到的城市
 
-//新浪微博
+// 新浪微博
 @property (strong, nonatomic) NSString *wbtoken;
 @property (strong, nonatomic) NSString *wbCurrentUserID;
 
-//设备号
+// 设备号
 @property (strong, atomic) NSString *deviceToken;
 @property (nonatomic, strong) BMKReverseGeoCodeResult *locationResult;
 

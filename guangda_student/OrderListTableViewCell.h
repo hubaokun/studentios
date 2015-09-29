@@ -23,7 +23,7 @@
 // 评价
 - (void)eveluate:(GuangdaOrder *)order;
 // 继续预约
-- (void)bookMore:(NSDictionary *)coachInfoDict;
+- (void)bookMore:(GuangdaOrder *)order;
 @end
 
 @interface OrderListTableViewCell : UITableViewCell

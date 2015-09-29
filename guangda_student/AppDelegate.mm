@@ -22,7 +22,10 @@
 #import "RecommendCodeViewController.h"
 #import "ActivityViewController.h"
 
-//环信
+// 微信
+#import "WXApi.h"
+
+// 环信
 #import "EaseMob.h"
 #import "LocalDefine.h"
 #import "AppDelegate+EaseMob.h"
@@ -127,6 +130,9 @@
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
     }
     [self showAdvertisment];
+    
+    // 微信注册
+    [WXApi registerApp:kAppID_Weixin withDescription:@"小巴学车"];
     
     return YES;
 }

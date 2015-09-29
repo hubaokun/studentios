@@ -10,6 +10,9 @@
 
 @interface SureOrderViewController : GreyTopViewController
 
+/* input */
+@property (copy, nonatomic) NSString *carModelID;
+
 @property (strong, nonatomic) NSArray *dateTimeSelectedList;
 @property (strong, nonatomic) NSString *coachId;
 @property (strong, nonatomic) NSString *priceSum;

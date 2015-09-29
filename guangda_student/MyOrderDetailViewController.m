@@ -1080,6 +1080,9 @@
     AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
     nextController.coachInfoDic = self.order.coachInfoDict;
     nextController.coachId = [self.order.coachInfoDict [@"coachid"] description];
+    if ([self.order.subjectID isEqualToString:@"4"]) {
+        nextController.carModelID = @"19";
+    }
     UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
     navigationController.navigationBarHidden = YES;
     [self presentViewController:navigationController animated:YES completion:nil];

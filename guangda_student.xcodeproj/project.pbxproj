@@ -181,9 +181,12 @@
 		705EAD741B6A4B3800035F76 /* XBCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD6B1B6A4B3800035F76 /* XBCity.m */; };
 		705EAD751B6A4B3800035F76 /* XBCoupon.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD6D1B6A4B3800035F76 /* XBCoupon.m */; };
 		705EAD761B6A4B3800035F76 /* XBProvince.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EAD6F1B6A4B3800035F76 /* XBProvince.m */; };
+		70609DF51BB95FE300D47C1D /* PayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70609DF31BB95FE300D47C1D /* PayViewController.m */; settings = {ASSET_TAGS = (); }; };
+		70609DF61BB95FE300D47C1D /* PayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70609DF41BB95FE300D47C1D /* PayViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		7064EA181B969A960010AC88 /* BlackPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7064EA171B969A960010AC88 /* BlackPickerView.m */; };
 		7064EA1A1B969BDF0010AC88 /* BlackPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7064EA191B969BDF0010AC88 /* BlackPickerView.xib */; };
 		708600551B799EFC00CB09DA /* XBComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 708600541B799EFC00CB09DA /* XBComment.m */; };
+		708AE3251BBA59B300B78160 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 708AE3221BBA59B300B78160 /* libWeChatSDK.a */; settings = {ASSET_TAGS = (); }; };
 		7093AD1B1BAFD6E9001CCAD3 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7093AD1A1BAFD6E9001CCAD3 /* libxml2.tbd */; };
 		70CC165F1B6BC13D00084296 /* XBCoin.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CC165E1B6BC13D00084296 /* XBCoin.m */; };
 		70CC16671B6F4EA600084296 /* libMobClickGameLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */; };
@@ -650,11 +653,17 @@
 		705EAD6D1B6A4B3800035F76 /* XBCoupon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBCoupon.m; sourceTree = "<group>"; };
 		705EAD6E1B6A4B3800035F76 /* XBProvince.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBProvince.h; sourceTree = "<group>"; };
 		705EAD6F1B6A4B3800035F76 /* XBProvince.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBProvince.m; sourceTree = "<group>"; };
+		70609DF21BB95FE300D47C1D /* PayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayViewController.h; sourceTree = "<group>"; };
+		70609DF31BB95FE300D47C1D /* PayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayViewController.m; sourceTree = "<group>"; };
+		70609DF41BB95FE300D47C1D /* PayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PayViewController.xib; sourceTree = "<group>"; };
 		7064EA161B969A960010AC88 /* BlackPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackPickerView.h; sourceTree = "<group>"; };
 		7064EA171B969A960010AC88 /* BlackPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackPickerView.m; sourceTree = "<group>"; };
 		7064EA191B969BDF0010AC88 /* BlackPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BlackPickerView.xib; sourceTree = "<group>"; };
 		708600531B799EFC00CB09DA /* XBComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBComment.h; sourceTree = "<group>"; };
 		708600541B799EFC00CB09DA /* XBComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBComment.m; sourceTree = "<group>"; };
+		708AE3221BBA59B300B78160 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		708AE3231BBA59B300B78160 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		708AE3241BBA59B300B78160 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		7093AD1A1BAFD6E9001CCAD3 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		70CC165D1B6BC13C00084296 /* XBCoin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBCoin.h; sourceTree = "<group>"; };
 		70CC165E1B6BC13D00084296 /* XBCoin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBCoin.m; sourceTree = "<group>"; };
@@ -797,6 +806,7 @@
 			files = (
 				7093AD1B1BAFD6E9001CCAD3 /* libxml2.tbd in Frameworks */,
 				A0717E131BA6B4020090DA33 /* Accounts.framework in Frameworks */,
+				708AE3251BBA59B300B78160 /* libWeChatSDK.a in Frameworks */,
 				A0717E111BA6B3FA0090DA33 /* Social.framework in Frameworks */,
 				A0717E0D1BA6B3CE0090DA33 /* libresolv.dylib in Frameworks */,
 				3168C9901AD3939600B607C3 /* libiconv.dylib in Frameworks */,
@@ -1012,6 +1022,7 @@
 			isa = PBXGroup;
 			children = (
 				70CC16621B6F4EA600084296 /* umsdk_iOS_game_idfa_3.5.10.0 */,
+				708AE3211BBA597100B78160 /* WeixinSDK */,
 				3166B5421B0B43040017C10B /* SwipeView */,
 				31824AA21B037EAD001AF41A /* mapapi.bundle */,
 				376A19C21ADCDC2C004F1FE3 /* TQStarRating */,
@@ -1367,6 +1378,9 @@
 				319D3DED1ACD33850098FBFC /* TypeinNumberViewController.h */,
 				319D3DEE1ACD33850098FBFC /* TypeinNumberViewController.m */,
 				319D3DEF1ACD33850098FBFC /* TypeinNumberViewController.xib */,
+				70609DF21BB95FE300D47C1D /* PayViewController.h */,
+				70609DF31BB95FE300D47C1D /* PayViewController.m */,
+				70609DF41BB95FE300D47C1D /* PayViewController.xib */,
 				71BA02EC1B61D581004C500B /* CoinListTableViewCell.h */,
 				71BA02ED1B61D581004C500B /* CoinListTableViewCell.m */,
 				71BA02EE1B61D581004C500B /* CoinListTableViewCell.xib */,
@@ -1687,6 +1701,17 @@
 			name = model;
 			sourceTree = "<group>";
 		};
+		708AE3211BBA597100B78160 /* WeixinSDK */ = {
+			isa = PBXGroup;
+			children = (
+				708AE3221BBA59B300B78160 /* libWeChatSDK.a */,
+				708AE3231BBA59B300B78160 /* WXApi.h */,
+				708AE3241BBA59B300B78160 /* WXApiObject.h */,
+			);
+			name = WeixinSDK;
+			path = SwipeView;
+			sourceTree = "<group>";
+		};
 		70CC16621B6F4EA600084296 /* umsdk_iOS_game_idfa_3.5.10.0 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1887,6 +1912,7 @@
 				31547E621ACBFA3B0086016A /* MessageDetailsViewController.xib in Resources */,
 				B8E4ABE81AC54F6300D6B7DA /* Localizable.strings in Resources */,
 				3790F2371AF7035D0037D50C /* coach_star_empty@2x.png in Resources */,
+				70609DF61BB95FE300D47C1D /* PayViewController.xib in Resources */,
 				3179E6471AC284C600AFCFAA /* DSPullToRefreshIcon@2x.png in Resources */,
 				314F4E1C1AEA39F200DD8FC6 /* CoachDetailViewController.xib in Resources */,
 				701025401B89A8D200E6EF9E /* CourseTimetableViewController.xib in Resources */,
@@ -1970,6 +1996,7 @@
 				3179E66E1AC284C600AFCFAA /* BaseViewController.m in Sources */,
 				31C9D8E91AD665AD006A4E80 /* APAuthV2Info.m in Sources */,
 				3160EEA91ADE205F00AE4DD3 /* MyAnimatedAnnotationView.m in Sources */,
+				70609DF51BB95FE300D47C1D /* PayViewController.m in Sources */,
 				7010253F1B89A8D200E6EF9E /* CourseTimetableViewController.m in Sources */,
 				713694971B51627700F6D573 /* OnlineTestViewController.m in Sources */,
 				3179E6621AC284C600AFCFAA /* CommonUtil.m in Sources */,
@@ -2245,6 +2272,7 @@
 					/Users/light/Desktop/lib,
 					"$(PROJECT_DIR)/guangda_student/3rdparty/umsdk_iOS_game_idfa_3.5.10.0/huanxinkefu/3rdparty/VoiceConvert/opencore-amrnb",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/umsdk_iOS_game_idfa_3.5.10.0/huanxinkefu/3rdparty/VoiceConvert/opencore-amrwb",
+					"$(PROJECT_DIR)/guangda_student/3rdparty/SwipeView",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2287,6 +2315,7 @@
 					/Users/light/Desktop/lib,
 					"$(PROJECT_DIR)/guangda_student/3rdparty/umsdk_iOS_game_idfa_3.5.10.0/huanxinkefu/3rdparty/VoiceConvert/opencore-amrnb",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/umsdk_iOS_game_idfa_3.5.10.0/huanxinkefu/3rdparty/VoiceConvert/opencore-amrwb",
+					"$(PROJECT_DIR)/guangda_student/3rdparty/SwipeView",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -21,6 +21,7 @@
 #import "DNCoach.h"
 #import "UserBaseInfoViewController.h"
 #import "CourseTimetableViewController.h"
+#import "MainViewController.h"
 
 @interface AppointCoachViewController () <SwipeViewDelegate, SwipeViewDataSource, UIAlertViewDelegate, CourseTimetableViewControllerDelegate, UIGestureRecognizerDelegate>
 {
@@ -166,10 +167,13 @@
     // 提醒状态 1:已提醒过  0:未提醒
     int remindState = [dict[@"remindstate"] intValue];
     
-    if (coachState == 0 && remindState == 0) { // 提醒教练开课按钮显示
-        [self remindTapShow];
-    } else {
-        [self remindTapHide];
+    // 非陪驾课表
+    if (![self.carModelID isEqualToString:@"19"]) {
+        if (coachState == 0 && remindState == 0) { // 提醒教练开课按钮显示
+            [self remindTapShow];
+        } else {
+            [self remindTapHide];
+        }
     }
 }
 
@@ -256,6 +260,13 @@
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     [paramDic setObject:app_Version forKey:@"version"];
+    
+    // 车型
+    if ([self.carModelID isEqualToString:@"19"]) { // 陪驾
+        [paramDic setObject:@"1" forKey:@"scheduletype"];
+    } else {
+        [paramDic setObject:@"0" forKey:@"scheduletype"];
+    }
     
     NSString *uri = @"/sbook?action=RefreshCoachSchedule";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
@@ -345,7 +356,6 @@
 {
     NSMutableDictionary *userInfoDic = [[CommonUtil getObjectFromUD:@"UserInfo"] mutableCopy];
     NSString *userId = [userInfoDic objectForKey:@"studentid"];
-    
     
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     if (!userId) {
@@ -579,6 +589,7 @@
     }
 }
 
+// 去支付
 - (IBAction)sureAppointClick:(id)sender
 {
     if ([[CommonUtil currentUtil] isLogin]) {
@@ -593,6 +604,7 @@
             viewController.dateTimeSelectedList = self.dateTimeSelectedList;
             viewController.coachId = self.coachId;
             viewController.priceSum = [NSString  stringWithFormat:@"%.1f", _priceSum];
+            viewController.carModelID = self.carModelID;
             [self.navigationController pushViewController:viewController animated:YES];
         }
     }
