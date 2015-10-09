@@ -385,9 +385,7 @@
     // 测试账号studentID
     AppDelegate *deleget = [UIApplication sharedApplication].delegate;
     if (![CommonUtil isEmpty:deleget.userid]) {
-        if ([deleget.userid isEqualToString:@"18"]) {
-            paramDic[@"studentid"] = deleget.userid;
-        }
+        paramDic[@"studentid"] = deleget.userid;
     }
     
     // app版本

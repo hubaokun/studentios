@@ -10,6 +10,8 @@
 
 @interface PayViewController : GreyTopViewController
 
+/* input */
 @property (copy, nonatomic) NSString *cashNum; // 金额
+
 
 @end

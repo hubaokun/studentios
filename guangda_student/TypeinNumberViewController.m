@@ -44,12 +44,11 @@
     // 提现
     if ([_status isEqualToString:@"2"]) {
         self.titleLabel.text = @"请输入提现金额";
+        self.inputField.placeholder = [NSString stringWithFormat:@"账户余额%@元", self.balance];
         [self.nextStepBtn setTitle:@"提交" forState:UIControlStateNormal];
         [self requestCashExplainText];
     }
 }
-
-
 
 #pragma mark - 网络请求
 // 提现
@@ -62,9 +61,12 @@
         [self makeToast:@"用户未登录"];
         return;
     }
-    if (moneyNum.length == 0 ||
-        [moneyNum floatValue] <= 0) {
+    if ([moneyNum floatValue] <= 0) {
         [self makeToast:@"请输入大于0的金额"];
+        return;
+    }
+    if ([moneyNum floatValue] > [self.balance floatValue]) {
+        [self makeToast:@"余额不足"];
         return;
     }
     

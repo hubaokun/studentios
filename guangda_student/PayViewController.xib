@@ -131,12 +131,8 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ip-lW-CV4">
-                                    <rect key="frame" x="545" y="11" width="40" height="40"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="40" id="NkP-F0-rgk"/>
-                                        <constraint firstAttribute="width" constant="40" id="WoS-aZ-5bH"/>
-                                    </constraints>
-                                    <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="62"/>
+                                    <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
                                     <state key="normal" image="btn_unselect_pay"/>
                                     <state key="selected" image="btn_select_pay"/>
                                     <connections>
@@ -146,13 +142,15 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
+                                <constraint firstItem="3Ip-lW-CV4" firstAttribute="top" secondItem="2as-rX-FB9" secondAttribute="top" id="0Ws-Bw-J5b"/>
                                 <constraint firstItem="GKo-CO-Bam" firstAttribute="centerY" secondItem="2as-rX-FB9" secondAttribute="centerY" id="4lm-Ra-Cq1"/>
                                 <constraint firstItem="PdA-Gs-Sbd" firstAttribute="centerY" secondItem="2as-rX-FB9" secondAttribute="centerY" id="5Sc-c7-8D6"/>
                                 <constraint firstItem="PdA-Gs-Sbd" firstAttribute="leading" secondItem="2as-rX-FB9" secondAttribute="leading" constant="10" id="A81-df-ChE"/>
                                 <constraint firstAttribute="height" constant="62" id="DFp-sQ-CfB"/>
-                                <constraint firstItem="3Ip-lW-CV4" firstAttribute="centerY" secondItem="2as-rX-FB9" secondAttribute="centerY" id="Nzf-wj-owJ"/>
+                                <constraint firstAttribute="bottom" secondItem="3Ip-lW-CV4" secondAttribute="bottom" id="Evd-eJ-s4Y"/>
+                                <constraint firstAttribute="trailing" secondItem="3Ip-lW-CV4" secondAttribute="trailing" id="KKy-hp-4Av"/>
                                 <constraint firstItem="GKo-CO-Bam" firstAttribute="leading" secondItem="PdA-Gs-Sbd" secondAttribute="trailing" constant="20" id="V4O-sF-vAh"/>
-                                <constraint firstAttribute="trailing" secondItem="3Ip-lW-CV4" secondAttribute="trailing" constant="15" id="nrY-eX-Wd5"/>
+                                <constraint firstItem="3Ip-lW-CV4" firstAttribute="leading" secondItem="2as-rX-FB9" secondAttribute="leading" id="yw0-16-aHj"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jhg-PB-7Wk" userLabel="line">
@@ -183,12 +181,8 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nvo-FK-Abk">
-                                    <rect key="frame" x="545" y="11" width="40" height="40"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="40" id="dcQ-3U-cV0"/>
-                                        <constraint firstAttribute="width" constant="40" id="fjD-3e-bii"/>
-                                    </constraints>
-                                    <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="62"/>
+                                    <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
                                     <state key="normal" image="btn_unselect_pay"/>
                                     <state key="selected" image="btn_select_pay"/>
                                     <connections>
@@ -201,10 +195,12 @@
                                 <constraint firstItem="dWd-iX-Mlg" firstAttribute="leading" secondItem="3YD-vm-9LG" secondAttribute="trailing" constant="20" id="0gO-bk-ueu"/>
                                 <constraint firstItem="3YD-vm-9LG" firstAttribute="leading" secondItem="Rps-Me-nMC" secondAttribute="leading" constant="10" id="4Q7-C8-FHd"/>
                                 <constraint firstItem="dWd-iX-Mlg" firstAttribute="centerY" secondItem="Rps-Me-nMC" secondAttribute="centerY" id="7W7-T4-QfS"/>
-                                <constraint firstItem="nvo-FK-Abk" firstAttribute="centerY" secondItem="Rps-Me-nMC" secondAttribute="centerY" id="GL9-K0-SyP"/>
+                                <constraint firstItem="nvo-FK-Abk" firstAttribute="top" secondItem="Rps-Me-nMC" secondAttribute="top" id="Khc-Q9-XAr"/>
                                 <constraint firstItem="3YD-vm-9LG" firstAttribute="centerY" secondItem="Rps-Me-nMC" secondAttribute="centerY" id="SbQ-xY-agV"/>
+                                <constraint firstItem="nvo-FK-Abk" firstAttribute="leading" secondItem="Rps-Me-nMC" secondAttribute="leading" id="eBQ-HD-bGV"/>
+                                <constraint firstAttribute="bottom" secondItem="nvo-FK-Abk" secondAttribute="bottom" id="lJd-LM-gIU"/>
                                 <constraint firstAttribute="height" constant="62" id="lnK-sH-19Z"/>
-                                <constraint firstAttribute="trailing" secondItem="nvo-FK-Abk" secondAttribute="trailing" constant="15" id="vtf-8a-0q5"/>
+                                <constraint firstAttribute="trailing" secondItem="nvo-FK-Abk" secondAttribute="trailing" id="q4A-Pe-kCg"/>
                             </constraints>
                         </view>
                     </subviews>

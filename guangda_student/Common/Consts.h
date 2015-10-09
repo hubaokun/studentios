@@ -45,8 +45,8 @@
 #define kAppSecret_Weixin       @"b999d199e62843f2349a05d1ae477c60"
 
 //百度 AppKey
-//#define kAppKey_Baidu           @"hLR2f2QZeTDuE2g7rFLVo0bc"    //微信版
-#define kAppKey_Baidu           @"tf3pVGsiRgGMBjxnaefjNlIt"  //appstore
+#define kAppKey_Baidu           @"hLR2f2QZeTDuE2g7rFLVo0bc"    //微信版
+//#define kAppKey_Baidu           @"tf3pVGsiRgGMBjxnaefjNlIt"  //appstore
 
 #define ERR_NETWORK             @"当前网络不稳定，请重试！"
 #define NO_NETWORK              @"没有连接网络"

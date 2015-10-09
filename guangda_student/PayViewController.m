@@ -29,8 +29,8 @@ typedef NS_ENUM(NSUInteger, PayType) {
 @property (weak, nonatomic) IBOutlet UILabel *countLabel;
 @property (weak, nonatomic) IBOutlet UIButton *wxBtn;
 @property (weak, nonatomic) IBOutlet UIButton *aliBtn;
-
 @property (assign, nonatomic) PayType payType;
+
 @end
 
 @implementation PayViewController
@@ -43,7 +43,7 @@ typedef NS_ENUM(NSUInteger, PayType) {
 
 #pragma mark - 网络请求
 // 获取订单参数
-- (void)requestPay
+- (void)requestPayParameters
 {
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSString *studentId = delegate.userid;
@@ -68,10 +68,11 @@ typedef NS_ENUM(NSUInteger, PayType) {
         [paramDic setObject:@"0" forKey:@"resource"];
     }
     else if (self.payType == PayTypeWeixin) {
-//        [paramDic setObject:@"1" forKey:@"resource"];
-        [self deviceIPAdress];
-        [self makeToast:@"暂未开通，敬请期待！"];
-        return;
+        [paramDic setObject:@"1" forKey:@"resource"];
+        [paramDic setObject:kAppID_Weixin forKey:@"appid"];
+        [paramDic setObject:@"trade_type" forKey:@"APP"];
+        [paramDic setObject:[self deviceIPAdress] forKey:@"spbill_create_ip"];
+        
     }
     
     
@@ -260,6 +261,7 @@ typedef NS_ENUM(NSUInteger, PayType) {
     }
 }
 
+// 获取手机IP
 - (NSString *)deviceIPAdress {
     NSString *address = @"an error occurred when obtaining ip address";
     struct ifaddrs *interfaces = NULL;
@@ -286,8 +288,8 @@ typedef NS_ENUM(NSUInteger, PayType) {
     
     freeifaddrs(interfaces);  
     
-    NSLog(@"手机的IP是：%@", address);
-    return address;  
+//    NSLog(@"手机的IP是：%@", address);
+    return address;
 }
 
 #pragma mark - Action
@@ -306,13 +308,6 @@ typedef NS_ENUM(NSUInteger, PayType) {
 }
 
 - (IBAction)payClick:(id)sender {
-//    if (self.payType == PayTypeWeixin) {
-//        NSLog(@"wxPay : %@", self.cashNum);
-//    }
-//    
-//    else if (self.payType == PayTypeAli) {
-//        [self requestAliPay];
-//    }
-    [self requestPay];
+    [self requestPayParameters];
 }
 @end

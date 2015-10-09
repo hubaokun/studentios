@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "guangda_student/MyOrderDetailViewController.m"
-            timestampString = "464520697.621106"
+            filePath = "guangda_student/OrderListTableViewCell.m"
+            timestampString = "465980509.058734"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "995"
-            endingLineNumber = "995"
-            landmarkName = "-clickForMoreOperation:"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
+            landmarkName = "-orderStateTextConfig"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

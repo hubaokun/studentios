@@ -28,8 +28,9 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomLineHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *topLineHeight;
 
-- (IBAction)clickForAccountManager:(id)sender;
+@property (copy, nonatomic) NSString *balance;
 
+- (IBAction)clickForAccountManager:(id)sender;
 
 @end
 
@@ -79,6 +80,7 @@
     
     TypeinNumberViewController *viewController = [[TypeinNumberViewController alloc] initWithNibName:@"TypeinNumberViewController" bundle:nil];
     viewController.status = @"2";
+    viewController.balance = self.balance;
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
@@ -108,7 +110,7 @@
         [DejalBezelActivityView removeViewAnimated:YES];
         int code = [responseObject[@"code"] intValue];
         if (code == 1) {
-
+            self.balance = [responseObject[@"balance"] description];
             self.currentMoneyLabel.text = [NSString stringWithFormat:@"%.0f", [responseObject[@"balance"] doubleValue]];
             self.frozenMoneyLabel.text = [NSString stringWithFormat:@"(冻结金额: %@元)", responseObject[@"fmoney"]];
             self.recordList = responseObject[@"recordlist"];

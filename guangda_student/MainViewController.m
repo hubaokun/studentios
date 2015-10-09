@@ -502,12 +502,10 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     if (annotationView == nil)
     {
         annotationView = [[MyAnimatedAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID];
-    }
-//    NSMutableArray *images = [NSMutableArray array];
-//    for (int i = 1; i < 4; i++) {
         UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ico_cargr"]];
-//    }
-    annotationView.annotationImageView.image = image;
+        annotationView.annotationImageView.image = image;
+    }
+    
     annotationView.annotationButton.tag = [annotation.title intValue];
     [annotationView.annotationButton addTarget:self action:@selector(carBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     

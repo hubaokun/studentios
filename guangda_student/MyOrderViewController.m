@@ -24,7 +24,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
     OrderListTypeUncomplete = 0,    // 未完成订单
     OrderListTypeWaitEvaluate,      // 待评价订单
     OrderListTypeComplete,          // 已完成订单
-    OrderListTypeComplained,        // 已投诉订单
+    OrderListTypeComplained,        // 待处理订单
 };
 
 @interface MyOrderViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient, BMKLocationServiceDelegate, BMKGeoCodeSearchDelegate, BMKGeneralDelegate, UIAlertViewDelegate, OrderListTableViewCellDelegate> {
@@ -274,7 +274,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
         uri = @"/sorder?action=GetCompleteOrder";
     }
     
-    // 已完成订单列表
+    // 待处理订单列表
     else if (self.targetOrderListType == OrderListTypeComplained) {
         uri = @"/sorder?action=GETCOMPLAINTORDER";
     }
@@ -836,7 +836,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
     AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
     nextController.coachInfoDic = coachInfoDict;
     nextController.coachId = [coachInfoDict[@"coachid"] description];
-    if ([order.subjectID isEqualToString:@"4"]) {
+    if ([order.subjectName isEqualToString:@"陪驾"]) {
         nextController.carModelID = @"19";
     }
     UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
