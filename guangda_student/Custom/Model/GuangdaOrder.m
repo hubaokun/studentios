@@ -41,6 +41,13 @@
         _canUp = [dict[@"can_up"] intValue];
         _canDown = [dict[@"can_down"] intValue];
         _canComment = [dict[@"can_comment"] intValue];
+        
+        int attachCar = [dict[@"attachcar"] intValue];
+        if (attachCar) {
+            _needCar = YES;
+        } else {
+            _needCar = NO;
+        }
     }
     return self;
 }

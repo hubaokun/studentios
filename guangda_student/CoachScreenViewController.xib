@@ -12,6 +12,7 @@
                 <outlet property="dateBeginLabel" destination="pqi-zv-lwz" id="Em8-IW-bvy"/>
                 <outlet property="datePicker" destination="aAY-SK-jBv" id="sYf-EG-vB9"/>
                 <outlet property="footView" destination="VtZ-17-Ojp" id="M0n-gD-a0i"/>
+                <outlet property="footViewBottomSpaceCon" destination="k90-7e-OHU" id="9hv-Iv-M7g"/>
                 <outlet property="leftUpBtn" destination="QDf-9I-ttB" id="WEu-Ti-gyK"/>
                 <outlet property="pickerBoxBottomSpaceCon" destination="Ywa-f7-pzL" id="3CY-3m-L2o"/>
                 <outlet property="rightUpBtn" destination="jO1-a1-Ymb" id="5kc-3E-AzB"/>

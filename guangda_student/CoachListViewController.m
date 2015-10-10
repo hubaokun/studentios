@@ -19,9 +19,6 @@
 #import "UserBaseInfoViewController.h"
 #import "AppDelegate.h"
 
-#define _screenWidth [UIScreen mainScreen].bounds.size.width
-#define _screenHeight [UIScreen mainScreen].bounds.size.height
-
 @interface CoachListViewController ()
 <UITableViewDataSource, UITableViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIGestureRecognizerDelegate, DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient,UIAlertViewDelegate>
 {
@@ -277,7 +274,7 @@
 - (void)carBtnClick
 {
     // 添加底部的教练信息栏
-    self.chooseCoachTimeView.frame = CGRectMake(0, _screenHeight, _screenWidth, 122);
+    self.chooseCoachTimeView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 122);
     [self.view addSubview:self.chooseCoachTimeView];
     
     [UIView animateWithDuration:0.5 //时长
@@ -286,7 +283,7 @@
                      animations:^{
                          
                          //动画设置区域
-                         self.chooseCoachTimeView.frame=CGRectMake(0, _screenHeight - 122, _screenWidth, 122);
+                         self.chooseCoachTimeView.frame=CGRectMake(0, SCREEN_HEIGHT - 122, SCREEN_WIDTH, 122);
                          
                      } completion:^(BOOL finish){
                          //动画结束时调用
@@ -300,14 +297,14 @@
     //    for (id objc in self.view.subviews) {
     //        if ([objc isEqual:self.chooseCoachTimeView]) {
     
-    self.chooseCoachTimeView.frame=CGRectMake(0, _screenHeight - 122, _screenWidth, _screenHeight);
+    self.chooseCoachTimeView.frame=CGRectMake(0, SCREEN_HEIGHT - 122, SCREEN_WIDTH, SCREEN_HEIGHT);
     [UIView animateWithDuration:0.5 //时长
                           delay:0 //延迟时间
                         options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
                      animations:^{
                          
                          //动画设置区域
-                         self.chooseCoachTimeView.frame=CGRectMake(0, _screenHeight, _screenWidth, 292);
+                         self.chooseCoachTimeView.frame=CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 292);
                          
                          
                      } completion:^(BOOL finish){
@@ -341,7 +338,7 @@
 #pragma mark 展开选择教练时间段详情页
 - (void)showCoachTimeClick:(id)sender
 {
-    self.chooseCoachTimeView.frame = CGRectMake(0, _screenHeight-171, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+    self.chooseCoachTimeView.frame = CGRectMake(0, SCREEN_HEIGHT-171, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     [self.view addSubview:self.chooseCoachTimeView];
     
     [UIView animateWithDuration:0.5 //时长

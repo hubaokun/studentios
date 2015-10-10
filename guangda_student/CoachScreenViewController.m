@@ -272,13 +272,14 @@
     keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
     
     CGFloat keyboardTop = keyboardRect.origin.y;
-    if (self.nowTextField == nil) {
-        return;
-    }
+    CGFloat keyboardHeight = keyboardRect.size.height;
+//    if (self.nowTextField == nil) {
+//        return;
+//    }
     
     //获取这个textField在self.view中的位置， fromView为textField的父view
-    CGRect textFrame = self.nowTextField.superview.frame;
-    CGFloat textFieldY = textFrame.origin.y + CGRectGetHeight(textFrame);
+//    CGRect textFrame = self.nowTextField.superview.frame;
+//    CGFloat textFieldY = textFrame.origin.y + CGRectGetHeight(textFrame);
     
     // Get the duration of the animation.
     NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
@@ -287,9 +288,11 @@
 
     if (_pickerIsShown == NO) {
         //将footview始终置于键盘上方
-        footViewRect.origin.y = keyboardTop - footViewRect.size.height;
+//        footViewRect.origin.y = keyboardTop - footViewRect.size.height;
         [UIView animateWithDuration:animationDuration animations:^{
-            self.footView.frame = footViewRect;
+//            self.footView.frame = footViewRect;
+            self.footViewBottomSpaceCon.constant = keyboardHeight;
+            [self.view layoutIfNeeded];
         }];
     } else {
         // 上移picherView
@@ -299,15 +302,15 @@
         }];
     }
     
-    if(textFieldY < keyboardTop) {
-        //键盘没有挡住输入框
-        return;
-    }
+//    if(textFieldY < keyboardTop) {
+//        //键盘没有挡住输入框
+//        return;
+//    }
     
     //键盘遮挡了输入框
-    CGFloat _hight = textFieldY - keyboardTop;
-    self.scrollView.contentOffset = CGPointMake(0, _hight+50);
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH - 110);
+//    CGFloat _hight = textFieldY - keyboardTop;
+//    self.scrollView.contentOffset = CGPointMake(0, _hight+50);
+//    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH - 110);
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
@@ -323,7 +326,9 @@
     
     if (_pickerIsShown == NO) {
         [UIView animateWithDuration:animationDuration animations:^{
-            self.footView.frame = footViewRect;
+//            self.footView.frame = footViewRect;
+            self.footViewBottomSpaceCon.constant = 0;
+            [self.view layoutIfNeeded];
         }];
     } else {
         // 下移picherView
@@ -334,7 +339,7 @@
     }
     
     self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH - 110);
-    self.nowTextField = nil;
+//    self.nowTextField = nil;
 }
 
 #pragma mark - 输入框代理

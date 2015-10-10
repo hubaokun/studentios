@@ -31,9 +31,27 @@
     NSUInteger _curPageNum; // 当前页
 }
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *remindTapRightSpaceCon;
 
-// 参数
+@property (strong, nonatomic) IBOutlet UIScrollView *coachTimeScrollView;
+@property (strong, nonatomic) IBOutlet UIButton *sureAppointBtn;
+@property (strong, nonatomic) IBOutlet SwipeView *swipeView;
+@property (strong, nonatomic) IBOutlet UILabel *coachRealName;
+@property (strong, nonatomic) IBOutlet UILabel *carAddress;
+@property (strong, nonatomic) IBOutlet UIView *coachDetailsTopView; // 教练信息顶部view
+@property (weak, nonatomic) IBOutlet UIButton *phoneBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *remindTapRightSpaceCon; // 提醒教练开课按钮约束
+
+// 陪驾是否需要用教练车
+@property (strong, nonatomic) IBOutlet UIView *ifNeedCarMaskView;
+@property (weak, nonatomic) IBOutlet UIView *ifNeedCarView;
+@property (weak, nonatomic) IBOutlet UIButton *noNeedBtn;
+@property (weak, nonatomic) IBOutlet UIButton *needBtn;
+@property (weak, nonatomic) IBOutlet UILabel *carCostLabel;
+@property (weak, nonatomic) IBOutlet UIButton *ifNeedCarSureBtn;
+@property (assign, nonatomic) BOOL needCar; // 是否需要教练车
+@property (assign, nonatomic) int rentalFeePerHour; // 教练车租赁费(每小时)
+
+
 @property (strong, nonatomic) DNCoach *coach;
 @property (strong, nonatomic) UIView *coachTimeContentView;
 @property (strong, nonatomic) NSMutableArray *timeMutableList;      // 时间点数据数组 用于存储各个时间点的数据 单价、科目、时间
@@ -64,6 +82,27 @@
     self.selectDateList = [NSMutableArray array];
     self.dateLabelList = [NSMutableArray array];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetPriceNumStatus) name:@"appointCoachSuccess" object:nil];
+    
+    [self viewConfig];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    // 请求刷新教练日程接口
+    if (!self.nowSelectedDate) {
+        self.nowSelectedDate = [CommonUtil getStringForDate:[NSDate date] format:@"yyyy-MM-dd"];
+    }
+    [self requestRefreshCoachSchedule];
+    [self refreshUserMoney];
+    [self noCarNeedClick:self.noNeedBtn]; // 默认不使用教练车
+}
+
+- (void)viewConfig
+{
     self.coachTimeContentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 20, SCREEN_HEIGHT)];
     [self.coachTimeScrollView addSubview:self.coachTimeContentView];
     
@@ -82,8 +121,6 @@
     [starView changeStarForegroundViewWithScore:score];
     [self.coachDetailsTopView addSubview:starView];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetPriceNumStatus) name:@"appointCoachSuccess" object:nil];
-    
     //configure swipe view
     _swipeView.alignment = SwipeViewAlignmentCenter;
     _swipeView.pagingEnabled = YES;
@@ -93,18 +130,10 @@
     
     // 添加教练课程表
     [self timeTableAdd];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
     
-    // 请求刷新教练日程接口
-    if (!self.nowSelectedDate) {
-        self.nowSelectedDate = [CommonUtil getStringForDate:[NSDate date] format:@"yyyy-MM-dd"];
-    }
-    [self requestRefreshCoachSchedule];
-    [self refreshUserMoney];
+    self.ifNeedCarMaskView.frame = [UIScreen mainScreen].bounds;
+    self.ifNeedCarView.layer.cornerRadius = 3;
+    self.ifNeedCarSureBtn.layer.cornerRadius = 3;
 }
 
 // 添加教练课程表
@@ -193,17 +222,6 @@
     }];
 }
 
-- (IBAction)removeResultClick:(id)sender {
-    [self.appointResultView removeFromSuperview];
-}
-
-//- (IBAction)orderDetailsClick:(id)sender {
-//    [self.appointResultView removeFromSuperview];
-//    
-//    MyOrderDetailViewController *viewController = [[MyOrderDetailViewController alloc] initWithNibName:@"MyOrderDetailViewController" bundle:nil];
-//    [self.navigationController pushViewController:viewController animated:YES];
-//}
-
 #pragma mark - 添加横向滚动的时间选栏
 - (UIView *)getTimeForSelected
 {
@@ -285,11 +303,19 @@
 //            self.dateList = responseObject[@"datelist"];
             CourseTimetableViewController *curVC = self.childViewControllers[_pageIndex];
             self.curVC = curVC;
-            curVC.dateList = responseObject[@"datelist"];
+            NSArray *dataList = responseObject[@"datelist"];
+            curVC.dateList = dataList;
             curVC.nowSelectedDate = self.nowSelectedDate;
             curVC.dateTimeSelectedList = self.dateTimeSelectedList;
             [curVC viewWillAppear:YES];
             self.coachTimeScrollView.contentSize = CGSizeMake(0, curVC.viewHeight);
+            
+            // 教练车租赁费
+            if ([self.carModelID isEqualToString:@"19"]) { // 陪驾
+                NSDictionary *dict = dataList.firstObject;
+                self.rentalFeePerHour = [dict[@"cuseraddtionalprice"] intValue];
+                NSLog(@"rentalFeePerHour = %d", self.rentalFeePerHour);
+            }
         }else{
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
@@ -402,16 +428,9 @@
     }];
 }
 
-#pragma mark - actions
-- (IBAction)dismissViewControlClick:(id)sender
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
+#pragma mark - CourseTimetableViewControllerDelegate
 - (void)timeSelect:(DSButton *)sender
 {
-    
-    
     if (![[CommonUtil currentUtil] isLogin:NO]) {
         LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
         [self.navigationController pushViewController:viewController animated:YES];
@@ -514,7 +533,7 @@
         UILabel *timeLabel1 = timePointDic1[@"timeLabel"];
         time1 = timeLabel1.text;
     }
-
+    
     NSString *time2; //选中时间的前一小时
     if (button.tag-5 == 0) {
         time2 = @"0:00";
@@ -543,7 +562,7 @@
     }
     
     for (int i = 0; i < self.curVC.timeMutableList.count; i++) {
-
+        
         // 取出本地的时间点按钮字典
         NSDictionary *timePointDic = self.curVC.timeMutableList[i];
         DSButton *timeButton = timePointDic[@"button"];
@@ -568,15 +587,19 @@
                 subject = @" ";
             }
             
-            // 存储时间价格的信息
+            // 存储时间、价格等信息
             NSMutableDictionary *timePriceDic = [NSMutableDictionary dictionary];
             [timePriceDic setObject:time forKey:@"time"];
             [timePriceDic setObject:price forKey:@"price"];
             [timePriceDic setObject:addressDetail forKey:@"addressdetail"];
             [timePriceDic setObject:subject forKey:@"subject"];
+            if ([self.carModelID isEqualToString:@"19"]) { // 陪驾
+                // 教练车租赁费
+                [timePriceDic setObject:[NSNumber numberWithInt:self.rentalFeePerHour] forKey:@"cuseraddtionalprice"];
+            }
             
             [timesList addObject:timePriceDic];
-
+            
             if (timesList.count != 0) {
                 NSArray *array = [NSArray arrayWithArray:timesList];
                 [dateTimesDic setObject:array forKey:@"times"];
@@ -587,49 +610,6 @@
             [timesList removeAllObjects];
         }
     }
-}
-
-// 去支付
-- (IBAction)sureAppointClick:(id)sender
-{
-    if ([[CommonUtil currentUtil] isLogin]) {
-        NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
-        NSString *realname = user_info[@"realname"];
-        if (realname.length == 0) {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"教练该如何称呼您？请设置真实姓名后再预约" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"前去设置", nil];
-            [alert show];
-        }else{
-            
-            SureOrderViewController *viewController = [[SureOrderViewController alloc] initWithNibName:@"SureOrderViewController" bundle:nil];
-            viewController.dateTimeSelectedList = self.dateTimeSelectedList;
-            viewController.coachId = self.coachId;
-            viewController.priceSum = [NSString  stringWithFormat:@"%.1f", _priceSum];
-            viewController.carModelID = self.carModelID;
-            [self.navigationController pushViewController:viewController animated:YES];
-        }
-    }
-}
-
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1) {
-        UserBaseInfoViewController *nextController = [[UserBaseInfoViewController alloc] initWithNibName:@"UserBaseInfoViewController" bundle:nil];
-        UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
-        navigationController.navigationBarHidden = YES;
-        [self presentViewController:navigationController animated:YES completion:nil];
-    }
-}
-
-- (IBAction)phoneCallClick:(id)sender
-{
-    NSString *phoneNum = [NSString stringWithFormat:@"telprompt:%@", self.coach.phone];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNum]];
-}
-
-// 提醒教练开课
-- (IBAction)remindCoachClick:(id)sender {
-    [self requestRemindCoach];
 }
 
 #pragma mark - UISwipeViewDelegate
@@ -770,4 +750,100 @@
     
 }
 
+#pragma mark - actions
+- (IBAction)dismissViewControlClick:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+// 去支付
+- (IBAction)sureAppointClick:(id)sender
+{
+    if ([[CommonUtil currentUtil] isLogin]) {
+        NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
+        NSString *realname = user_info[@"realname"];
+        if (realname.length == 0) {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"教练该如何称呼您？请设置真实姓名后再预约" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"前去设置", nil];
+            [alert show];
+        }else{
+            if ([self.carModelID isEqualToString:@"19"]) { // 陪驾
+                int count = (int)self.dateTimeSelectedList.count;
+                int price = self.rentalFeePerHour;
+                NSString *carCostText = [NSString stringWithFormat:@"使用费:%d元(%d元 x %d小时)", price * count, price, count];
+                self.carCostLabel.text = carCostText;
+                [self.view addSubview:self.ifNeedCarMaskView];
+            }
+            else {
+                SureOrderViewController *viewController = [[SureOrderViewController alloc] initWithNibName:@"SureOrderViewController" bundle:nil];
+                viewController.dateTimeSelectedList = self.dateTimeSelectedList;
+                viewController.coachId = self.coachId;
+                viewController.priceSum = [NSString  stringWithFormat:@"%d", (int)_priceSum];
+                viewController.carModelID = self.carModelID;
+                [self.navigationController pushViewController:viewController animated:YES];
+            }
+        }
+    }
+}
+
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        UserBaseInfoViewController *nextController = [[UserBaseInfoViewController alloc] initWithNibName:@"UserBaseInfoViewController" bundle:nil];
+        UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
+        navigationController.navigationBarHidden = YES;
+        [self presentViewController:navigationController animated:YES completion:nil];
+    }
+}
+
+- (IBAction)phoneCallClick:(id)sender
+{
+    NSString *phoneNum = [NSString stringWithFormat:@"telprompt:%@", self.coach.phone];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNum]];
+}
+
+// 提醒教练开课
+- (IBAction)remindCoachClick:(id)sender {
+    [self requestRemindCoach];
+}
+
+// 选择不需要教练车
+- (IBAction)noCarNeedClick:(UIButton *)sender {
+    if (sender.selected) return;
+    self.noNeedBtn.selected = YES;
+    self.needBtn.selected = NO;
+    self.needCar = NO;
+}
+
+// 选择需要教练车
+- (IBAction)needCarClick:(UIButton *)sender {
+    if (sender.selected) return;
+    self.needBtn.selected = YES;
+    self.noNeedBtn.selected = NO;
+    self.needCar = YES;
+}
+
+// 确定是否需要教练车
+- (IBAction)ifNeedCarSureClick:(id)sender {
+    [self.ifNeedCarMaskView removeFromSuperview];
+    
+    SureOrderViewController *viewController = [[SureOrderViewController alloc] initWithNibName:@"SureOrderViewController" bundle:nil];
+    viewController.dateTimeSelectedList = self.dateTimeSelectedList;
+    viewController.coachId = self.coachId;
+    if (self.needCar) {
+        int originSum = (int)_priceSum;
+        int totalSum = originSum + self.rentalFeePerHour * (int)self.dateTimeSelectedList.count;
+        viewController.priceSum = [NSString  stringWithFormat:@"%d", totalSum];
+    } else {
+        viewController.priceSum = [NSString  stringWithFormat:@"%d", (int)_priceSum];
+    }
+    viewController.carModelID = self.carModelID;
+    viewController.needCar = self.needCar;
+    viewController.rentalFeePerHour = self.rentalFeePerHour;
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (IBAction)closeIfNeedCarViewClick:(id)sender {
+    [self.ifNeedCarMaskView removeFromSuperview];
+}
 @end

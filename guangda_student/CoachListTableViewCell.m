@@ -95,7 +95,13 @@
     
 
     // 教练是否开课
-    int courseState = [coachDic[@"coursestate"] intValue];
+    int courseState = 0;
+    if ([self.carModelID isEqualToString:@"19"]) { // 陪驾
+        courseState = [coachDic[@"accompanycoursestate"] intValue];
+    }
+    else {
+        courseState = [coachDic[@"coursestate"] intValue];
+    }
     if (courseState == 0) { // 未开课
         self.contentView.alpha = 0.5;
     } else {

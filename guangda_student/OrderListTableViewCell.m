@@ -80,7 +80,11 @@
     if ([CommonUtil isEmpty:subjectStr]) {
         costText = costStr;
     } else {
-        subjectStr = [NSString stringWithFormat:@" (%@)", subjectStr];
+        if (self.order.needCar) {
+            subjectStr = [NSString stringWithFormat:@" (%@ 教练提供训练用车)", subjectStr];
+        } else {
+            subjectStr = [NSString stringWithFormat:@" (%@)", subjectStr];
+        }
         costText = [NSString stringWithFormat:@"%@%@", costStr, subjectStr];
     }
     NSMutableAttributedString *costAttText = [[NSMutableAttributedString alloc] initWithString:costText];

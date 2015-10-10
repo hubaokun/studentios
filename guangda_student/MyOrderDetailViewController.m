@@ -421,10 +421,10 @@
     for (int i = 0; i < priceArray.count; i++) {
         // 获取数据
         NSDictionary *hourDict = priceArray[i];
-//        int hour = [hourDict[@"hour"] intValue];
-//        NSString *start = [NSString stringWithFormat:@"%d:00", hour];
-//        NSString *end = [NSString stringWithFormat:@"%d:00", hour +1];
-//        NSString *time = [NSString stringWithFormat:@"%@~%@", start, end];
+        NSString *subjectStr = hourDict[@"subject"];
+        if (self.order.needCar) {
+            subjectStr = [NSString stringWithFormat:@"%@ (教练提供训练用车)", subjectStr];
+        }
         
         // 创建label
         UILabel *label = [[UILabel alloc] init];
@@ -435,7 +435,7 @@
         label.frame = CGRectMake(labelX, labelY, labelW, labelH);
         label.font = [UIFont systemFontOfSize:13];
         label.textColor = RGB(61, 61, 61);
-        label.text = hourDict[@"subject"];
+        label.text = subjectStr;
         
         [self.priceView addSubview:label];
         y = CGRectGetMaxY(label.frame);

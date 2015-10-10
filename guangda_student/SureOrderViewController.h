@@ -16,6 +16,8 @@
 @property (strong, nonatomic) NSArray *dateTimeSelectedList;
 @property (strong, nonatomic) NSString *coachId;
 @property (strong, nonatomic) NSString *priceSum;
+@property (assign, nonatomic) BOOL needCar; // 是否使用教练车
+@property (assign, nonatomic) int rentalFeePerHour; // 教练车租赁费(每小时)
 
 @property (assign, nonatomic) CGFloat payMoney;
 @end

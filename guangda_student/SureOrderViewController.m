@@ -85,7 +85,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.bookOrdersArray = [XBBookOrder bookOrdersWithArray:self.dateTimeSelectedList];
+    if ([self.carModelID isEqualToString:@"19"] && self.needCar) {
+        self.bookOrdersArray = [XBBookOrder bookOrdersWithArray:self.dateTimeSelectedList needCar:self.rentalFeePerHour];
+    }
+    else {
+        self.bookOrdersArray = [XBBookOrder bookOrdersWithArray:self.dateTimeSelectedList];
+    }
     self.priceSumLabel.text = [NSString stringWithFormat:@"应付金额%@元", self.priceSum];
     
     _orderArray = [NSMutableArray array];
@@ -437,11 +442,12 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     NSDictionary *dic = self.dateTimeSelectedList[indexPath.section];
+    XBBookOrder *order = self.bookOrdersArray[indexPath.section];
     NSArray *timeList = dic[@"times"];
     NSDictionary *timeDic = timeList[indexPath.row];
     
     NSString *time = timeDic[@"time"];
-    NSString *price = timeDic[@"price"];
+    NSString *price = [NSString stringWithFormat:@"%@元", order.price];
     NSString *subject = timeDic[@"subject"];
     NSString *addressDetail = timeDic[@"addressdetail"];
     
@@ -806,6 +812,10 @@
         // 订单总额
         NSString *total = [NSString stringWithFormat:@"%ld", (long)[bookOrder.price integerValue]];
         
+        // 是否需要教练车
+        NSString *needCar = @"0";
+        if (self.needCar) needCar = @"1";
+        
         // 请求参数
         [mutableDic setObject:total forKey:@"total"];
         [mutableDic setObject:recordid forKey:@"recordid"];
@@ -813,6 +823,7 @@
         [mutableDic setObject:payType forKey:@"paytype"];
         [mutableDic setObject:date forKey:@"date"];
         [mutableDic setObject:array forKey:@"time"];
+        [mutableDic setObject:needCar forKey:@"attachcar"];
         [times addObject:mutableDic];
     }
     return times;

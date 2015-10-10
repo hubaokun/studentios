@@ -38,6 +38,7 @@ typedef NS_ENUM(NSUInteger, OrderType) {
 @property (copy, nonatomic) NSString *subjectName;  // 科目
 @property (copy, nonatomic) NSString *reason;       // 投诉原因
 @property (copy, nonatomic) NSString *complaintContent;  // 投诉内容
+@property (assign, nonatomic) BOOL needCar;         // 是否需要教练车
 
 /* 
  * 距离订单开始的分钟数，若不为正则代表订单某个特殊状态

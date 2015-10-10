@@ -12,28 +12,10 @@
 @interface AppointCoachViewController : GreyTopViewController
 
 /* input */
-@property (copy, nonatomic) NSString *carModelID;
-
+@property (copy, nonatomic) NSString *carModelID; // 17:c1 18:c2 19:陪驾
 @property (strong, nonatomic) NSDictionary *coachInfoDic;
 @property (strong, nonatomic) NSString *coachId;
 
-// IBOutlet
-@property (strong, nonatomic) IBOutlet UIScrollView *coachTimeScrollView;
-@property (strong, nonatomic) IBOutlet UIButton *sureAppointBtn;
-@property (strong, nonatomic) IBOutlet SwipeView *swipeView;
-@property (strong, nonatomic) IBOutlet UILabel *coachRealName;
-@property (strong, nonatomic) IBOutlet UILabel *carAddress;
-@property (strong, nonatomic) IBOutlet UIView *coachDetailsTopView; // 教练信息顶部view
-@property (weak, nonatomic) IBOutlet UIButton *phoneBtn;
 
-// 预约结果view
-@property (strong, nonatomic) IBOutlet UIView *appointResultView;
-@property (strong, nonatomic) IBOutlet UIImageView *resultImageView;
-@property (strong, nonatomic) IBOutlet UILabel *resultStatusLabel;
-@property (strong, nonatomic) IBOutlet UILabel *resultDetailsLabel;
-@property (strong, nonatomic) IBOutlet UIButton *appointResultBtn;
-@property (strong, nonatomic) IBOutlet UIView *resultContentView;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *contentViewHeight;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *resultStatusHeight;
 
 @end
