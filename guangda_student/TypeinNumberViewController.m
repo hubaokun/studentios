@@ -196,6 +196,7 @@
         case 1: { // 充值
             PayViewController *nextVC = [[PayViewController alloc] initWithNibName:@"PayViewController" bundle:nil];
             nextVC.cashNum = self.inputField.text;
+            nextVC.purpose = 0;
             [self.navigationController pushViewController:nextVC animated:YES];
             break;
         }

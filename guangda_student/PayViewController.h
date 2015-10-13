@@ -12,6 +12,7 @@
 
 /* input */
 @property (copy, nonatomic) NSString *cashNum; // 金额
-
+@property (assign, nonatomic) int purpose; // 0:充值 1:报名支付
+@property (strong, nonatomic) NSMutableDictionary *payDict; // 报名支付的参数
 
 @end

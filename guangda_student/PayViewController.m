@@ -19,13 +19,14 @@
 // 微信
 #import "WXApi.h"
 #import "WXApiObject.h"
+#import <CommonCrypto/CommonDigest.h>
 
 typedef NS_ENUM(NSUInteger, PayType) {
     PayTypeWeixin = 0,  // 微信支付
     PayTypeAli          // 支付宝支付
 };
 
-@interface PayViewController ()
+@interface PayViewController () <WXApiDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *countLabel;
 @property (weak, nonatomic) IBOutlet UIButton *wxBtn;
 @property (weak, nonatomic) IBOutlet UIButton *aliBtn;
@@ -39,12 +40,18 @@ typedef NS_ENUM(NSUInteger, PayType) {
     [super viewDidLoad];
     self.countLabel.text = self.cashNum;
     [self aliClick:self.aliBtn];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wxPayComplete) name:@"wxpaycomplete" object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - 网络请求
-// 获取订单参数
+// 充值订单参数
 - (void)requestPayParameters
 {
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSString *studentId = delegate.userid;
     NSString *moneyNum = self.cashNum;
@@ -58,9 +65,6 @@ typedef NS_ENUM(NSUInteger, PayType) {
         return;
     }
     
-    NSString *uri = @"/suser?action=Recharge";
-    
-    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     [paramDic setObject:studentId forKey:@"studentid"];
     [paramDic setObject:[CommonUtil stringForID:USERDICT[@"token"]] forKey:@"token"];
     [paramDic setObject:moneyNum forKey:@"amount"];
@@ -70,12 +74,12 @@ typedef NS_ENUM(NSUInteger, PayType) {
     else if (self.payType == PayTypeWeixin) {
         [paramDic setObject:@"1" forKey:@"resource"];
         [paramDic setObject:kAppID_Weixin forKey:@"appid"];
-        [paramDic setObject:@"trade_type" forKey:@"APP"];
+        [paramDic setObject:@"APP" forKey:@"trade_type"];
         [paramDic setObject:[self deviceIPAdress] forKey:@"spbill_create_ip"];
         
     }
     
-    
+    NSString *uri = @"/suser?action=Recharge";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_GET];
     
     [DejalBezelActivityView activityViewForView:self.view];
@@ -88,8 +92,13 @@ typedef NS_ENUM(NSUInteger, PayType) {
         
         int code = [responseObject[@"code"] intValue];
         if (code == 1) {
-            
             if (responseObject && [responseObject count] != 0) {
+                int wxPayValid = [responseObject[@"weixinpay"] intValue];
+                if (wxPayValid == 1) {
+                    [self makeToast:@"微信支付暂时不能使用，请使用支付宝"];
+                    return;
+                }
+                
                 if (self.payType == PayTypeAli) {
                     [self requestAlipayWithRechargeInfo:responseObject];
                 }
@@ -118,6 +127,64 @@ typedef NS_ENUM(NSUInteger, PayType) {
     }];
 }
 
+// 获取报名支付的参数
+- (void)requestSignUpAndPay {
+    if (self.payDict == nil) return;
+    NSMutableDictionary *paramDic = self.payDict;
+    
+    NSString *studentId = [CommonUtil stringForID:USERDICT[@"studentid"]];
+    paramDic[@"studentid"] = studentId;
+    
+    if (self.payType == PayTypeAli) {
+        [paramDic setObject:@"0" forKey:@"resource"];
+    }
+    else if (self.payType == PayTypeWeixin) {
+        [paramDic setObject:@"1" forKey:@"resource"];
+        [paramDic setObject:kAppID_Weixin forKey:@"appid"];
+        [paramDic setObject:@"APP" forKey:@"trade_type"];
+        [paramDic setObject:[self deviceIPAdress] forKey:@"spbill_create_ip"];
+        
+    }
+    
+    NSString *uri = @"/suser?action=PROMOENROLL";
+    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    //    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [DejalBezelActivityView activityViewForView:self.view];
+    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        [DejalBezelActivityView removeViewAnimated:YES];
+        
+        if ([responseObject[@"code"] integerValue] == 1) {
+            if (responseObject && [responseObject count] != 0) {
+                int wxPayValid = [responseObject[@"weixinpay"] intValue];
+                if (wxPayValid == 1) {
+                    [self makeToast:@"微信支付暂时不能使用，请使用支付宝"];
+                    return;
+                }
+                
+                if (self.payType == PayTypeAli) {
+                    [self requestAlipayWithRechargeInfo:responseObject];
+                }
+                else if (self.payType == PayTypeWeixin) {
+                    [self requestWeixinPayWithRechargeInfo:responseObject];
+                }
+                
+            }
+        }else{
+            NSString *message = responseObject[@"message"];
+            [self makeToast:message];
+            
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [DejalBezelActivityView removeViewAnimated:YES];
+        NSLog(@"连接失败");
+        [self makeToast:ERR_NETWORK];
+    }];
+    
+}
+
 #pragma mark 微信支付
 - (void)requestWeixinPayWithRechargeInfo:(NSDictionary *)rechargeInfo
 {
@@ -125,17 +192,20 @@ typedef NS_ENUM(NSUInteger, PayType) {
     if(dict != nil){
         NSMutableString *retcode = [dict objectForKey:@"retcode"];
         if (retcode.intValue == 0){
-            NSMutableString *stamp  = [dict objectForKey:@"timestamp"];
+            NSMutableString *stamp  = [dict objectForKey:@"timeStamp"];
+            NSString *merchantKey = dict[@"mch_key"];
             
             //调起微信支付
             PayReq* req             = [[PayReq alloc] init];
-            req.openID              = [dict objectForKey:@"appid"];
-            req.partnerId           = [dict objectForKey:@"partnerid"];
-            req.prepayId            = [dict objectForKey:@"prepayid"];
-            req.nonceStr            = [dict objectForKey:@"noncestr"];
+            req.openID              = [dict objectForKey:@"appId"];
+            req.partnerId           = [dict objectForKey:@"mch_id"];
+            req.prepayId            = [dict objectForKey:@"prepay_id"];
+            req.nonceStr            = [dict objectForKey:@"nonceStr"];
             req.timeStamp           = stamp.intValue;
-            req.package             = [dict objectForKey:@"package"];
-            req.sign                = [dict objectForKey:@"sign"];
+//            req.package             = [dict objectForKey:@"package"];
+            req.package             = @"Sign=WXPay";
+//            req.sign                = [dict objectForKey:@"paySign"];
+            req.sign                = [self createMD5SingForPay:kAppID_Weixin partnerid:req.partnerId prepayid:req.prepayId package:req.package noncestr:req.nonceStr timestamp:req.timeStamp merchantkey:merchantKey];
             [WXApi sendReq:req];
             //日志输出
 //            NSLog(@"appid=%@\npartid=%@\nprepayid=%@\nnoncestr=%@\ntimestamp=%ld\npackage=%@\nsign=%@",req.openID,req.partnerId,req.prepayId,req.nonceStr,(long)req.timeStamp,req.package,req.sign );
@@ -147,15 +217,54 @@ typedef NS_ENUM(NSUInteger, PayType) {
     }
 }
 
-//客户端提示信息
-- (void)alert:(NSString *)title msg:(NSString *)msg
-{
-    UIAlertView *alter = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//创建发起支付时的sige签名
+-(NSString *)createMD5SingForPay:(NSString *)appid_key partnerid:(NSString *)partnerid_key prepayid:(NSString *)prepayid_key package:(NSString *)package_key noncestr:(NSString *)noncestr_key timestamp:(UInt32)timestamp_key merchantkey:(NSString *)mchkey {
+    NSMutableDictionary *signParams = [NSMutableDictionary dictionary];
+    [signParams setObject:appid_key forKey:@"appid"];
+    [signParams setObject:noncestr_key forKey:@"noncestr"];
+    [signParams setObject:package_key forKey:@"package"];
+    [signParams setObject:partnerid_key forKey:@"partnerid"];
+    [signParams setObject:prepayid_key forKey:@"prepayid"];
+    [signParams setObject:[NSString stringWithFormat:@"%u",timestamp_key] forKey:@"timestamp"];
     
-    [alter show];
+    NSMutableString *contentString  =[NSMutableString string];
+    NSArray *keys = [signParams allKeys];
+    //按字母顺序排序
+    NSArray *sortedArray = [keys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [obj1 compare:obj2 options:NSNumericSearch];
+    }];
+    //拼接字符串
+    for (NSString *categoryId in sortedArray) {
+        if (   ![[signParams objectForKey:categoryId] isEqualToString:@""]
+            && ![[signParams objectForKey:categoryId] isEqualToString:@"sign"]
+            && ![[signParams objectForKey:categoryId] isEqualToString:@"key"]
+            )
+        {
+            [contentString appendFormat:@"%@=%@&", categoryId, [signParams objectForKey:categoryId]];
+        }
+    }
+    //添加商户密钥key字段
+    [contentString appendFormat:@"key=%@", mchkey];
+    //    NSString *signString =[self md5:contentString];
+    NSString *result = [self md5:contentString];
+    return result;
 }
 
-#pragma mark 请求支付宝
+- (NSString *) md5:(NSString *)str
+{
+    const char *cStr = [str UTF8String];
+    unsigned char digest[CC_MD5_DIGEST_LENGTH];
+    CC_MD5( cStr, (unsigned int)strlen(cStr), digest );
+    
+    NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    
+    for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
+        [output appendFormat:@"%02X", digest[i]];
+    
+    return output;
+}
+
+#pragma mark 支付宝
 - (void)requestAlipayWithRechargeInfo:(NSDictionary *)rechargeInfo
 {
     /*
@@ -261,17 +370,22 @@ typedef NS_ENUM(NSUInteger, PayType) {
     }
 }
 
+// Alert提示
+- (void)alert:(NSString *)title msg:(NSString *)msg
+{
+    UIAlertView *alter = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alter show];
+}
+
 // 获取手机IP
 - (NSString *)deviceIPAdress {
     NSString *address = @"an error occurred when obtaining ip address";
     struct ifaddrs *interfaces = NULL;
     struct ifaddrs *temp_addr = NULL;
     int success = 0;
-    
     success = getifaddrs(&interfaces);
     
     if (success == 0) { // 0 表示获取成功
-        
         temp_addr = interfaces;
         while (temp_addr != NULL) {
             if( temp_addr->ifa_addr->sa_family == AF_INET) {
@@ -281,15 +395,19 @@ typedef NS_ENUM(NSUInteger, PayType) {
                     address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
                 }
             }
-            
             temp_addr = temp_addr->ifa_next;
         }
     }
     
-    freeifaddrs(interfaces);  
-    
+    freeifaddrs(interfaces);
 //    NSLog(@"手机的IP是：%@", address);
     return address;
+}
+
+// 微信支付结束后调用
+- (void)wxPayComplete
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Action
@@ -308,6 +426,11 @@ typedef NS_ENUM(NSUInteger, PayType) {
 }
 
 - (IBAction)payClick:(id)sender {
-    [self requestPayParameters];
+    if (self.purpose == 0) { // 充值
+        [self requestPayParameters];
+    }
+    else if (self.purpose == 1) { // 报名支付
+        [self requestSignUpAndPay];
+    }
 }
 @end

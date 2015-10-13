@@ -652,9 +652,9 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     // 测试账号studentID
     AppDelegate *deleget = [UIApplication sharedApplication].delegate;
     if (![CommonUtil isEmpty:deleget.userid]) {
-        if ([deleget.userid isEqualToString:@"18"]) {
+//        if ([deleget.userid isEqualToString:@"18"]) {
             paramDic[@"studentid"] = deleget.userid;
-        }
+//        }
     }
     
     // 城市id
@@ -722,7 +722,6 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
         }
-        
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [DejalBezelActivityView removeViewAnimated:YES];

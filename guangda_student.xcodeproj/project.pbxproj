@@ -1824,7 +1824,6 @@
 				3179E5E31AC284C600AFCFAA /* SDWebImage */,
 				3179E60B1AC284C600AFCFAA /* TencentOpenAPI */,
 				3179E60F1AC284C600AFCFAA /* ViewCell */,
-				3179E6101AC284C600AFCFAA /* WeChatSDK_1.5 */,
 			);
 			path = 3rdparty;
 			sourceTree = "<group>";
@@ -1973,13 +1972,6 @@
 			children = (
 			);
 			path = ViewCell;
-			sourceTree = "<group>";
-		};
-		3179E6101AC284C600AFCFAA /* WeChatSDK_1.5 */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = WeChatSDK_1.5;
 			sourceTree = "<group>";
 		};
 		3179E6111AC284C600AFCFAA /* Common */ = {

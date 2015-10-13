@@ -101,6 +101,7 @@
     [self noCarNeedClick:self.noNeedBtn]; // 默认不使用教练车
 }
 
+#pragma mark - 页面配置
 - (void)viewConfig
 {
     self.coachTimeContentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 20, SCREEN_HEIGHT)];
@@ -169,6 +170,7 @@
 //    return YES;
 //}
 
+// 重新计算总价
 - (void)resetPriceNumStatus
 {
     [self.dateTimeSelectedList removeAllObjects];
@@ -189,6 +191,7 @@
     }
 }
 
+// 提醒教练开课标签设置
 - (void)remindTapConfig:(NSDictionary *)dict
 {
     // 教练状态 0:未开课 1:已开课
@@ -370,13 +373,6 @@
     }];
 }
 
-- (void) backLogin{
-    if(![self.navigationController.topViewController isKindOfClass:[LoginViewController class]]){
-        LoginViewController *nextViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-        [self.navigationController pushViewController:nextViewController animated:YES];
-    }
-}
-
 // 刷新用户余额
 - (void)refreshUserMoney
 {
@@ -426,6 +422,62 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
     }];
+}
+
+#pragma mark - Custom
+- (void) backLogin{
+    if(![self.navigationController.topViewController isKindOfClass:[LoginViewController class]]){
+        LoginViewController *nextViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        [self.navigationController pushViewController:nextViewController animated:YES];
+    }
+}
+
+// 左右扫动手势
+- (void)handleSwipeFrom:(UISwipeGestureRecognizer *)swipeGR {
+    // 左扫
+    if (swipeGR.direction == UISwipeGestureRecognizerDirectionLeft) {
+        if (_curPageNum == 9) return;
+        _curPageNum++;
+        __weak id weakSelf = self;
+        CourseTimetableViewController *fromVC = self.childViewControllers[_pageIndex];
+        bool toIndex = !_pageIndex;
+        CourseTimetableViewController *toVC = self.childViewControllers[toIndex];
+        self.curVC = toVC;
+        [self transitionFromViewController:fromVC
+                          toViewController:toVC
+                                  duration:0.05
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{}
+                                completion:^(BOOL finished){
+                                    _pageIndex = toIndex;
+                                    [fromVC.view removeFromSuperview];
+                                    [toVC didMoveToParentViewController:weakSelf];
+                                    [self swipeView:self.swipeView didSelectItemAtIndex:_curPageNum];
+                                }];
+    }
+    // 右扫
+    if (swipeGR.direction == UISwipeGestureRecognizerDirectionRight) {
+        if (_curPageNum == 0) return;
+        _curPageNum--;
+        __weak id weakSelf = self;
+        CourseTimetableViewController *fromVC = self.childViewControllers[_pageIndex];
+        bool toIndex = !_pageIndex;
+        CourseTimetableViewController *toVC = self.childViewControllers[toIndex];
+        self.curVC = toVC;
+        [self transitionFromViewController:fromVC
+                          toViewController:toVC
+                                  duration:0.05
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{}
+                                completion:^(BOOL finished){
+                                    _pageIndex = toIndex;
+                                    [fromVC.view removeFromSuperview];
+                                    [toVC didMoveToParentViewController:weakSelf];
+                                    [self swipeView:self.swipeView didSelectItemAtIndex:_curPageNum];
+                                }];
+        
+    }
+    
 }
 
 #pragma mark - CourseTimetableViewControllerDelegate
@@ -703,53 +755,6 @@
     }
 }
 
-- (void)handleSwipeFrom:(UISwipeGestureRecognizer *)swipeGR {
-    // 左扫
-    if (swipeGR.direction == UISwipeGestureRecognizerDirectionLeft) {
-        if (_curPageNum == 9) return;
-        _curPageNum++;
-        __weak id weakSelf = self;
-        CourseTimetableViewController *fromVC = self.childViewControllers[_pageIndex];
-        bool toIndex = !_pageIndex;
-        CourseTimetableViewController *toVC = self.childViewControllers[toIndex];
-        self.curVC = toVC;
-        [self transitionFromViewController:fromVC
-                          toViewController:toVC
-                                  duration:0.05
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{}
-                                completion:^(BOOL finished){
-                                    _pageIndex = toIndex;
-                                    [fromVC.view removeFromSuperview];
-                                    [toVC didMoveToParentViewController:weakSelf];
-                                    [self swipeView:self.swipeView didSelectItemAtIndex:_curPageNum];
-                                }];
-    }
-    // 右扫
-    if (swipeGR.direction == UISwipeGestureRecognizerDirectionRight) {
-        if (_curPageNum == 0) return;
-        _curPageNum--;
-        __weak id weakSelf = self;
-        CourseTimetableViewController *fromVC = self.childViewControllers[_pageIndex];
-        bool toIndex = !_pageIndex;
-        CourseTimetableViewController *toVC = self.childViewControllers[toIndex];
-        self.curVC = toVC;
-        [self transitionFromViewController:fromVC
-                          toViewController:toVC
-                                  duration:0.05
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{}
-                                completion:^(BOOL finished){
-                                    _pageIndex = toIndex;
-                                    [fromVC.view removeFromSuperview];
-                                    [toVC didMoveToParentViewController:weakSelf];
-                                    [self swipeView:self.swipeView didSelectItemAtIndex:_curPageNum];
-                                }];
-        
-    }
-    
-}
-
 #pragma mark - actions
 - (IBAction)dismissViewControlClick:(id)sender
 {
@@ -770,6 +775,9 @@
                 int count = (int)self.dateTimeSelectedList.count;
                 int price = self.rentalFeePerHour;
                 NSString *carCostText = [NSString stringWithFormat:@"使用费:%d元(%d元 x %d小时)", price * count, price, count];
+                if (price == 0) {
+                    carCostText = @"使用费:0元";
+                }
                 self.carCostLabel.text = carCostText;
                 [self.view addSubview:self.ifNeedCarMaskView];
             }
@@ -788,6 +796,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    // 资料不完善，前去完善
     if (buttonIndex == 1) {
         UserBaseInfoViewController *nextController = [[UserBaseInfoViewController alloc] initWithNibName:@"UserBaseInfoViewController" bundle:nil];
         UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];

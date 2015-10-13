@@ -30,8 +30,10 @@
 #import "LocalDefine.h"
 #import "AppDelegate+EaseMob.h"
 
+#define WX_PAY_ALERT_TAG 10000
+
 @interface AppDelegate ()
-<BMKLocationServiceDelegate, WeiboSDKDelegate,BMKGeoCodeSearchDelegate,UIApplicationDelegate, IChatManagerDelegate>
+<BMKLocationServiceDelegate, WeiboSDKDelegate,BMKGeoCodeSearchDelegate,UIApplicationDelegate, IChatManagerDelegate, WXApiDelegate, UIAlertViewDelegate>
 {
     BMKMapManager* _mapManager;
     BMKLocationService *_locService;
@@ -209,8 +211,8 @@
 }
 
 #pragma mark - 第三方url调用
-//- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-//    
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    
 //    NSString *string =[url absoluteString];
 //    
 //    if ([string hasPrefix:@"wb"])
@@ -219,7 +221,7 @@
 //    }
 //    else if ([string hasPrefix:@"wx"])
 //    {
-////        return [WXApi handleOpenURL:url delegate:self];
+        return [WXApi handleOpenURL:url delegate:self];
 //    }
 //    else if ([string hasPrefix:@"tencent"])
 //    {
@@ -228,7 +230,7 @@
 //    }
 //    
 //    return YES;
-//}
+}
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     
@@ -239,7 +241,7 @@
     }
     else if ([string hasPrefix:@"wx"])
     {
-//        return [WXApi handleOpenURL:url delegate:self];
+        return [WXApi handleOpenURL:url delegate:self];
     }
     else if ([string hasPrefix:@"tencent"])
     {
@@ -365,6 +367,36 @@
     
 //    finishLocation = YES;
 //    [self installApp];
+}
+
+#pragma mark - 微信支付回调
+- (void)onResp:(BaseResp*)resp {
+    NSString *strMsg = [NSString stringWithFormat:@"errcode:%d", resp.errCode];
+    NSString *strTitle;
+    
+    if([resp isKindOfClass:[SendMessageToWXResp class]])
+    {
+        strTitle = [NSString stringWithFormat:@"发送媒体消息结果"];
+    }
+    if([resp isKindOfClass:[PayResp class]]){
+        //支付返回结果，实际支付结果需要去微信服务器端查询
+        strTitle = [NSString stringWithFormat:@"支付结果"];
+        
+        switch (resp.errCode) {
+            case WXSuccess:
+                strMsg = @"支付结果：成功！";
+                NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
+                break;
+                
+            default:
+                strMsg = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];
+                NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
+                break;
+        }
+    }
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    alert.tag = WX_PAY_ALERT_TAG;
+    [alert show];
 }
 
 #pragma mark - 新浪微博回掉
@@ -584,6 +616,15 @@
 - (void)removeLun:(NSTimer *)timer {
     [self.lunchView removeFromSuperview];
     self.lunchView = nil;
+}
+
+// 弹窗（目前只有微信支付成功了会有该弹窗）
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == WX_PAY_ALERT_TAG) { // 微信支付结束后弹窗
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"wxpaycomplete" object:nil];
+    }
+    
 }
 
 @end

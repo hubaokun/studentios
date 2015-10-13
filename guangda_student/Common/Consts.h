@@ -26,11 +26,11 @@
 #define kAppKey_Weibo           @"2732734711"
 #define kRedirectURI_Weibo      @"https://api.weibo.com/oauth2/default.html"
 #define kAppSecret_Weibo        @"28c81a7a16a217322539fd69dbe87655"
-//QQ AppKey
+//QQ AppID
 #define kAppID_QQ               @"1104472861"
-//微信 AppKey
-#define kAppID_Weixin           @"wxabb11606edd48e8c"
-#define kAppSecret_Weixin       @"b999d199e62843f2349a05d1ae477c60"
+//微信 AppID
+#define kAppID_Weixin           @"wxa508cf6ae267e0a8"
+#define kAppSecret_Weixin       @"56ba2549a60c5d5ffaf6eeb036d26f5f"
 //百度 AppKey
 //#define kAppKey_Baidu           @"hLR2f2QZeTDuE2g7rFLVo0bc"    //微信版
 #define kAppKey_Baidu           @"tf3pVGsiRgGMBjxnaefjNlIt"  //appstore

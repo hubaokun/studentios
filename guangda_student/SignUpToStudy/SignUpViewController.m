@@ -11,6 +11,7 @@
 #import "SliderViewController.h"
 #import "LoginViewController.h"
 #import "UserBaseInfoViewController.h"
+#import "PayViewController.h"
 #import "XBExame.h"
 #import "XBExameCity.h"
 #import "Order.h"
@@ -466,42 +467,6 @@
     
 }
 
-// 报名支付
-- (void)postSignUpAndPay {
-    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
-    
-    NSString *studentId = [CommonUtil stringForID:USERDICT[@"studentid"]];
-    paramDic[@"studentid"] = studentId;
-    paramDic[@"model"] = self.curExame.exameName;
-    paramDic[@"cityid"] = self.curExameCity.cityID;
-    paramDic[@"amount"] = self.curExame.xbPrice;
-    NSString *uri = @"/suser?action=PROMOENROLL";
-    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    //    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    [DejalBezelActivityView activityViewForView:self.view];
-    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        [DejalBezelActivityView removeViewAnimated:YES];
-        
-        if ([responseObject[@"code"] integerValue] == 1) {
-            if (responseObject && [responseObject count] != 0) {
-                [self requestAlipayWithRechargeInfo:responseObject];
-            }
-        }else{
-            NSString *message = responseObject[@"message"];
-            [self makeToast:message];
-            
-        }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [DejalBezelActivityView removeViewAnimated:YES];
-        NSLog(@"连接失败");
-        [self makeToast:ERR_NETWORK];
-    }];
-    
-}
-
 #pragma mark 请求支付宝
 - (void)requestAlipayWithRechargeInfo:(NSDictionary *)rechargeInfo
 {
@@ -669,7 +634,18 @@
         [self postSignUp];
     }
     else {
-        [self postSignUpAndPay];
+        // 把商品参数传到支付页面
+        NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+        paramDic[@"model"] = self.curExame.exameName;
+        paramDic[@"cityid"] = self.curExameCity.cityID;
+        paramDic[@"amount"] = self.curExame.xbPrice;
+        
+        PayViewController *nextVC = [[PayViewController alloc] initWithNibName:@"PayViewController" bundle:nil];
+        nextVC.cashNum = self.curExame.xbPrice;
+        nextVC.purpose = 1;
+        nextVC.payDict = paramDic;
+        [self.navigationController pushViewController:nextVC animated:YES];
+//        [self postSignUpAndPay];
     }
 }
 
