@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -17,6 +17,7 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_user_logo" translatesAutoresizingMaskIntoConstraints="NO" id="ix3-c3-hao">
                         <rect key="frame" x="10" y="15" width="55" height="55"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="55" id="Khf-Mn-pqR"/>
                             <constraint firstAttribute="height" constant="55" id="kbJ-Dc-siv"/>
@@ -24,6 +25,7 @@
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I04-tH-5BU">
                         <rect key="frame" x="75" y="15" width="77" height="20"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="77" id="J3R-rK-aRq"/>
                             <constraint firstAttribute="width" constant="80" id="h3N-OZ-VQs"/>
@@ -39,6 +41,7 @@
                     </label>
                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jdT-9m-xNK" userLabel="driveSchool">
                         <rect key="frame" x="75" y="35" width="245" height="17"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="m7H-sV-CRT"/>
                         </constraints>
@@ -48,6 +51,7 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bbo-k3-Dtj" userLabel="detail">
                         <rect key="frame" x="75" y="41" width="237" height="37.5"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="pi9-Gy-5nh"/>
                         </constraints>
@@ -62,6 +66,7 @@
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jfw-9o-ekh">
                         <rect key="frame" x="0.0" y="83" width="320" height="1"/>
+                        <animations/>
                         <color key="backgroundColor" red="0.82352941176470584" green="0.82352941176470584" blue="0.82352941176470584" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="ovA-is-u4V"/>
@@ -69,6 +74,7 @@
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="订单数:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Idi-bO-ojY">
                         <rect key="frame" x="153" y="18" width="77" height="17"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="77" id="3XL-wj-YPY"/>
                             <constraint firstAttribute="height" constant="17" id="ixi-Lh-w2j"/>
@@ -77,6 +83,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <animations/>
                 <constraints>
                     <constraint firstItem="jdT-9m-xNK" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" constant="8" id="E4U-Io-1HA"/>
                     <constraint firstItem="ix3-c3-hao" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Efp-YF-Pfh"/>
@@ -97,6 +104,7 @@
                     <constraint firstItem="jdT-9m-xNK" firstAttribute="top" secondItem="Idi-bO-ojY" secondAttribute="bottom" id="shQ-fb-hk6"/>
                 </constraints>
             </tableViewCellContentView>
+            <animations/>
             <connections>
                 <outlet property="contentDetailLabel" destination="bbo-k3-Dtj" id="Mg7-Ug-foo"/>
                 <outlet property="driveSchoolLabel" destination="jdT-9m-xNK" id="iJj-8O-Nwz"/>

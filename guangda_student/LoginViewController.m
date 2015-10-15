@@ -18,7 +18,9 @@
 #import "UserBaseInfoViewController.h"
 #import <TencentOpenAPI/TencentOAuth.h>
 
-@interface LoginViewController ()<UITextFieldDelegate, TencentSessionDelegate>{
+#import "WXApi.h"
+
+@interface LoginViewController ()<UITextFieldDelegate,TencentSessionDelegate,TencentLoginDelegate,WXApiDelegate,WeiboSDKDelegate>{
     CGRect scrollFrame;
 }
 
@@ -43,6 +45,13 @@
 @property (strong, nonatomic) IBOutlet UIView *pwdUnderline;    // 密码下划线
 
 
+@property (strong, nonatomic) IBOutlet UIView *footView;
+
+
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *labelViewY;
+
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *footViewY;
+
 @end
 
 @implementation LoginViewController
@@ -62,6 +71,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     [self performSelector:@selector(showMainView) withObject:nil afterDelay:0.3f];
+    
+    //weixin监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weixinLogin:) name:WeixinLogin object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weiboLogin:) name:WeiboLogin object:nil];
+    
     
     // QQ登录
     _tencentOAuth = [[TencentOAuth alloc] initWithAppId:kAppID_QQ andDelegate:self];
@@ -91,6 +105,15 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    float screenH = [UIScreen mainScreen].bounds.size.height;
+    
+    self.labelViewY.constant = screenH -64-140;
+    self.footViewY.constant = screenH -64 - 120;
+    
+    if (screenH < 500) {
+        self.labelViewY.constant = 500 -140;
+        self.footViewY.constant = 500 - 120;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -381,7 +404,8 @@
     self.mainView.frame = frame;
     
     [self.mainScrollView addSubview:self.mainView];
-    self.mainScrollView.contentSize = CGSizeMake(0, self.sinaBtn.frame.origin.y + CGRectGetHeight(self.sinaBtn.frame) + 20);
+//    self.mainScrollView.contentSize = CGSizeMake(0, self.loginButton.frame.origin.y + CGRectGetHeight(self.loginButton.frame) + 20);
+    self.mainScrollView.contentSize = CGSizeMake(0, 500);
 }
 
 #pragma mark - action
@@ -502,11 +526,47 @@
     
     if (button.tag == 1) {
         //QQ
-        [_tencentOAuth authorize:_permissions inSafari:NO];
-        
+//        [_tencentOAuth authorize:_permissions inSafari:NO];
+            self.tencentOAuth = [[TencentOAuth alloc] initWithAppId:kAppID_QQ andDelegate:self];
+            //    NSArray * array =  [NSArray arrayWithObjects:@"get_user_info", @"get_simple_userinfo", @"add_t", nil];
+            NSArray * array1 = [NSArray arrayWithObjects:
+                                kOPEN_PERMISSION_GET_USER_INFO,
+                                kOPEN_PERMISSION_GET_SIMPLE_USER_INFO,
+                                kOPEN_PERMISSION_ADD_ALBUM,
+                                kOPEN_PERMISSION_ADD_IDOL,
+                                kOPEN_PERMISSION_ADD_ONE_BLOG,
+                                kOPEN_PERMISSION_ADD_PIC_T,
+                                kOPEN_PERMISSION_ADD_SHARE,
+                                kOPEN_PERMISSION_ADD_TOPIC,
+                                kOPEN_PERMISSION_CHECK_PAGE_FANS,
+                                kOPEN_PERMISSION_DEL_IDOL,
+                                kOPEN_PERMISSION_DEL_T,
+                                kOPEN_PERMISSION_GET_FANSLIST,
+                                kOPEN_PERMISSION_GET_IDOLLIST,
+                                kOPEN_PERMISSION_GET_INFO,
+                                kOPEN_PERMISSION_GET_OTHER_INFO,
+                                kOPEN_PERMISSION_GET_REPOST_LIST,
+                                kOPEN_PERMISSION_LIST_ALBUM,
+                                kOPEN_PERMISSION_UPLOAD_PIC,
+                                kOPEN_PERMISSION_GET_VIP_INFO,
+                                kOPEN_PERMISSION_GET_VIP_RICH_INFO,
+                                kOPEN_PERMISSION_GET_INTIMATE_FRIENDS_WEIBO,
+                                kOPEN_PERMISSION_MATCH_NICK_TIPS_WEIBO,
+                                nil];
+            [self.tencentOAuth authorize:array1 inSafari:NO];
 
     }else if (button.tag == 2){
         //微信
+        
+        SendAuthReq* req =[[SendAuthReq alloc ] init];
+        req.scope = @"snsapi_userinfo";
+        req.state = @"123" ;
+        req.openID = kAppID_Weixin;// @"wxa508cf6ae267e0a8";
+            //第三方向微信终端发送一个SendAuthReq消息结构
+        //    [WXApi sendReq:req];
+        
+        
+            [WXApi sendAuthReq:req viewController:self delegate:self];
         
     }else if (button.tag == 3){
         //新浪微博
@@ -518,6 +578,7 @@
                              @"Other_Info_2": @[@"obj1", @"obj2"],
                              @"Other_Info_3": @{@"key1": @"obj1", @"key2": @"obj2"}};
         [WeiboSDK sendRequest:request];
+        
     }
     
 //    BindingViewController *nextController = [[BindingViewController alloc] initWithNibName:@"BindingViewController" bundle:nil];
@@ -543,13 +604,50 @@
         NSLog(@"expirationDate == %@", expirationDate);
         
         // 请求登录接口  type = 2
-        [self requestLoginInterfaceWithType:@"2" andOpenid:_openId];
+//        [self requestLoginInterfaceWithType:@"2" andOpenid:_openId];
     }
     else
     {
 //        _labelAccessToken.text = @"登录不成功 没有获取accesstoken";
         NSLog(@"登录不成功 没有获取accesstoken");
     }
+}
+
+-(void)weixinLogin:(NSNotification *)notification{
+    SendAuthResp * authResp = (SendAuthResp *) notification.object;
+    
+    NSString * url = [NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%@&secret=56ba2549a60c5d5ffaf6eeb036d26f5f&code=%@&grant_type=authorization_code",kAppID_Weixin,authResp.code];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager setResponseSerializer:[AFHTTPResponseSerializer serializer]];
+    [manager.responseSerializer setAcceptableContentTypes:[NSSet setWithObject:@"text/plain"]];
+    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation * operation, id responseObject) {
+        NSDictionary *photo = [NSJSONSerialization
+                               
+                               JSONObjectWithData:responseObject
+                               
+                               options:NSJSONReadingMutableLeaves
+                               
+                               error:nil];
+        NSString *str1 = [photo objectForKey:@"openid"];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"openid" message:str1 delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles: nil];
+        [alertView show];
+        
+        NSString *str = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSLog(@"%@",str);
+        //        UIImage *img = [UIImage imageWithData:responseObject];
+        //        [_codeImageView setImage:img];
+        //        [ProgressHUD dismiss];
+    } failure:^(AFHTTPRequestOperation * operation, NSError * error) {
+        //        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误" message:@"内部服务器错误" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles: nil];
+        //        [alertView show];
+        //        [ProgressHUD dismiss];
+    }];
+}
+
+-(void)weiboLogin:(NSNotification *)notification{
+    NSString * userid = (NSString *) notification.object;
+    NSLog(@"%@",userid);
 }
 
 - (IBAction)backClick:(id)sender

@@ -14,6 +14,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *dateTimeLabel;
 @property (strong, nonatomic) IBOutlet UILabel *moneyNum;
 
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *lineHeight;
+- (void)loadData:(NSDictionary *)data;
 
 @end

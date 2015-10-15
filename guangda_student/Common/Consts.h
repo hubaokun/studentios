@@ -23,14 +23,16 @@
 
 /* 第三方 */
 //新浪微博AppKey
-#define kAppKey_Weibo           @"2732734711"
+#define kAppKey_Weibo           @"3722701019"
 #define kRedirectURI_Weibo      @"https://api.weibo.com/oauth2/default.html"
-#define kAppSecret_Weibo        @"28c81a7a16a217322539fd69dbe87655"
+#define kAppSecret_Weibo        @"35f85d53b87db741ab882c1078b4a1cb"//@"a2998e7b8046965f03ddf1a7f0ec4e93"
+#define WeiboLogin              @"WeiboLogin"
 //QQ AppID
-#define kAppID_QQ               @"1104472861"
+#define kAppID_QQ               @"1104655929"
 //微信 AppID
 #define kAppID_Weixin           @"wxa508cf6ae267e0a8"
 #define kAppSecret_Weixin       @"56ba2549a60c5d5ffaf6eeb036d26f5f"
+#define WeixinLogin             @"WeixinLogin"
 //百度 AppKey
 //#define kAppKey_Baidu           @"hLR2f2QZeTDuE2g7rFLVo0bc"    //微信版
 #define kAppKey_Baidu           @"tf3pVGsiRgGMBjxnaefjNlIt"  //appstore

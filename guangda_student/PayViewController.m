@@ -93,8 +93,8 @@ typedef NS_ENUM(NSUInteger, PayType) {
         int code = [responseObject[@"code"] intValue];
         if (code == 1) {
             if (responseObject && [responseObject count] != 0) {
-                int wxPayValid = [responseObject[@"weixinpay"] intValue];
-                if (wxPayValid == 1) {
+                int wxPayInvalid = [responseObject[@"weixinpay"] intValue];
+                if (wxPayInvalid == 1) {
                     [self makeToast:@"微信支付暂时不能使用，请使用支付宝"];
                     return;
                 }
@@ -158,8 +158,8 @@ typedef NS_ENUM(NSUInteger, PayType) {
         
         if ([responseObject[@"code"] integerValue] == 1) {
             if (responseObject && [responseObject count] != 0) {
-                int wxPayValid = [responseObject[@"weixinpay"] intValue];
-                if (wxPayValid == 1) {
+                int wxPayInvalid = [responseObject[@"weixinpay"] intValue];
+                if (wxPayInvalid == 1) {
                     [self makeToast:@"微信支付暂时不能使用，请使用支付宝"];
                     return;
                 }

@@ -46,7 +46,7 @@
     
     // 总单数
     if ([self.carModelID isEqualToString:@"19"]) { // 陪驾
-        NSString *sumnum = [coachDic[@"orderbyaccompany"] description];
+        NSString *sumnum = [coachDic[@"accompanynum"] description];
         if ([CommonUtil isEmpty:sumnum]) {
             sumnum = @"0";
         }

@@ -164,29 +164,7 @@
     }
     
     NSDictionary *recordDic = self.recordList[indexPath.row];
-    int type = [recordDic[@"type"] intValue];
-    switch (type) {
-        case 2:
-        case 3:
-            cell.inOrOut.text = @"支出";
-            cell.moneyNum.textColor = [UIColor greenColor];
-            cell.moneyNum.text = [NSString stringWithFormat:@"-%@",[recordDic[@"amount"] description]];
-            break;
-        case 1:
-            cell.inOrOut.text = @"充值";
-            cell.moneyNum.textColor = [UIColor redColor];
-            cell.moneyNum.text = [NSString stringWithFormat:@"+%@",[recordDic[@"amount"] description]];
-            break;
-        case 0:
-            cell.inOrOut.text = @"提现";
-            cell.moneyNum.textColor = [UIColor greenColor];
-            break;
-            
-        default:
-            break;
-    }
-    cell.dateTimeLabel.text = [recordDic[@"addtime"] description];
-    cell.lineHeight.constant = 0.5;
+    [cell loadData:recordDic];
     return cell;
 }
 

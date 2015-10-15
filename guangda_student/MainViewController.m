@@ -931,12 +931,20 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     }
     
     // 教练总单数
-    NSString *sumnum = [_coachDic[@"sumnum"] description];
+    NSString *sumnum = nil;
+    NSString *preWords = nil;
+    if ([carModelID isEqualToString:@"19"]) { // 陪驾
+        sumnum = [_coachDic[@"accompanynum"] description];
+        preWords = @"陪驾数:";
+    } else {
+        sumnum = [_coachDic[@"sumnum"] description];
+        preWords = @"总单数:";
+    }
     if (sumnum) {
         self.orderCountLabel.hidden = NO;
-        NSString *sumnumStr = [NSString stringWithFormat:@"总单数:%@",sumnum];
+        NSString *sumnumStr = [NSString stringWithFormat:@"%@%@", preWords, sumnum];
         NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:sumnumStr];
-        [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(4,sumnum.length)];
+        [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(preWords.length, sumnum.length)];
         self.orderCountLabel.attributedText = string;
         CGFloat sumnumStrWidth = [CommonUtil sizeWithString:sumnumStr fontSize:12 sizewidth:320 sizeheight:15].width;
         self.orderCountLabelWidthCon.constant = sumnumStrWidth;

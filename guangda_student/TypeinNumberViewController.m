@@ -169,6 +169,18 @@
     }];
 }
 
+#pragma mark - 输入框代理
+// 不得输入小数点
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{  //string就是此时输入的那个字符 textField就是此时正在输入的那个输入框 返回YES就是可以改变输入框的值 NO相反
+    
+    if (self.inputField == textField)
+    {
+        return [self isPureInt:string];
+    }
+    return YES;
+}
+
 #pragma mark - Custom
 - (void)fieldTextChanged:(UITextField *)field {
     if ([CommonUtil isEmpty:field.text]) {
@@ -178,6 +190,13 @@
         self.nextStepBtn.enabled = YES;
         self.nextStepBtn.backgroundColor = RGB(80, 203, 140);
     }
+}
+
+// 整形判断
+- (BOOL)isPureInt:(NSString *)string{
+    NSScanner* scan = [NSScanner scannerWithString:string];
+    int val;
+    return [scan scanInt:&val] && [scan isAtEnd];
 }
 
 - (void) backLogin{
