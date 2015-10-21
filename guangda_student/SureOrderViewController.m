@@ -9,11 +9,9 @@
 #import "SureOrderViewController.h"
 #import "SureOrderTableViewCell.h"
 #import <CoreText/CoreText.h>
-#import "MyOrderDetailViewController.h"
 #import "TypeinNumberViewController.h"
 #import "LoginViewController.h"
 #import "MyOrderViewController.h"
-#import "XBBookOrder.h"
 #import "MainViewController.h"
 
 #define FOOTVIEW_HEIGHT 48
@@ -93,7 +91,7 @@
     }
     self.priceSumLabel.text = [NSString stringWithFormat:@"应付金额%@元", self.priceSum];
     
-    _orderArray = [NSMutableArray array];
+    self.orderArray = [NSMutableArray array];
     _couponArray = [NSMutableArray array];
     _delMoney = 0;
     self.payMoney = [self.priceSum floatValue];
@@ -102,7 +100,7 @@
     self.canUseDiffCoupon = 0;
     self.canUsedMaxCouponCount = 1;
     
-    [self getOrderArray];
+//    [self getOrderArray];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
     view.backgroundColor = [UIColor whiteColor];
@@ -180,6 +178,12 @@
 
 // 配置所有选择按钮的状态
 - (void)allSelectBtnConfig:(XBBookOrder *)bookOrder {
+    if (bookOrder.isFreeCourse) { // 体验课
+        [self invalidSelectBtn:self.couponSelectBtn];
+        [self invalidSelectBtn:self.coinSelectBtn];
+        return;
+    }
+    
     if (_remainderCouponNum == 0 && self.couponSelectBtn.selected == NO) { // 已无更多学时券
         [self invalidSelectBtn:self.couponSelectBtn];
     } else {
@@ -224,7 +228,10 @@
             remainMoneyStr = [NSString stringWithFormat:@"余额不足，需充值"];
         }
     }
-    
+    // 体验课
+    if (bookOrder.isFreeCourse) {
+        remainMoneyStr = @"体验课，免费。";
+    }
     self.remainMoneyLabel.text = remainMoneyStr;
 }
 
@@ -254,43 +261,43 @@
 /**
  对传过来的订单数据进行处理
  **/
-- (void) getOrderArray{
-    
-    for (NSDictionary *dic in self.dateTimeSelectedList) {
-        NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-        [dictionary setObject:dic[@"date"] forKey:@"date"];//订单的日期
-        NSArray *times = dic[@"times"];
-        NSMutableArray *timesArray = [NSMutableArray array];
-        int timeCount = 0;
-        int priceAll = 0;
-        for (NSDictionary *timDic in times) {
-            timeCount ++;
-            NSMutableDictionary *time = [NSMutableDictionary dictionary];
-            NSString *price = [[timDic[@"price"] description] stringByReplacingOccurrencesOfString:@"元" withString:@""];
-            priceAll += [price intValue];
-            [time setObject:price forKey:@"price"];//价格
-            [time setObject:timDic[@"time"] forKey:@"time"];//时间点
-            [timesArray addObject:time];
-        }
-        //对timesArray排序－－从小到大
-        NSArray *array = [timesArray sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            int price1 = [obj1[@"price"] intValue];
-            int price2 = [obj2[@"price"] intValue];
-            if (price1 > price2) {
-                return NSOrderedDescending;
-            }
-            
-            if (price1 < price2) {
-                return NSOrderedAscending;
-            }
-            return NSOrderedSame;
-        }];
-        [dictionary setObject:array forKey:@"times"];
-        [dictionary setObject:[NSString stringWithFormat:@"%d",priceAll] forKey:@"priceAll"];//总价
-        [dictionary setObject:[NSString stringWithFormat:@"%d",timeCount] forKey:@"timecount"];//时间点的个数
-        [_orderArray addObject:dictionary];
-    }
-}
+//- (void) getOrderArray{
+//    
+//    for (NSDictionary *dic in self.dateTimeSelectedList) {
+//        NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+//        [dictionary setObject:dic[@"date"] forKey:@"date"];//订单的日期
+//        NSArray *times = dic[@"times"];
+//        NSMutableArray *timesArray = [NSMutableArray array];
+//        int timeCount = 0;
+//        int priceAll = 0;
+//        for (NSDictionary *timDic in times) {
+//            timeCount ++;
+//            NSMutableDictionary *time = [NSMutableDictionary dictionary];
+//            NSString *price = [[timDic[@"price"] description] stringByReplacingOccurrencesOfString:@"元" withString:@""];
+//            priceAll += [price intValue];
+//            [time setObject:price forKey:@"price"];//价格
+//            [time setObject:timDic[@"time"] forKey:@"time"];//时间点
+//            [timesArray addObject:time];
+//        }
+//        //对timesArray排序－－从小到大
+//        NSArray *array = [timesArray sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+//            int price1 = [obj1[@"price"] intValue];
+//            int price2 = [obj2[@"price"] intValue];
+//            if (price1 > price2) {
+//                return NSOrderedDescending;
+//            }
+//            
+//            if (price1 < price2) {
+//                return NSOrderedAscending;
+//            }
+//            return NSOrderedSame;
+//        }];
+//        [dictionary setObject:array forKey:@"times"];
+//        [dictionary setObject:[NSString stringWithFormat:@"%d",priceAll] forKey:@"priceAll"];//总价
+//        [dictionary setObject:[NSString stringWithFormat:@"%d",timeCount] forKey:@"timecount"];//时间点的个数
+//        [self.orderArray addObject:dictionary];
+//    }
+//}
 
 #pragma mark - UITableView
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -444,39 +451,40 @@
     NSDictionary *dic = self.dateTimeSelectedList[indexPath.section];
     XBBookOrder *order = self.bookOrdersArray[indexPath.section];
     NSArray *timeList = dic[@"times"];
-    NSDictionary *timeDic = timeList[indexPath.row];
+//    NSDictionary *timeDic = timeList[indexPath.row];
+//    
+//    NSString *time = timeDic[@"time"];
+//    NSString *price = [NSString stringWithFormat:@"%@元", order.price];
+//    NSString *subject = timeDic[@"subject"];
+//    NSString *addressDetail = timeDic[@"addressdetail"];
+//    
+//    int timeValue = [order.time intValue];
+//    NSString *string = nil;
+//    if (timeValue < 12) {
+//        string = @"上午";
+//    }else if (timeValue < 19) {
+//        string = @"下午";
+//    }else{
+//        string = @"晚上";
+//    }
+//    
+//    // 时间
+//    NSMutableAttributedString *timeAttr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ (%@%d:00-%d:00)", time, string, timeValue, timeValue+1]];
+//    [timeAttr addAttribute:(NSString *)kCTFontAttributeName value:[UIFont systemFontOfSize:18] range:NSMakeRange(0, time.length)];
+//    [timeAttr addAttribute:(NSString *)kCTFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(time.length, timeAttr.length - time.length)];
+//    [timeAttr addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0, time.length)];
+//    [timeAttr addAttribute:NSForegroundColorAttributeName value:RGB(184, 184, 184) range:NSMakeRange(time.length, timeAttr.length - time.length)];
+//    
+//    // 地址
+//    NSMutableAttributedString *addressAttr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@/%@", subject, addressDetail]];
+//    [addressAttr addAttribute:NSForegroundColorAttributeName value:RGB(184, 184, 184) range:NSMakeRange(subject.length, 1)];
+//    [addressAttr addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0, subject.length)];
+//    
+//    cell.timeLabel.attributedText = timeAttr;
+//    cell.priceLabel.text = [NSString stringWithFormat:@"%@", price];
+//    cell.addressDetailLabel.attributedText = addressAttr;
     
-    NSString *time = timeDic[@"time"];
-    NSString *price = [NSString stringWithFormat:@"%@元", order.price];
-    NSString *subject = timeDic[@"subject"];
-    NSString *addressDetail = timeDic[@"addressdetail"];
-    
-    int timeValue = [time intValue];
-    NSString *string = nil;
-    if (timeValue < 12) {
-        string = @"上午";
-    }else if (timeValue < 19) {
-        string = @"下午";
-    }else{
-        string = @"晚上";
-    }
-    
-    // 时间
-    NSMutableAttributedString *timeAttr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ (%@的%d:00-%d:00)", time, string, timeValue, timeValue+1]];
-    [timeAttr addAttribute:(NSString *)kCTFontAttributeName value:[UIFont systemFontOfSize:18] range:NSMakeRange(0, time.length)];
-    [timeAttr addAttribute:(NSString *)kCTFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(time.length, timeAttr.length - time.length)];
-    [timeAttr addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0, time.length)];
-    [timeAttr addAttribute:NSForegroundColorAttributeName value:RGB(184, 184, 184) range:NSMakeRange(time.length, timeAttr.length - time.length)];
-    
-    // 地址
-    NSMutableAttributedString *addressAttr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@/%@", subject, addressDetail]];
-    [addressAttr addAttribute:NSForegroundColorAttributeName value:RGB(184, 184, 184) range:NSMakeRange(subject.length, 1)];
-    [addressAttr addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0, subject.length)];
-    
-    cell.timeLabel.attributedText = timeAttr;
-    cell.priceLabel.text = [NSString stringWithFormat:@"%@", price];
-    cell.addressDetailLabel.attributedText = addressAttr;
-    
+    [cell loadData:order];
     if (indexPath.row == timeList.count-1) {
         cell.leftLength.constant = 0;
         cell.rightLength.constant = 0;
@@ -647,6 +655,7 @@
     if (_validCouponNum >= orderNum) { // 可用学时券数目大于等于订单数
         for (XBBookOrder *bookOrder in self.bookOrdersArray) {
             bookOrder.payType = payTypeCoupon;
+            if (bookOrder.isFreeCourse) continue;
             _remainderCouponNum--;
         }
     }
@@ -654,6 +663,7 @@
         // 将_validCouponNum张学时券都用上
         for (orderIndex = 0; orderIndex < _validCouponNum; orderIndex++) {
             XBBookOrder *bookOrder = self.bookOrdersArray[orderIndex];
+            if (bookOrder.isFreeCourse) continue;
             bookOrder.payType = payTypeCoupon;
             _remainderCouponNum--;
         }
@@ -663,6 +673,7 @@
             // 一一提取剩下的订单
             for (; orderIndex < orderNum; orderIndex++) {
                 curBookOrder = self.bookOrdersArray[orderIndex];
+                if (curBookOrder.isFreeCourse) continue;
                 if (_remainderCoinNum >= [curBookOrder.price intValue]) { // 当小巴币足以支付剩下订单时
                     curBookOrder.payType = payTypeCoin;
                     _remainderCoinNum -= [curBookOrder.price intValue];
@@ -672,7 +683,7 @@
             }
         }
         
-        // 若小巴币也剩余，接下来一单采用混合支付
+        // 若还剩余订单且小巴币不为0，接下来一单采用混合支付
         if (orderIndex < orderNum) {
             if (_remainderCoinNum > 0) {
                 curBookOrder = self.bookOrdersArray[orderIndex];
@@ -701,6 +712,13 @@
             }
         }
     }
+    
+    for (curBookOrder in self.bookOrdersArray) {
+        if (curBookOrder.isFreeCourse) {
+            curBookOrder.payType = payTypeMoney;
+        }
+    }
+    
     [self payDetailStatistics];
 }
 
@@ -757,21 +775,21 @@
         NSDictionary *dateDic = self.dateTimeSelectedList[i];
         XBBookOrder *bookOrder = self.bookOrdersArray[i];
         
-        NSDictionary *order;
-        NSArray *couponlist = nil;
-        NSString *firstTime = [[dateDic[@"times"] objectAtIndex:0] objectForKey:@"time"];
-        for(int j = 0; j < _orderArray.count; j++){
-            NSDictionary *dic = _orderArray[j];
-            NSString *first = [[dic[@"times"] objectAtIndex:0] objectForKey:@"time"];
-            if([dic[@"date"] isEqualToString:dateDic[@"date"]] && [first isEqualToString:firstTime]){
-                couponlist = dic[@"couponlist"];
-                order = dic;
-            }
-        }
+//        NSDictionary *order;
+//        NSArray *couponlist = nil;
+//        NSString *firstTime = [[dateDic[@"times"] objectAtIndex:0] objectForKey:@"time"];
+//        for(int j = 0; j < self.orderArray.count; j++){
+//            NSDictionary *dic = self.orderArray[j];
+//            NSString *first = [[dic[@"times"] objectAtIndex:0] objectForKey:@"time"];
+//            if([dic[@"date"] isEqualToString:dateDic[@"date"]] && [first isEqualToString:firstTime]){
+//                couponlist = dic[@"couponlist"];
+//                order = dic;
+//            }
+//        }
         
-        NSMutableDictionary *mutableDic = [NSMutableDictionary dictionary];
         // 取出日期
-        NSString *date = dateDic[@"date"];
+        NSString *date = bookOrder.date;
+        
         // 取出日期的时间点字典
         NSArray *timesList = dateDic[@"times"];
         NSMutableArray *array = [NSMutableArray array];
@@ -817,6 +835,7 @@
         if (self.needCar) needCar = @"1";
         
         // 请求参数
+        NSMutableDictionary *mutableDic = [NSMutableDictionary dictionary];
         [mutableDic setObject:total forKey:@"total"];
         [mutableDic setObject:recordid forKey:@"recordid"];
         [mutableDic setObject:delMoney forKey:@"delmoney"];
@@ -968,7 +987,7 @@
     if (self.orderId) {
         MyOrderViewController *viewController = [[MyOrderViewController alloc] initWithNibName:@"MyOrderViewController" bundle:nil];
         //        viewController.orderid = self.orderId;
-        //        viewController.isSkip = @"1";
+        viewController.comeFrom = 1;
         [self.navigationController pushViewController:viewController animated:YES];
     }else{
         [self.navigationController popToRootViewControllerAnimated:YES];

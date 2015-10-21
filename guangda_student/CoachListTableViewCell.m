@@ -14,22 +14,26 @@
 @property (strong, nonatomic) IBOutlet UIImageView *userLogo;
 @property (strong, nonatomic) IBOutlet UILabel *orderCount;
 @property (strong, nonatomic) IBOutlet UILabel *userName;
-@property (strong, nonatomic) IBOutlet UILabel *contentDetailLabel;
+@property (strong, nonatomic) IBOutlet UILabel *addressLabel;
 @property (strong, nonatomic) IBOutlet UILabel *driveSchoolLabel;
+@property (weak, nonatomic) IBOutlet UILabel *freeCourseLabel;
 
 @property (strong, nonatomic) TQStarRatingView *starView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *addressLabelTopSpace;
 
 @end
 
 @implementation CoachListTableViewCell
 
 - (void)awakeFromNib {
-    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-86, 17, 80, 15)];
+    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-86, 17, 80, 12)];
     [self.contentView addSubview:self.starView];
     
     self.userLogo.layer.cornerRadius = self.userLogo.bounds.size.width / 2;
     self.userLogo.layer.masksToBounds = YES;
     
+    self.freeCourseLabel.layer.cornerRadius = 2;
+    self.freeCourseLabel.layer.masksToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -62,9 +66,14 @@
         self.orderCount.attributedText = string;
     }
     
-    self.userName.text = coachDic[@"realname"];
-    //    NSString *coachInfoStr = nil;
+    // 教练名
+    NSString *name = coachDic[@"realname"];
+    if (name == nil) {
+        name = @"无名";
+    }
+    self.userName.text = name;
     
+    // 驾校名
     NSString *schoolName = coachDic[@"drive_school"];
     if ([CommonUtil isEmpty:schoolName]) {
         self.driveSchoolLabel.text = @"";
@@ -79,16 +88,16 @@
             NSDictionary *modelDict = modelArray.firstObject;
             NSString *modelID = [modelDict[@"modelid"] description];
             if ([modelID isEqualToString:@"17"]) {
-                self.contentDetailLabel.text = @"手动挡";
+                self.addressLabel.text = @"手动挡";
             } else {
-                self.contentDetailLabel.text = @"自动挡";
+                self.addressLabel.text = @"自动挡";
             }
         }
     }
     // 练车地址
     else {
         NSString *detail = coachDic[@"detail"];
-        self.contentDetailLabel.text = detail;
+        self.addressLabel.text = detail;
     }
     
     [self.starView changeStarForegroundViewWithScore:[[coachDic[@"score"] description] floatValue]];
@@ -106,6 +115,16 @@
         self.contentView.alpha = 0.5;
     } else {
         self.contentView.alpha = 1.0;
+    }
+    
+    // 是否开了体验课
+    int freeCourseState = [coachDic[@"freecoursestate"] intValue];
+    if (freeCourseState) {
+        self.freeCourseLabel.hidden = NO;
+        self.addressLabelTopSpace.constant = 12;
+    } else {
+        self.freeCourseLabel.hidden = YES;
+        self.addressLabelTopSpace.constant = 6;
     }
 }
 

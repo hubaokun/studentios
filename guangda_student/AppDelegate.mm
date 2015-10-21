@@ -217,7 +217,7 @@
 #pragma mark - 第三方url调用
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     
-    NSString *string =[url absoluteString];
+//    NSString *string =[url absoluteString];
     
     //    if ([string hasPrefix:@"wb"])
     //    {
@@ -275,7 +275,8 @@
      *在打开定位服务前设置
      *指定定位的最小更新距离(米)，默认：kCLDistanceFilterNone
      */
-    [BMKLocationService setLocationDistanceFilter:100];
+//    [BMKLocationService setLocationDistanceFilter:100];
+    _locService.distanceFilter = 100;
     
     //启动LocationService
     [_locService startUserLocationService];
@@ -515,10 +516,10 @@
             int isInvited = [[responseObject objectForKey:@"isInvited"] intValue];
             self.isInvited = [NSString stringWithFormat:@"%d",isInvited];
             
-            if ([self.isInvited integerValue]== 1) {    //1代表未被邀请，0代表已被邀请
-                RecommendCodeViewController *nextController = [[RecommendCodeViewController alloc] initWithNibName:@"RecommendCodeViewController" bundle:nil];
-                [_navi pushViewController:nextController animated:YES];
-            }
+//            if ([self.isInvited integerValue]== 1) {    //1代表未被邀请，0代表已被邀请
+//                RecommendCodeViewController *nextController = [[RecommendCodeViewController alloc] initWithNibName:@"RecommendCodeViewController" bundle:nil];
+//                [_navi pushViewController:nextController animated:YES];
+//            }
             
             // 3秒后在异步线程中上传设备号
             dispatch_queue_t queue =  dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);

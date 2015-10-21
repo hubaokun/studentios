@@ -77,6 +77,9 @@
     NSString *costText = nil;
     NSString *costStr = [NSString stringWithFormat:@"金额: %@", self.order.cost];
     NSString *subjectStr = self.order.subjectName;
+    if ([self.order.courseType isEqualToString:@"5"]) { // 如果是体验课
+        subjectStr = [NSString stringWithFormat:@"%@%@", subjectStr, @"免费体验课"];
+    }
     if ([CommonUtil isEmpty:subjectStr]) {
         costText = costStr;
     } else {

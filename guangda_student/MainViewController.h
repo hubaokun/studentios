@@ -8,7 +8,6 @@
 
 #import "GreyTopViewController.h"
 #import "AppDelegate.h"
-#import <BaiduMapAPI/BMapKit.h>
 
 @interface MainViewController : GreyTopViewController
 

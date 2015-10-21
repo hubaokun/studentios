@@ -121,7 +121,6 @@
 		3179E6BA1AC2B0BA00AFCFAA /* ComplaintViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3179E6B81AC2B0BA00AFCFAA /* ComplaintViewController.xib */; };
 		3179E6BE1AC2B0CB00AFCFAA /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3179E6BC1AC2B0CB00AFCFAA /* SettingViewController.m */; };
 		3179E6BF1AC2B0CB00AFCFAA /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3179E6BD1AC2B0CB00AFCFAA /* SettingViewController.xib */; };
-		31824AA31B037EAD001AF41A /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 31824AA21B037EAD001AF41A /* mapapi.bundle */; };
 		31824AA71B039490001AF41A /* DatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31824AA51B039490001AF41A /* DatePickerViewController.m */; };
 		31824AA81B039490001AF41A /* DatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31824AA61B039490001AF41A /* DatePickerViewController.xib */; };
 		318D3EFB1AE1007800FEC417 /* RegistVercodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 318D3EF91AE1007800FEC417 /* RegistVercodeViewController.m */; };
@@ -168,6 +167,14 @@
 		7002F2B81BCF4D180066503A /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7002F2B71BCF4D180066503A /* TencentOpenAPI.framework */; settings = {ASSET_TAGS = (); }; };
 		7002F2C61BCF4DA50066503A /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7002F2BA1BCF4DA50066503A /* libWeiboSDK.a */; settings = {ASSET_TAGS = (); }; };
 		7002F2C71BCF4DA50066503A /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7002F2C31BCF4DA50066503A /* WeiboSDK.bundle */; settings = {ASSET_TAGS = (); }; };
+		7009CF871BD4EC49008A32D8 /* BaiduMapAPI_Base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7009CF801BD4EC49008A32D8 /* BaiduMapAPI_Base.framework */; settings = {ASSET_TAGS = (); }; };
+		7009CF881BD4EC49008A32D8 /* BaiduMapAPI_Cloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7009CF811BD4EC49008A32D8 /* BaiduMapAPI_Cloud.framework */; settings = {ASSET_TAGS = (); }; };
+		7009CF891BD4EC49008A32D8 /* BaiduMapAPI_Location.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7009CF821BD4EC49008A32D8 /* BaiduMapAPI_Location.framework */; settings = {ASSET_TAGS = (); }; };
+		7009CF8A1BD4EC49008A32D8 /* BaiduMapAPI_Map.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7009CF831BD4EC49008A32D8 /* BaiduMapAPI_Map.framework */; settings = {ASSET_TAGS = (); }; };
+		7009CF8B1BD4EC49008A32D8 /* BaiduMapAPI_Radar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7009CF841BD4EC49008A32D8 /* BaiduMapAPI_Radar.framework */; settings = {ASSET_TAGS = (); }; };
+		7009CF8C1BD4EC49008A32D8 /* BaiduMapAPI_Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7009CF851BD4EC49008A32D8 /* BaiduMapAPI_Search.framework */; settings = {ASSET_TAGS = (); }; };
+		7009CF8D1BD4EC49008A32D8 /* BaiduMapAPI_Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7009CF861BD4EC49008A32D8 /* BaiduMapAPI_Utils.framework */; settings = {ASSET_TAGS = (); }; };
+		7009CF8F1BD4F158008A32D8 /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7009CF8E1BD4F158008A32D8 /* mapapi.bundle */; settings = {ASSET_TAGS = (); }; };
 		7010253F1B89A8D200E6EF9E /* CourseTimetableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7010253D1B89A8D200E6EF9E /* CourseTimetableViewController.m */; };
 		701025401B89A8D200E6EF9E /* CourseTimetableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7010253E1B89A8D200E6EF9E /* CourseTimetableViewController.xib */; };
 		702592F01B8C3B980029F19E /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 702592EF1B8C3B980029F19E /* UIView+Frame.m */; };
@@ -479,7 +486,6 @@
 		70E9BE3C1B846CBE00137D86 /* OrderListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70E9BE3A1B846CBE00137D86 /* OrderListTableViewCell.xib */; };
 		70ED4B841B908DF6003DF624 /* XBExameCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 70ED4B831B908DF6003DF624 /* XBExameCity.m */; };
 		70ED4B871B9092D2003DF624 /* XBExame.m in Sources */ = {isa = PBXBuildFile; fileRef = 70ED4B861B9092D2003DF624 /* XBExame.m */; };
-		713694851B4E3CF500F6D573 /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */; };
 		713694971B51627700F6D573 /* OnlineTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 713694951B51627700F6D573 /* OnlineTestViewController.m */; };
 		713694981B51627700F6D573 /* OnlineTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 713694961B51627700F6D573 /* OnlineTestViewController.xib */; };
 		716DB6FE1B7840C3004E532B /* RecommendCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 716DB6FC1B7840C3004E532B /* RecommendCodeViewController.m */; };
@@ -758,7 +764,6 @@
 		3179E6BB1AC2B0CB00AFCFAA /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		3179E6BC1AC2B0CB00AFCFAA /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		3179E6BD1AC2B0CB00AFCFAA /* SettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
-		31824AA21B037EAD001AF41A /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = mapapi.bundle; sourceTree = "<group>"; };
 		31824AA41B039490001AF41A /* DatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerViewController.h; sourceTree = "<group>"; };
 		31824AA51B039490001AF41A /* DatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerViewController.m; sourceTree = "<group>"; };
 		31824AA61B039490001AF41A /* DatePickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerViewController.xib; sourceTree = "<group>"; };
@@ -915,6 +920,14 @@
 		7002F2C31BCF4DA50066503A /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
 		7002F2C41BCF4DA50066503A /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
 		7002F2C51BCF4DA50066503A /* WeiboUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboUser.h; sourceTree = "<group>"; };
+		7009CF801BD4EC49008A32D8 /* BaiduMapAPI_Base.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Base.framework; sourceTree = "<group>"; };
+		7009CF811BD4EC49008A32D8 /* BaiduMapAPI_Cloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Cloud.framework; sourceTree = "<group>"; };
+		7009CF821BD4EC49008A32D8 /* BaiduMapAPI_Location.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Location.framework; sourceTree = "<group>"; };
+		7009CF831BD4EC49008A32D8 /* BaiduMapAPI_Map.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Map.framework; sourceTree = "<group>"; };
+		7009CF841BD4EC49008A32D8 /* BaiduMapAPI_Radar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Radar.framework; sourceTree = "<group>"; };
+		7009CF851BD4EC49008A32D8 /* BaiduMapAPI_Search.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Search.framework; sourceTree = "<group>"; };
+		7009CF861BD4EC49008A32D8 /* BaiduMapAPI_Utils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Utils.framework; sourceTree = "<group>"; };
+		7009CF8E1BD4F158008A32D8 /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = mapapi.bundle; sourceTree = "<group>"; };
 		7010253C1B89A8D200E6EF9E /* CourseTimetableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseTimetableViewController.h; sourceTree = "<group>"; };
 		7010253D1B89A8D200E6EF9E /* CourseTimetableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseTimetableViewController.m; sourceTree = "<group>"; };
 		7010253E1B89A8D200E6EF9E /* CourseTimetableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CourseTimetableViewController.xib; sourceTree = "<group>"; };
@@ -1450,7 +1463,6 @@
 		70ED4B831B908DF6003DF624 /* XBExameCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBExameCity.m; sourceTree = "<group>"; };
 		70ED4B851B9092D2003DF624 /* XBExame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBExame.h; sourceTree = "<group>"; };
 		70ED4B861B9092D2003DF624 /* XBExame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBExame.m; sourceTree = "<group>"; };
-		713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = 3rdparty/BaiduMapAPI.framework; sourceTree = "<group>"; };
 		713694941B51627700F6D573 /* OnlineTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlineTestViewController.h; sourceTree = "<group>"; };
 		713694951B51627700F6D573 /* OnlineTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlineTestViewController.m; sourceTree = "<group>"; };
 		713694961B51627700F6D573 /* OnlineTestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OnlineTestViewController.xib; sourceTree = "<group>"; };
@@ -1576,6 +1588,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7009CF871BD4EC49008A32D8 /* BaiduMapAPI_Base.framework in Frameworks */,
 				708AE5BC1BBA7A5C00B78160 /* libEaseMobClientSDK.a in Frameworks */,
 				7093AD1B1BAFD6E9001CCAD3 /* libxml2.tbd in Frameworks */,
 				A0717E131BA6B4020090DA33 /* Accounts.framework in Frameworks */,
@@ -1591,27 +1604,32 @@
 				3168C9961AD393C400B607C3 /* libsqlite3.dylib in Frameworks */,
 				A0717E091BA6B38D0090DA33 /* CFNetwork.framework in Frameworks */,
 				A0717E071BA6B3820090DA33 /* MobileCoreServices.framework in Frameworks */,
+				7009CF891BD4EC49008A32D8 /* BaiduMapAPI_Location.framework in Frameworks */,
 				B9BD21081B3934FF00B6B7B1 /* AVFoundation.framework in Frameworks */,
 				B9BD21061B3934F100B6B7B1 /* AudioToolbox.framework in Frameworks */,
 				B9BD21041B3934DE00B6B7B1 /* CoreMotion.framework in Frameworks */,
+				7009CF8C1BD4EC49008A32D8 /* BaiduMapAPI_Search.framework in Frameworks */,
 				B9BD21021B3934CA00B6B7B1 /* SceneKit.framework in Frameworks */,
 				70CC16671B6F4EA600084296 /* libMobClickGameLibrary.a in Frameworks */,
+				7009CF8D1BD4EC49008A32D8 /* BaiduMapAPI_Utils.framework in Frameworks */,
 				314F4E171AEA2DF100DD8FC6 /* CoreText.framework in Frameworks */,
+				7009CF8A1BD4EC49008A32D8 /* BaiduMapAPI_Map.framework in Frameworks */,
 				3168C98E1AD3937300B607C3 /* Security.framework in Frameworks */,
 				3168C9941AD393B300B607C3 /* CoreGraphics.framework in Frameworks */,
 				3168C9921AD393A400B607C3 /* SystemConfiguration.framework in Frameworks */,
 				31564F331AD78B9F002DFEA2 /* OpenGLES.framework in Frameworks */,
 				31564F311AD78B98002DFEA2 /* QuartzCore.framework in Frameworks */,
+				7009CF8B1BD4EC49008A32D8 /* BaiduMapAPI_Radar.framework in Frameworks */,
 				31564F2F1AD78B91002DFEA2 /* CoreLocation.framework in Frameworks */,
 				3177FB2A1AD61E98003050A2 /* UIKit.framework in Frameworks */,
 				31C9D8F61AD66E93006A4E80 /* libssl.a in Frameworks */,
 				708AE58F1BBA7A5C00B78160 /* libopencore-amrwb.a in Frameworks */,
-				713694851B4E3CF500F6D573 /* BaiduMapAPI.framework in Frameworks */,
 				3168C99A1AD393E300B607C3 /* libstdc++.dylib in Frameworks */,
 				3168C9981AD393D300B607C3 /* CoreTelephony.framework in Frameworks */,
 				3177FA4C1AD615B3003050A2 /* AlipaySDK.framework in Frameworks */,
 				31C9D8F51AD66E93006A4E80 /* libcrypto.a in Frameworks */,
 				B927D4601B4142610013478E /* PgySDK.framework in Frameworks */,
+				7009CF881BD4EC49008A32D8 /* BaiduMapAPI_Cloud.framework in Frameworks */,
 				3168C9891AD387FE00B607C3 /* TencentOpenAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1633,22 +1651,17 @@
 			isa = PBXGroup;
 			children = (
 				708600521B799E7B00CB09DA /* model */,
-				7010253B1B89A7E600E6EF9E /* appoint(预定课时) */,
+				702308D31BD0F06800205985 /* CoachList(教练列表) */,
 				315067B71AC3DEC1000C1C13 /* cell */,
 				D786FE211B1B387E001DBFDD /* CommentListViewController.h */,
 				D786FE221B1B387E001DBFDD /* CommentListViewController.m */,
 				D786FE231B1B387E001DBFDD /* CommentListViewController.xib */,
-				315067BD1AC3DF06000C1C13 /* CoachListViewController.h */,
-				315067BE1AC3DF06000C1C13 /* CoachListViewController.m */,
-				315067BF1AC3DF06000C1C13 /* CoachListViewController.xib */,
 				314F4E181AEA39F200DD8FC6 /* CoachDetailViewController.h */,
 				314F4E191AEA39F200DD8FC6 /* CoachDetailViewController.m */,
 				314F4E1A1AEA39F200DD8FC6 /* CoachDetailViewController.xib */,
 				314F4E1D1AEA423F00DD8FC6 /* CoachScreenViewController.h */,
 				314F4E1E1AEA423F00DD8FC6 /* CoachScreenViewController.m */,
 				314F4E1F1AEA423F00DD8FC6 /* CoachScreenViewController.xib */,
-				F84840E41B253EB500156CAC /* DNCoach.h */,
-				F84840E51B253EB500156CAC /* DNCoach.m */,
 			);
 			name = "home（地图主页）";
 			sourceTree = "<group>";
@@ -1659,12 +1672,6 @@
 				B9994CBB1B20225900F710DF /* CommentTableViewCell.h */,
 				B9994CBC1B20225900F710DF /* CommentTableViewCell.m */,
 				B9994CBD1B20225900F710DF /* CommentTableViewCell.xib */,
-				315067B81AC3DEF9000C1C13 /* CoachListTableViewCell.h */,
-				315067B91AC3DEF9000C1C13 /* CoachListTableViewCell.m */,
-				315067BA1AC3DEF9000C1C13 /* CoachListTableViewCell.xib */,
-				31608A711AEE3E2F00B0D4D8 /* SureOrderTableViewCell.h */,
-				31608A721AEE3E2F00B0D4D8 /* SureOrderTableViewCell.m */,
-				31608A731AEE3E2F00B0D4D8 /* SureOrderTableViewCell.xib */,
 				B968AF751B1E416B00806043 /* SelectCouponTableViewCell.h */,
 				B968AF761B1E416B00806043 /* SelectCouponTableViewCell.m */,
 				B968AF771B1E416B00806043 /* SelectCouponTableViewCell.xib */,
@@ -1691,7 +1698,6 @@
 				A0717E0A1BA6B3AE0090DA33 /* libstdc++.6.0.9.dylib */,
 				A0717E081BA6B38D0090DA33 /* CFNetwork.framework */,
 				A0717E061BA6B3820090DA33 /* MobileCoreServices.framework */,
-				713694841B4E3CF500F6D573 /* BaiduMapAPI.framework */,
 				B927D45F1B4142610013478E /* PgySDK.framework */,
 				B9BD21071B3934FF00B6B7B1 /* AVFoundation.framework */,
 				B9BD21051B3934F100B6B7B1 /* AudioToolbox.framework */,
@@ -1801,8 +1807,8 @@
 				708AE3261BBA7A5B00B78160 /* huanxinkefu */,
 				70CC16621B6F4EA600084296 /* umsdk_iOS_game_idfa_3.5.10.0 */,
 				708AE3211BBA597100B78160 /* WeixinSDK */,
+				7009CF711BD4EC05008A32D8 /* BaiduMapAPI */,
 				3166B5421B0B43040017C10B /* SwipeView */,
-				31824AA21B037EAD001AF41A /* mapapi.bundle */,
 				376A19C21ADCDC2C004F1FE3 /* TQStarRating */,
 				31C9D8861AD665AD006A4E80 /* AlipaySDK */,
 				375691C01AC922F500223501 /* CPTextViewPlaceholder */,
@@ -2035,15 +2041,16 @@
 		3179E6A11AC2AF8A00AFCFAA /* class */ = {
 			isa = PBXGroup;
 			children = (
-				7198890B1B639C55000940D3 /* XiaobaServe（小巴服务） */,
 				B85CA0731AC3F4E400934B22 /* login（登录） */,
 				315067B61AC3DEAF000C1C13 /* home（地图主页） */,
+				7010253B1B89A7E600E6EF9E /* Appoint(预约课时) */,
 				37994CF51AC3D8EB008E30E5 /* UserInfo（个人信息） */,
 				3179E6A21AC2AFD300AFCFAA /* MyOrder（我的订单） */,
 				3179E6A61AC2B05700AFCFAA /* account（钱包） */,
 				3179E6A51AC2B03F00AFCFAA /* systemMessage（系统消息） */,
-				3179E6A41AC2AFF900AFCFAA /* complaint（投诉） */,
+				7198890B1B639C55000940D3 /* XiaobaServe（小巴服务） */,
 				3179E6A31AC2AFEB00AFCFAA /* setting（设置） */,
+				3179E6A41AC2AFF900AFCFAA /* complaint（投诉） */,
 			);
 			name = class;
 			sourceTree = "<group>";
@@ -2417,9 +2424,26 @@
 			path = libWeiboSDK;
 			sourceTree = "<group>";
 		};
-		7010253B1B89A7E600E6EF9E /* appoint(预定课时) */ = {
+		7009CF711BD4EC05008A32D8 /* BaiduMapAPI */ = {
 			isa = PBXGroup;
 			children = (
+				7009CF8E1BD4F158008A32D8 /* mapapi.bundle */,
+				7009CF801BD4EC49008A32D8 /* BaiduMapAPI_Base.framework */,
+				7009CF811BD4EC49008A32D8 /* BaiduMapAPI_Cloud.framework */,
+				7009CF821BD4EC49008A32D8 /* BaiduMapAPI_Location.framework */,
+				7009CF831BD4EC49008A32D8 /* BaiduMapAPI_Map.framework */,
+				7009CF841BD4EC49008A32D8 /* BaiduMapAPI_Radar.framework */,
+				7009CF851BD4EC49008A32D8 /* BaiduMapAPI_Search.framework */,
+				7009CF861BD4EC49008A32D8 /* BaiduMapAPI_Utils.framework */,
+			);
+			name = BaiduMapAPI;
+			path = SwipeView;
+			sourceTree = "<group>";
+		};
+		7010253B1B89A7E600E6EF9E /* Appoint(预约课时) */ = {
+			isa = PBXGroup;
+			children = (
+				702308D41BD0F48C00205985 /* cell */,
 				3166B5461B0B47290017C10B /* SwipTimeView.xib */,
 				3164850D1AE8E2C300887A18 /* AppointCoachViewController.h */,
 				3164850E1AE8E2C300887A18 /* AppointCoachViewController.m */,
@@ -2431,7 +2455,30 @@
 				31608A6D1AEDFFA600B0D4D8 /* SureOrderViewController.m */,
 				31608A6E1AEDFFA600B0D4D8 /* SureOrderViewController.xib */,
 			);
-			name = "appoint(预定课时)";
+			name = "Appoint(预约课时)";
+			sourceTree = "<group>";
+		};
+		702308D31BD0F06800205985 /* CoachList(教练列表) */ = {
+			isa = PBXGroup;
+			children = (
+				315067BD1AC3DF06000C1C13 /* CoachListViewController.h */,
+				315067BE1AC3DF06000C1C13 /* CoachListViewController.m */,
+				315067BF1AC3DF06000C1C13 /* CoachListViewController.xib */,
+				315067B81AC3DEF9000C1C13 /* CoachListTableViewCell.h */,
+				315067B91AC3DEF9000C1C13 /* CoachListTableViewCell.m */,
+				315067BA1AC3DEF9000C1C13 /* CoachListTableViewCell.xib */,
+			);
+			name = "CoachList(教练列表)";
+			sourceTree = "<group>";
+		};
+		702308D41BD0F48C00205985 /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				31608A711AEE3E2F00B0D4D8 /* SureOrderTableViewCell.h */,
+				31608A721AEE3E2F00B0D4D8 /* SureOrderTableViewCell.m */,
+				31608A731AEE3E2F00B0D4D8 /* SureOrderTableViewCell.xib */,
+			);
+			name = cell;
 			sourceTree = "<group>";
 		};
 		705EAD611B6A4AE900035F76 /* Model */ = {
@@ -2466,6 +2513,8 @@
 		708600521B799E7B00CB09DA /* model */ = {
 			isa = PBXGroup;
 			children = (
+				F84840E41B253EB500156CAC /* DNCoach.h */,
+				F84840E51B253EB500156CAC /* DNCoach.m */,
 				708600531B799EFC00CB09DA /* XBComment.h */,
 				708600541B799EFC00CB09DA /* XBComment.m */,
 			);
@@ -3526,6 +3575,31 @@
 			path = sender_bubble;
 			sourceTree = "<group>";
 		};
+		709CBC461BD759C500C89C97 /* Invalid */ = {
+			isa = PBXGroup;
+			children = (
+				B85CA06E1AC3DE6000934B22 /* RegistViewController.h */,
+				B85CA06F1AC3DE6000934B22 /* RegistViewController.m */,
+				B85CA0701AC3DE6000934B22 /* RegistViewController.xib */,
+				B85CA0741AC3F54E00934B22 /* RegistMsgViewController.h */,
+				B85CA0751AC3F54E00934B22 /* RegistMsgViewController.m */,
+				B85CA0761AC3F54E00934B22 /* RegistMsgViewController.xib */,
+				318D3EF81AE1007800FEC417 /* RegistVercodeViewController.h */,
+				318D3EF91AE1007800FEC417 /* RegistVercodeViewController.m */,
+				318D3EFA1AE1007800FEC417 /* RegistVercodeViewController.xib */,
+				B85242261ACA3EA20032E276 /* BindingViewController.h */,
+				B85242271ACA3EA20032E276 /* BindingViewController.m */,
+				B85242281ACA3EA20032E276 /* BindingViewController.xib */,
+				B9187BE91B09B3C300366081 /* FindPwdViewController.h */,
+				B9187BEA1B09B3C300366081 /* FindPwdViewController.m */,
+				B9187BEB1B09B3C300366081 /* FindPwdViewController.xib */,
+				716DB6FB1B7840C3004E532B /* RecommendCodeViewController.h */,
+				716DB6FC1B7840C3004E532B /* RecommendCodeViewController.m */,
+				716DB6FD1B7840C3004E532B /* RecommendCodeViewController.xib */,
+			);
+			name = Invalid;
+			sourceTree = "<group>";
+		};
 		70CC16621B6F4EA600084296 /* umsdk_iOS_game_idfa_3.5.10.0 */ = {
 			isa = PBXGroup;
 			children = (
@@ -3581,24 +3655,7 @@
 				B85CA0691AC3A04100934B22 /* LoginViewController.h */,
 				B85CA06A1AC3A04100934B22 /* LoginViewController.m */,
 				B85CA06B1AC3A04100934B22 /* LoginViewController.xib */,
-				B85CA06E1AC3DE6000934B22 /* RegistViewController.h */,
-				B85CA06F1AC3DE6000934B22 /* RegistViewController.m */,
-				B85CA0701AC3DE6000934B22 /* RegistViewController.xib */,
-				B85CA0741AC3F54E00934B22 /* RegistMsgViewController.h */,
-				B85CA0751AC3F54E00934B22 /* RegistMsgViewController.m */,
-				B85CA0761AC3F54E00934B22 /* RegistMsgViewController.xib */,
-				318D3EF81AE1007800FEC417 /* RegistVercodeViewController.h */,
-				318D3EF91AE1007800FEC417 /* RegistVercodeViewController.m */,
-				318D3EFA1AE1007800FEC417 /* RegistVercodeViewController.xib */,
-				B85242261ACA3EA20032E276 /* BindingViewController.h */,
-				B85242271ACA3EA20032E276 /* BindingViewController.m */,
-				B85242281ACA3EA20032E276 /* BindingViewController.xib */,
-				B9187BE91B09B3C300366081 /* FindPwdViewController.h */,
-				B9187BEA1B09B3C300366081 /* FindPwdViewController.m */,
-				B9187BEB1B09B3C300366081 /* FindPwdViewController.xib */,
-				716DB6FB1B7840C3004E532B /* RecommendCodeViewController.h */,
-				716DB6FC1B7840C3004E532B /* RecommendCodeViewController.m */,
-				716DB6FD1B7840C3004E532B /* RecommendCodeViewController.xib */,
+				709CBC461BD759C500C89C97 /* Invalid */,
 			);
 			name = "login（登录）";
 			sourceTree = "<group>";
@@ -3737,6 +3794,7 @@
 				708AE5FB1BBA7A5C00B78160 /* VoiceSearchFeedback001.png in Resources */,
 				B86061321AC920EC00555486 /* AboutViewController.xib in Resources */,
 				312D8DBC1AC92B3200EF7546 /* ComplaintTableViewCell.xib in Resources */,
+				7009CF8F1BD4F158008A32D8 /* mapapi.bundle in Resources */,
 				375F9FE81AC5050E00006095 /* ImproveInfoViewController.xib in Resources */,
 				708AE6491BBA7A5C00B78160 /* chatBar_record@2x.png in Resources */,
 				708AE6111BBA7A5C00B78160 /* VoiceSearchFeedback012.png in Resources */,
@@ -3756,7 +3814,6 @@
 				708AE65F1BBA7A5C00B78160 /* chat_receiver_bg.png in Resources */,
 				708AE5D81BBA7A5C00B78160 /* VoiceSearchFeedback009.png in Resources */,
 				31608A751AEE3E2F00B0D4D8 /* SureOrderTableViewCell.xib in Resources */,
-				31824AA31B037EAD001AF41A /* mapapi.bundle in Resources */,
 				708AE5901BBA7A5C00B78160 /* zhaodear604.ipa in Resources */,
 				708AE5DC1BBA7A5C00B78160 /* VoiceSearchFeedback011.png in Resources */,
 				708AE6651BBA7A5C00B78160 /* chat_sender_audio_playing_002.png in Resources */,
@@ -4299,7 +4356,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "ae59d9f8-1c63-426f-94be-ceb76534cc5f";
+				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
@@ -4342,7 +4399,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "ae59d9f8-1c63-426f-94be-ceb76534cc5f";
+				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -4361,6 +4418,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/TencentOpenAPI",
 					"$(PROJECT_DIR)/guangda_student/3rdparty",
+					"$(PROJECT_DIR)/guangda_student/3rdparty/SwipeView",
 				);
 				GCC_PREFIX_HEADER = guangda_student/PrefixHeader.pch;
 				HEADER_SEARCH_PATHS = (
@@ -4388,7 +4446,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ae59d9f8-1c63-426f-94be-ceb76534cc5f";
+				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
 			};
 			name = Debug;
 		};
@@ -4404,6 +4462,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/TencentOpenAPI",
 					"$(PROJECT_DIR)/guangda_student/3rdparty",
+					"$(PROJECT_DIR)/guangda_student/3rdparty/SwipeView",
 				);
 				GCC_PREFIX_HEADER = guangda_student/PrefixHeader.pch;
 				HEADER_SEARCH_PATHS = (
@@ -4431,7 +4490,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ae59d9f8-1c63-426f-94be-ceb76534cc5f";
+				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
 			};
 			name = Release;
 		};

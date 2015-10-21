@@ -27,6 +27,7 @@
     NSInteger _searchPage;   // 检索页
 }
 
+@property (weak, nonatomic) IBOutlet UIView *emptyView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) DSPullToRefreshManager *pullToRefresh;    // 下拉刷新
 @property (strong, nonatomic) DSBottomPullToMoreManager *pullToMore;    // 上拉加载
@@ -112,41 +113,6 @@
     }
 }
 
-#pragma mark - actions
-- (void)setSearchCoachDict:(id)dictionary
-{
-    
-    if (dictionary == nil) {
-        self.allButton.hidden = YES;
-        return;
-    }
-    
-    if ([dictionary isKindOfClass:[NSNotification class]])
-    {
-        NSNotification *notification = (NSNotification *)dictionary;
-        if ([CommonUtil isEmpty:notification.object])
-        {
-            self.allButton.hidden = YES;
-            self.searchParamDic = nil;
-            return;
-        }
-        self.searchParamDic = [NSMutableDictionary dictionaryWithDictionary:notification.object];
-    } else {
-        self.searchParamDic = [NSMutableDictionary dictionaryWithDictionary:dictionary];
-    }
-    
-    NSString *condition3 = self.searchParamDic[@"condition3"];
-    NSString *condition6 = self.searchParamDic[@"condition6"];
-    if([CommonUtil isEmpty:condition3] && [CommonUtil isEmpty:condition6]){
-        self.allButton.hidden = YES;
-    }else{
-        self.allButton.hidden = NO;
-    }
-    
-    [self pullToRefreshTriggered:self.pullToRefresh];
-
-}
-
 #pragma mark - UIPicker
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
@@ -209,6 +175,9 @@
         NSDictionary *coachInfoDict = self.coachList[indexPath.row];
         NSString *avatarStr = [coachInfoDict[@"avatarurl"] description];
         NSString *coachName = coachInfoDict[@"realname"];
+        if ([CommonUtil isEmpty:coachName]) {
+            coachName = @"无名";
+        }
         NSString *coachdetail = coachInfoDict[@"detail"];
         NSString *scoreStr = coachInfoDict[@"score"];
         CGFloat score = [scoreStr floatValue];
@@ -232,7 +201,7 @@
         [self.userLogo sd_setImageWithURL:[NSURL URLWithString:avatarStr] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
         
         // 教练名
-        self.coachRealName.text = [NSString stringWithFormat:@"%@", coachName];
+        self.coachRealName.text = coachName;
         // 设置教练名label长度
         CGFloat realNameStrWidth = [CommonUtil sizeWithString:coachName fontSize:17 sizewidth:MAXFLOAT sizeheight:21].width;
         self.coachNameLabelWidthCon.constant = realNameStrWidth;
@@ -248,29 +217,32 @@
     }
 }
 
-#pragma mark - actions
-- (IBAction)coachDetailsClick:(id)sender
-{
-    CoachDetailViewController *nextController = [[CoachDetailViewController alloc] initWithNibName:@"CoachDetailViewController" bundle:nil];
-        nextController.coachId = self.coachId;
-    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
-    navigationController.navigationBarHidden = YES;
-    [self presentViewController:navigationController animated:YES completion:nil];
-}
-
-- (IBAction)appointCoachClick:(id)sender
-{
-    AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
-    nextController.coachId = self.coachId;
-    nextController.coachInfoDic = self.coachInfoDic;
-    nextController.carModelID = self.carModelID;
-    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
-    navigationController.navigationBarHidden = YES;
-    [self presentViewController:navigationController animated:YES completion:nil];
+#pragma mark - DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [_pullToRefresh tableViewScrolled];
     
+    [_pullToMore relocatePullToMoreView];    // 重置加载更多控件位置
+    [_pullToMore tableViewScrolled];
 }
 
-#pragma mark 小汽车 button 点击事件
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    [_pullToRefresh tableViewReleased];
+    [_pullToMore tableViewReleased];
+}
+
+/* 刷新处理 */
+- (void)pullToRefreshTriggered:(DSPullToRefreshManager *)manager {
+    _searchPage = 0;
+    [self requestGetCoachList];
+}
+
+/* 加载更多 */
+- (void)bottomPullToMoreTriggered:(DSBottomPullToMoreManager *)manager {
+    _searchPage = _searchPage + 1;
+    [self requestGetCoachList];
+}
+
+#pragma mark - Custom
 - (void)carBtnClick
 {
     // 添加底部的教练信息栏
@@ -294,9 +266,6 @@
 
 - (void)closeDetailsView
 {
-    //    for (id objc in self.view.subviews) {
-    //        if ([objc isEqual:self.chooseCoachTimeView]) {
-    
     self.chooseCoachTimeView.frame=CGRectMake(0, SCREEN_HEIGHT - 122, SCREEN_WIDTH, SCREEN_HEIGHT);
     [UIView animateWithDuration:0.5 //时长
                           delay:0 //延迟时间
@@ -311,48 +280,43 @@
                          //动画结束时调用
                          [self.chooseCoachTimeView removeFromSuperview];
                      }];
-    //        }
-    //    }
-//    [self removeCoachHeadControl];
-//    [[SliderViewController sharedSliderController] closeSideBar];
 }
 
-// 移除教练头像control
-- (void)removeCoachHeadControl
+// 添加筛选页面传递过来的条件
+- (void)setSearchCoachDict:(id)dictionary
 {
-    for (id objc in self.view.subviews)
-    {
-        if ([objc isKindOfClass:[UIControl class]])
-        {
-            UIControl *contro = (UIControl *)objc;
-            
-            // tag = 1 为教练头像control
-            if (contro.tag == 1)
-            {
-                [contro removeFromSuperview];
-            }
-        }
-    }
-}
-
-#pragma mark 展开选择教练时间段详情页
-- (void)showCoachTimeClick:(id)sender
-{
-    self.chooseCoachTimeView.frame = CGRectMake(0, SCREEN_HEIGHT-171, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-    [self.view addSubview:self.chooseCoachTimeView];
     
-    [UIView animateWithDuration:0.5 //时长
-                          delay:0 //延迟时间
-                        options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
-                     animations:^{
-                         
-                         //动画设置区域
-                         self.chooseCoachTimeView.frame=CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-                         
-                     } completion:^(BOOL finish){
-                     }];
-
+    if (dictionary == nil) {
+        self.allButton.hidden = YES;
+        return;
+    }
+    
+    if ([dictionary isKindOfClass:[NSNotification class]])
+    {
+        NSNotification *notification = (NSNotification *)dictionary;
+        if ([CommonUtil isEmpty:notification.object])
+        {
+            self.allButton.hidden = YES;
+            self.searchParamDic = nil;
+            return;
+        }
+        self.searchParamDic = [NSMutableDictionary dictionaryWithDictionary:notification.object];
+    } else {
+        self.searchParamDic = [NSMutableDictionary dictionaryWithDictionary:dictionary];
+    }
+    
+    NSString *condition3 = self.searchParamDic[@"condition3"];
+    NSString *condition6 = self.searchParamDic[@"condition6"];
+    if([CommonUtil isEmpty:condition3] && [CommonUtil isEmpty:condition6]){
+        self.allButton.hidden = YES;
+    }else{
+        self.allButton.hidden = NO;
+    }
+    
+    [self pullToRefreshTriggered:self.pullToRefresh];
+    
 }
+
 
 #pragma mark - 接口请求
 - (void)requestGetCoachList
@@ -419,6 +383,11 @@
             if (_searchPage == 0) {
                 [self.coachList removeAllObjects];
                 self.coachList = [responseObject[@"coachlist"] mutableCopy];
+                if (self.coachList.count == 0) {
+                    self.emptyView.hidden = NO;
+                } else {
+                    self.emptyView.hidden = YES;
+                }
             }else{
                 NSArray *array = responseObject[@"coachlist"];
                 [self.coachList addObjectsFromArray:array];
@@ -462,32 +431,7 @@
     }];
 }
 
-#pragma mark - DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [_pullToRefresh tableViewScrolled];
-    
-    [_pullToMore relocatePullToMoreView];    // 重置加载更多控件位置
-    [_pullToMore tableViewScrolled];
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    [_pullToRefresh tableViewReleased];
-    [_pullToMore tableViewReleased];
-}
-
-/* 刷新处理 */
-- (void)pullToRefreshTriggered:(DSPullToRefreshManager *)manager {
-    _searchPage = 0;
-    [self requestGetCoachList];
-}
-
-/* 加载更多 */
-- (void)bottomPullToMoreTriggered:(DSBottomPullToMoreManager *)manager {
-    _searchPage = _searchPage + 1;
-    [self requestGetCoachList];
-}
-
-
+#pragma mark - Actions
 - (IBAction)clickForGoMap:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -499,11 +443,33 @@
     [self presentViewController:nextController animated:YES completion:nil];
     
 }
+
 - (IBAction)clickForAllData:(id)sender {
     self.searchParamDic = nil;
     self.allButton.hidden = YES;
     [self pullToRefreshTriggered:self.pullToRefresh];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ResetCoachDict" object:nil];
+}
+
+- (IBAction)coachDetailsClick:(id)sender
+{
+    CoachDetailViewController *nextController = [[CoachDetailViewController alloc] initWithNibName:@"CoachDetailViewController" bundle:nil];
+    nextController.coachId = self.coachId;
+    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
+    navigationController.navigationBarHidden = YES;
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
+
+- (IBAction)appointCoachClick:(id)sender
+{
+    AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
+    nextController.coachId = self.coachId;
+    nextController.coachInfoDic = self.coachInfoDic;
+    nextController.carModelID = self.carModelID;
+    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
+    navigationController.navigationBarHidden = YES;
+    [self presentViewController:navigationController animated:YES completion:nil];
+    
 }
 
 #pragma mark - 废弃
@@ -527,6 +493,41 @@
 //
 //}
 
+//#pragma mark 展开选择教练时间段详情页
+//- (void)showCoachTimeClick:(id)sender
+//{
+//    self.chooseCoachTimeView.frame = CGRectMake(0, SCREEN_HEIGHT-171, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+//    [self.view addSubview:self.chooseCoachTimeView];
+//
+//    [UIView animateWithDuration:0.5 //时长
+//                          delay:0 //延迟时间
+//                        options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
+//                     animations:^{
+//
+//                         //动画设置区域
+//                         self.chooseCoachTimeView.frame=CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+//
+//                     } completion:^(BOOL finish){
+//                     }];
+//
+//}
 
+// 移除教练头像control
+//- (void)removeCoachHeadControl
+//{
+//    for (id objc in self.view.subviews)
+//    {
+//        if ([objc isKindOfClass:[UIControl class]])
+//        {
+//            UIControl *contro = (UIControl *)objc;
+//
+//            // tag = 1 为教练头像control
+//            if (contro.tag == 1)
+//            {
+//                [contro removeFromSuperview];
+//            }
+//        }
+//    }
+//}
 
 @end

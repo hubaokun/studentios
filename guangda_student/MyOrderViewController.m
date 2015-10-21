@@ -15,7 +15,6 @@
 #import "AppDelegate.h"
 #import "DSPullToRefreshManager.h"
 #import "DSBottomPullToMoreManager.h"
-#import <BaiduMapAPI/BMapKit.h>
 #import "DSButton.h"
 #import "AppointCoachViewController.h"
 #import "LoginViewController.h"
@@ -881,6 +880,17 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
 // 确认取消订单
 - (IBAction)clickForSureCancelOrder:(UIButton *)sender {
     [self postCancelOrder];
+}
+
+// 确认取消订单
+- (IBAction)backClick:(id)sender {
+    if (self.comeFrom == 1) {
+        NSUInteger index = self.navigationController.viewControllers.count;
+        index -= 3;
+        [self.navigationController popToViewController:self.navigationController.viewControllers[index] animated:YES];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 @end

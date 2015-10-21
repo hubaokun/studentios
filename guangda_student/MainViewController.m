@@ -9,7 +9,6 @@
 #import "MainViewController.h"
 #import "SliderViewController.h"
 #import "CoachListViewController.h"
-#import <BaiduMapAPI/BMapKit.h>
 #import "MyAnimatedAnnotationView.h"
 #import "UIImageView+WebCache.h"
 #import "AppointCoachViewController.h"
@@ -19,7 +18,6 @@
 #import "UserBaseInfoViewController.h"
 #import "XiaobaServeViewController.h"
 #import "ImproveInfoViewController.h"
-#import "RecommendCodeViewController.h"
 #import "SignUpViewController.h"
 #import "XBSchool.h"
 
@@ -36,6 +34,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 @property (strong, nonatomic) BMKMapView *mapView;
 @property (strong, nonatomic) BMKUserLocation *userLocation;
 @property (strong, nonatomic) MyAnimatedAnnotationView *selectedCar;// 选中的汽车
+@property (assign, nonatomic) BOOL selectedCarIsFree;              // 选中的汽车是不是体验课
 @property (weak, nonatomic) IBOutlet UIButton *screenBtn;           // 筛选按钮
 @property (strong, nonatomic) IBOutlet UIButton *allBtn;            // 全部按钮
 
@@ -478,7 +477,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 }
 
 // 添加标注
-- (void)addAnnotationAtLongitude:(NSString *)longitude latitude:(NSString *)latitude andTag:(NSString *)tag
+- (void)addAnnotationAtLongitude:(NSString *)longitude latitude:(NSString *)latitude andTag:(int)tag
 {
     BMKPointAnnotation *annotation = [[BMKPointAnnotation alloc] init];
     
@@ -487,7 +486,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     coor.latitude = [latitude floatValue];
     coor.longitude = [longitude floatValue];
     annotation.coordinate = coor;
-    annotation.title = tag;
+    annotation.title = [NSString stringWithFormat:@"%d", tag];
     [_mapView addAnnotation:annotation];
     [self.annotationsList addObject:annotation];
 }
@@ -502,11 +501,20 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     if (annotationView == nil)
     {
         annotationView = [[MyAnimatedAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID];
-        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ico_cargr"]];
+        UIImage *image = [UIImage imageNamed:@"ico_cargr"];
         annotationView.annotationImageView.image = image;
     }
     
     annotationView.annotationButton.tag = [annotation.title intValue];
+    // 如果该教练开了体验课
+    if (self.coachList.count > 0) {
+        NSDictionary *coachDict = self.coachList[[annotation.title intValue]];
+        int freeCourseState = [coachDict[@"freecoursestate"] intValue];
+        if (freeCourseState) {
+            annotationView.annotationImageView.image = [UIImage imageNamed:@"ico_carfree"];
+        }
+    }
+    
     [annotationView.annotationButton addTarget:self action:@selector(carBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     return annotationView;
@@ -715,7 +723,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
                 NSDictionary *coachDic = self.coachList[i];
                 NSString *longitude = coachDic[@"longitude"];
                 NSString *latitude = coachDic[@"latitude"];
-                [self addAnnotationAtLongitude:longitude latitude:latitude andTag:[NSString stringWithFormat:@"%d", i]];
+                [self addAnnotationAtLongitude:longitude latitude:latitude andTag:i];
             }
             
         }else{
@@ -900,12 +908,13 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     }
     NSString *avatarStr = [_coachDic[@"avatarurl"] description];
     NSString *realName = [_coachDic[@"realname"] description];
+    if (realName == nil) {
+        realName = @"无名";
+    }
     NSMutableString *address = [[NSMutableString alloc] initWithString:@"练车地点:"] ;//[_coachDic[@"detail"] description];
     [address appendString:[_coachDic[@"detail"] description]];
     CGFloat starScore = [_coachDic[@"score"] floatValue];
     int gender = [_coachDic[@"gender"] intValue];
-    
-    
     
     // 教练头像
     [self.userLogo sd_setImageWithURL:[NSURL URLWithString:avatarStr] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
@@ -980,7 +989,15 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     
     // 改变汽车图标状态
     MyAnimatedAnnotationView *carView = (MyAnimatedAnnotationView *)button.superview;
-    UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_carselected"]];
+    int freeCourseState = [self.coachDic[@"freecoursestate"] intValue];
+    UIImage *image = nil;
+    if (freeCourseState) {
+        image = [UIImage imageNamed:@"ico_carfree_select"];
+        self.selectedCarIsFree = YES;
+    } else {
+        image = [UIImage imageNamed:@"icon_carselected"];
+        self.selectedCarIsFree = NO;
+    }
     carView.annotationImageView.image = image;
     self.selectedCar = carView;
 }
@@ -1010,7 +1027,12 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     
     // 改变汽车图标状态
     if (self.selectedCar) {
-        UIImage *originImage = [UIImage imageNamed:[NSString stringWithFormat:@"ico_cargr"]];
+        UIImage *originImage = nil;
+        if (self.selectedCarIsFree == YES) {
+            originImage = [UIImage imageNamed:@"ico_carfree"];
+        } else {
+            originImage = [UIImage imageNamed:@"ico_cargr"];
+        }
         self.selectedCar.annotationImageView.image = originImage;
     }
 }

@@ -54,7 +54,7 @@
 
 @property (strong, nonatomic) DNCoach *coach;
 @property (strong, nonatomic) UIView *coachTimeContentView;
-@property (strong, nonatomic) NSMutableArray *timeMutableList;      // 时间点数据数组 用于存储各个时间点的数据 单价、科目、时间
+//@property (strong, nonatomic) NSMutableArray *timeMutableList;      // 时间点数据数组 用于存储各个时间点的数据 单价、科目、时间
 @property (strong, nonatomic) IBOutlet UILabel *noTimeSelectedLabel;// 你还未选择任何时间 label
 @property (strong, nonatomic) IBOutlet UIView *timePriceView;       // 小时数和价格label 的 view
 @property (strong, nonatomic) IBOutlet UILabel *timeNumLabel;       // 已选择的小时数量
@@ -69,6 +69,9 @@
 @property (strong, nonatomic) NSMutableArray *dateTimeSelectedList;     // 被选中的时间点的列表  用于传递到下一个界面生成订单
 
 @property (strong, nonatomic) CourseTimetableViewController *curVC;
+
+@property (assign, nonatomic) BOOL hasFreeCourse; // 是否已选中一节体验课
+@property (assign, nonatomic) BOOL hasAuthority;  // 是否有预约体验课的权限
 
 @end
 
@@ -270,10 +273,10 @@
 {
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     
-    AppDelegate *appdelegate = [UIApplication sharedApplication].delegate;
-    NSString *userId = appdelegate.userid;
-    if (userId) {
-        [paramDic setObject:userId forKey:@"studentid"];
+    AppDelegate *appdelegate = APP_DELEGATE;
+    NSString *studentID = appdelegate.userid;
+    if (studentID) {
+        [paramDic setObject:studentID forKey:@"studentid"];
     }
     [paramDic setObject:_coachId forKey:@"coachid"];
     [paramDic setObject:self.nowSelectedDate forKey:@"date"];
@@ -298,12 +301,11 @@
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        [DejalBezelActivityView removeViewAnimated:YES];
+//        [DejalBezelActivityView removeViewAnimated:YES];
   
         if ([responseObject[@"code"] integerValue] == 1) {
             // 教练当天是否有开课
             [self remindTapConfig:responseObject];
-//            self.dateList = responseObject[@"datelist"];
             CourseTimetableViewController *curVC = self.childViewControllers[_pageIndex];
             self.curVC = curVC;
             NSArray *dataList = responseObject[@"datelist"];
@@ -317,8 +319,43 @@
             if ([self.carModelID isEqualToString:@"19"]) { // 陪驾
                 NSDictionary *dict = dataList.firstObject;
                 self.rentalFeePerHour = [dict[@"cuseraddtionalprice"] intValue];
-                NSLog(@"rentalFeePerHour = %d", self.rentalFeePerHour);
+//                NSLog(@"rentalFeePerHour = %d", self.rentalFeePerHour);
             }
+            
+            if (studentID) {
+                [self requestAthority:studentID];
+            }
+            
+        }else{
+            NSString *message = responseObject[@"message"];
+            [self makeToast:message];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [DejalBezelActivityView removeViewAnimated:YES];
+        [self makeToast:ERR_NETWORK];
+    }];
+}
+
+// 是否有预约体验课的权限
+- (void)requestAthority:(NSString *)studentID
+{
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    [paramDic setObject:studentID forKey:@"studentid"];
+    
+    NSString *uri = @"/suser?action=GETFREECOURSESTATE";
+    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
+    
+//    [DejalBezelActivityView activityViewForView:self.view];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        [DejalBezelActivityView removeViewAnimated:YES];
+        
+        if ([responseObject[@"code"] integerValue] == 1) {
+            self.hasAuthority = [responseObject[@"freecoursestate"] boolValue];
         }else{
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
@@ -480,6 +517,20 @@
     
 }
 
+// 判断是否已经选了体验课
+- (BOOL)ifHasFreeCourse {
+    self.hasFreeCourse = NO;
+    for (NSDictionary *hourDict in self.dateTimeSelectedList) {
+        NSArray *timeData = hourDict[@"times"];
+        if ([timeData.firstObject[@"freecoursestate"] intValue]) {
+            self.hasFreeCourse = YES;
+        }
+    }
+    return self.hasFreeCourse;
+}
+
+
+
 #pragma mark - CourseTimetableViewControllerDelegate
 - (void)timeSelect:(DSButton *)sender
 {
@@ -488,14 +539,33 @@
         [self.navigationController pushViewController:viewController animated:YES];
         return;
     }
-    DSButton *button = (DSButton *)sender;
-    button.selected = !button.selected;
     
-    if (self.dateTimeSelectedList.count == 6 && button.selected) {
+    DSButton *button = (DSButton *)sender;
+    
+    // 判断是否是体验课
+    NSMutableDictionary *dateDic = sender.data;
+    int isFreeCourse = [dateDic[@"isfreecourse"] intValue];
+    if (isFreeCourse) {
+        if (self.hasAuthority == NO) {
+            [self makeToast:@"您不是新用户，不能预约体验课。"];
+            return;
+        }
+        if ([self ifHasFreeCourse] && button.selected == NO) {
+            button.selected = NO;
+            [self makeToast:@"您只能预约一节免费体验课。"];
+            return;
+        }
+    }
+    
+    // 最多只能选6节课
+    if (self.dateTimeSelectedList.count == 6 && button.selected == NO) {
         [self makeToast:@"抱歉，您一天最多只能预定6小时课程"];
-        button.selected = !button.selected;
         return;
     }
+    
+    button.selected = !button.selected;
+    
+    
     // 计算总价
     if (button.selected) {
         _priceSum += [button.value floatValue];
@@ -504,10 +574,10 @@
         _priceSum -= [button.value floatValue];
         _timeNum--;
     }
-    if (_priceSum < 0 || _timeNum == 0)
-    {
-        _priceSum = 0;
-    }
+//    if (_priceSum < 0 || _timeNum == 0)
+//    {
+//        _priceSum = 0;
+//    }
     
     // 隐藏科目和价格
     for (id objc in button.superview.subviews) {
@@ -520,7 +590,7 @@
     }
     
     // 控制各控件的显示/隐藏
-    if (_priceSum > 0 && _timeNum > 0) {
+    if (_timeNum > 0) {
         self.timeNumLabel.text = [NSString stringWithFormat:@"已选择%d个小时", _timeNum];
         self.priceSumLabel.text = [NSString stringWithFormat:@"合计%.2f元", _priceSum];
         self.sureAppointBtn.enabled = YES;
@@ -533,7 +603,7 @@
     }
     
     
-    // 清空之前存储的同一天的数据
+    // 清空之前存储的该天的数据
     NSMutableArray *removeNum = [NSMutableArray array];
     for (int i = 0; i < self.dateTimeSelectedList.count; i++) {
         NSDictionary *dic = self.dateTimeSelectedList[i];
@@ -608,11 +678,12 @@
             }
         }
     }
-#warning sssss
+
     if (isTwoHours) {
         [self makeToast:[NSString stringWithFormat:@"连续上课两小时很累，慎重考虑哦亲"]];
     }
     
+    // 生成self.dateTimeSelectedList
     for (int i = 0; i < self.curVC.timeMutableList.count; i++) {
         
         // 取出本地的时间点按钮字典
@@ -627,6 +698,9 @@
             
             NSString *time = timeLabel.text;
             NSString *price = priceLabel.text;
+            if ([price isEqualToString:@"免费"]) {
+                price = @"0";
+            }
             NSString *addressDetail = button.name;
             NSString *subject = subjectLabel.text;
             if (!price) {
@@ -639,12 +713,19 @@
                 subject = @" ";
             }
             
+            NSString *freeCourseState = @"0";
+            NSMutableDictionary *timeData = timeButton.data;
+            if ([timeData[@"isfreecourse"] intValue]) {
+                freeCourseState = @"1";
+            }
+            
             // 存储时间、价格等信息
             NSMutableDictionary *timePriceDic = [NSMutableDictionary dictionary];
             [timePriceDic setObject:time forKey:@"time"];
             [timePriceDic setObject:price forKey:@"price"];
             [timePriceDic setObject:addressDetail forKey:@"addressdetail"];
             [timePriceDic setObject:subject forKey:@"subject"];
+            [timePriceDic setObject:freeCourseState forKey:@"freecoursestate"];
             if ([self.carModelID isEqualToString:@"19"]) { // 陪驾
                 // 教练车租赁费
                 [timePriceDic setObject:[NSNumber numberWithInt:self.rentalFeePerHour] forKey:@"cuseraddtionalprice"];

@@ -474,17 +474,17 @@
                 [self uploadDeviceToken:delegate.deviceToken];
             }
             
-            if (isInvited == 1) {    //1代表未被邀请，0代表已被邀请
-                RecommendCodeViewController *nextController = [[RecommendCodeViewController alloc] initWithNibName:@"RecommendCodeViewController" bundle:nil];
-                if (self.comeFrom == 1) {
-                    nextController.popType = 1;
-                    [self.navigationController popViewControllerAnimated:NO];
-                }
+//            if (isInvited == 1) {    //1代表未被邀请，0代表已被邀请
+//                RecommendCodeViewController *nextController = [[RecommendCodeViewController alloc] initWithNibName:@"RecommendCodeViewController" bundle:nil];
+//                if (self.comeFrom == 1) {
+//                    nextController.popType = 1;
+//                    [self.navigationController popViewControllerAnimated:NO];
+//                }
                 
-                [self.navigationController pushViewController:nextController animated:YES];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"loginSuccess" object:nil];
-                return;
-            }
+//                [self.navigationController pushViewController:nextController animated:YES];
+//                [[NSNotificationCenter defaultCenter] postNotificationName:@"loginSuccess" object:nil];
+//                return;
+//            }
             
             if(isregister == 0){
                 if (self.comeFrom == 1) {

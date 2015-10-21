@@ -14,7 +14,10 @@
 #define REQUEST_HOST   @"http://120.25.236.228/dadmin/"       // 测试服务器
 //#define REQUEST_HOST   @"http://192.168.1.103:8080/"       // 胡博
 //#define REQUEST_HOST   @"http://192.168.1.188:8080/xb/"       // 卢磊
-//#define REQUEST_HOST   @"http://192.168.1.88:8080/xiaoba/"   // 佳瑞
+//#define REQUEST_HOST   @"http://192.168.1.88:8080/xiaoba/"   // 佳瑞1
+//#define REQUEST_HOST   @"http://192.168.1.88:8080/guangda/"   // 佳瑞2
+//#define REQUEST_HOST   @"http://192.168.1.53:8080/xb/"   // 冯彦
+//#define REQUEST_HOST   @"http://192.168.1.52:8080/xb/"   // 饶宏
 // 道顺
 //#define REQUEST_HOST   @"http://192.168.1.113:8080/guangda/"
 //#define REQUEST_HOST   @"http://127.0.0.1:8080/guangda"   // 凯哥
@@ -34,8 +37,8 @@
 #define kAppSecret_Weixin       @"56ba2549a60c5d5ffaf6eeb036d26f5f"
 #define WeixinLogin             @"WeixinLogin"
 //百度 AppKey
-//#define kAppKey_Baidu           @"hLR2f2QZeTDuE2g7rFLVo0bc"    //微信版
-#define kAppKey_Baidu           @"tf3pVGsiRgGMBjxnaefjNlIt"  //appstore
+#define kAppKey_Baidu           @"hLR2f2QZeTDuE2g7rFLVo0bc"    //微信版
+//#define kAppKey_Baidu           @"tf3pVGsiRgGMBjxnaefjNlIt"  //appstore
 //蒲公英
 #define PGY_APPKEY              @"a3c621d83ef41c7a790a7c070062a9d3"
 //坤哥的id 37e76e809d2b7fc7612e14201e55b79a

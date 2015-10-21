@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "SliderViewController.h"
 #import "SideBarViewController.h"
-#import <BaiduMapAPI/BMapKit.h>
-#import <BaiduMapAPI/BMKMapManager.h>
-#import <BaiduMapAPI/BMKMapView.h>
-#import <BaiduMapAPI/BMKLocationService.h>
+#import <BaiduMapAPI_Base/BMKBaseComponent.h>
+#import <BaiduMapAPI_Map/BMKMapComponent.h>
+#import <BaiduMapAPI_Location/BMKLocationComponent.h>
+#import <BaiduMapAPI_Cloud/BMKCloudSearchComponent.h>
+#import <BaiduMapAPI_Radar/BMKRadarComponent.h>
+#import <BaiduMapAPI_Search/BMKSearchComponent.h>
+#import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
 #import "OpenUDID.h"
 
 #define APP_DELEGATE ([UIApplication sharedApplication].delegate)

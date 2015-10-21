@@ -11,7 +11,7 @@
 #import "MyOrderEvaluationViewController.h"
 #import "GuangdaCoach.h"
 #import "TQStarRatingView.h"
-#import <BaiduMapAPI/BMapKit.h>
+#import "AppDelegate.h"
 #import "AppointCoachViewController.h"
 #import "LoginViewController.h"
 
@@ -420,8 +420,11 @@
     CGFloat y = 0;
     for (int i = 0; i < priceArray.count; i++) {
         // 获取数据
-        NSDictionary *hourDict = priceArray[i];
-        NSString *subjectStr = hourDict[@"subject"];
+//        NSDictionary *hourDict = priceArray[i];
+        NSString *subjectStr = self.order.subjectName;
+        if ([self.order.courseType isEqualToString:@"5"]) { // 是体验课
+            subjectStr = [NSString stringWithFormat:@"%@%@", subjectStr, @"免费体验课"];
+        }
         if (self.order.needCar) {
             subjectStr = [NSString stringWithFormat:@"%@ (教练提供训练用车)", subjectStr];
         }

@@ -30,6 +30,7 @@
 //    [self printBtnState];
 }
 
+// 打印每个时间点的状态（测试用）
 - (void)printBtnState {
     for (NSDictionary *dict in self.timeMutableList) {
         UILabel *timeLabel = dict[@"timeLabel"];
@@ -186,11 +187,23 @@
         priceLabel.tag = 3;
         [pointView addSubview:priceLabel];
         
+        // 体验角标
+        UIImageView *freeIcon = [[UIImageView alloc] init];
+        [pointView addSubview:freeIcon];
+        freeIcon.width = 23 * _bili;
+        freeIcon.height = 20 * _bili;
+        freeIcon.x = pointView.width - freeIcon.width;
+        freeIcon.y = 0;
+        freeIcon.tag = 4;
+        freeIcon.image = [UIImage imageNamed:@"ico_free"];
+        freeIcon.hidden = YES;
+        
         NSMutableDictionary *timeDic = [NSMutableDictionary dictionary];
         [timeDic setObject:pointLabel forKey:@"timeLabel"];
         [timeDic setObject:classLabel forKey:@"classLabel"];
         [timeDic setObject:priceLabel forKey:@"priceLabel"];
         [timeDic setObject:button forKey:@"button"];
+        [timeDic setObject:freeIcon forKey:@"freeIcon"];
         
         [self.timeMutableList addObject:timeDic];
         //        NSLog(@"timeMutableList=== %@", _timeMutableList);
@@ -204,38 +217,41 @@
     }
 }
 
-// 配置时刻表
+// 根据接口取得的信息list配置时刻表
 - (void)timeTableConfig
 {
     CGFloat _width = (SCREEN_WIDTH - 60 - 28) / 4;
     float _bili = SCREEN_WIDTH / 320;     // 比例
     
+    // 遍历开课信息list
     for (int i = 0; i < self.dateList.count; i++) {
-        NSDictionary *dateDic = [self.dateList objectAtIndex:i];        // 接口取到的数据
-        NSMutableDictionary *timeDic = [[self.timeMutableList objectAtIndex:i] mutableCopy]; // 本地存储的时间点的dic
+        NSDictionary *dateDic = [self.dateList objectAtIndex:i];
+        NSMutableDictionary *timeDic = [[self.timeMutableList objectAtIndex:i] mutableCopy];
         
         NSString *subjectName = [dateDic[@"subject"] description];
         NSString *price = [dateDic[@"price"] description];
         int isRest = [dateDic[@"isrest"] intValue];
         NSString *isBooked = [dateDic[@"isbooked"] description];
+        int isFreeCourse = [dateDic[@"isfreecourse"] intValue];
         
-        // 本地时间点view内的控件
+        // 取出该时间点view内的控件
         UILabel *timeLabel = timeDic[@"timeLabel"];
         UILabel *classLabel = timeDic[@"classLabel"];
         UILabel *priceLabel = timeDic[@"priceLabel"];
         DSButton *button = timeDic[@"button"];
-        
-        // 是否已经过期
-        NSString *passTimeStr = [dateDic[@"pasttime"] description];
-        int passedTime = [passTimeStr intValue];
-        
         button.name = dateDic[@"addressdetail"];
+        button.data = [NSMutableDictionary dictionaryWithDictionary:dateDic];
+        UIImageView *freeIcon = timeDic[@"freeIcon"];
+        freeIcon.hidden = YES;
         
         if (isRest == 0) {
             // 不休息
             timeLabel.textColor = [UIColor whiteColor];
             classLabel.text = subjectName;
             priceLabel.text = [NSString stringWithFormat:@"%.1f元", [price floatValue]];
+            if (isFreeCourse) {
+                priceLabel.text = @"免费";
+            }
             button.enabled = YES;
             button.value = price;
             priceLabel.textColor = RGB(52, 136, 153);
@@ -246,8 +262,7 @@
                 classLabel.textColor = RGB(255, 127, 17);
             }
             
-            if ([isBooked isEqualToString:@"1"]) {//教练被别人预约
-                // 被预约了
+            if ([isBooked isEqualToString:@"1"]) { //教练被别人预约
                 timeLabel.textColor = RGB(179, 179, 179);
                 classLabel.text = nil;
                 priceLabel.text = @"教练已被\n别人预约";
@@ -257,8 +272,8 @@
                 button.enabled = NO;
                 button.selected = NO;
                 priceLabel.hidden = NO;
-            }else if ([isBooked isEqualToString:@"2"]) {//教练被自己预约
-                // 已有课程
+            }
+            else if ([isBooked isEqualToString:@"2"]) { //教练被自己预约
                 timeLabel.textColor = RGB(179, 179, 179);
                 classLabel.text = nil;
                 priceLabel.text = @"您已预约\n这个教练";
@@ -270,7 +285,8 @@
                 button.selected = NO;
                 priceLabel.hidden = NO;
                 
-            }else if([isBooked isEqualToString:@"3"]){
+            }
+            else if ([isBooked isEqualToString:@"3"]){ // 该时刻自己已预约其他教练
                 timeLabel.textColor = RGB(179, 179, 179);
                 classLabel.text = nil;
                 priceLabel.text = @"您已预约\n其他教练";
@@ -281,17 +297,23 @@
                 button.enabled = NO;
                 button.selected = NO;
                 priceLabel.hidden = NO;
-            }else{
+            }
+            // 可以预约该时刻
+            else {
                 button.enabled = YES;
                 priceLabel.frame = CGRectMake(0, 45*_bili, _width, 13);
-                // 时间已过期
-                if (passedTime == 1) {
+                // 判断课程是否已经过期
+                int passedTime = [dateDic[@"pasttime"] intValue];
+                if (passedTime == 1) { // 已过期
                     button.enabled = NO;
                     timeLabel.textColor = RGB(179, 179, 179);
                     priceLabel.textColor = RGB(179, 179, 179);
                     classLabel.textColor = RGB(179, 179, 179);
                 }else{
                     button.enabled = YES;
+                }
+                if (isFreeCourse) {
+                    freeIcon.hidden = NO;
                 }
             }
             
@@ -311,7 +333,7 @@
     }
 }
 
-// 重置按钮状态
+// 将所有按钮置为未选中
 - (void)deselectedAllButton
 {
     // 刷新按钮的状态
@@ -323,13 +345,13 @@
     }
 }
 
-// 根据数据选择按钮
+// 根据已选课程list选中那些按钮
 - (void)resetSelectedButton
 {
     for (int i = 0; i < self.dateTimeSelectedList.count; i++)
     {
         NSDictionary *timeDiction = self.dateTimeSelectedList[i];
-        NSString *dateSelected = timeDiction[@"date"];  // 被选中的日期
+        NSString *dateSelected = timeDiction[@"date"];  // 已选课程的日期
         if ([dateSelected isEqualToString:self.nowSelectedDate])
         {
             NSArray *timeArray = timeDiction[@"times"];
@@ -338,10 +360,11 @@
                 NSDictionary *timesDic = timeArray[j];
                 NSString *timeStr = timesDic[@"time"];  // 被选中的时间点
                 
-                for (int k = 0; k < self.timeMutableList.count; k++)
+                for (int k = 0; k < self.timeMutableList.count; k++) // 遍历当天每个时间点
                 {
                     NSDictionary *timeDic = [self.timeMutableList objectAtIndex:k]; // 本地存储的时间点的dic
                     UILabel *timeLabel = timeDic[@"timeLabel"];
+                    // 将对应的时间点按钮置为选中
                     if ([timeLabel.text isEqualToString:timeStr])
                     {
                         DSButton *button = timeDic[@"button"];
