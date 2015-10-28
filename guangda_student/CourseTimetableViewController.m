@@ -309,8 +309,10 @@
                     timeLabel.textColor = RGB(179, 179, 179);
                     priceLabel.textColor = RGB(179, 179, 179);
                     classLabel.textColor = RGB(179, 179, 179);
+                    freeIcon.alpha = 0.3;
                 }else{
                     button.enabled = YES;
+                    freeIcon.alpha = 1;
                 }
                 if (isFreeCourse) {
                     freeIcon.hidden = NO;

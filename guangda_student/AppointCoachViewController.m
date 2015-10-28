@@ -301,7 +301,7 @@
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-//        [DejalBezelActivityView removeViewAnimated:YES];
+        [DejalBezelActivityView removeViewAnimated:YES];
   
         if ([responseObject[@"code"] integerValue] == 1) {
             // 教练当天是否有开课
@@ -346,7 +346,7 @@
     NSString *uri = @"/suser?action=GETFREECOURSESTATE";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
     
-//    [DejalBezelActivityView activityViewForView:self.view];
+    [DejalBezelActivityView activityViewForView:self.view];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
