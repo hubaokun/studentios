@@ -60,6 +60,7 @@
 // 颜色
 #define CUSTOM_RED RGB(247,100,92)
 #define CUSTOM_BLUE RGB(110,197,217)
+#define CUSTOM_GREEN RGB(80, 203, 140)
 
 #endif
 

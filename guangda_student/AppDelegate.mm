@@ -15,7 +15,6 @@
 //#import "AlixPayResult.h"
 //#import "PartnerConfig.h"
 //#import "DataVerifier.h"
-#import "MainViewController.h"
 #import <PgySDK/PgyManager.h>
 #import "MobClick.h"
 #import "UIImageView+WebCache.h"

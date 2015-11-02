@@ -10,7 +10,6 @@
 #import "GuangdaCoach.h"
 
 #define CUSTOM_GREY RGB(60, 60, 60)
-#define CUSTOM_GREEN RGB(80, 203, 140)
 #define BORDER_WIDTH 0.7
 
 @interface OrderListTableViewCell ()

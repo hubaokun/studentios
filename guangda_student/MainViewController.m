@@ -19,16 +19,18 @@
 #import "XiaobaServeViewController.h"
 #import "ImproveInfoViewController.h"
 #import "SignUpViewController.h"
+#import "TabBarView.h"
 #import "XBSchool.h"
 
 #define ZOOM_LEVEL 14.5 // 地图缩放级别
 
 static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 
-@interface MainViewController ()<UIGestureRecognizerDelegate, BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationServiceDelegate>
+@interface MainViewController ()<UIGestureRecognizerDelegate, BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationServiceDelegate, TabBarViewDelegate>
 {
     BMKLocationService *_locService;
     int _actFlag; // 活动类型 0:不显示 1:跳转到url 2:内部功能
+    NSUInteger _itemIndex; // 0：小巴题库 1：小巴学车 2：小巴陪驾 3：小巴服务 初始值为1
 }
 
 @property (strong, nonatomic) BMKMapView *mapView;
@@ -44,6 +46,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 
 @property (strong, nonatomic) NSArray *coachList;                   // 教练列表
 @property (strong, nonatomic) NSMutableArray *annotationsList;      // 标注数组
+@property (strong, nonatomic) XiaobaServeViewController *serveVC;   // 小巴服务页面
 
 // 教练详细信息
 @property (strong, nonatomic) IBOutlet UIView *coachInfoView;       // 教练信息view
@@ -59,14 +62,19 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 @property (strong, nonatomic) NSString *coachId;                    // 教练ID
 
 // 底部的车型view
-@property (weak, nonatomic) IBOutlet UIScrollView *carModelScrollView;
-@property (strong, nonatomic) IBOutlet UIView *footView;
-@property (strong, nonatomic) NSMutableArray *carModelImageViewList;
-@property (strong, nonatomic) NSMutableArray *carModelLabelList;
-@property (strong, nonatomic) UIImageView *selectedCarModelImageView;
-@property (strong, nonatomic) UILabel *selectedCarModelLabel;
+//@property (weak, nonatomic) IBOutlet UIScrollView *carModelScrollView;
+//@property (strong, nonatomic) IBOutlet UIView *footView;
+//@property (strong, nonatomic) NSMutableArray *carModelImageViewList;
+//@property (strong, nonatomic) NSMutableArray *carModelLabelList;
+//@property (strong, nonatomic) UIImageView *selectedCarModelImageView;
+//@property (strong, nonatomic) UILabel *selectedCarModelLabel;
 
-@property (assign, nonatomic) BOOL isGetData;
+// C1、C2
+@property (weak, nonatomic) IBOutlet UIView *c1Orc2View;
+@property (weak, nonatomic) IBOutlet UIButton *c1Btn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *c1BtnLeftSpaceCon;
+@property (weak, nonatomic) IBOutlet UIButton *c2Btn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *c2BtnRightSpaceCon;
 
 // 广告
 @property (strong, nonatomic) IBOutlet UIView *actView;
@@ -74,6 +82,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 @property (copy, nonatomic) NSString *actUrl;
 
 @property (copy, nonatomic) NSString *cityName; // 定位城市名
+@property (assign, nonatomic) BOOL isGetData;
 
 @end
 
@@ -98,8 +107,9 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     [super viewDidLoad];
     [self staticViewConfig];
     
-    self.carModelLabelList = [NSMutableArray array];
-    self.carModelImageViewList = [NSMutableArray array];
+    _itemIndex = 1;
+//    self.carModelLabelList = [NSMutableArray array];
+//    self.carModelImageViewList = [NSMutableArray array];
     self.annotationsList = [NSMutableArray array];
     self.isGetData = NO;
     
@@ -109,8 +119,9 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ResetSearchCoachDict) name:@"ResetCoachDict" object:nil];
     
     // 底部车型选择view
-    [self requestGetCarModelInterfaceWithId:nil];
+//    [self requestGetCarModelInterfaceWithId:nil];
 //    [self addCourseSelectView];
+    
     
     // 配置百度地图
     [self mapConfig];
@@ -163,7 +174,11 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 
 #pragma mark - ViewConfig
 - (void)staticViewConfig {
-    self.footView.hidden = YES;
+    // 底部tabBar
+    [self addTabBarView];
+    
+    // c1c2
+    [self c1Orc2ViewConfig];
     
     // 关闭底部教练信息的按钮
     self.closeDetailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -192,187 +207,48 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     _mapView.mapScaleBarPosition = CGPointMake(10+43, SCREEN_HEIGHT-15-30-8);
 }
 
-// 添加底部车型选择条
-- (void)addCarModelWithList:(NSArray *)modellist
+// 添加tabBar
+- (void)addTabBarView
 {
-    int num = (int)modellist.count;
-    if (num*50 < SCREEN_WIDTH) {
-        // 按钮数量没有超出屏幕宽度
-        CGFloat _width = SCREEN_WIDTH/num;
-        CGFloat _height = 80;
-        
-        DSButton *firstButton = nil;
-        for (int i = 0; i < num; i++) {
-            NSDictionary *dataDic = modellist[i];
-            
-            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(i * _width, 0, _width, _height)];
-            [self.carModelScrollView addSubview:view];
-            
-            DSButton *button = [DSButton buttonWithType:UIButtonTypeCustom];
-            button.frame = view.bounds;
-            [button addTarget:self action:@selector(carModelClick:) forControlEvents:UIControlEventTouchUpInside];
-            button.tag = i;
-            button.value = [dataDic[@"modelid"] description];
-            [view addSubview:button];
-            
-            //默认选中第一个
-            if(i == 0){
-                firstButton = button;
-            }
-            
-            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((_width-31)/2, 16, 31, 31)];
-            imageView.image = [UIImage imageNamed:@"bg_home_circle"];
-            imageView.contentMode = UIViewContentModeCenter;
-            [view addSubview:imageView];
-            [self.carModelImageViewList addObject:imageView];
-            
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 114/2, _width, 16)];
-            label.text = [dataDic[@"searchname"] description];
-            label.font = [UIFont systemFontOfSize:14.0];
-            label.textAlignment = NSTextAlignmentCenter;
-            label.textColor = RGB(172, 175, 181);
-            [view addSubview:label];
-            [self.carModelLabelList addObject:label];
-        }
-        
-        if(firstButton)
-            [self carModelClick:firstButton];
-    }else{
-        // 按钮数量超出屏幕宽度
-        CGFloat _width = 50;
-        CGFloat _height = 80;
-        
-        DSButton *firstButton = nil;
-        for (int i = 0; i < num; i++) {
-            NSDictionary *dataDic = modellist[i];
-            
-            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(i * _width, 0, _width, _height)];
-            [self.carModelScrollView addSubview:view];
-            
-            DSButton *button = [DSButton buttonWithType:UIButtonTypeCustom];
-            button.frame = view.bounds;
-            [button addTarget:self action:@selector(carModelClick:) forControlEvents:UIControlEventTouchUpInside];
-            button.tag = i;
-            button.value = [dataDic[@"modelid"] description];
-            [view addSubview:button];
-            
-            //默认选中第一个
-            if(i == 0){
-                firstButton = button;
-            }
-            
-            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((_width-31)/2, 16, 31, 31)];
-            imageView.image = [UIImage imageNamed:@"bg_home_circle"];
-            imageView.contentMode = UIViewContentModeCenter;
-            [view addSubview:imageView];
-            [self.carModelImageViewList addObject:imageView];
-            
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 114/2, _width, 10)];
-            label.text = [dataDic[@"searchname"] description];
-            label.font = [UIFont systemFontOfSize:10];
-            label.textAlignment = NSTextAlignmentCenter;
-            label.textColor = RGB(172, 175, 181);
-            [view addSubview:label];
-            [self.carModelLabelList addObject:label];
-        }
-        
-        if(firstButton)
-            [self carModelClick:firstButton];
-        
-        self.carModelScrollView.contentSize = CGSizeMake(50*num, 0);
-    }
+    TabBarView *tabBarView = [[TabBarView alloc]init];
+    tabBarView.width = SCREEN_WIDTH;
+    tabBarView.height = 80;
+    tabBarView.x = 0;
+    tabBarView.bottom = SCREEN_HEIGHT;
+    tabBarView.backgroundColor = RGB(247, 247, 247);
+    tabBarView.delegate = self;
+    tabBarView.itemsCount = 4;
+    [self.view addSubview:tabBarView];
+    
+    UIView *topLine = [[UIView alloc] init];
+    [tabBarView addSubview:topLine];
+    topLine.width = SCREEN_WIDTH;
+    topLine.height = 1;
+    topLine.x = 0;
+    topLine.y = 0;
+    topLine.backgroundColor = RGB(181, 181, 181);
+    
+    [tabBarView itemsTitleConfig:@[@"题库", @"学车", @"陪驾", @"服务"]];
 }
 
-//- (void)addCourseSelectView {
-//    UIView *courseSelectView = [[UIView alloc] init];
-//    [self.carModelScrollView addSubview:courseSelectView];
-//    CGFloat courseSelectViewW = SCREEN_WIDTH;
-//    CGFloat courseSelectViewH = 80;
-//    CGFloat courseSelectViewX = 0;
-//    CGFloat courseSelectViewY = 0;
-//    courseSelectView.frame = CGRectMake(courseSelectViewX, courseSelectViewY, courseSelectViewW, courseSelectViewH);
-//    courseSelectView.backgroundColor = [UIColor clearColor];
-//    
-//    // C1手动挡
-//    UIControl *courseBtnC1 = [self createCourseBtn:@"C1手动挡" withHeight:courseSelectViewH index:CourseTypeC1];
-//    [self courseClick:courseBtnC1];
-//    
-//    // C2手动挡
-//    [self createCourseBtn:@"C2自动挡" withHeight:courseSelectViewH index:CourseTypeC2];
-//    
-//    // 陪驾
-//    [self createCourseBtn:@"陪驾" withHeight:courseSelectViewH index:CourseTypeAccompany];
-//}
-//
-//- (UIControl *)createCourseBtn:(NSString *)title withHeight:(CGFloat)height index:(NSUInteger)index {
-//    UIControl *courseView = [[UIControl alloc] init];
-//    [self.carModelScrollView addSubview:courseView];
-//    CGFloat courseViewW = SCREEN_WIDTH / 3;
-//    CGFloat courseViewH = height;
-//    CGFloat courseViewX = courseViewW * index;
-//    CGFloat courseViewY = 0;
-//    courseView.frame = CGRectMake(courseViewX, courseViewY, courseViewW, courseViewH);
-//    courseView.backgroundColor = [UIColor clearColor];
-//    courseView.tag = index;
-//    [courseView addTarget:self action:@selector(courseClick:) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    UIImageView *coursePic = [[UIImageView alloc] init];
-//    [courseView addSubview:coursePic];
-//    CGFloat coursePicW = 31;
-//    CGFloat coursePicH = 31;
-//    CGFloat coursePicX = (courseViewW - coursePicW) / 2;
-//    CGFloat coursePicY = 18;
-//    coursePic.frame = CGRectMake(coursePicX, coursePicY, coursePicW, coursePicH);
-//    coursePic.backgroundColor = [UIColor clearColor];
-//    [coursePic setImage:[UIImage imageNamed:@"bg_home_circle"]];
-//    
-//    UILabel *courseLable = [[UILabel alloc] init];
-//    [courseView addSubview:courseLable];
-//    CGFloat courseLableW = courseViewW;
-//    CGFloat courseLableH = 17;
-//    CGFloat courseLableX = 0;
-//    CGFloat courseLableY = CGRectGetMaxY(coursePic.frame) + 8;
-//    courseLable.frame = CGRectMake(courseLableX, courseLableY, courseLableW, courseLableH);
-//    courseLable.font = [UIFont systemFontOfSize:14];
-//    courseLable.textColor = RGB(172, 175, 181);
-//    courseLable.textAlignment = NSTextAlignmentCenter;
-//    courseLable.text = title;
-//    
-//    return courseView;
-//}
-//
-//// 将courseBtn置为未选中状态
-//- (void)unselectCourse:(UIControl *)courseBtn {
-//    for (UIView *subView in courseBtn.subviews) {
-//        // 改变图像
-//        if ([subView isKindOfClass:UIImageView.class]) {
-//            UIImageView *coursePic = (UIImageView *)subView;
-//            coursePic.image = [UIImage imageNamed:@"bg_home_circle"];
-//        }
-//        // 改变文字颜色
-//        if ([subView isKindOfClass:UILabel.class]) {
-//            UILabel *courseLabel = (UILabel *)subView;
-//            courseLabel.textColor = RGB(172, 175, 181);
-//        }
-//    }
-//}
-//
-//// 将courseBtn置为选中状态
-//- (void)selectCourse:(UIControl *)courseBtn {
-//    for (UIView *subView in courseBtn.subviews) {
-//        // 改变图像
-//        if ([subView isKindOfClass:UIImageView.class]) {
-//            UIImageView *coursePic = (UIImageView *)subView;
-//            coursePic.image = [UIImage imageNamed:@"bg_home_circle_car"];
-//        }
-//        // 改变文字颜色
-//        if ([subView isKindOfClass:UILabel.class]) {
-//            UILabel *courseLabel = (UILabel *)subView;
-//            courseLabel.textColor = [UIColor blackColor];
-//        }
-//    }
-//    self.selectCourseBtn = courseBtn;
-//}
+- (void)c1Orc2ViewConfig {
+    [self.c1Btn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [self.c2Btn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    
+    CGFloat gap = (SCREEN_WIDTH - 300) / 3;
+    self.c1BtnLeftSpaceCon.constant = gap;
+    self.c2BtnRightSpaceCon.constant = gap;
+    
+    self.c1Btn.layer.cornerRadius = 4;
+    self.c1Btn.layer.borderWidth = 1;
+    self.c1Btn.layer.borderColor = RGB(193, 193, 193).CGColor;
+    
+    self.c2Btn.layer.cornerRadius = 4;
+    self.c2Btn.layer.borderWidth = 1;
+    self.c2Btn.layer.borderColor = RGB(193, 193, 193).CGColor;
+    
+    [self c1Orc2Select:self.c1Btn];
+}
 
 #pragma mark - BaiduMap
 // 地图配置
@@ -740,43 +616,6 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 
 }
 
-// 获取准教车型
-- (void)requestGetCarModelInterfaceWithId:(NSString *)carModelId
-{
-    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
-//    if (carModelId.length > 0) {
-//        [paramDic setObject:carModelId forKey:@"modelid"];
-//    }else{
-//        paramDic = nil;
-//    }
-    
-    // app版本
-    [paramDic setObject:APP_VERSION forKey:@"version"];
-    
-    NSString *uri = @"/cuser?action=GetCarModel";
-    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        if ([responseObject[@"code"] integerValue] == 1)
-        {
-            self.footView.hidden = NO;
-            NSArray *modellist = responseObject[@"modellist"];
-            [self addCarModelWithList:modellist];
-        }else{
-            NSString *message = responseObject[@"message"];
-            self.footView.hidden = YES;
-            [self makeToast:message];
-        }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [DejalBezelActivityView removeViewAnimated:YES];
-        [self makeToast:ERR_NETWORK];
-    }];
-}
-
-
 // 取屏幕中点经纬度，取半径值并调用接口取附近教练
 - (void)nearCoachRequest:(BOOL)needLiadingShow {
     // 屏幕顶部中点
@@ -844,11 +683,79 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     
 }
 
+// 选中c1或c2
+- (void)c1Orc2Select:(UIButton *)btn
+{
+    btn.selected = YES;
+    btn.backgroundColor = CUSTOM_GREEN;
+}
+
+// 撤销选中c1或c2
+- (void)c1Orc2Unselect:(UIButton *)btn
+{
+    btn.selected = NO;
+    btn.backgroundColor = [UIColor whiteColor];
+}
+
 - (void)ResetSearchCoachDict {
     [self clickForAllData:nil];
 }
 
-
+#pragma mark - TabBarViewDelegate
+/*
+ itemIndex:
+ 0：小巴题库
+ 1：小巴学车
+ 2：小巴陪驾
+ 3：小巴服务
+ 初始值为1
+ */
+- (void)itemClick:(NSUInteger)itemIndex
+{
+    NSLog(@"%lu", (unsigned long)itemIndex);
+    if (itemIndex == _itemIndex) return;
+    
+    // 必要时关闭原页面
+    if (_itemIndex == 3) { // 小巴服务页面
+        [self.serveVC.view removeFromSuperview];
+        self.serveVC = nil;
+    }
+    self.c1Orc2View.alpha = 0;
+    
+    _itemIndex = itemIndex;
+    
+    // 题库
+    if (itemIndex == 0) {
+        [self makeToast:@"小巴题库即将推出，敬请期待"];
+    }
+    // 学车
+    else if (itemIndex == 1) {
+        if (self.c1Btn.selected) {
+            carModelID = @"17";
+        } else {
+            carModelID = @"18";
+        }
+        [self nearCoachRequest:YES];
+        self.screenBtn.hidden = NO;
+        [UIView animateWithDuration:0.3 animations:^{
+            self.c1Orc2View.alpha = 1;
+        }];
+    }
+    // 陪驾
+    else if (itemIndex == 2) {
+        // 如果是陪驾，则隐藏筛选按钮
+        carModelID = @"19";
+        [self nearCoachRequest:YES];
+        self.searchParamDic = nil;
+        self.allBtn.hidden = YES;
+        self.screenBtn.hidden = YES;
+    }
+    // 服务
+    else if (itemIndex == 3) {
+        [self clickForServe];
+    }
+    
+}
 
 #pragma mark - Actions
 // 打开、关闭侧边栏
@@ -886,10 +793,14 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 }
 
 // 在线报名、预约考试等服务
-- (IBAction)clickForServe:(id)sender {
+- (void)clickForServe {
     if ([[CommonUtil currentUtil] isLogin]) {
-        XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
-        [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
+//        XiaobaServeViewController *viewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
+//        [[SliderViewController sharedSliderController].navigationController pushViewController:viewController animated:YES];
+        self.serveVC = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
+        self.serveVC.view.width = SCREEN_WIDTH;
+        self.serveVC.view.height = SCREEN_HEIGHT - 80;
+        [self.view addSubview:self.serveVC.view];
     }
 }
 
@@ -1087,45 +998,175 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     }
 }
 
-// 选择车型
-- (void)carModelClick:(DSButton *)sender
-{
-    self.selectedCarModelImageView.image = [UIImage imageNamed:@"bg_home_circle"];
-    self.selectedCarModelLabel.textColor = RGB(172, 175, 181);
-    
-    UIImageView *imageView = self.carModelImageViewList[sender.tag];
-    imageView.image = nil;
-    imageView.image = [UIImage imageNamed:@"bg_home_circle_car"];
-    
-    UILabel *label = self.carModelLabelList[sender.tag];
-    label.textColor = [UIColor blackColor];
-    
-    self.selectedCarModelImageView = imageView;
-    self.selectedCarModelLabel = label;
-    
-    carModelID = sender.value;
+- (IBAction)c1Click:(UIButton *)sender {
+    if (sender.selected) return;
+    [self c1Orc2Select:self.c1Btn];
+    [self c1Orc2Unselect:self.c2Btn];
+    carModelID = @"17";
     [self nearCoachRequest:YES];
-    
-    // 如果是陪驾，则隐藏筛选按钮
-    if ([sender.value isEqualToString:@"19"]) {
-        self.searchParamDic = nil;
-        self.allBtn.hidden = YES;
-        self.screenBtn.hidden = YES;
-    } else {
-        self.screenBtn.hidden = NO;
-    }
 }
 
-//- (void)courseClick:(UIControl *)courseBtn {
-//    if ([self.selectCourseBtn isEqual:courseBtn]) return;
+- (IBAction)c2Click:(UIButton *)sender {
+    if (sender.selected) return;
+    [self c1Orc2Select:self.c2Btn];
+    [self c1Orc2Unselect:self.c1Btn];
+    carModelID = @"18";
+    [self nearCoachRequest:YES];
+}
+
+#pragma mark - 废弃
+// 添加底部车型选择条
+//- (void)addCarModelWithList:(NSArray *)modellist
+//{
+//    int num = (int)modellist.count;
+//    if (num*50 < SCREEN_WIDTH) {
+//        // 按钮数量没有超出屏幕宽度
+//        CGFloat _width = SCREEN_WIDTH/num;
+//        CGFloat _height = 80;
+//        
+//        DSButton *firstButton = nil;
+//        for (int i = 0; i < num; i++) {
+//            NSDictionary *dataDic = modellist[i];
+//            
+//            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(i * _width, 0, _width, _height)];
+//            [self.carModelScrollView addSubview:view];
+//            
+//            DSButton *button = [DSButton buttonWithType:UIButtonTypeCustom];
+//            button.frame = view.bounds;
+//            [button addTarget:self action:@selector(carModelClick:) forControlEvents:UIControlEventTouchUpInside];
+//            button.tag = i;
+//            button.value = [dataDic[@"modelid"] description];
+//            [view addSubview:button];
+//            
+//            //默认选中第一个
+//            if(i == 0){
+//                firstButton = button;
+//            }
+//            
+//            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((_width-31)/2, 16, 31, 31)];
+//            imageView.image = [UIImage imageNamed:@"bg_home_circle"];
+//            imageView.contentMode = UIViewContentModeCenter;
+//            [view addSubview:imageView];
+//            [self.carModelImageViewList addObject:imageView];
+//            
+//            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 114/2, _width, 16)];
+//            label.text = [dataDic[@"searchname"] description];
+//            label.font = [UIFont systemFontOfSize:14.0];
+//            label.textAlignment = NSTextAlignmentCenter;
+//            label.textColor = RGB(172, 175, 181);
+//            [view addSubview:label];
+//            [self.carModelLabelList addObject:label];
+//        }
+//        
+//        if(firstButton)
+//            [self carModelClick:firstButton];
+//    }else{
+//        // 按钮数量超出屏幕宽度
+//        CGFloat _width = 50;
+//        CGFloat _height = 80;
+//        
+//        DSButton *firstButton = nil;
+//        for (int i = 0; i < num; i++) {
+//            NSDictionary *dataDic = modellist[i];
+//            
+//            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(i * _width, 0, _width, _height)];
+//            [self.carModelScrollView addSubview:view];
+//            
+//            DSButton *button = [DSButton buttonWithType:UIButtonTypeCustom];
+//            button.frame = view.bounds;
+//            [button addTarget:self action:@selector(carModelClick:) forControlEvents:UIControlEventTouchUpInside];
+//            button.tag = i;
+//            button.value = [dataDic[@"modelid"] description];
+//            [view addSubview:button];
+//            
+//            //默认选中第一个
+//            if(i == 0){
+//                firstButton = button;
+//            }
+//            
+//            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((_width-31)/2, 16, 31, 31)];
+//            imageView.image = [UIImage imageNamed:@"bg_home_circle"];
+//            imageView.contentMode = UIViewContentModeCenter;
+//            [view addSubview:imageView];
+//            [self.carModelImageViewList addObject:imageView];
+//            
+//            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 114/2, _width, 10)];
+//            label.text = [dataDic[@"searchname"] description];
+//            label.font = [UIFont systemFontOfSize:10];
+//            label.textAlignment = NSTextAlignmentCenter;
+//            label.textColor = RGB(172, 175, 181);
+//            [view addSubview:label];
+//            [self.carModelLabelList addObject:label];
+//        }
+//        
+//        if(firstButton)
+//            [self carModelClick:firstButton];
+//        
+//        self.carModelScrollView.contentSize = CGSizeMake(50*num, 0);
+//    }
+//}
+//
+//// 获取准教车型
+//- (void)requestGetCarModelInterfaceWithId:(NSString *)carModelId
+//{
+//    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+//    //    if (carModelId.length > 0) {
+//    //        [paramDic setObject:carModelId forKey:@"modelid"];
+//    //    }else{
+//    //        paramDic = nil;
+//    //    }
 //    
-//    // 将原本选中的courseBtn置为未选中状态
-//    [self unselectCourse:self.selectCourseBtn];
+//    // app版本
+//    [paramDic setObject:APP_VERSION forKey:@"version"];
 //    
-//    // 将新的courseBtn置为选中状态
-//    [self selectCourse:courseBtn];
+//    NSString *uri = @"/cuser?action=GetCarModel";
+//    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
 //    
-//    self.courseType = courseBtn.tag;
+//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+//    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        
+//        if ([responseObject[@"code"] integerValue] == 1)
+//        {
+//            NSArray *modellist = responseObject[@"modellist"];
+//            [self addCarModelWithList:modellist];
+//        }else{
+//            NSString *message = responseObject[@"message"];
+//            [self makeToast:message];
+//        }
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        [DejalBezelActivityView removeViewAnimated:YES];
+//        [self makeToast:ERR_NETWORK];
+//    }];
+//}
+//
+//// 选择车型
+//- (void)carModelClick:(DSButton *)sender
+//{
+//    self.selectedCarModelImageView.image = [UIImage imageNamed:@"bg_home_circle"];
+//    self.selectedCarModelLabel.textColor = RGB(172, 175, 181);
+//    
+//    UIImageView *imageView = self.carModelImageViewList[sender.tag];
+//    imageView.image = nil;
+//    imageView.image = [UIImage imageNamed:@"bg_home_circle_car"];
+//    
+//    UILabel *label = self.carModelLabelList[sender.tag];
+//    label.textColor = [UIColor blackColor];
+//    
+//    self.selectedCarModelImageView = imageView;
+//    self.selectedCarModelLabel = label;
+//    
+//    carModelID = sender.value;
+//    [self nearCoachRequest:YES];
+//    
+//    // 如果是陪驾，则隐藏筛选按钮
+//    if ([sender.value isEqualToString:@"19"]) {
+//        self.searchParamDic = nil;
+//        self.allBtn.hidden = YES;
+//        self.screenBtn.hidden = YES;
+//    } else {
+//        self.screenBtn.hidden = NO;
+//    }
 //}
 
 @end

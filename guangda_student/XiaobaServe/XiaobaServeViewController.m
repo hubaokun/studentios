@@ -9,6 +9,7 @@
 #import "XiaobaServeViewController.h"
 #import "SignUpViewController.h"
 #import "UserBaseInfoViewController.h"
+#import "SliderViewController.h"
 
 #import "EMIMHelper.h"
 #import "ChatViewController.h"
@@ -64,8 +65,10 @@
     if (notification.object) {
         chatController.commodityInfo = (NSDictionary *)notification.object;
     }
-    [self.navigationController pushViewController:chatController animated:YES];
-    self.navigationController.navigationBarHidden = NO;
+//    [self.navigationController pushViewController:chatController animated:YES];
+//    self.navigationController.navigationBarHidden = NO;
+    [[SliderViewController sharedSliderController].navigationController pushViewController:chatController animated:YES];
+    [SliderViewController sharedSliderController].navigationController.navigationBarHidden = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -177,9 +180,10 @@
 //在线报名
 - (IBAction)clickForSign:(id)sender {
     if ([[CommonUtil currentUtil] isLogin]) {
-        SignUpViewController *nextViewController = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
-        nextViewController.comeFrom = 1;
-        [self.navigationController pushViewController:nextViewController animated:YES];
+        SignUpViewController *nextVC = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+        nextVC.comeFrom = 1;
+//        [self.navigationController pushViewController:nextViewController animated:YES];
+        [[SliderViewController sharedSliderController].navigationController pushViewController:nextVC animated:YES];
     }
 }
 
@@ -206,6 +210,7 @@
 // 修改城市
 - (void)clickToImproveInfoView {
     UserBaseInfoViewController *nextVC = [[UserBaseInfoViewController alloc] init];
-    [self.navigationController pushViewController:nextVC animated:YES];
+//    [self.navigationController pushViewController:nextVC animated:YES];
+    [[SliderViewController sharedSliderController].navigationController pushViewController:nextVC animated:YES];
 }
 @end
