@@ -26,7 +26,7 @@
 @implementation CoachListTableViewCell
 
 - (void)awakeFromNib {
-    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-86, 17, 80, 12)];
+    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 78, 17, 68, 12)];
     [self.contentView addSubview:self.starView];
     
     self.userLogo.layer.cornerRadius = self.userLogo.bounds.size.width / 2;

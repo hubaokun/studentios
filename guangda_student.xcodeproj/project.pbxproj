@@ -193,6 +193,7 @@
 		70609DF61BB95FE300D47C1D /* PayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70609DF41BB95FE300D47C1D /* PayViewController.xib */; };
 		7064EA181B969A960010AC88 /* BlackPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7064EA171B969A960010AC88 /* BlackPickerView.m */; };
 		7064EA1A1B969BDF0010AC88 /* BlackPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7064EA191B969BDF0010AC88 /* BlackPickerView.xib */; };
+		7077D98F1BE858A800BE0F35 /* CoachInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7077D98E1BE858A800BE0F35 /* CoachInfoView.m */; };
 		708600551B799EFC00CB09DA /* XBComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 708600541B799EFC00CB09DA /* XBComment.m */; };
 		708AE3251BBA59B300B78160 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 708AE3221BBA59B300B78160 /* libWeChatSDK.a */; };
 		708AE5531BBA7A5C00B78160 /* EMAudioPlayerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 708AE32F1BBA7A5B00B78160 /* EMAudioPlayerUtil.m */; };
@@ -960,6 +961,8 @@
 		7064EA161B969A960010AC88 /* BlackPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackPickerView.h; sourceTree = "<group>"; };
 		7064EA171B969A960010AC88 /* BlackPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackPickerView.m; sourceTree = "<group>"; };
 		7064EA191B969BDF0010AC88 /* BlackPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BlackPickerView.xib; sourceTree = "<group>"; };
+		7077D98D1BE858A800BE0F35 /* CoachInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoachInfoView.h; sourceTree = "<group>"; };
+		7077D98E1BE858A800BE0F35 /* CoachInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoachInfoView.m; sourceTree = "<group>"; };
 		708600531B799EFC00CB09DA /* XBComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBComment.h; sourceTree = "<group>"; };
 		708600541B799EFC00CB09DA /* XBComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBComment.m; sourceTree = "<group>"; };
 		708AE3221BBA59B300B78160 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
@@ -1668,6 +1671,8 @@
 				3179E6961AC2AAB000AFCFAA /* RightViewController.m */,
 				3160EEA71ADE205F00AE4DD3 /* MyAnimatedAnnotationView.h */,
 				3160EEA81ADE205F00AE4DD3 /* MyAnimatedAnnotationView.m */,
+				7077D98D1BE858A800BE0F35 /* CoachInfoView.h */,
+				7077D98E1BE858A800BE0F35 /* CoachInfoView.m */,
 				708600521B799E7B00CB09DA /* model */,
 				702308D31BD0F06800205985 /* CoachList(教练列表) */,
 				315067B71AC3DEC1000C1C13 /* cell */,
@@ -4204,6 +4209,7 @@
 				708AE5791BBA7A5C00B78160 /* PSTCollectionViewCell.m in Sources */,
 				3179E6A01AC2AADC00AFCFAA /* SGFocusImageItem.m in Sources */,
 				3179E6661AC284C600AFCFAA /* DejalActivityView.m in Sources */,
+				7077D98F1BE858A800BE0F35 /* CoachInfoView.m in Sources */,
 				708AE5A21BBA7A5C00B78160 /* EMChatAudioBubbleView.m in Sources */,
 				708600551B799EFC00CB09DA /* XBComment.m in Sources */,
 				3179E64E1AC284C600AFCFAA /* NSData+ImageContentType.m in Sources */,

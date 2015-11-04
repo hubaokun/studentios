@@ -65,7 +65,7 @@
     self.detailsView.frame = CGRectMake(0, 0, SCREEN_WIDTH, COACH_DETAILVIEW_HEIGHT);
     self.tabelVIew.tableHeaderView = self.detailsView;
     
-    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(52, 107, 87, 15)];
+    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(52, 107, 83, 15)];
     [self.detailsView addSubview:self.starView];
     
     //刷新加载

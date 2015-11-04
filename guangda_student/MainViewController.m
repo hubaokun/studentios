@@ -13,20 +13,20 @@
 #import "UIImageView+WebCache.h"
 #import "AppointCoachViewController.h"
 #import "CoachDetailViewController.h"
-#import "TQStarRatingView.h"
 #import "CoachScreenViewController.h"
 #import "UserBaseInfoViewController.h"
 #import "XiaobaServeViewController.h"
 #import "ImproveInfoViewController.h"
 #import "SignUpViewController.h"
 #import "TabBarView.h"
+#import "CoachInfoView.h"
 #import "XBSchool.h"
 
 #define ZOOM_LEVEL 14.5 // 地图缩放级别
 
 static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 
-@interface MainViewController ()<UIGestureRecognizerDelegate, BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationServiceDelegate, TabBarViewDelegate>
+@interface MainViewController ()<UIGestureRecognizerDelegate, BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationServiceDelegate, TabBarViewDelegate, CoachInfoViewDelegate>
 {
     BMKLocationService *_locService;
     int _actFlag; // 活动类型 0:不显示 1:跳转到url 2:内部功能
@@ -36,38 +36,19 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 @property (strong, nonatomic) BMKMapView *mapView;
 @property (strong, nonatomic) BMKUserLocation *userLocation;
 @property (strong, nonatomic) MyAnimatedAnnotationView *selectedCar;// 选中的汽车
-@property (assign, nonatomic) BOOL selectedCarIsFree;              // 选中的汽车是不是体验课
+@property (assign, nonatomic) BOOL selectedCarIsFree;               // 选中的汽车是不是体验课
 @property (weak, nonatomic) IBOutlet UIButton *screenBtn;           // 筛选按钮
 @property (strong, nonatomic) IBOutlet UIButton *allBtn;            // 全部按钮
-
 @property (strong, nonatomic) IBOutlet UIView *mapContentView;      // 地图view
-
-@property (strong, nonatomic) IBOutlet UIImageView *userLogo;       // 用户头像
-
-@property (strong, nonatomic) NSArray *coachList;                   // 教练列表
 @property (strong, nonatomic) NSMutableArray *annotationsList;      // 标注数组
 @property (strong, nonatomic) XiaobaServeViewController *serveVC;   // 小巴服务页面
+@property (strong, nonatomic) UIWebView *exerciseView;              // 题库
 
-// 教练详细信息
-@property (strong, nonatomic) IBOutlet UIView *coachInfoView;       // 教练信息view
-@property (strong, nonatomic) IBOutlet UILabel *orderCountLabel;    // 总单数
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *orderCountLabelWidthCon;
-@property (strong, nonatomic) IBOutlet UILabel *coachNameLabel;     // 教练姓名
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coachNameLabelWidthCon;
+// 教练信息
+@property (strong, nonatomic) NSArray *coachList;                   // 教练列表
+@property (strong, nonatomic) CoachInfoView *coachInfoView;         // 教练信息view
 @property (strong, nonatomic) UIButton *closeDetailBtn;             // 关闭底部教练信息view
 @property (strong, nonatomic) NSDictionary *coachDic;
-@property (strong, nonatomic) TQStarRatingView *starView;
-@property (weak, nonatomic) IBOutlet UIImageView *coachGenderIcon;
-@property (strong, nonatomic) IBOutlet UILabel *coachAddressLabel;  // 详细地址
-@property (strong, nonatomic) NSString *coachId;                    // 教练ID
-
-// 底部的车型view
-//@property (weak, nonatomic) IBOutlet UIScrollView *carModelScrollView;
-//@property (strong, nonatomic) IBOutlet UIView *footView;
-//@property (strong, nonatomic) NSMutableArray *carModelImageViewList;
-//@property (strong, nonatomic) NSMutableArray *carModelLabelList;
-//@property (strong, nonatomic) UIImageView *selectedCarModelImageView;
-//@property (strong, nonatomic) UILabel *selectedCarModelLabel;
 
 // C1、C2
 @property (weak, nonatomic) IBOutlet UIView *c1Orc2View;
@@ -108,8 +89,6 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     [self staticViewConfig];
     
     _itemIndex = 1;
-//    self.carModelLabelList = [NSMutableArray array];
-//    self.carModelImageViewList = [NSMutableArray array];
     self.annotationsList = [NSMutableArray array];
     self.isGetData = NO;
     
@@ -118,11 +97,6 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSearchCoachDict:) name:@"SearchCoachDict" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ResetSearchCoachDict) name:@"ResetCoachDict" object:nil];
     
-    // 底部车型选择view
-//    [self requestGetCarModelInterfaceWithId:nil];
-//    [self addCourseSelectView];
-    
-    
     // 配置百度地图
     [self mapConfig];
     [self setMapLocation];
@@ -130,8 +104,8 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     // 检查定位城市和用户设置的城市是否一致
     [self performSelector:@selector(searchCurrentCityName) withObject:nil afterDelay:5.0f];
     
-    self.actView.frame = [UIScreen mainScreen].bounds;
     // 弹窗广告
+    self.actView.frame = [UIScreen mainScreen].bounds;
     AppDelegate *app = APP_DELEGATE;
     if (![CommonUtil isEmpty:app.locateCity]) { // 如果app已取得用户定位城市
         [self postGetActivityInfo];
@@ -148,11 +122,6 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     _locService.delegate = self;
     
 //    [self mapView:_mapView regionDidChangeAnimated:YES];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -177,6 +146,11 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     // 底部tabBar
     [self addTabBarView];
     
+    // 题库
+    self.exerciseView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 80)];
+    NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://120.25.236.228/dadmin/examination/index.jsp"]];
+    [self.exerciseView loadRequest:request];
+    
     // c1c2
     [self c1Orc2ViewConfig];
     
@@ -187,12 +161,9 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     self.closeDetailBtn.alpha = 0;
     [self.closeDetailBtn addTarget:self action:@selector(closeDetailsView) forControlEvents:UIControlEventTouchUpInside];
     
-    // 教练信息,星级View
-    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 100, 15, 87, 15)];
-    [self.coachInfoView addSubview:_starView];
-    // 头像圆角
-    self.userLogo.layer.cornerRadius = self.userLogo.bounds.size.width/2;
-    self.userLogo.layer.masksToBounds = YES;
+    // 教练信息View
+    self.coachInfoView = [[CoachInfoView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 0)]; // 高度待定
+    self.coachInfoView.delegate = self;
 
     // 创建百度地图
     _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
@@ -241,11 +212,11 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     
     self.c1Btn.layer.cornerRadius = 4;
     self.c1Btn.layer.borderWidth = 1;
-    self.c1Btn.layer.borderColor = RGB(193, 193, 193).CGColor;
+    self.c1Btn.layer.borderColor = RGB(204, 204, 204).CGColor;
     
     self.c2Btn.layer.cornerRadius = 4;
     self.c2Btn.layer.borderWidth = 1;
-    self.c2Btn.layer.borderColor = RGB(193, 193, 193).CGColor;
+    self.c2Btn.layer.borderColor = RGB(204, 204, 204).CGColor;
     
     [self c1Orc2Select:self.c1Btn];
 }
@@ -716,6 +687,9 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     if (itemIndex == _itemIndex) return;
     
     // 必要时关闭原页面
+    if (_itemIndex == 0) { // 题库
+        [self.exerciseView removeFromSuperview];
+    }
     if (_itemIndex == 3) { // 小巴服务页面
         [self.serveVC.view removeFromSuperview];
         self.serveVC = nil;
@@ -726,7 +700,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     
     // 题库
     if (itemIndex == 0) {
-        [self makeToast:@"小巴题库即将推出，敬请期待"];
+        [self.view addSubview:self.exerciseView];
     }
     // 学车
     else if (itemIndex == 1) {
@@ -755,6 +729,28 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
         [self clickForServe];
     }
     
+}
+
+#pragma mark - CoachInfoViewDelegate
+- (void)coachDetailShow:(NSString *)coachID
+{
+    CoachDetailViewController *nextController = [[CoachDetailViewController alloc] initWithNibName:@"CoachDetailViewController" bundle:nil];
+    nextController.coachId = coachID;
+    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
+    navigationController.navigationBarHidden = YES;
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
+
+- (void)appointCoach:(NSDictionary *)coachInfoDict
+{
+    AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
+    nextController.coachInfoDic = coachInfoDict;
+    NSString *coachID = [coachInfoDict[@"coachid"] description];
+    nextController.coachId = coachID;
+    nextController.carModelID = carModelID;
+    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
+    navigationController.navigationBarHidden = YES;
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 #pragma mark - Actions
@@ -817,67 +813,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     if (_coachList != nil && _coachList.count != 0) {
         self.coachDic = _coachList[tag];
     }
-    NSString *avatarStr = [_coachDic[@"avatarurl"] description];
-    NSString *realName = [_coachDic[@"realname"] description];
-    if (realName == nil) {
-        realName = @"无名";
-    }
-    NSMutableString *address = [[NSMutableString alloc] initWithString:@"练车地点:"] ;//[_coachDic[@"detail"] description];
-    [address appendString:[_coachDic[@"detail"] description]];
-    CGFloat starScore = [_coachDic[@"score"] floatValue];
-    int gender = [_coachDic[@"gender"] intValue];
-    
-    // 教练头像
-    [self.userLogo sd_setImageWithURL:[NSURL URLWithString:avatarStr] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
-    
-    // 教练名
-    self.coachNameLabel.text = [NSString stringWithFormat:@"%@", realName];
-    // 设置教练名label长度
-    CGFloat realNameStrWidth = [CommonUtil sizeWithString:realName fontSize:17 sizewidth:68 sizeheight:22].width;
-    self.coachNameLabelWidthCon.constant = realNameStrWidth;
-    
-    // 教练性别
-    NSString *genderStr = nil;
-    if (gender == 1) {
-        genderStr = @"男";
-        [self.coachGenderIcon setImage:[UIImage imageNamed:@"icon_male"]];
-    }else if (gender == 2)
-    {
-        genderStr = @"女";
-        [self.coachGenderIcon setImage:[UIImage imageNamed:@"icon_female"]];
-    }else{
-        genderStr = @"";
-        [self.coachGenderIcon setImage:[UIImage imageNamed:@"icon_male"]];
-    }
-    
-    // 教练总单数
-    NSString *sumnum = nil;
-    NSString *preWords = nil;
-    if ([carModelID isEqualToString:@"19"]) { // 陪驾
-        sumnum = [_coachDic[@"accompanynum"] description];
-        preWords = @"陪驾数:";
-    } else {
-        sumnum = [_coachDic[@"sumnum"] description];
-        preWords = @"总单数:";
-    }
-    if (sumnum) {
-        self.orderCountLabel.hidden = NO;
-        NSString *sumnumStr = [NSString stringWithFormat:@"%@%@", preWords, sumnum];
-        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:sumnumStr];
-        [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(preWords.length, sumnum.length)];
-        self.orderCountLabel.attributedText = string;
-        CGFloat sumnumStrWidth = [CommonUtil sizeWithString:sumnumStr fontSize:12 sizewidth:320 sizeheight:15].width;
-        self.orderCountLabelWidthCon.constant = sumnumStrWidth;
-    } else {
-        self.orderCountLabel.hidden = YES;
-    }
-    
-    self.coachAddressLabel.text = address;
-    [self.starView changeStarForegroundViewWithScore:starScore];
-    
-    self.coachId = [_coachDic[@"coachid"] description];
-    
-    self.coachInfoView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 122);
+    [self.coachInfoView loadData:self.coachDic withCarModelID:carModelID];
     [self.view addSubview:self.closeDetailBtn];
     [self.view addSubview:self.coachInfoView];
     
@@ -885,18 +821,13 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
                           delay:0 //延迟时间
                         options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
                      animations:^{
-                         
                          //动画设置区域
-                         self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT - 122, SCREEN_WIDTH, 122);
+                         self.coachInfoView.bottom = SCREEN_HEIGHT;
                          self.closeDetailBtn.alpha = 0.5;
                      } completion:^(BOOL finish){
                          //动画结束时调用
                          //............
                      }];
-    
-    // 请求刷新教练日程安排接口
-    //    [self requestRefreshCoachSchedule];
-    //    [self.view bringSubviewToFront:self.filterButton];
     
     // 改变汽车图标状态
     MyAnimatedAnnotationView *carView = (MyAnimatedAnnotationView *)button.superview;
@@ -913,17 +844,18 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     self.selectedCar = carView;
 }
 
+
+
 // 关闭教练信息
 - (void)closeDetailsView
 {
-    self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT - 122, SCREEN_WIDTH, 122);
+//    self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT - 122, SCREEN_WIDTH, 122);
     [UIView animateWithDuration:0.35 //时长
                           delay:0 //延迟时间
                         options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
                      animations:^{
-                         
                          //动画设置区域
-                         self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 122);
+                         self.coachInfoView.top = SCREEN_HEIGHT;
                          self.closeDetailBtn.alpha = 0;
                          
                      } completion:^(BOOL finish){
@@ -933,7 +865,6 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
                          [self.closeDetailBtn removeFromSuperview];
                      }];
 
-//    [self removeCoachHeadControl];
     [[SliderViewController sharedSliderController] closeSideBar];
     
     // 改变汽车图标状态
@@ -954,30 +885,6 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     self.allBtn.hidden = YES;
     
     [self nearCoachRequest:YES];
-}
-
-// 教练详情
-- (IBAction)coachDetailsClick:(id)sender
-{
-    CoachDetailViewController *nextController = [[CoachDetailViewController alloc] initWithNibName:@"CoachDetailViewController" bundle:nil];
-    nextController.coachId = self.coachId;
-    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
-    navigationController.navigationBarHidden = YES;
-    [self presentViewController:navigationController animated:YES completion:nil];
-}
-
-// 预约教练
-- (IBAction)appointCoachClick:(id)sender
-{
-    AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
-    nextController.coachInfoDic = self.coachDic;
-    nextController.coachId = self.coachId;
-    nextController.carModelID = carModelID;
-    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
-    navigationController.navigationBarHidden = YES;
-    [self presentViewController:navigationController animated:YES completion:nil];
-    
-    
 }
 
 // 关闭弹窗广告
@@ -1015,6 +922,23 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 }
 
 #pragma mark - 废弃
+//@property (strong, nonatomic) IBOutlet UILabel *orderCountLabel;    // 总单数
+//@property (weak, nonatomic) IBOutlet NSLayoutConstraint *orderCountLabelWidthCon;
+//@property (strong, nonatomic) IBOutlet UILabel *coachNameLabel;     // 教练姓名
+//@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coachNameLabelWidthCon;
+//@property (strong, nonatomic) TQStarRatingView *starView;
+//@property (weak, nonatomic) IBOutlet UIImageView *coachGenderIcon;
+//@property (strong, nonatomic) IBOutlet UILabel *coachAddressLabel;  // 详细地址
+//@property (strong, nonatomic) NSString *coachId;                    // 教练ID
+
+// 底部的车型view
+//@property (weak, nonatomic) IBOutlet UIScrollView *carModelScrollView;
+//@property (strong, nonatomic) IBOutlet UIView *footView;
+//@property (strong, nonatomic) NSMutableArray *carModelImageViewList;
+//@property (strong, nonatomic) NSMutableArray *carModelLabelList;
+//@property (strong, nonatomic) UIImageView *selectedCarModelImageView;
+//@property (strong, nonatomic) UILabel *selectedCarModelLabel;
+
 // 添加底部车型选择条
 //- (void)addCarModelWithList:(NSArray *)modellist
 //{
@@ -1167,6 +1091,136 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 //    } else {
 //        self.screenBtn.hidden = NO;
 //    }
+//}
+
+//- (void)carBtnClick:(id)sender
+//{
+//    //    [self removeCoachHeadControl];
+//    
+//    // 添加底部的教练信息栏
+//    UIButton *button = (UIButton *)sender;
+//    
+//    // get coach dic
+//    int tag = (int)button.tag;
+//    if (_coachList != nil && _coachList.count != 0) {
+//        self.coachDic = _coachList[tag];
+//    }
+//    NSString *avatarStr = [_coachDic[@"avatarurl"] description];
+//    NSString *realName = [_coachDic[@"realname"] description];
+//    if (realName == nil) {
+//        realName = @"无名";
+//    }
+//    NSMutableString *address = [[NSMutableString alloc] initWithString:@"练车地点:"] ;//[_coachDic[@"detail"] description];
+//    [address appendString:[_coachDic[@"detail"] description]];
+//    CGFloat starScore = [_coachDic[@"score"] floatValue];
+//    int gender = [_coachDic[@"gender"] intValue];
+//    
+//    // 教练头像
+//    [self.userLogo sd_setImageWithURL:[NSURL URLWithString:avatarStr] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
+//    
+//    // 教练名
+//    self.coachNameLabel.text = [NSString stringWithFormat:@"%@", realName];
+//    // 设置教练名label长度
+//    CGFloat realNameStrWidth = [CommonUtil sizeWithString:realName fontSize:17 sizewidth:68 sizeheight:22].width;
+//    self.coachNameLabelWidthCon.constant = realNameStrWidth;
+//    
+//    // 教练性别
+//    NSString *genderStr = nil;
+//    if (gender == 1) {
+//        genderStr = @"男";
+//        [self.coachGenderIcon setImage:[UIImage imageNamed:@"icon_male"]];
+//    }else if (gender == 2)
+//    {
+//        genderStr = @"女";
+//        [self.coachGenderIcon setImage:[UIImage imageNamed:@"icon_female"]];
+//    }else{
+//        genderStr = @"";
+//        [self.coachGenderIcon setImage:[UIImage imageNamed:@"icon_male"]];
+//    }
+//    
+//    // 教练总单数
+//    NSString *sumnum = nil;
+//    NSString *preWords = nil;
+//    if ([carModelID isEqualToString:@"19"]) { // 陪驾
+//        sumnum = [_coachDic[@"accompanynum"] description];
+//        preWords = @"陪驾数:";
+//    } else {
+//        sumnum = [_coachDic[@"sumnum"] description];
+//        preWords = @"总单数:";
+//    }
+//    if (sumnum) {
+//        self.orderCountLabel.hidden = NO;
+//        NSString *sumnumStr = [NSString stringWithFormat:@"%@%@", preWords, sumnum];
+//        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:sumnumStr];
+//        [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(preWords.length, sumnum.length)];
+//        self.orderCountLabel.attributedText = string;
+//        CGFloat sumnumStrWidth = [CommonUtil sizeWithString:sumnumStr fontSize:12 sizewidth:320 sizeheight:15].width;
+//        self.orderCountLabelWidthCon.constant = sumnumStrWidth;
+//    } else {
+//        self.orderCountLabel.hidden = YES;
+//    }
+//    
+//    self.coachAddressLabel.text = address;
+//    [self.starView changeStarForegroundViewWithScore:starScore];
+//    
+//    self.coachId = [_coachDic[@"coachid"] description];
+//    
+//    self.coachInfoView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 122);
+//    [self.view addSubview:self.closeDetailBtn];
+//    [self.view addSubview:self.coachInfoView];
+//    
+//    [UIView animateWithDuration:0.35 //时长
+//                          delay:0 //延迟时间
+//                        options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
+//                     animations:^{
+//                         
+//                         //动画设置区域
+//                         self.coachInfoView.frame=CGRectMake(0, SCREEN_HEIGHT - 122, SCREEN_WIDTH, 122);
+//                         self.closeDetailBtn.alpha = 0.5;
+//                     } completion:^(BOOL finish){
+//                         //动画结束时调用
+//                         //............
+//                     }];
+//    
+//    // 请求刷新教练日程安排接口
+//    //    [self requestRefreshCoachSchedule];
+//    //    [self.view bringSubviewToFront:self.filterButton];
+//    
+//    // 改变汽车图标状态
+//    MyAnimatedAnnotationView *carView = (MyAnimatedAnnotationView *)button.superview;
+//    int freeCourseState = [self.coachDic[@"freecoursestate"] intValue];
+//    UIImage *image = nil;
+//    if (freeCourseState) {
+//        image = [UIImage imageNamed:@"ico_carfree_select"];
+//        self.selectedCarIsFree = YES;
+//    } else {
+//        image = [UIImage imageNamed:@"icon_carselected"];
+//        self.selectedCarIsFree = NO;
+//    }
+//    carView.annotationImageView.image = image;
+//    self.selectedCar = carView;
+//}
+
+//// 教练详情
+//- (IBAction)coachDetailsClick:(id)sender
+//{
+//    CoachDetailViewController *nextController = [[CoachDetailViewController alloc] initWithNibName:@"CoachDetailViewController" bundle:nil];
+//    nextController.coachId = self.coachId;
+//    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
+//    navigationController.navigationBarHidden = YES;
+//    [self presentViewController:navigationController animated:YES completion:nil];
+//}
+//
+//// 预约教练
+//- (IBAction)appointCoachClick:(id)sender
+//{
+//    AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
+//    nextController.coachInfoDic = self.coachDic;
+//    nextController.coachId = self.coachId;
+//    nextController.carModelID = carModelID;
+//    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
+//    navigationController.navigationBarHidden = YES;
+//    [self presentViewController:navigationController animated:YES completion:nil];
 //}
 
 @end

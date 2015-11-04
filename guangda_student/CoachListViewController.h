@@ -20,9 +20,9 @@
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
-@property (strong, nonatomic) IBOutlet UIImageView *userLogo;           // 用户头像
 
-@property (strong, nonatomic) IBOutlet UIView *chooseCoachTimeView;     // 选择教练的时间view
+
+
 
 
 
