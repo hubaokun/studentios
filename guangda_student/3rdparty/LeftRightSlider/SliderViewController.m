@@ -22,6 +22,8 @@ typedef NS_ENUM(NSInteger, RMoveDirection) {
     
     UITapGestureRecognizer *_tapGestureRec;
     UIPanGestureRecognizer *_panGestureRec;
+    
+    UIButton *_closeBtn;
 }
 
 @end
@@ -97,6 +99,10 @@ typedef NS_ENUM(NSInteger, RMoveDirection) {
     _panGestureRec = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(moveViewWithGesture:)];
 //    [_mainContentView addGestureRecognizer:_panGestureRec];
     
+    _closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _closeBtn.frame = [UIScreen mainScreen].bounds;
+    _closeBtn.backgroundColor = [UIColor clearColor];
+    [_closeBtn addTarget:self action:@selector(closeSideBar) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -190,6 +196,8 @@ typedef NS_ENUM(NSInteger, RMoveDirection) {
                      completion:^(BOOL finished) {
                          _tapGestureRec.enabled = YES;
                      }];
+    
+    [self.MainVC.view addSubview:_closeBtn];
 }
 
 - (void)rightItemClick
@@ -220,6 +228,7 @@ typedef NS_ENUM(NSInteger, RMoveDirection) {
                      }];
     
     self.isLeftViewShow = NO;
+    [_closeBtn removeFromSuperview];
 }
 
 - (void)moveViewWithGesture:(UIPanGestureRecognizer *)panGes
@@ -307,8 +316,7 @@ typedef NS_ENUM(NSInteger, RMoveDirection) {
     }
 }
 
-#pragma mark -
-
+#pragma mark - transform
 - (CGAffineTransform)transformWithDirection:(RMoveDirection)direction
 {
     CGFloat translateX = 0;

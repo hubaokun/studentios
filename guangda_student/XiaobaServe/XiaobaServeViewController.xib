@@ -82,12 +82,28 @@
                             <color key="textColor" red="0.23921568630000001" green="0.23921568630000001" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aY8-q3-3Pu" userLabel="menu">
+                            <rect key="frame" x="0.0" y="20" width="60" height="44"/>
+                            <animations/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="jIb-qS-yuO"/>
+                                <constraint firstAttribute="width" constant="60" id="qGv-YR-TzG"/>
+                            </constraints>
+                            <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" image="ic_menu">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="showSideBarClick:" destination="-1" eventType="touchUpInside" id="D87-Cc-Aa7"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="9HS-MA-aHC" secondAttribute="trailing" id="0UV-Ev-8cR"/>
                         <constraint firstAttribute="trailing" secondItem="tt6-hk-JmG" secondAttribute="trailing" id="3GO-xb-a16"/>
+                        <constraint firstItem="aY8-q3-3Pu" firstAttribute="leading" secondItem="8fg-qu-TgL" secondAttribute="leading" id="JzF-pA-QgB"/>
                         <constraint firstItem="jep-ut-VaS" firstAttribute="top" secondItem="8fg-qu-TgL" secondAttribute="top" constant="20" id="PjX-bO-51A"/>
                         <constraint firstAttribute="bottom" secondItem="15c-lh-UQe" secondAttribute="bottom" id="R4g-9j-XAw"/>
                         <constraint firstAttribute="centerX" secondItem="jep-ut-VaS" secondAttribute="centerX" id="ZZj-XN-kdj"/>
@@ -96,6 +112,7 @@
                         <constraint firstAttribute="bottom" secondItem="9HS-MA-aHC" secondAttribute="bottom" id="ggG-u6-gzH"/>
                         <constraint firstAttribute="bottom" secondItem="jep-ut-VaS" secondAttribute="bottom" id="hKy-8w-Jfe"/>
                         <constraint firstAttribute="bottom" secondItem="tt6-hk-JmG" secondAttribute="bottom" id="vPc-8B-gkX"/>
+                        <constraint firstItem="aY8-q3-3Pu" firstAttribute="top" secondItem="8fg-qu-TgL" secondAttribute="top" constant="20" id="vPc-Jy-xv8"/>
                         <constraint firstItem="tt6-hk-JmG" firstAttribute="leading" secondItem="8fg-qu-TgL" secondAttribute="leading" id="wpm-Fl-aWv"/>
                     </constraints>
                 </view>
@@ -504,6 +521,7 @@
     </objects>
     <resources>
         <image name="arrow_back_userinfohome" width="10" height="18"/>
+        <image name="ic_menu" width="40" height="40"/>
         <image name="ico_go" width="8" height="14"/>
         <image name="ico_客服" width="60" height="60"/>
         <image name="ico_报名" width="60" height="60"/>

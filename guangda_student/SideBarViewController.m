@@ -75,9 +75,7 @@
 // 是否显示小红点，提示有消息未读
 - (void)showRedPoint
 {
-    
     if([[CommonUtil currentUtil] isLogin]){
-        
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"UserInfo"];
         NSString *studentid = userInfo[@"studentid"];

@@ -49,6 +49,13 @@
     [self.ServeBtn addTarget:self action:@selector(chatItemAction) forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if ([[CommonUtil currentUtil] isLogin]) {
+        [self positionConfirm];
+    }
+}
+
 #pragma mark - private action
 
 - (void)chatItemAction
@@ -69,12 +76,6 @@
 //    self.navigationController.navigationBarHidden = NO;
     [[SliderViewController sharedSliderController].navigationController pushViewController:chatController animated:YES];
     [SliderViewController sharedSliderController].navigationController.navigationBarHidden = NO;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self positionConfirm];
-    
 }
 
 // 界面设置
@@ -213,4 +214,12 @@
 //    [self.navigationController pushViewController:nextVC animated:YES];
     [[SliderViewController sharedSliderController].navigationController pushViewController:nextVC animated:YES];
 }
+
+
+- (IBAction)showSideBarClick:(id)sender {
+    if (self.showLeftSideBlock) {
+        self.showLeftSideBlock();
+    }
+}
+
 @end

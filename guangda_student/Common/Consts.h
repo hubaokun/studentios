@@ -10,14 +10,14 @@
 #define HunBoHuiReqeust_demo_Consts_h
 
 /* 服务器地址 */
-#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"    // 正式服
-//#define REQUEST_HOST   @"http://120.25.236.228/dadmin/"       // 测试服务器
+//#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"    // 正式服
+#define REQUEST_HOST   @"http://120.25.236.228/dadmin/"       // 测试服务器
 //#define REQUEST_HOST   @"http://192.168.1.103:8080/"       // 胡博
-//#define REQUEST_HOST   @"http://192.168.1.188:8080/xb/"       // 卢磊
+//#define REQUEST_HOST   @"http://192.168.1.5:8080/dadmin"       // 卢磊
 //#define REQUEST_HOST   @"http://192.168.1.88:8080/xiaoba/"   // 佳瑞1
 //#define REQUEST_HOST   @"http://192.168.1.88:8080/guangda/"   // 佳瑞2
 //#define REQUEST_HOST   @"http://192.168.1.53:8080/xb/"   // 冯彦
-//#define REQUEST_HOST   @"http://192.168.1.52:8080/xb/"   // 饶宏
+//#define REQUEST_HOST   @"http://192.168.1.2/dadmin/"   // 张哥
 // 道顺
 //#define REQUEST_HOST   @"http://192.168.1.113:8080/guangda/"
 //#define REQUEST_HOST   @"http://127.0.0.1:8080/guangda"   // 凯哥

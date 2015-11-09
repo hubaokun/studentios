@@ -28,4 +28,29 @@
     return [[self alloc] initWithDict:dict];
 }
 
++ (UIView *)createFreeCourseIcon
+{
+    // 背景
+    UIView *iconView = [[UIView alloc] init];
+    iconView.width = 13;
+    iconView.height = 13;
+    iconView.backgroundColor = CUSTOM_RED;
+//    iconView.layer.borderWidth = 1;
+//    iconView.layer.borderColor = RGB(234, 0, 26).CGColor;
+    iconView.layer.cornerRadius = 2;
+    iconView.layer.masksToBounds = YES;
+    
+    // 文字“免”
+    UILabel *label = [[UILabel alloc] init];
+    [iconView addSubview:label];
+    label.frame = iconView.bounds;
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont systemFontOfSize:11];
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"免";
+    
+    return iconView;
+}
+
 @end

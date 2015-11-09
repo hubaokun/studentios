@@ -13,8 +13,11 @@
 #import "CommentListViewController.h"
 #import "DSPullToRefreshManager.h"
 #import "DSBottomPullToMoreManager.h"
+#import "GuangdaCoach.h"
+#import "MainViewController.h"
+#import "AppointCoachViewController.h"
 
-#define COACH_DETAILVIEW_HEIGHT 291
+#define COACH_DETAILVIEW_HEIGHT 382
 @interface CoachDetailViewController ()<DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient> {
     int _curPage;
     int _searchPage;
@@ -23,31 +26,32 @@
 @property (strong, nonatomic) DSPullToRefreshManager *pullToRefresh;    // 下拉刷新
 @property (strong, nonatomic) DSBottomPullToMoreManager *pullToMore;    // 上拉加载
 
-@property (strong, nonatomic) IBOutlet UITableView *tabelVIew;
+@property (strong, nonatomic) IBOutlet UITableView *mainTableView;
 
 @property (strong, nonatomic) IBOutlet UIView *detailsView;
-@property (strong, nonatomic) TQStarRatingView *starView;
-
+@property (weak, nonatomic) IBOutlet UIView *coachInfoView;
+@property (strong, nonatomic) IBOutlet UIImageView *portrait;
 @property (strong, nonatomic) IBOutlet UILabel *name;
-@property (strong, nonatomic) IBOutlet UILabel *sex;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameWidthCon;
+@property (weak, nonatomic) IBOutlet UIView *genderView;
+@property (weak, nonatomic) IBOutlet UIImageView *genderIcon;
+@property (weak, nonatomic) IBOutlet UIImageView *starcoachIcon;
+@property (strong, nonatomic) TQStarRatingView *starView;
+@property (strong, nonatomic) UILabel *countLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *courseViewHeightCon;
+@property (weak, nonatomic) IBOutlet UIButton *appointBtn;
+@property (weak, nonatomic) IBOutlet UIView *freeCourseView;
 @property (strong, nonatomic) IBOutlet UILabel *age;
-@property (strong, nonatomic) IBOutlet UILabel *address;
-@property (strong, nonatomic) IBOutlet UILabel *idCardNum;
-@property (strong, nonatomic) IBOutlet UILabel *coachCardNum;
 @property (strong, nonatomic) IBOutlet UILabel *carType;
-@property (strong, nonatomic) IBOutlet UILabel *carNum;
-@property (strong, nonatomic) IBOutlet UILabel *driveSchool;
-@property (strong, nonatomic) IBOutlet UILabel *coachLevel;
-@property (strong, nonatomic) IBOutlet UILabel *selfComment;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *selfCommentHeight;
-
-@property (strong, nonatomic) IBOutlet UILabel *urgentPhone;    // 紧急联系人电话
-@property (strong, nonatomic) IBOutlet UILabel *coachPhone;     // 教练电话
+@property (strong, nonatomic) IBOutlet UILabel *address;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *addressHeightCon;
+@property (weak, nonatomic) IBOutlet UILabel *commentSelfLabel;
 @property (assign, nonatomic) int studentNum; // 评论人数
 @property (assign, nonatomic) int count; // 总条数
 @property (strong, nonatomic) NSString *phone;//教练电话
 
 // 页面数据
+@property (strong, nonatomic) NSDictionary *coachInfoDict;
 @property (strong, nonatomic) NSMutableArray *commentArray;
 
 @end
@@ -63,15 +67,35 @@
 
 - (void)viewConfig {
     self.detailsView.frame = CGRectMake(0, 0, SCREEN_WIDTH, COACH_DETAILVIEW_HEIGHT);
-    self.tabelVIew.tableHeaderView = self.detailsView;
+    self.mainTableView.tableHeaderView = self.detailsView;
+    self.appointBtn.layer.cornerRadius = 3;
+    self.genderView.layer.cornerRadius = 2;
     
-    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(52, 107, 83, 15)];
-    [self.detailsView addSubview:self.starView];
+    // 星级
+    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(self.name.x, 43, 68, 12)];
+    [self.coachInfoView addSubview:self.starView];
+    
+    // 预约次数
+    UILabel *countLabel = [[UILabel alloc] init];
+    self.countLabel = countLabel;
+    [self.coachInfoView addSubview:countLabel];
+    countLabel.width = 150;
+    countLabel.height = 14;
+    countLabel.x = self.starView.right + 6;
+    countLabel.centerY = self.starView.centerY;
+    countLabel.font = [UIFont systemFontOfSize:12];
+    countLabel.textColor = RGB(135, 135, 135);
+    
+    // 体验课
+    UIView *freeCourseIcon = [GuangdaCoach createFreeCourseIcon];
+    freeCourseIcon.x = 13;
+    freeCourseIcon.centerY = self.freeCourseView.height / 2;
+    [self.freeCourseView addSubview:freeCourseIcon];
     
     //刷新加载
-    self.pullToRefresh = [[DSPullToRefreshManager alloc] initWithPullToRefreshViewHeight:60.0 tableView:self.tabelVIew withClient:self];
+    self.pullToRefresh = [[DSPullToRefreshManager alloc] initWithPullToRefreshViewHeight:60.0 tableView:self.mainTableView withClient:self];
     
-    self.pullToMore = [[DSBottomPullToMoreManager alloc] initWithPullToMoreViewHeight:60.0 tableView:self.tabelVIew withClient:self];
+    self.pullToMore = [[DSBottomPullToMoreManager alloc] initWithPullToMoreViewHeight:60.0 tableView:self.mainTableView withClient:self];
     [self.pullToMore setPullToMoreViewVisible:NO]; //隐藏加载更多
 }
 
@@ -95,68 +119,8 @@
         
         if ([responseObject[@"code"] integerValue] == 1)
         {
-            NSDictionary *coachInfo = responseObject[@"coachinfo"];
-            self.name.text = [coachInfo[@"realname"] description];;
-            switch ([[coachInfo[@"gender"] description] intValue]) {
-                case 1:
-                    self.sex.text = @"男";
-                    break;
-                
-                case 2:
-                    self.sex.text = @"女";
-                    break;
-                    
-                default:
-                    self.sex.text = @"未设置";
-                    break;
-            }
-            
-            NSString *age = [coachInfo[@"age"] description];
-//            NSString *address = [coachInfo[@"address"] description];
-//            NSString *id_cardnum = [coachInfo[@"id_cardnum"] description];
-            NSString *coach_cardnum = [coachInfo[@"coach_cardnum"] description];
-            NSString *drive_school = [coachInfo[@"drive_school"] description];
-//            NSString *level = [coachInfo[@"level"] description];
-            CGFloat score = [[coachInfo[@"score"] description] floatValue];
-            
-            NSArray *modelList = coachInfo[@"modellist"];
-            NSString *carmodel = @"";
-            for (NSDictionary *dic in modelList) {
-                NSString *modelname = [dic[@"modelname"] description];
-                if(carmodel.length == 0){
-                    carmodel = modelname;
-                }else{
-                    carmodel = [NSString stringWithFormat:@"%@、%@", carmodel, modelname];
-                }
-            }
-//            carmodel = [carmodel substringFromIndex:1];
-            
-            self.age.text = [self isEmpty:age];
-            self.coachCardNum.text = [self isEmpty:coach_cardnum];
-            self.carType.text = [self isEmpty:carmodel];
-            self.driveSchool.text = [self isEmpty:drive_school];
-            [self.starView changeStarForegroundViewWithScore:score];
-            
-            NSString *coachInfoStr = [coachInfo[@"selfeval"] description];
-            if (coachInfoStr.length == 0) {
-                coachInfoStr = @"暂无";
-            }
-            self.selfComment.text = coachInfoStr;
-            
-            NSString *urgentStr = [coachInfo[@"phone"] description];
-            NSString *coachPhoneStr = [coachInfo[@"phone"] description];
-            urgentStr = [urgentStr stringByReplacingOccurrencesOfString:@" " withString:@""];
-            coachPhoneStr = [coachPhoneStr stringByReplacingOccurrencesOfString:@" " withString:@""];
-            self.phone = urgentStr;
-            
-            CGSize size = [CommonUtil sizeWithString:coachInfoStr fontSize:15.0 sizewidth:(SCREEN_WIDTH - 92) sizeheight:CGFLOAT_MAX];
-            self.selfCommentHeight.constant = size.height;
-            
-            self.urgentPhone.text = [self isEmpty:@"电话"];
-            self.coachPhone.text = [self isEmpty:@"短信"];
-    
-            self.detailsView.frame = CGRectMake(0, 0, SCREEN_WIDTH, size.height - 20 + COACH_DETAILVIEW_HEIGHT);
-            self.tabelVIew.tableHeaderView = self.detailsView;
+            self.coachInfoDict = responseObject[@"coachinfo"];
+            [self showData:self.coachInfoDict];
             
         }else{
             NSString *message = responseObject[@"message"];
@@ -215,7 +179,7 @@
                 [_pullToMore relocatePullToMoreView];
             }
             
-            [self.tabelVIew reloadData];
+            [self.mainTableView reloadData];
         }else{
             [self makeToast:message];
         }
@@ -288,53 +252,69 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UITableViewHeaderFooterView *headerView = [[UITableViewHeaderFooterView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 60.0)];
+    UITableViewHeaderFooterView *headerView = [[UITableViewHeaderFooterView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 34.0)];
     headerView.backgroundColor = [UIColor whiteColor];
     headerView.contentView.backgroundColor = [UIColor whiteColor];
     
-    UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
-    topLine.backgroundColor = RGB(219.0, 220.0, 223.0);
-    [headerView.contentView addSubview:topLine];
+//    UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
+//    topLine.backgroundColor = RGB(219.0, 220.0, 223.0);
+//    [headerView.contentView addSubview:topLine];
     
-    UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, 59.0, SCREEN_WIDTH, 1)];
-    bottomLine.backgroundColor = RGB(219.0, 220.0, 223.0);
+    UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, 33.0, SCREEN_WIDTH, 1)];
+    bottomLine.backgroundColor = RGB(223, 223, 223);
     [headerView.contentView addSubview:bottomLine];
     
     if(self.commentArray.count == 0){
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 60.0)];
-        label.font = [UIFont systemFontOfSize:18.0];
-        label.textColor = RGB(60, 60, 60);
-        label.text = @"该教练暂无评评价～";
-        label.textAlignment = NSTextAlignmentCenter;
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(13, 0, SCREEN_WIDTH, headerView.height)];
+        label.font = [UIFont systemFontOfSize:12.0];
+        label.textColor = RGB(153, 153, 153);
+        label.text = @"该教练暂无评价～";
         [headerView.contentView addSubview:label];
-    }else{
-        CGSize size = [CommonUtil sizeWithString:[NSString stringWithFormat:@"共%d条",self.count] fontSize:15.0 sizewidth:CGFLOAT_MAX sizeheight:25.0];
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 12, size.width, 20.0)];
-        label.font = [UIFont systemFontOfSize:15.0];
-        label.textColor = RGB(60, 60, 60);
+    }
+    else {
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(13, 0, 45, headerView.height)];
+        [headerView addSubview:titleLabel];
+        titleLabel.font = [UIFont systemFontOfSize:11];
+        titleLabel.textColor = RGB(153, 153, 153);
+        titleLabel.text = @"学员评价";
+        
+        // 人数
+        UILabel *countLabel = [[UILabel alloc] init];
+        [headerView addSubview:countLabel];
+        countLabel.width = 100;
+        countLabel.height = headerView.height;
+        countLabel.x = titleLabel.right + 3;
+        countLabel.y = 0;
+        countLabel.font = [UIFont systemFontOfSize:10];
+        countLabel.textColor = RGB(170, 170, 170);
+        countLabel.text = [NSString stringWithFormat:@"(%d人评论)", self.studentNum];
+        
+        // 箭头
+        UIImageView *arrow = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 20, 12, 5.5, 9)];
+        arrow.image = [UIImage imageNamed:@"ic_arrow_right"];
+        [headerView.contentView addSubview:arrow];
+        
+        // 共几条
+        CGSize size = [CommonUtil sizeWithString:[NSString stringWithFormat:@"共%d条",self.count] fontSize:10.0 sizewidth:CGFLOAT_MAX sizeheight:25.0];
+        UILabel *label = [[UILabel alloc] init];
+        label.width = size.width;
+        label.height = 12;
+        label.right = arrow.left - 10;
+        label.centerY = headerView.height / 2;
+        label.font = [UIFont systemFontOfSize:10.0];
+        label.textColor = RGB(170, 170, 170);
         label.text = [NSString stringWithFormat:@"共%d条",self.count];
         [headerView.contentView addSubview:label];
-        
-        UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 100, 15.0)];
-        label1.font = [UIFont systemFontOfSize:11.0];
-        label1.textColor = RGB(60, 60, 60);
-        label1.text = [NSString stringWithFormat:@"%d名学员评论", self.studentNum];
-        [headerView.contentView addSubview:label1];
-        
-        //箭头
-        UIImageView *arrow = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 21, 20, 11, 20)];
-        arrow.image = [UIImage imageNamed:@"comment_arrow"];
-        [headerView.contentView addSubview:arrow];        
     }
     
-    UITapGestureRecognizer *singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(SingleTap:)];
+    UITapGestureRecognizer *singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTap:)];
     singleRecognizer.numberOfTapsRequired = 1; // 单击
     [headerView addGestureRecognizer:singleRecognizer];
     return headerView;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 60.0;
+    return 34.0;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -342,20 +322,124 @@
     return [CommentTableViewCell calculateHeight:comment];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    XBComment *comment = self.commentArray[indexPath.row];
-    CommentListViewController *nextController = [[CommentListViewController alloc] initWithNibName:@"CommentListViewController" bundle:nil];
-    nextController.coachid = self.coachId;
-    nextController.studentID = comment.studentID;
-    nextController.studentName = comment.studentName;
-    nextController.type = 2;
-    [self.navigationController pushViewController:nextController animated:YES];
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    XBComment *comment = self.commentArray[indexPath.row];
+//    CommentListViewController *nextController = [[CommentListViewController alloc] initWithNibName:@"CommentListViewController" bundle:nil];
+//    nextController.coachid = self.coachId;
+//    nextController.studentID = comment.studentID;
+//    nextController.studentName = comment.studentName;
+//    nextController.type = 2;
+//    [self.navigationController pushViewController:nextController animated:YES];
+//}
 
 #pragma mark - private
+- (void)showData:(NSDictionary *)coachInfo
+{
+    // 头像
+    NSString *avatarStr = [coachInfo[@"avatarurl"] description];
+    [self.portrait sd_setImageWithURL:[NSURL URLWithString:avatarStr] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
+    
+    // 姓名
+    NSString *nameStr = [coachInfo[@"realname"] description];
+    self.name.text = nameStr;
+    CGFloat nameStrWidth = [CommonUtil sizeWithString:nameStr fontSize:16 sizewidth:150 sizeheight:20].width;
+    self.nameWidthCon.constant = nameStrWidth;
+    
+    // 性别
+    switch ([[coachInfo[@"gender"] description] intValue]) {
+        case 1:
+            self.genderView.backgroundColor = RGB(120, 190, 245);
+            self.genderIcon.image = [UIImage imageNamed:@"ic_male"];
+            break;
+            
+        case 2:
+            self.genderView.backgroundColor = RGB(245, 135, 176);
+            self.genderIcon.image = [UIImage imageNamed:@"ic_female"];
+            break;
+            
+        default:
+            self.genderView.backgroundColor = RGB(120, 190, 245);
+            self.genderIcon.image = [UIImage imageNamed:@"ic_male"];
+            break;
+    }
+    
+    // 年龄
+    NSString *age = [coachInfo[@"age"] description];
+    self.age.text = [self isEmpty:age];
+    
+    // 明星教练
+    int signState = [coachInfo[@"signstate"] intValue];
+    if (signState == 1) {
+        self.starcoachIcon.hidden = NO;
+    } else {
+        self.starcoachIcon.hidden = YES;
+    }
+    
+    // 评分
+    CGFloat score = [[coachInfo[@"score"] description] floatValue];
+    [self.starView changeStarForegroundViewWithScore:score];
+    
+    // 预约次数
+    NSString *count = nil;
+    if ([[MainViewController readCarModelID] isEqualToString:@"19"]) { // 陪驾
+        count = [coachInfo[@"accompanynum"] description];
+        self.countLabel.text = [NSString stringWithFormat:@"陪驾次数：%@", count];
+    } else {
+        count = [coachInfo[@"sumnum"] description];
+        self.countLabel.text = [NSString stringWithFormat:@"预约次数：%@", count];
+    }
+    
+    
+    // 准教车型
+    NSArray *modelList = coachInfo[@"modellist"];
+    NSString *carmodel = @"";
+    for (NSDictionary *dic in modelList) {
+        NSString *modelname = [dic[@"modelname"] description];
+        if(carmodel.length == 0){
+            carmodel = modelname;
+        }else{
+            carmodel = [NSString stringWithFormat:@"%@、%@", carmodel, modelname];
+        }
+    }
+    self.carType.text = [self isEmpty:carmodel];
+    
+    // 体验课
+    int freeCourseState = [coachInfo[@"freecoursestate"] intValue];
+    if (freeCourseState) {
+        self.freeCourseView.hidden = NO;
+        self.courseViewHeightCon.constant = 105;
+        self.detailsView.height = COACH_DETAILVIEW_HEIGHT;
+    } else {
+        self.freeCourseView.hidden = YES;
+        self.courseViewHeightCon.constant = 105 - 36;
+        self.detailsView.height = COACH_DETAILVIEW_HEIGHT - 36;
+    }
+    
+    // 电话
+    NSString *phoneStr = [coachInfo[@"phone"] description];
+    phoneStr = [phoneStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+    self.phone = phoneStr;
+    
+    // 练车地址
+    NSString *addrStr = [coachInfo[@"detail"] description];
+    self.address.text = addrStr;
+    CGFloat addrStrWidth = SCREEN_WIDTH - 142;
+    CGFloat addrStrHeight = [CommonUtil sizeWithString:addrStr fontSize:12 sizewidth:addrStrWidth sizeheight:0].height;
+    self.addressHeightCon.constant = addrStrHeight;
+    
+    // 自我评价
+    NSString *coachInfoStr = [coachInfo[@"selfeval"] description];
+    if ([CommonUtil isEmpty:coachInfoStr]) {
+        coachInfoStr = @"暂无评价~";
+    }
+    self.commentSelfLabel.text = coachInfoStr;
+    
+    self.mainTableView.tableHeaderView = self.detailsView;
+}
+
 - (NSString *)isEmpty:(NSString *)string
 {
-    if (string.length == 0) {
+    if ([CommonUtil isEmpty:string]) {
         return @"暂无";
     }
     return string;
@@ -391,7 +475,20 @@
     
     
 }
--(void)SingleTap:(UITapGestureRecognizer*)recognizer
+
+- (IBAction)appointClick:(id)sender {
+    NSLog(@"预约");
+    AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
+    nextController.coachInfoDic = self.coachInfoDict;
+    NSString *coachID = [self.coachInfoDict[@"coachid"] description];
+    nextController.coachId = coachID;
+    nextController.carModelID = [MainViewController readCarModelID];
+    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
+    navigationController.navigationBarHidden = YES;
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
+
+- (void)singleTap:(UITapGestureRecognizer*)recognizer
 {
     CommentListViewController *nextController = [[CommentListViewController alloc] initWithNibName:@"CommentListViewController" bundle:nil];
     nextController.coachid = self.coachId;

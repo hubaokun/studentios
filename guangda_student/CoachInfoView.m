@@ -9,13 +9,14 @@
 #import "CoachInfoView.h"
 #import "TQStarRatingView.h"
 #import "UIImageView+WebCache.h"
+#import "GuangdaCoach.h"
 
 #define EDGE 10 // 左右两侧间隙
 @interface CoachInfoView()
 @property (strong, nonatomic) UIImageView *portraitPic;     // 头像
 @property (strong, nonatomic) UILabel *nameLabel;           // 教练名
 @property (strong, nonatomic) UIImageView *genderIcon;      // 性别
-@property (strong, nonatomic) UIView *stateView;            // 教练状态栏
+@property (strong, nonatomic) UIImageView *starcoachIcon;   // 明星教练
 @property (strong, nonatomic) TQStarRatingView *scoreView;  // 教练评分
 @property (strong, nonatomic) UILabel *countLabel;          // 预约次数
 @property (strong, nonatomic) UILabel *addressLabel;        // 练车地点
@@ -62,20 +63,20 @@
         UIImageView *genderIcon = [[UIImageView alloc] init];
         self.genderIcon = genderIcon;
         [self addSubview:genderIcon];
-        genderIcon.width = 12;
-        genderIcon.height = 12;
+        genderIcon.width = 13;
+        genderIcon.height = 13;
         genderIcon.centerY = nameLabel.centerY;
+        genderIcon.layer.cornerRadius = 2;
         genderIcon.contentMode = UIViewContentModeCenter;
         
-        // 教练状态栏
-        UIView *stateView = [[UIView alloc] init];
-        self.stateView = stateView;
-        [self addSubview:stateView];
-        stateView.width = 100;
-        stateView.height = 12;
-        stateView.x = nameLabel.right + 10;
-        stateView.centerY = nameLabel.centerY;
-        stateView.backgroundColor = [UIColor clearColor];
+        // 明星教练
+        UIImageView *starcoachIcon = [[UIImageView alloc] init];
+        self.starcoachIcon = starcoachIcon;
+        [self addSubview:starcoachIcon];
+        starcoachIcon.width = 41;
+        starcoachIcon.height = 15;
+        starcoachIcon.centerY = nameLabel.centerY;
+        starcoachIcon.image = [UIImage imageNamed:@"ic_starcoach"];
         
         // 教练评分
         TQStarRatingView *scoreView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(nameLabel.x, nameLabel.bottom + 8, 68, 12)];
@@ -176,19 +177,24 @@
     freeCourseView.x = EDGE;
     freeCourseView.y = line2.bottom + 8;
     
-    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+//    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+//    [freeCourseView addSubview:icon];
+//    icon.image = [UIImage imageNamed:@"ic_free"];
+    
+    UIView *icon = [GuangdaCoach createFreeCourseIcon];
     [freeCourseView addSubview:icon];
-    icon.image = [UIImage imageNamed:@"ic_free"];
+    icon.x = 0;
+    icon.centerY = freeCourseView.height / 2;
     
     UILabel *label = [[UILabel alloc] init];
     [freeCourseView addSubview:label];
-    label.x = icon.right + 8;
-    label.centerY = icon.centerY;
+    label.x = icon.right + 4;
+    label.y = 0;
     label.width = 280;
     label.height = freeCourseView.height;
     label.font = [UIFont systemFontOfSize:13];
     label.textColor = CUSTOM_RED;
-    label.text = @"新用户预约科目二、科目三课程0元";
+    label.text = @"新用户首单免费体验学车课程";
 }
 
 - (CGFloat)loadData:(NSDictionary *)coachInfoDict withCarModelID:(NSString *)carModelID
@@ -211,14 +217,26 @@
     // 性别
     int gender = [coachInfoDict[@"gender"] intValue];
     if (gender == 1) {
-        [self.genderIcon setImage:[UIImage imageNamed:@"icon_male"]];
+        self.genderIcon.backgroundColor = RGB(120, 190, 245);
+        self.genderIcon.image = [UIImage imageNamed:@"ic_male"];
     } else if (gender == 2) {
-        [self.genderIcon setImage:[UIImage imageNamed:@"icon_female"]];
+        self.genderIcon.backgroundColor = RGB(245, 135, 176);
+        self.genderIcon.image = [UIImage imageNamed:@"ic_female"];
     } else{
-        [self.genderIcon setImage:[UIImage imageNamed:@"icon_male"]];
+        self.genderIcon.backgroundColor = RGB(120, 190, 245);
+        self.genderIcon.image = [UIImage imageNamed:@"ic_male"];
     }
-    self.genderIcon.left = self.nameLabel.right + 10;
+    self.genderIcon.left = self.nameLabel.right + 8;
 
+    // 明星教练
+    self.starcoachIcon.left = self.genderIcon.right + 6;
+    int signState = [coachInfoDict[@"signstate"] intValue];
+    if (signState == 1) {
+        self.starcoachIcon.hidden = NO;
+    } else {
+        self.starcoachIcon.hidden = YES;
+    }
+    
     // 评分
     CGFloat starScore = [coachInfoDict[@"score"] floatValue];
     [self.scoreView changeStarForegroundViewWithScore:starScore];
