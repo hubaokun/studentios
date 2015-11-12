@@ -105,7 +105,7 @@
     }
     
     // 星级
-    [self.starView changeStarForegroundViewWithScore:[[coachDic[@"score"] description] floatValue]];
+    [self.starView changeStarForegroundViewWithScore:[coachDic[@"score"] floatValue]];
     
     // 总单数
     if ([self.carModelID isEqualToString:@"19"]) { // 陪驾
@@ -113,27 +113,16 @@
         if ([CommonUtil isEmpty:sumnum]) {
             sumnum = @"0";
         }
-        NSString *sumnumStr = [NSString stringWithFormat:@"预约次数:%@",sumnum];
-//        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:sumnumStr];
-//        [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(4,sumnum.length)];
-//        self.orderCount.attributedText = string;
+        NSString *sumnumStr = [NSString stringWithFormat:@"陪驾次数:%@",sumnum];
         self.orderCount.text = sumnumStr;
     } else {
         NSString *sumnum = [coachDic[@"sumnum"] description];
-        NSString *sumnumStr = [NSString stringWithFormat:@"陪驾次数:%@",sumnum];
-//        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:sumnumStr];
-//        [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(4,sumnum.length)];
-//        self.orderCount.attributedText = string;
+        if ([CommonUtil isEmpty:sumnum]) {
+            sumnum = @"0";
+        }
+        NSString *sumnumStr = [NSString stringWithFormat:@"预约次数:%@",sumnum];
         self.orderCount.text = sumnumStr;
     }
-    
-    // 驾校名
-//    NSString *schoolName = coachDic[@"drive_school"];
-//    if ([CommonUtil isEmpty:schoolName]) {
-//        self.driveSchoolLabel.text = @"";
-//    } else {
-//        self.driveSchoolLabel.text = schoolName;
-//    }
     
     // 车型
     if ([self.carModelID isEqualToString:@"19"]) { // 陪驾

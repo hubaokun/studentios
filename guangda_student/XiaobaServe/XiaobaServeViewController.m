@@ -45,7 +45,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.cityBtn addTarget:self action:@selector(clickToImproveInfoView) forControlEvents:UIControlEventTouchUpInside];
-    
     [self.ServeBtn addTarget:self action:@selector(chatItemAction) forControlEvents:UIControlEventTouchUpInside];
 }
 

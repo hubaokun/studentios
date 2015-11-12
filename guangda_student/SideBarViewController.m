@@ -20,7 +20,6 @@
 #import "SignUpViewController.h"
 @interface SideBarViewController ()
 
-@property (nonatomic, strong) UIView *redPoint;
 @property (strong, nonatomic) IBOutlet UIView *systemMessageView;
 @property (strong, nonatomic) IBOutlet UIImageView *messageIcon;
 @property (strong, nonatomic) IBOutlet UIImageView *messageRed;
@@ -68,6 +67,7 @@
         self.userNameLabel.text = @"账号未登录";
         self.phoneNumLabel.text = @"";
         [self.userLogo setImage:[UIImage imageNamed:@"login_icon"]];
+        self.messageRed.hidden = YES;
     }
     [self showName];
 }
@@ -75,7 +75,7 @@
 // 是否显示小红点，提示有消息未读
 - (void)showRedPoint
 {
-    if([[CommonUtil currentUtil] isLogin]){
+    if([[CommonUtil currentUtil] isLogin:NO]){
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"UserInfo"];
         NSString *studentid = userInfo[@"studentid"];

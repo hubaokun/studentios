@@ -17,5 +17,6 @@
 @property (weak, nonatomic) id<TabBarViewDelegate> delegate;
 @property (assign, nonatomic) NSUInteger itemsCount; // 传入所需的item个数，即会生成相应的items
 - (void)itemsTitleConfig:(NSArray *)titleArray; // 传入item子标题的数组
+- (void)itemClickToIndex:(NSUInteger)itemIndex;
 
 @end

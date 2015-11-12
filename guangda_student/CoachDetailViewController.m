@@ -17,7 +17,7 @@
 #import "MainViewController.h"
 #import "AppointCoachViewController.h"
 
-#define COACH_DETAILVIEW_HEIGHT 382
+#define COACH_DETAILVIEW_HEIGHT 358
 @interface CoachDetailViewController ()<DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient> {
     int _curPage;
     int _searchPage;
@@ -30,21 +30,29 @@
 
 @property (strong, nonatomic) IBOutlet UIView *detailsView;
 @property (weak, nonatomic) IBOutlet UIView *coachInfoView;
-@property (strong, nonatomic) IBOutlet UIImageView *portrait;
-@property (strong, nonatomic) IBOutlet UILabel *name;
+@property (weak, nonatomic) IBOutlet UIImageView *portrait;
+@property (weak, nonatomic) IBOutlet UILabel *name;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameWidthCon;
 @property (weak, nonatomic) IBOutlet UIView *genderView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *genderViewWidthCon;
 @property (weak, nonatomic) IBOutlet UIImageView *genderIcon;
 @property (weak, nonatomic) IBOutlet UIImageView *starcoachIcon;
 @property (strong, nonatomic) TQStarRatingView *starView;
-@property (strong, nonatomic) UILabel *countLabel;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *courseViewHeightCon;
+@property (strong, nonatomic) UILabel *scoreLabel;
+@property (weak, nonatomic) IBOutlet UILabel *countLabel;
+@property (weak, nonatomic) IBOutlet UILabel *countDesLabel;
 @property (weak, nonatomic) IBOutlet UIButton *appointBtn;
+/* courseView内部控件的屏幕适配 */
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *con1;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *con2;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *con3;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *con4;
+
 @property (weak, nonatomic) IBOutlet UIView *freeCourseView;
-@property (strong, nonatomic) IBOutlet UILabel *age;
-@property (strong, nonatomic) IBOutlet UILabel *carType;
-@property (strong, nonatomic) IBOutlet UILabel *address;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *addressHeightCon;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *courseViewHeightCon;
+@property (weak, nonatomic) IBOutlet UILabel *age;
+@property (weak, nonatomic) IBOutlet UILabel *carType;
+@property (weak, nonatomic) IBOutlet UILabel *address;
 @property (weak, nonatomic) IBOutlet UILabel *commentSelfLabel;
 @property (assign, nonatomic) int studentNum; // 评论人数
 @property (assign, nonatomic) int count; // 总条数
@@ -72,19 +80,19 @@
     self.genderView.layer.cornerRadius = 2;
     
     // 星级
-    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(self.name.x, 43, 68, 12)];
+    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(self.name.x, 40, 58, 10)];
     [self.coachInfoView addSubview:self.starView];
     
-    // 预约次数
-    UILabel *countLabel = [[UILabel alloc] init];
-    self.countLabel = countLabel;
-    [self.coachInfoView addSubview:countLabel];
-    countLabel.width = 150;
-    countLabel.height = 14;
-    countLabel.x = self.starView.right + 6;
-    countLabel.centerY = self.starView.centerY;
-    countLabel.font = [UIFont systemFontOfSize:12];
-    countLabel.textColor = RGB(135, 135, 135);
+    // 评分
+    UILabel *scoreLabel = [[UILabel alloc] init];
+    self.scoreLabel = scoreLabel;
+    [self.coachInfoView addSubview:scoreLabel];
+    scoreLabel.width = 30;
+    scoreLabel.height = 12;
+    scoreLabel.x = self.starView.right + 6;
+    scoreLabel.centerY = self.starView.centerY;
+    scoreLabel.font = [UIFont systemFontOfSize:10];
+    scoreLabel.textColor = RGB(102, 102, 102);
     
     // 体验课
     UIView *freeCourseIcon = [GuangdaCoach createFreeCourseIcon];
@@ -97,6 +105,14 @@
     
     self.pullToMore = [[DSBottomPullToMoreManager alloc] initWithPullToMoreViewHeight:60.0 tableView:self.mainTableView withClient:self];
     [self.pullToMore setPullToMoreViewVisible:NO]; //隐藏加载更多
+    
+    // 屏幕适配
+    NSLog(@"screnn_width === %f", SCREEN_WIDTH);
+    CGFloat ratio = SCREEN_WIDTH / 320.0;
+    self.con1.constant *= ratio;
+    self.con2.constant *= ratio;
+    self.con3.constant *= ratio;
+    self.con4.constant *= ratio;
 }
 
 #pragma mark - 接口请求
@@ -365,7 +381,14 @@
     
     // 年龄
     NSString *age = [coachInfo[@"age"] description];
-    self.age.text = [self isEmpty:age];
+    if ([CommonUtil isEmpty:age] || age.intValue < 1) {
+        self.age.hidden = YES;
+        self.genderViewWidthCon.constant = 12;
+    } else {
+        self.age.text = age;
+        self.age.hidden = NO;
+        self.genderViewWidthCon.constant = 26;
+    }
     
     // 明星教练
     int signState = [coachInfo[@"signstate"] intValue];
@@ -374,21 +397,32 @@
     } else {
         self.starcoachIcon.hidden = YES;
     }
+    if ([self.carModelID isEqualToString:@"19"]) { // 陪驾
+        self.starcoachIcon.hidden = YES;
+    }
     
     // 评分
-    CGFloat score = [[coachInfo[@"score"] description] floatValue];
+    CGFloat score = [coachInfo[@"score"] floatValue];
     [self.starView changeStarForegroundViewWithScore:score];
+    self.scoreLabel.text = [NSString stringWithFormat:@"%.1f", score];
     
     // 预约次数
     NSString *count = nil;
     if ([[MainViewController readCarModelID] isEqualToString:@"19"]) { // 陪驾
         count = [coachInfo[@"accompanynum"] description];
-        self.countLabel.text = [NSString stringWithFormat:@"陪驾次数：%@", count];
+        if ([CommonUtil isEmpty:count]) {
+            count = @"0";
+        }
+        self.countLabel.text = [NSString stringWithFormat:@"%@", count];
+        self.countDesLabel.text = @"陪驾次数";
     } else {
         count = [coachInfo[@"sumnum"] description];
-        self.countLabel.text = [NSString stringWithFormat:@"预约次数：%@", count];
+        if ([CommonUtil isEmpty:count]) {
+            count = @"0";
+        }
+        self.countLabel.text = [NSString stringWithFormat:@"%@", count];
+        self.countDesLabel.text = @"预约次数";
     }
-    
     
     // 准教车型
     NSArray *modelList = coachInfo[@"modellist"];
@@ -398,21 +432,21 @@
         if(carmodel.length == 0){
             carmodel = modelname;
         }else{
-            carmodel = [NSString stringWithFormat:@"%@、%@", carmodel, modelname];
+            carmodel = [NSString stringWithFormat:@"%@ 丨 %@", carmodel, modelname];
         }
     }
-    self.carType.text = [self isEmpty:carmodel];
+    self.carType.text = [NSString stringWithFormat:@"准教车型：%@", carmodel];
     
     // 体验课
     int freeCourseState = [coachInfo[@"freecoursestate"] intValue];
     if (freeCourseState) {
         self.freeCourseView.hidden = NO;
-        self.courseViewHeightCon.constant = 105;
+        self.courseViewHeightCon.constant = 99;
         self.detailsView.height = COACH_DETAILVIEW_HEIGHT;
     } else {
         self.freeCourseView.hidden = YES;
-        self.courseViewHeightCon.constant = 105 - 36;
-        self.detailsView.height = COACH_DETAILVIEW_HEIGHT - 36;
+        self.courseViewHeightCon.constant = 69;
+        self.detailsView.height = COACH_DETAILVIEW_HEIGHT - 30;
     }
     
     // 电话
@@ -423,9 +457,6 @@
     // 练车地址
     NSString *addrStr = [coachInfo[@"detail"] description];
     self.address.text = addrStr;
-    CGFloat addrStrWidth = SCREEN_WIDTH - 142;
-    CGFloat addrStrHeight = [CommonUtil sizeWithString:addrStr fontSize:12 sizewidth:addrStrWidth sizeheight:0].height;
-    self.addressHeightCon.constant = addrStrHeight;
     
     // 自我评价
     NSString *coachInfoStr = [coachInfo[@"selfeval"] description];

@@ -10,6 +10,7 @@
 
 @interface CoachDetailViewController : GreyTopViewController<UITableViewDelegate,UITableViewDataSource>
 
-@property (strong, nonatomic) NSString *coachId;
+@property (copy, nonatomic) NSString *coachId;
+@property (copy, nonatomic) NSString *carModelID;
 
 @end

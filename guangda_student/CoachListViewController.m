@@ -204,6 +204,7 @@
 {
     CoachDetailViewController *nextController = [[CoachDetailViewController alloc] initWithNibName:@"CoachDetailViewController" bundle:nil];
     nextController.coachId = coachID;
+    nextController.carModelID = self.carModelID;
     UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
     navigationController.navigationBarHidden = YES;
     [self presentViewController:navigationController animated:YES completion:nil];
@@ -426,27 +427,6 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ResetCoachDict" object:nil];
 }
 
-- (IBAction)coachDetailsClick:(id)sender
-{
-    CoachDetailViewController *nextController = [[CoachDetailViewController alloc] initWithNibName:@"CoachDetailViewController" bundle:nil];
-    nextController.coachId = self.coachId;
-    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
-    navigationController.navigationBarHidden = YES;
-    [self presentViewController:navigationController animated:YES completion:nil];
-}
-
-- (IBAction)appointCoachClick:(id)sender
-{
-    AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
-    nextController.coachId = self.coachId;
-    nextController.coachInfoDic = self.coachInfoDic;
-    nextController.carModelID = self.carModelID;
-    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
-    navigationController.navigationBarHidden = YES;
-    [self presentViewController:navigationController animated:YES completion:nil];
-    
-}
-
 #pragma mark - 废弃
 //@property (strong, nonatomic) IBOutlet UIImageView *userLogo;           // 用户头像
 
@@ -505,6 +485,27 @@
 //            }
 //        }
 //    }
+//}
+
+//- (IBAction)coachDetailsClick:(id)sender
+//{
+//    CoachDetailViewController *nextController = [[CoachDetailViewController alloc] initWithNibName:@"CoachDetailViewController" bundle:nil];
+//    nextController.coachId = self.coachId;
+//    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
+//    navigationController.navigationBarHidden = YES;
+//    [self presentViewController:navigationController animated:YES completion:nil];
+//}
+//
+//- (IBAction)appointCoachClick:(id)sender
+//{
+//    AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
+//    nextController.coachId = self.coachId;
+//    nextController.coachInfoDic = self.coachInfoDic;
+//    nextController.carModelID = self.carModelID;
+//    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
+//    navigationController.navigationBarHidden = YES;
+//    [self presentViewController:navigationController animated:YES completion:nil];
+//    
 //}
 
 @end

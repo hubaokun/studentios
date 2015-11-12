@@ -23,8 +23,8 @@
 #import "XBSchool.h"
 
 #define ZOOM_LEVEL 14.5 // 地图缩放级别
-//#define EXERCISE_URL @"http://192.168.1.65:8080/driverweb/examination/index.jsp" // 测试缓存
-#define EXERCISE_URL @"http://120.25.236.228/dadmin/examination/index.jsp" // 正式
+//#define EXERCISE_URL @"http://192.168.1.65:8080/driverweb/examination/index.jsp" // 佳宁
+#define EXERCISE_URL @"http://120.25.236.228/dadmin/examination/index.jsp" // 测试服
 static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 
 @interface MainViewController ()<UIGestureRecognizerDelegate, BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationServiceDelegate, TabBarViewDelegate, CoachInfoViewDelegate, UIWebViewDelegate>
@@ -32,6 +32,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     BMKLocationService *_locService;
     int _actFlag; // 活动类型 0:不显示 1:跳转到url 2:内部功能
     NSUInteger _itemIndex; // 0：小巴题库 1：小巴学车 2：小巴陪驾 3：小巴服务 初始值为1
+    NSUInteger _lastItemIndex;
 }
 
 @property (strong, nonatomic) IBOutlet UIView *naviBarView;
@@ -47,6 +48,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 @property (strong, nonatomic) UIWebView *exerciseView;              // 题库
 @property (assign, nonatomic) BOOL webViewIsLoaded;                 // 题库是否已加载
 @property (strong, nonatomic) UIView *exerciseLoadFailView;         // 题库加载失败显示页面
+@property (copy, nonatomic) NSURLRequest *tarRequest;               // 当前加载的题库页面request
 
 // 教练信息
 @property (strong, nonatomic) NSArray *coachList;                   // 教练列表
@@ -94,6 +96,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     [self staticViewConfig];
     
     _itemIndex = 1;
+    _lastItemIndex = _itemIndex;
     self.annotationsList = [NSMutableArray array];
     self.isGetData = NO;
     
@@ -122,14 +125,35 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [_mapView viewWillAppear];
-    _mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
-    _locService.delegate = self;
+    [super viewWillAppear:animated];
     
-//    [self mapView:_mapView regionDidChangeAnimated:YES];
+    if (_itemIndex == 1 || _itemIndex == 2) {
+        [_mapView viewWillAppear];
+        _mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
+        _locService.delegate = self;
+        // 移除所有标注
+        [_mapView removeAnnotations:_annotationsList];
+        // 重新添加标注
+        for (int i = 0; i < self.coachList.count; i++)
+        {
+            NSDictionary *coachDic = self.coachList[i];
+            NSString *longitude = coachDic[@"longitude"];
+            NSString *latitude = coachDic[@"latitude"];
+            [self addAnnotationAtLongitude:longitude latitude:latitude andTag:i];
+        }
+    }
+    
+    if (_itemIndex == 3) { // 服务
+        if ([[CommonUtil currentUtil] isLogin:NO]) {
+            [self.serveVC viewWillAppear:YES];
+        } else {
+            [self.tabBarView itemClickToIndex:_lastItemIndex];
+        }
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [_mapView viewWillDisappear];
     _mapView.delegate = nil; // 不用时，置nil
     _locService.delegate = nil;
@@ -156,8 +180,8 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     self.exerciseView.delegate = self;
     self.webViewIsLoaded = NO;
     [self addExerciseLoadFailView];
-    NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:EXERCISE_URL]];
-    [self.exerciseView loadRequest:request];
+//    NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:EXERCISE_URL]];
+//    [self.exerciseView loadRequest:request];
     
     // c1c2
     [self c1Orc2ViewConfig];
@@ -174,7 +198,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     self.coachInfoView.delegate = self;
 
     // 创建百度地图
-    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 80)];
     [self.mapContentView addSubview:_mapView];//初始化BMKLocationService
     _locService = [[BMKLocationService alloc] init];
     _locService.delegate = self;
@@ -234,8 +258,9 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 - (void)addExerciseLoadFailView
 {
     self.exerciseLoadFailView = [[UIView alloc] initWithFrame:self.exerciseView.bounds];
-    [self.exerciseView addSubview:self.exerciseLoadFailView];
+//    [self.exerciseView addSubview:self.exerciseLoadFailView];
     self.exerciseLoadFailView.backgroundColor = [UIColor whiteColor];
+    self.exerciseLoadFailView.layer.masksToBounds = YES;
     
     UIImageView *image = [[UIImageView alloc] init];
     [self.exerciseLoadFailView addSubview:image];
@@ -255,7 +280,13 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     label.textAlignment = NSTextAlignmentCenter;
     label.numberOfLines = 0;
     label.lineBreakMode = NSLineBreakByWordWrapping;
-    label.text = @"题库加载失败，请检查您的网络";
+    label.text = @"题库加载失败，请检查您的网络，点我重新加载。";
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.exerciseLoadFailView addSubview:btn];
+    btn.frame = [UIScreen mainScreen].bounds;
+    btn.backgroundColor = [UIColor clearColor];
+    [btn addTarget:self action:@selector(reloadExerciseClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma mark - BaiduMap
@@ -473,11 +504,6 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     
     // 城市名不相等
     if (![cityName isEqualToString:self.cityName]) {
-//        UIView *cityAlertView = [self createTopAlertView];
-//        [self.view addSubview:cityAlertView];
-//        [UIView animateWithDuration:0.35 animations:^{
-//            cityAlertView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 30);
-//        }];
         [self makeToast:@"注意：您设置的驾考城市不是当前城市，可前往基本信息页面修改。" duration:6.0 position:@"bottom"];
     }
 }
@@ -611,7 +637,6 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
             }else{
                self.coachList = array;
             }
-//            self.coachList = array;     //屏蔽特殊教练
             
             // 移除所有标注
             [_mapView removeAnnotations:_annotationsList];
@@ -721,8 +746,31 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     btn.layer.borderWidth = 1;
 }
 
+// 重置筛选条件
 - (void)ResetSearchCoachDict {
     [self clickForAllData:nil];
+}
+
+// 题库页面全屏显示
+- (void)exerciseViewStretch
+{
+    [UIView animateWithDuration:0.25 animations:^{
+        self.tabBarView.top = SCREEN_HEIGHT;
+        self.naviBarView.bottom = 0;
+        self.exerciseView.top = 0;
+        self.exerciseView.height = SCREEN_HEIGHT;
+    }];
+}
+
+// 题库页面非全屏显示
+- (void)exerciseViewCompress
+{
+    [UIView animateWithDuration:0.25 animations:^{
+        self.tabBarView.bottom = SCREEN_HEIGHT;
+        self.naviBarView.top = 0;
+        self.exerciseView.top = self.naviBarView.bottom;
+        self.exerciseView.height = SCREEN_HEIGHT - self.tabBarView.height - self.naviBarView.height;
+    }];
 }
 
 #pragma mark - UIWebViewDelegate
@@ -730,6 +778,10 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 {
     NSString *url = request.URL.absoluteString;
     NSLog(@"request url === %@",url);
+    if ([url isEqualToString:@"about:blank"]) {
+        return NO;
+    }
+    self.tarRequest = request;
     if (!self.webViewIsLoaded) {
         self.webViewIsLoaded = YES;
         [self.exerciseLoadFailView removeFromSuperview];
@@ -772,26 +824,6 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     [self.exerciseView addSubview:self.exerciseLoadFailView];
 }
 
-- (void)exerciseViewStretch
-{
-    [UIView animateWithDuration:0.25 animations:^{
-        self.tabBarView.top = SCREEN_HEIGHT;
-        self.naviBarView.bottom = 0;
-        self.exerciseView.top = 0;
-        self.exerciseView.height = SCREEN_HEIGHT;
-    }];
-}
-
-- (void)exerciseViewCompress
-{
-    [UIView animateWithDuration:0.25 animations:^{
-        self.tabBarView.bottom = SCREEN_HEIGHT;
-        self.naviBarView.top = 0;
-        self.exerciseView.top = self.naviBarView.bottom;
-        self.exerciseView.height = SCREEN_HEIGHT - self.tabBarView.height - self.naviBarView.height;
-    }];
-}
-
 #pragma mark - TabBarViewDelegate
 /*
  itemIndex:
@@ -818,6 +850,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     self.translucentLine.alpha = 0;
     self.naviBarView.hidden = YES;
     
+    _lastItemIndex = _itemIndex;
     _itemIndex = itemIndex;
     
     // 题库
@@ -864,6 +897,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 {
     CoachDetailViewController *nextController = [[CoachDetailViewController alloc] initWithNibName:@"CoachDetailViewController" bundle:nil];
     nextController.coachId = coachID;
+    nextController.carModelID = carModelID;
     UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
     navigationController.navigationBarHidden = YES;
     [self presentViewController:navigationController animated:YES completion:nil];
@@ -1004,8 +1038,6 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
                          [self.coachInfoView removeFromSuperview];
                          [self.closeDetailBtn removeFromSuperview];
                      }];
-
-    [[SliderViewController sharedSliderController] closeSideBar];
     
     // 改变汽车图标状态
     if (self.selectedCar) {
@@ -1053,6 +1085,11 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
         nextVC.comeFrom = 2;
         [[SliderViewController sharedSliderController].navigationController pushViewController:nextVC animated:YES];
     }
+}
+
+// 重载题库页面
+- (void)reloadExerciseClick {
+    [self.exerciseView loadRequest:self.tarRequest];
 }
 
 - (IBAction)c1Click:(UIButton *)sender {

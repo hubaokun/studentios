@@ -15,12 +15,20 @@
     NSUInteger _itemIndex;
 }
 @property (assign, nonatomic) CGFloat midGap; // item之间的间隙
+@property (strong, nonatomic) NSMutableArray *itemBtnArray; // 节点按钮数组
 @property (strong, nonatomic) NSMutableArray *itemsIconArray; // 节点图标数组
 @property (strong, nonatomic) NSMutableArray *itemsLabelArray; // 节点图标数组
 @property (strong, nonatomic) UIImageView *selectItemIcon; // 选中节点的图标
+
 @end
 
 @implementation TabBarView
+- (NSMutableArray *)itemBtnArray {
+    if (!_itemBtnArray) {
+        _itemBtnArray = [[NSMutableArray alloc] init];
+    }
+    return _itemBtnArray;
+}
 
 - (NSMutableArray *)itemsIconArray {
     if (!_itemsIconArray) {
@@ -127,6 +135,7 @@
 //    itemBtn.alpha = 0.15;
     itemBtn.tag = itemIndex;
     [itemBtn addTarget:self action:@selector(itemBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.itemBtnArray addObject:itemBtn];
 }
 
 
@@ -171,6 +180,12 @@
     }completion:^(BOOL finished) {}];
     
     _itemIndex = itemIndex;
+}
+
+- (void)itemClickToIndex:(NSUInteger)itemIndex
+{
+    UIButton *btn = self.itemBtnArray[itemIndex];
+    [self itemBtnClick:btn];
 }
 
 - (void)itemsTitleConfig:(NSArray *)titleArray
