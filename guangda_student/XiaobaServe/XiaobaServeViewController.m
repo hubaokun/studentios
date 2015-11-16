@@ -10,6 +10,7 @@
 #import "SignUpViewController.h"
 #import "UserBaseInfoViewController.h"
 #import "SliderViewController.h"
+#import "XBWebViewController.h"
 
 #import "EMIMHelper.h"
 #import "ChatViewController.h"
@@ -178,13 +179,21 @@
     self.mainScrollView.contentSize = CGSizeMake(0, self.footView.frame.origin.y + CGRectGetHeight(self.footView.frame) + 20);
 }
 //在线报名
-- (IBAction)clickForSign:(id)sender {
-    if ([[CommonUtil currentUtil] isLogin]) {
-        SignUpViewController *nextVC = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
-        nextVC.comeFrom = 1;
+//- (IBAction)clickForSign:(id)sender {
+//    if ([[CommonUtil currentUtil] isLogin]) {
+//        SignUpViewController *nextVC = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+//        nextVC.comeFrom = 1;
 //        [self.navigationController pushViewController:nextViewController animated:YES];
-        [[SliderViewController sharedSliderController].navigationController pushViewController:nextVC animated:YES];
-    }
+//        [[SliderViewController sharedSliderController].navigationController pushViewController:nextVC animated:YES];
+//    }
+//}
+
+//小巴商城
+- (IBAction)clickForMall:(id)sender {
+    XBWebViewController *nextVC = [[XBWebViewController alloc] initWithNibName:@"XBWebViewController" bundle:nil];
+    nextVC.titleStr = @"小巴商城";
+    nextVC.mainUrl = @"http://shop13287486.wxrrd.com";
+    [[SliderViewController sharedSliderController].navigationController pushViewController:nextVC animated:YES];
 }
 
 //在线约考

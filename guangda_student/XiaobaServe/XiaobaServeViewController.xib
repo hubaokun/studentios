@@ -153,7 +153,7 @@
                                 <constraint firstAttribute="height" constant="1" id="2gw-sJ-sCY"/>
                             </constraints>
                         </view>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ico_报名" translatesAutoresizingMaskIntoConstraints="NO" id="64p-Nc-PGO">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_小巴商城" translatesAutoresizingMaskIntoConstraints="NO" id="64p-Nc-PGO">
                             <rect key="frame" x="12" y="14" width="60" height="60"/>
                             <animations/>
                             <constraints>
@@ -161,7 +161,7 @@
                                 <constraint firstAttribute="height" constant="60" id="csa-S4-0UV"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="一站式学车报名服务 完全免费" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ceb-ae-xC4">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="学车报名活动火爆开启" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ceb-ae-xC4">
                             <rect key="frame" x="84" y="51" width="201" height="21"/>
                             <animations/>
                             <constraints>
@@ -187,10 +187,10 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="clickForSign:" destination="-1" eventType="touchUpInside" id="qWg-yi-j2U"/>
+                                <action selector="clickForMall:" destination="-1" eventType="touchUpInside" id="WwA-qG-1g8"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="一键报名" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7gx-rc-dKX">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小巴商城" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7gx-rc-dKX">
                             <rect key="frame" x="84" y="22" width="130" height="21"/>
                             <animations/>
                             <constraints>
@@ -522,9 +522,9 @@
     <resources>
         <image name="arrow_back_userinfohome" width="10" height="18"/>
         <image name="ic_menu" width="20" height="20"/>
+        <image name="ic_小巴商城" width="60" height="60"/>
         <image name="ico_go" width="8" height="14"/>
         <image name="ico_客服" width="60" height="60"/>
-        <image name="ico_报名" width="60" height="60"/>
         <image name="ico_模拟培训" width="60" height="60"/>
         <image name="ico_约考" width="60" height="60"/>
     </resources>

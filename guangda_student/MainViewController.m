@@ -853,6 +853,20 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     _lastItemIndex = _itemIndex;
     _itemIndex = itemIndex;
     
+    // 当从题库和服务跳到地图页面
+    if ((_itemIndex == 1 || _itemIndex == 2) && (_lastItemIndex == 0 || _lastItemIndex == 3)) {
+        [_mapView viewWillAppear];
+        _mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
+        _locService.delegate = self;
+    }
+    
+    // 当不显示地图页面
+    if (_itemIndex == 0 || _itemIndex == 3) {
+        [_mapView viewWillDisappear];
+        _mapView.delegate = nil;
+        _locService.delegate = nil;
+    }
+    
     // 题库
     if (itemIndex == 0) {
         [self.view addSubview:self.exerciseView];

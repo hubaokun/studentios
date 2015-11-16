@@ -481,6 +481,8 @@
 		708AE66D1BBA7A5C00B78160 /* 回收站@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 708AE5501BBA7A5C00B78160 /* 回收站@2x.png */; };
 		708AE66E1BBA7A5C00B78160 /* 回收站@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 708AE5511BBA7A5C00B78160 /* 回收站@3x.png */; };
 		7093AD1B1BAFD6E9001CCAD3 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7093AD1A1BAFD6E9001CCAD3 /* libxml2.tbd */; };
+		70CB98F61BF5CDBA00A211BF /* XBWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CB98F41BF5CDBA00A211BF /* XBWebViewController.m */; };
+		70CB98F71BF5CDBA00A211BF /* XBWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70CB98F51BF5CDBA00A211BF /* XBWebViewController.xib */; };
 		70CC165F1B6BC13D00084296 /* XBCoin.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CC165E1B6BC13D00084296 /* XBCoin.m */; };
 		70CC16671B6F4EA600084296 /* libMobClickGameLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */; };
 		70DE60B81BE08E6500D43D9A /* TabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE60B71BE08E6500D43D9A /* TabBarView.m */; };
@@ -1454,6 +1456,9 @@
 		708AE5511BBA7A5C00B78160 /* 回收站@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "回收站@3x.png"; sourceTree = "<group>"; };
 		708AE5521BBA7A5C00B78160 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		7093AD1A1BAFD6E9001CCAD3 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		70CB98F31BF5CDBA00A211BF /* XBWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBWebViewController.h; sourceTree = "<group>"; };
+		70CB98F41BF5CDBA00A211BF /* XBWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBWebViewController.m; sourceTree = "<group>"; };
+		70CB98F51BF5CDBA00A211BF /* XBWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XBWebViewController.xib; sourceTree = "<group>"; };
 		70CC165D1B6BC13C00084296 /* XBCoin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBCoin.h; sourceTree = "<group>"; };
 		70CC165E1B6BC13D00084296 /* XBCoin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBCoin.m; sourceTree = "<group>"; };
 		70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickGameLibrary.a; sourceTree = "<group>"; };
@@ -2010,6 +2015,9 @@
 				3179E6251AC284C600AFCFAA /* WebViewController.h */,
 				3179E6261AC284C600AFCFAA /* WebViewController.m */,
 				3179E6271AC284C600AFCFAA /* WebViewController.xib */,
+				70CB98F31BF5CDBA00A211BF /* XBWebViewController.h */,
+				70CB98F41BF5CDBA00A211BF /* XBWebViewController.m */,
+				70CB98F51BF5CDBA00A211BF /* XBWebViewController.xib */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -3922,6 +3930,7 @@
 				71BA02F81B61D581004C500B /* CoinListViewController.xib in Resources */,
 				31608A701AEDFFA600B0D4D8 /* SureOrderViewController.xib in Resources */,
 				708AE6471BBA7A5C00B78160 /* chatBar_question@2x.png in Resources */,
+				70CB98F71BF5CDBA00A211BF /* XBWebViewController.xib in Resources */,
 				708AE6451BBA7A5C00B78160 /* chatBar_keyboardSelected@2x.png in Resources */,
 				D765DE931B1CAAE200381AEF /* AccountManagerViewController.xib in Resources */,
 				708AE6631BBA7A5C00B78160 /* chat_sender_audio_playing_001.png in Resources */,
@@ -4075,6 +4084,7 @@
 				3179E66E1AC284C600AFCFAA /* BaseViewController.m in Sources */,
 				31C9D8E91AD665AD006A4E80 /* APAuthV2Info.m in Sources */,
 				3160EEA91ADE205F00AE4DD3 /* MyAnimatedAnnotationView.m in Sources */,
+				70CB98F61BF5CDBA00A211BF /* XBWebViewController.m in Sources */,
 				70609DF51BB95FE300D47C1D /* PayViewController.m in Sources */,
 				7010253F1B89A8D200E6EF9E /* CourseTimetableViewController.m in Sources */,
 				713694971B51627700F6D573 /* OnlineTestViewController.m in Sources */,
@@ -4369,7 +4379,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "ae59d9f8-1c63-426f-94be-ceb76534cc5f";
+				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
@@ -4412,7 +4422,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "ae59d9f8-1c63-426f-94be-ceb76534cc5f";
+				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -4460,7 +4470,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ae59d9f8-1c63-426f-94be-ceb76534cc5f";
+				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -4506,7 +4516,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ae59d9f8-1c63-426f-94be-ceb76534cc5f";
+				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
 			};
 			name = Release;
 		};

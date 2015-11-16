@@ -8,6 +8,7 @@
 
 #import "TQStarRatingView.h"
 
+#define GAP_BETWEEN_STAR 2 // 星星间隙大小
 @interface TQStarRatingView ()
 
 @property (nonatomic, strong) UIView *starBackgroundView;
@@ -79,10 +80,9 @@
     UIView *view = [[UIView alloc] initWithFrame:frame];
     view.clipsToBounds = YES;
     
-    CGFloat width = floor((CGRectGetWidth(frame) - 2*(self.numberOfStar - 1))/self.numberOfStar);
+    CGFloat width = floor((CGRectGetWidth(frame) - GAP_BETWEEN_STAR * (self.numberOfStar - 1)) / self.numberOfStar);
     for (int i = 0; i < self.numberOfStar; i ++)
     {
-        
         UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
         imageView.frame = CGRectMake(i * width + 2*i, 0, width, frame.size.height);
         [view addSubview:imageView];
