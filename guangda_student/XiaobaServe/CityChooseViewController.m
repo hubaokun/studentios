@@ -75,6 +75,9 @@
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:tableView];
     
+    UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(cityTableDismiss)];
+    rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+    [tableView addGestureRecognizer:rightSwipe];
 }
 
 - (void)hotCityViewConfig
