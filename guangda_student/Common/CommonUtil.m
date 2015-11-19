@@ -377,4 +377,5 @@ static CommonUtil *defaultUtil = nil;
     [CommonUtil saveObjectToUD:nil key:@"loginusername"];
     [CommonUtil saveObjectToUD:nil key:@"loginpassword"];
 }
+
 @end

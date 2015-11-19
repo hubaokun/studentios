@@ -11,4 +11,5 @@
 @interface XiaobaServeViewController : GreyTopViewController
 @property (strong, nonatomic) IBOutlet UIButton *ServeBtn;
 @property (copy, nonatomic) void (^showLeftSideBlock)();
+- (IBAction)clickForMall:(id)sender;
 @end

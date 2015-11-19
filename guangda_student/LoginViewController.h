@@ -11,6 +11,8 @@
 #import "JKCountDownButton.h"
 
 @interface LoginViewController : GreyTopViewController
+/* input */
+@property (copy, nonatomic) void (^afterLoginBlock)();
 
 //@protocol TencentSessionDelegate;
 @property (strong, nonatomic) IBOutlet JKCountDownButton *vcodeButton;

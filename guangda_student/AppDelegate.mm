@@ -30,7 +30,6 @@
 #import "AppDelegate+EaseMob.h"
 
 #define WX_PAY_ALERT_TAG 10000
-
 @interface AppDelegate ()
 <BMKLocationServiceDelegate, WeiboSDKDelegate,BMKGeoCodeSearchDelegate,UIApplicationDelegate, IChatManagerDelegate, WXApiDelegate, UIAlertViewDelegate>
 {
@@ -69,6 +68,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
     // 初始化环信SDK，详细内容在AppDelegate+EaseMob.m 文件中
     //下面这句话不注释就变成环信了= =
     //[self loginStateChange:nil];

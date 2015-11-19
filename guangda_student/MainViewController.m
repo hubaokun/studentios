@@ -33,6 +33,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     int _actFlag; // 活动类型 0:不显示 1:跳转到url 2:内部功能
     NSUInteger _itemIndex; // 0：小巴题库 1：小巴学车 2：小巴陪驾 3：小巴服务 初始值为1
     NSUInteger _lastItemIndex;
+    NSURLRequest *_failRequest; // 加载失败request
 }
 
 @property (strong, nonatomic) IBOutlet UIView *naviBarView;
@@ -143,13 +144,13 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
         }
     }
     
-    if (_itemIndex == 3) { // 服务
-        if ([[CommonUtil currentUtil] isLogin:NO]) {
-            [self.serveVC viewWillAppear:YES];
-        } else {
-            [self.tabBarView itemClickToIndex:_lastItemIndex];
-        }
-    }
+//    if (_itemIndex == 3) { // 服务
+//        if ([[CommonUtil currentUtil] isLogin:NO]) {
+//            [self.serveVC viewWillAppear:YES];
+//        } else {
+//            [self.tabBarView itemClickToIndex:_lastItemIndex];
+//        }
+//    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -590,10 +591,10 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     }
     
     // 城市id
-    NSString *cityID = [USERDICT[@"cityid"] description];
-    if (![CommonUtil isEmpty:cityID]) {
-        paramDic[@"cityid"] = cityID;
-    }
+//    NSString *cityID = [USERDICT[@"cityid"] description];
+//    if (![CommonUtil isEmpty:cityID]) {
+//        paramDic[@"cityid"] = cityID;
+//    }
     
     // app版本
     [paramDic setObject:APP_VERSION forKey:@"version"];
@@ -682,6 +683,8 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     CLLocationDistance dis = BMKMetersBetweenMapPoints(mp1, mp2);
     
     NSString *pointCenter = [NSString stringWithFormat:@"%f,%f", c2.longitude, c2.latitude];
+    AppDelegate *app = APP_DELEGATE;
+    app.pointCenter = pointCenter;
     NSString *radius = [NSString stringWithFormat:@"%f", dis/1000];
     
     self.isGetData = NO;
@@ -787,6 +790,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
         [self.exerciseLoadFailView removeFromSuperview];
     }
     if ([url isEqualToString:EXERCISE_URL]) {
+//    if (!webView.canGoBack) {
         // 主页
         [self exerciseViewCompress];
         
@@ -796,8 +800,13 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     return YES;
 }
 
-//- (void)webViewDidFinishLoad:(UIWebView *)webView
-//{
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+    [DejalBezelActivityView activityViewForView:webView];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
 //    NSString *url = webView.request.URL.absoluteString;
 //    NSLog(@"request url === %@",url);
 //    if (!self.webViewIsLoaded) {
@@ -811,12 +820,14 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 //    } else {
 //        [self exerciseViewStretch];
 //    }
-//    
-//}
+    [DejalBezelActivityView removeViewAnimated:YES];
+}
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error
 {
+    [DejalBezelActivityView removeViewAnimated:YES];
     NSLog(@"webviewError -----  %@", error);
+    _failRequest = webView.request;
     if (!(self.exerciseView.height < SCREEN_HEIGHT)) {
         [self exerciseViewCompress];
     }
@@ -1094,16 +1105,15 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     [self closeAdvClick:nil];
     if (_actFlag == 1) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.actUrl]];
-    } else {
-        SignUpViewController *nextVC = [[SignUpViewController alloc] init];
-        nextVC.comeFrom = 2;
-        [[SliderViewController sharedSliderController].navigationController pushViewController:nextVC animated:YES];
+    } else if (_actFlag == 2) {
+        [self.tabBarView itemClickToIndex:3];
+        [self.serveVC clickForMall:nil];
     }
 }
 
 // 重载题库页面
 - (void)reloadExerciseClick {
-    [self.exerciseView loadRequest:self.tarRequest];
+    [self.exerciseView loadRequest:_failRequest];
 }
 
 - (IBAction)c1Click:(UIButton *)sender {

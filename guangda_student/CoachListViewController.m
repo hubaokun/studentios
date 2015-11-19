@@ -306,17 +306,22 @@
     [paramDic setObject:[NSString stringWithFormat:@"%ld", (long)_searchPage] forKey:@"pagenum"];
     
     // 城市id
-    NSString *cityID = [USERDICT[@"cityid"] description];
-    if (![CommonUtil isEmpty:cityID]) {
-        paramDic[@"cityid"] = cityID;
-    }
+//    NSString *cityID = [USERDICT[@"cityid"] description];
+//    if (![CommonUtil isEmpty:cityID]) {
+//        paramDic[@"cityid"] = cityID;
+//    }
     
     // 定位城市名
     AppDelegate *delegate = [UIApplication sharedApplication].delegate;
-    NSString *locateCityName = delegate.locationResult.addressDetail.city;
-    locateCityName = [locateCityName stringByReplacingOccurrencesOfString:@"市" withString:@""]; // 去掉城市名里的“市”
-    if (![CommonUtil isEmpty:locateCityName]) {
-        paramDic[@"fixedposition"] = locateCityName;
+//    NSString *locateCityName = delegate.locationResult.addressDetail.city;
+//    locateCityName = [locateCityName stringByReplacingOccurrencesOfString:@"市" withString:@""]; // 去掉城市名里的“市”
+//    if (![CommonUtil isEmpty:locateCityName]) {
+//        paramDic[@"fixedposition"] = locateCityName;
+//    }
+    
+    // 经纬度
+    if (![CommonUtil isEmpty:delegate.pointCenter]) {
+        paramDic[@"pointcenter"] = delegate.pointCenter;
     }
     
     // 测试账号studentID

@@ -483,6 +483,10 @@
 		7093AD1B1BAFD6E9001CCAD3 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7093AD1A1BAFD6E9001CCAD3 /* libxml2.tbd */; };
 		70CB98F61BF5CDBA00A211BF /* XBWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CB98F41BF5CDBA00A211BF /* XBWebViewController.m */; };
 		70CB98F71BF5CDBA00A211BF /* XBWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70CB98F51BF5CDBA00A211BF /* XBWebViewController.xib */; };
+		70CB98FB1BFB27FD00A211BF /* CityChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CB98F91BFB27FD00A211BF /* CityChooseViewController.m */; };
+		70CB98FC1BFB27FD00A211BF /* CityChooseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70CB98FA1BFB27FD00A211BF /* CityChooseViewController.xib */; };
+		70CB99001BFB35A600A211BF /* CityChooseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CB98FE1BFB35A600A211BF /* CityChooseTableViewCell.m */; };
+		70CB99011BFB35A600A211BF /* CityChooseTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70CB98FF1BFB35A600A211BF /* CityChooseTableViewCell.xib */; };
 		70CC165F1B6BC13D00084296 /* XBCoin.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CC165E1B6BC13D00084296 /* XBCoin.m */; };
 		70CC16671B6F4EA600084296 /* libMobClickGameLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */; };
 		70DE60B81BE08E6500D43D9A /* TabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE60B71BE08E6500D43D9A /* TabBarView.m */; };
@@ -1459,6 +1463,12 @@
 		70CB98F31BF5CDBA00A211BF /* XBWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBWebViewController.h; sourceTree = "<group>"; };
 		70CB98F41BF5CDBA00A211BF /* XBWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBWebViewController.m; sourceTree = "<group>"; };
 		70CB98F51BF5CDBA00A211BF /* XBWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XBWebViewController.xib; sourceTree = "<group>"; };
+		70CB98F81BFB27FD00A211BF /* CityChooseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityChooseViewController.h; sourceTree = "<group>"; };
+		70CB98F91BFB27FD00A211BF /* CityChooseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityChooseViewController.m; sourceTree = "<group>"; };
+		70CB98FA1BFB27FD00A211BF /* CityChooseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CityChooseViewController.xib; sourceTree = "<group>"; };
+		70CB98FD1BFB35A600A211BF /* CityChooseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityChooseTableViewCell.h; sourceTree = "<group>"; };
+		70CB98FE1BFB35A600A211BF /* CityChooseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityChooseTableViewCell.m; sourceTree = "<group>"; };
+		70CB98FF1BFB35A600A211BF /* CityChooseTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CityChooseTableViewCell.xib; sourceTree = "<group>"; };
 		70CC165D1B6BC13C00084296 /* XBCoin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBCoin.h; sourceTree = "<group>"; };
 		70CC165E1B6BC13D00084296 /* XBCoin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBCoin.m; sourceTree = "<group>"; };
 		70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickGameLibrary.a; sourceTree = "<group>"; };
@@ -3662,6 +3672,12 @@
 				7198890C1B639C72000940D3 /* XiaobaServeViewController.h */,
 				7198890D1B639C72000940D3 /* XiaobaServeViewController.m */,
 				7198890E1B639C72000940D3 /* XiaobaServeViewController.xib */,
+				70CB98F81BFB27FD00A211BF /* CityChooseViewController.h */,
+				70CB98F91BFB27FD00A211BF /* CityChooseViewController.m */,
+				70CB98FA1BFB27FD00A211BF /* CityChooseViewController.xib */,
+				70CB98FD1BFB35A600A211BF /* CityChooseTableViewCell.h */,
+				70CB98FE1BFB35A600A211BF /* CityChooseTableViewCell.m */,
+				70CB98FF1BFB35A600A211BF /* CityChooseTableViewCell.xib */,
 			);
 			name = "XiaobaServe（小巴服务）";
 			path = XiaobaServe;
@@ -3888,6 +3904,7 @@
 				708AE60A1BBA7A5C00B78160 /* VoiceSearchFeedback008@2x.png in Resources */,
 				3179E6471AC284C600AFCFAA /* DSPullToRefreshIcon@2x.png in Resources */,
 				708AE6241BBA7A5C00B78160 /* call_out@2x.png in Resources */,
+				70CB99011BFB35A600A211BF /* CityChooseTableViewCell.xib in Resources */,
 				314F4E1C1AEA39F200DD8FC6 /* CoachDetailViewController.xib in Resources */,
 				701025401B89A8D200E6EF9E /* CourseTimetableViewController.xib in Resources */,
 				708AE5FE1BBA7A5C00B78160 /* VoiceSearchFeedback002@2x.png in Resources */,
@@ -3996,6 +4013,7 @@
 				708AE5CA1BBA7A5C00B78160 /* VoiceSearchFeedback002.png in Resources */,
 				708AE66A1BBA7A5C00B78160 /* chat_sender_audio_playing_full@2x.png in Resources */,
 				708AE6071BBA7A5C00B78160 /* VoiceSearchFeedback007.png in Resources */,
+				70CB98FC1BFB27FD00A211BF /* CityChooseViewController.xib in Resources */,
 				708AE6051BBA7A5C00B78160 /* VoiceSearchFeedback006.png in Resources */,
 				376A19CA1ADCDC2C004F1FE3 /* backgroundStar.png in Resources */,
 				708AE5C51BBA7A5C00B78160 /* 58.png in Resources */,
@@ -4109,6 +4127,7 @@
 				D786FE241B1B387E001DBFDD /* CommentListViewController.m in Sources */,
 				708AE59F1BBA7A5C00B78160 /* FacialView.m in Sources */,
 				37994CF91AC3D901008E30E5 /* UserInfoHomeViewController.m in Sources */,
+				70CB99001BFB35A600A211BF /* CityChooseTableViewCell.m in Sources */,
 				B8E4ABE21AC54F6300D6B7DA /* CZCroppingScrollView.m in Sources */,
 				70CC165F1B6BC13D00084296 /* XBCoin.m in Sources */,
 				3179E6501AC284C600AFCFAA /* SDWebImageCompat.m in Sources */,
@@ -4231,6 +4250,7 @@
 				708AE5721BBA7A5C00B78160 /* UIImage+EMMultiFormat.m in Sources */,
 				708AE5B91BBA7A5C00B78160 /* EMNavigationController.m in Sources */,
 				708AE5881BBA7A5C00B78160 /* SRSlimeView.m in Sources */,
+				70CB98FB1BFB27FD00A211BF /* CityChooseViewController.m in Sources */,
 				31824AA71B039490001AF41A /* DatePickerViewController.m in Sources */,
 				379CB7931ACBAF820051CA36 /* MyOrderComplainViewController.m in Sources */,
 				3179E6541AC284C600AFCFAA /* SDWebImageManager+MJ.m in Sources */,
@@ -4379,7 +4399,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
+				PROVISIONING_PROFILE = "ae59d9f8-1c63-426f-94be-ceb76534cc5f";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
@@ -4422,7 +4442,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
+				PROVISIONING_PROFILE = "ae59d9f8-1c63-426f-94be-ceb76534cc5f";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -4470,7 +4490,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
+				PROVISIONING_PROFILE = "ae59d9f8-1c63-426f-94be-ceb76534cc5f";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -4516,7 +4536,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "63aff6ea-5981-48b0-a96f-e86163637269";
+				PROVISIONING_PROFILE = "ae59d9f8-1c63-426f-94be-ceb76534cc5f";
 			};
 			name = Release;
 		};

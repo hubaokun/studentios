@@ -97,6 +97,9 @@
 
 #pragma mark - Action
 - (IBAction)backClick:(id)sender {
+    if (![self.mainWeb canGoBack]) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
     [self.mainWeb goBack];
 }
 
