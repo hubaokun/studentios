@@ -12,6 +12,7 @@
 /* input */
 @property (copy, nonatomic) NSString *cityName;
 @property (copy, nonatomic) NSString *locationCityName;
+@property (copy, nonatomic) NSString *locationCityID;
 @property (copy, nonatomic) NSString *cityID;
 @property (copy, nonatomic)  void (^backBlock)(NSString *cityName, NSString *cityID);
 @end

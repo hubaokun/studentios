@@ -9,6 +9,8 @@
 #import "GreyTopViewController.h"
 
 @interface XBWebViewController : GreyTopViewController
+/* input */
 @property (copy, nonatomic) NSString *titleStr;
 @property (copy, nonatomic) NSString *mainUrl;
+@property (assign, nonatomic) BOOL closeBtnHidden;
 @end

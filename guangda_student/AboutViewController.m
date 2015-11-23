@@ -12,6 +12,7 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *tipBtn;
 @property (strong, nonatomic) IBOutlet UILabel *versionLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *icon;
 
 @end
 
@@ -27,6 +28,10 @@
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     NSString *VersionText = [NSString stringWithFormat:@"版本%@",app_Version];
     self.versionLabel.text = VersionText;
+    
+    // icon
+    self.icon.layer.cornerRadius = 15;
+    self.icon.layer.masksToBounds = YES;
 }
 
 - (void)didReceiveMemoryWarning {

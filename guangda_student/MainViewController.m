@@ -143,14 +143,6 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
             [self addAnnotationAtLongitude:longitude latitude:latitude andTag:i];
         }
     }
-    
-//    if (_itemIndex == 3) { // 服务
-//        if ([[CommonUtil currentUtil] isLogin:NO]) {
-//            [self.serveVC viewWillAppear:YES];
-//        } else {
-//            [self.tabBarView itemClickToIndex:_lastItemIndex];
-//        }
-//    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated {

@@ -210,11 +210,22 @@
                                     <color key="textColor" red="0.38039215686274508" green="0.38039215686274508" blue="0.38039215686274508" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vSI-Nk-mme">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
+                                    <animations/>
+                                    <connections>
+                                        <action selector="locationCityClick:" destination="-1" eventType="touchUpInside" id="Tmt-RZ-Ssl"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <animations/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
+                                <constraint firstItem="vSI-Nk-mme" firstAttribute="top" secondItem="BJk-DC-8zv" secondAttribute="top" id="GXj-fR-z1e"/>
+                                <constraint firstAttribute="trailing" secondItem="vSI-Nk-mme" secondAttribute="trailing" id="bqn-YZ-ukg"/>
+                                <constraint firstAttribute="bottom" secondItem="vSI-Nk-mme" secondAttribute="bottom" id="eHO-HF-AD5"/>
                                 <constraint firstItem="w8t-VA-IeF" firstAttribute="top" secondItem="BJk-DC-8zv" secondAttribute="top" id="fhY-T2-dDO"/>
+                                <constraint firstItem="vSI-Nk-mme" firstAttribute="leading" secondItem="BJk-DC-8zv" secondAttribute="leading" id="fry-tA-f1o"/>
                                 <constraint firstAttribute="bottom" secondItem="w8t-VA-IeF" secondAttribute="bottom" id="qiw-ow-gly"/>
                                 <constraint firstItem="w8t-VA-IeF" firstAttribute="leading" secondItem="BJk-DC-8zv" secondAttribute="leading" constant="12" id="v7R-T9-nua"/>
                             </constraints>

@@ -41,7 +41,7 @@ static CGFloat const kAnimationDuration = 0.2f;
 /*
  * Client object that observes changes in the pull-to-refresh.
  */
-@property (nonatomic, readwrite, strong) id<DSPullToRefreshManagerClient> client;
+@property (nonatomic, readwrite, weak) id<DSPullToRefreshManagerClient> client;
 
 @end
 

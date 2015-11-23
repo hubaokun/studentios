@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIWebView *mainWeb;
 @property (strong, nonatomic) UIView *loadFailView;         // 加载失败显示页面
+@property (weak, nonatomic) IBOutlet UIButton *closeBtn;
 
 @end
 
@@ -29,6 +30,9 @@
     _curUrl = _tarUrl = _lastUrl = self.mainUrl;
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_tarUrl]];
     [self.mainWeb loadRequest:request];
+    if (self.closeBtnHidden) {
+        self.closeBtn.hidden = YES;
+    }
 }
 
 // 题库加载失败页面

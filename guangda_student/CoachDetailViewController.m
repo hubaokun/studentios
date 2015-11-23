@@ -439,7 +439,7 @@
     
     // 体验课
     int freeCourseState = [coachInfo[@"freecoursestate"] intValue];
-    if (freeCourseState) {
+    if (freeCourseState && (![self.carModelID isEqualToString:@"19"])) {
         self.freeCourseView.hidden = NO;
         self.courseViewHeightCon.constant = 99;
         self.detailsView.height = COACH_DETAILVIEW_HEIGHT;

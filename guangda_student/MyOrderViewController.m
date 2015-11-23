@@ -893,4 +893,8 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
     }
 }
 
+- (void)dealloc {
+    NSLog(@"MyOrderView dealloc");
+}
+
 @end

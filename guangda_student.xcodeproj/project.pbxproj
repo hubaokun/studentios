@@ -487,8 +487,8 @@
 		70CB98FC1BFB27FD00A211BF /* CityChooseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70CB98FA1BFB27FD00A211BF /* CityChooseViewController.xib */; };
 		70CB99001BFB35A600A211BF /* CityChooseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CB98FE1BFB35A600A211BF /* CityChooseTableViewCell.m */; };
 		70CB99011BFB35A600A211BF /* CityChooseTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70CB98FF1BFB35A600A211BF /* CityChooseTableViewCell.xib */; };
+		70CB990D1BFDA02A00A211BF /* libMobClickGameLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70CB99091BFDA02A00A211BF /* libMobClickGameLibrary.a */; };
 		70CC165F1B6BC13D00084296 /* XBCoin.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CC165E1B6BC13D00084296 /* XBCoin.m */; };
-		70CC16671B6F4EA600084296 /* libMobClickGameLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */; };
 		70DE60B81BE08E6500D43D9A /* TabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE60B71BE08E6500D43D9A /* TabBarView.m */; };
 		70E9BE3B1B846CBE00137D86 /* OrderListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E9BE391B846CBE00137D86 /* OrderListTableViewCell.m */; };
 		70E9BE3C1B846CBE00137D86 /* OrderListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70E9BE3A1B846CBE00137D86 /* OrderListTableViewCell.xib */; };
@@ -551,7 +551,6 @@
 		B8E4ABE81AC54F6300D6B7DA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B8E4ABDF1AC54F6300D6B7DA /* Localizable.strings */; };
 		B9187BEC1B09B3C300366081 /* FindPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9187BEA1B09B3C300366081 /* FindPwdViewController.m */; };
 		B9187BED1B09B3C300366081 /* FindPwdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B9187BEB1B09B3C300366081 /* FindPwdViewController.xib */; };
-		B927D4601B4142610013478E /* PgySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B927D45F1B4142610013478E /* PgySDK.framework */; };
 		B952DCCB1B04DFD000229402 /* statedictionary.plist in Resources */ = {isa = PBXBuildFile; fileRef = B952DCCA1B04DFD000229402 /* statedictionary.plist */; };
 		B96708801B26EEE400F418EB /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = B967087F1B26EEE400F418EB /* OpenUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		B968AF691B1DC13E00806043 /* CouponListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B968AF671B1DC13E00806043 /* CouponListViewController.m */; };
@@ -1469,12 +1468,12 @@
 		70CB98FD1BFB35A600A211BF /* CityChooseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityChooseTableViewCell.h; sourceTree = "<group>"; };
 		70CB98FE1BFB35A600A211BF /* CityChooseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityChooseTableViewCell.m; sourceTree = "<group>"; };
 		70CB98FF1BFB35A600A211BF /* CityChooseTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CityChooseTableViewCell.xib; sourceTree = "<group>"; };
+		70CB99091BFDA02A00A211BF /* libMobClickGameLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickGameLibrary.a; sourceTree = "<group>"; };
+		70CB990A1BFDA02A00A211BF /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
+		70CB990B1BFDA02A00A211BF /* MobClickGameAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickGameAnalytics.h; sourceTree = "<group>"; };
+		70CB990C1BFDA02A00A211BF /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickSocialAnalytics.h; sourceTree = "<group>"; };
 		70CC165D1B6BC13C00084296 /* XBCoin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBCoin.h; sourceTree = "<group>"; };
 		70CC165E1B6BC13D00084296 /* XBCoin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBCoin.m; sourceTree = "<group>"; };
-		70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickGameLibrary.a; sourceTree = "<group>"; };
-		70CC16641B6F4EA600084296 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
-		70CC16651B6F4EA600084296 /* MobClickGameAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickGameAnalytics.h; sourceTree = "<group>"; };
-		70CC16661B6F4EA600084296 /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickSocialAnalytics.h; sourceTree = "<group>"; };
 		70DE60B61BE08E6500D43D9A /* TabBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarView.h; sourceTree = "<group>"; };
 		70DE60B71BE08E6500D43D9A /* TabBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarView.m; sourceTree = "<group>"; };
 		70E9BE381B846CBE00137D86 /* OrderListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderListTableViewCell.h; sourceTree = "<group>"; };
@@ -1572,7 +1571,6 @@
 		B9187BE91B09B3C300366081 /* FindPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPwdViewController.h; sourceTree = "<group>"; };
 		B9187BEA1B09B3C300366081 /* FindPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPwdViewController.m; sourceTree = "<group>"; };
 		B9187BEB1B09B3C300366081 /* FindPwdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FindPwdViewController.xib; sourceTree = "<group>"; };
-		B927D45F1B4142610013478E /* PgySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PgySDK.framework; path = 3rdparty/PgySDK.framework; sourceTree = "<group>"; };
 		B952DCCA1B04DFD000229402 /* statedictionary.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = statedictionary.plist; sourceTree = "<group>"; };
 		B967087E1B26EEE400F418EB /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
 		B967087F1B26EEE400F418EB /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
@@ -1626,12 +1624,12 @@
 				A0717E091BA6B38D0090DA33 /* CFNetwork.framework in Frameworks */,
 				A0717E071BA6B3820090DA33 /* MobileCoreServices.framework in Frameworks */,
 				7009CF891BD4EC49008A32D8 /* BaiduMapAPI_Location.framework in Frameworks */,
+				70CB990D1BFDA02A00A211BF /* libMobClickGameLibrary.a in Frameworks */,
 				B9BD21081B3934FF00B6B7B1 /* AVFoundation.framework in Frameworks */,
 				B9BD21061B3934F100B6B7B1 /* AudioToolbox.framework in Frameworks */,
 				B9BD21041B3934DE00B6B7B1 /* CoreMotion.framework in Frameworks */,
 				7009CF8C1BD4EC49008A32D8 /* BaiduMapAPI_Search.framework in Frameworks */,
 				B9BD21021B3934CA00B6B7B1 /* SceneKit.framework in Frameworks */,
-				70CC16671B6F4EA600084296 /* libMobClickGameLibrary.a in Frameworks */,
 				7009CF8D1BD4EC49008A32D8 /* BaiduMapAPI_Utils.framework in Frameworks */,
 				314F4E171AEA2DF100DD8FC6 /* CoreText.framework in Frameworks */,
 				7009CF8A1BD4EC49008A32D8 /* BaiduMapAPI_Map.framework in Frameworks */,
@@ -1649,7 +1647,6 @@
 				3168C9981AD393D300B607C3 /* CoreTelephony.framework in Frameworks */,
 				3177FA4C1AD615B3003050A2 /* AlipaySDK.framework in Frameworks */,
 				31C9D8F51AD66E93006A4E80 /* libcrypto.a in Frameworks */,
-				B927D4601B4142610013478E /* PgySDK.framework in Frameworks */,
 				7009CF881BD4EC49008A32D8 /* BaiduMapAPI_Cloud.framework in Frameworks */,
 				3168C9891AD387FE00B607C3 /* TencentOpenAPI.framework in Frameworks */,
 			);
@@ -1736,7 +1733,6 @@
 				A0717E0A1BA6B3AE0090DA33 /* libstdc++.6.0.9.dylib */,
 				A0717E081BA6B38D0090DA33 /* CFNetwork.framework */,
 				A0717E061BA6B3820090DA33 /* MobileCoreServices.framework */,
-				B927D45F1B4142610013478E /* PgySDK.framework */,
 				B9BD21071B3934FF00B6B7B1 /* AVFoundation.framework */,
 				B9BD21051B3934F100B6B7B1 /* AudioToolbox.framework */,
 				B9BD21031B3934DE00B6B7B1 /* CoreMotion.framework */,
@@ -1830,9 +1826,9 @@
 			children = (
 				7002F2B71BCF4D180066503A /* TencentOpenAPI.framework */,
 				708AE3261BBA7A5B00B78160 /* huanxinkefu */,
-				70CC16621B6F4EA600084296 /* umsdk_iOS_game_idfa_3.5.10.0 */,
 				708AE3211BBA597100B78160 /* WeixinSDK */,
 				7009CF711BD4EC05008A32D8 /* BaiduMapAPI */,
+				70CB99081BFDA02A00A211BF /* umsdk_iOS_game_no_idfa_3.6.5.0 */,
 				3166B5421B0B43040017C10B /* SwipeView */,
 				376A19C21ADCDC2C004F1FE3 /* TQStarRating */,
 				31C9D8861AD665AD006A4E80 /* AlipaySDK */,
@@ -3628,15 +3624,15 @@
 			name = Invalid;
 			sourceTree = "<group>";
 		};
-		70CC16621B6F4EA600084296 /* umsdk_iOS_game_idfa_3.5.10.0 */ = {
+		70CB99081BFDA02A00A211BF /* umsdk_iOS_game_no_idfa_3.6.5.0 */ = {
 			isa = PBXGroup;
 			children = (
-				70CC16631B6F4EA600084296 /* libMobClickGameLibrary.a */,
-				70CC16641B6F4EA600084296 /* MobClick.h */,
-				70CC16651B6F4EA600084296 /* MobClickGameAnalytics.h */,
-				70CC16661B6F4EA600084296 /* MobClickSocialAnalytics.h */,
+				70CB99091BFDA02A00A211BF /* libMobClickGameLibrary.a */,
+				70CB990A1BFDA02A00A211BF /* MobClick.h */,
+				70CB990B1BFDA02A00A211BF /* MobClickGameAnalytics.h */,
+				70CB990C1BFDA02A00A211BF /* MobClickSocialAnalytics.h */,
 			);
-			path = umsdk_iOS_game_idfa_3.5.10.0;
+			path = umsdk_iOS_game_no_idfa_3.6.5.0;
 			sourceTree = "<group>";
 		};
 		713694931B51627700F6D573 /* OnlineTest */ = {
@@ -4487,6 +4483,8 @@
 					"$(PROJECT_DIR)/guangda_student/3rdparty/umsdk_iOS_game_idfa_3.5.10.0/huanxinkefu/3rdparty/VoiceConvert/opencore-amrnb",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/umsdk_iOS_game_idfa_3.5.10.0/huanxinkefu/3rdparty/VoiceConvert/opencore-amrwb",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/SwipeView",
+					"$(PROJECT_DIR)/guangda_student/3rdparty/umsdk_iOS_game_no_idfa_3.5.17.0",
+					"$(PROJECT_DIR)/guangda_student/3rdparty/umsdk_iOS_game_no_idfa_3.6.5.0",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4533,6 +4531,8 @@
 					"$(PROJECT_DIR)/guangda_student/3rdparty/umsdk_iOS_game_idfa_3.5.10.0/huanxinkefu/3rdparty/VoiceConvert/opencore-amrnb",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/umsdk_iOS_game_idfa_3.5.10.0/huanxinkefu/3rdparty/VoiceConvert/opencore-amrwb",
 					"$(PROJECT_DIR)/guangda_student/3rdparty/SwipeView",
+					"$(PROJECT_DIR)/guangda_student/3rdparty/umsdk_iOS_game_no_idfa_3.5.17.0",
+					"$(PROJECT_DIR)/guangda_student/3rdparty/umsdk_iOS_game_no_idfa_3.6.5.0",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

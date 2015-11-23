@@ -22,6 +22,7 @@
 @property (strong, nonatomic) UITableView *cityTableView; // 市表
 @property (strong, nonatomic) UIButton *closeCityTableBtn; // 关闭城市列表按钮
 @property (strong, nonatomic) XBProvince *selectedProvince;
+@property (assign, nonatomic) BOOL isCityTableViewShown;
 
 // 页面数据
 @property (strong, nonatomic) NSArray *provinceArray;
@@ -234,6 +235,7 @@
             self.cityName = province.provinceName;
             XBCity *city = province.citiesArray[0];
             self.cityID = city.cityID;
+            self.isCityTableViewShown = NO;
             [self backClick:nil];
         }
     }
@@ -242,7 +244,7 @@
         self.selectedCityLabel.text = city.cityName;
         self.cityName = city.cityName;
         self.cityID = city.cityID;
-//        [self cityTableDismiss];
+        self.isCityTableViewShown = NO;
         [self backClick:nil];
     }
     
@@ -258,6 +260,7 @@
         self.closeCityTableBtn.alpha = 0.4;
         self.cityTableView.x = SCREEN_WIDTH / 3;
     }];
+    self.isCityTableViewShown = YES;
 }
 
 - (void)cityTableDismiss
@@ -269,6 +272,7 @@
     } completion:^(BOOL finished) {
         [self.closeCityTableBtn removeFromSuperview];
     }];
+    self.isCityTableViewShown = NO;
 }
 
 #pragma mark - Actions
@@ -279,7 +283,18 @@
     [self backClick:nil];
 }
 
+- (IBAction)locationCityClick:(id)sender {
+    self.cityName = self.locationCityName;
+    self.cityID = self.locationCityID;
+    [self backClick:nil];
+}
+
 - (IBAction)backClick:(id)sender {
+    if (self.isCityTableViewShown) {
+        [self cityTableDismiss];
+        return;
+    }
+    
     if (self.backBlock) {
         self.backBlock(self.cityName, self.cityID);
     }

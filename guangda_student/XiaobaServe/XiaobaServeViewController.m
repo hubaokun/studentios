@@ -37,6 +37,7 @@
 // 页面数据
 @property (copy, nonatomic) NSString *cityName;
 @property (copy, nonatomic) NSString *locationCityName;
+@property (copy, nonatomic) NSString *locationCityID;
 @property (copy, nonatomic) NSString *provinceID;
 @property (copy, nonatomic) NSString *cityID;
 @property (copy, nonatomic) NSString *areaID;
@@ -105,6 +106,9 @@
                 self.locationCityName = self.cityName;
             }
             self.cityID = [responseObject[@"cityid"] description];
+            if ([CommonUtil isEmpty:self.locationCityID]) {
+                self.locationCityID = self.cityID;
+            }
 //            [self performSelector:@selector(showMainView) withObject:nil afterDelay:0.3f];
             [self showMainView];
         }else{
@@ -166,6 +170,7 @@
     CityChooseViewController *nextVC = [[CityChooseViewController alloc] init];
     nextVC.cityName = self.cityName;
     nextVC.locationCityName = self.locationCityName;
+    nextVC.locationCityID = self.locationCityID;
     nextVC.cityID = self.cityID;
     nextVC.backBlock = ^(NSString *cityName, NSString *cityID) {
         if (![self.cityID isEqualToString:cityID]) {

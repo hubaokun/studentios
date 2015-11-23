@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="XBWebViewController">
             <connections>
+                <outlet property="closeBtn" destination="Xbt-U8-3s6" id="gKh-qU-yDQ"/>
                 <outlet property="mainWeb" destination="LwB-hM-MlD" id="5CB-OV-0Mc"/>
                 <outlet property="titleLabel" destination="dBD-om-NTP" id="nNN-lq-kWS"/>
                 <outlet property="view" destination="ZsK-Vq-sW2" id="A6n-mq-Mes"/>
@@ -112,6 +113,6 @@
     </objects>
     <resources>
         <image name="arrow_back_userinfohome" width="10" height="18"/>
-        <image name="ic_close" width="10" height="10"/>
+        <image name="ic_close" width="16" height="16"/>
     </resources>
 </document>

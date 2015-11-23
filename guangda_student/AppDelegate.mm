@@ -12,10 +12,6 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import <AlipaySDK/AlipaySDK.h>
 #import "WeiboSDK.h"
-//#import "AlixPayResult.h"
-//#import "PartnerConfig.h"
-//#import "DataVerifier.h"
-#import <PgySDK/PgyManager.h>
 #import "MobClick.h"
 #import "UIImageView+WebCache.h"
 #import "RecommendCodeViewController.h"
@@ -108,20 +104,6 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    //    //蒲公英
-    //     设置用户反馈界面激活方式为三指拖动
-    //        [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeThreeFingersPan];
-    //
-    //     设置用户反馈界面激活方式为摇一摇
-    //        [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeShake];
-    
-    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
-    [[PgyManager sharedPgyManager] setEnableFeedback:NO]; //关闭用户反馈功能
-    [[PgyManager sharedPgyManager] setThemeColor:[UIColor blackColor]];
-    //    [[PgyManager sharedPgyManager] setShakingThreshold:3.0];//开发者可以自定义摇一摇的灵敏度，默认为2.3，数值越小灵敏度越高。
-    //    [[PgyManager sharedPgyManager] showFeedbackView];//直接显示用户反馈画面
-    [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
-    
     //友盟社会化分享与统计
     [MobClick startWithAppkey:@"55bf12f8e0f55a95d7002184" reportPolicy:BATCH channelId:@"pgy"];
     
@@ -173,7 +155,6 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

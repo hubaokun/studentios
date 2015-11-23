@@ -1109,4 +1109,8 @@
     }
 }
 
+- (void)dealloc {
+    NSLog(@"MyOrderDetail dealloc");
+}
+
 @end

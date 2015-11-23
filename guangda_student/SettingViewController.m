@@ -14,6 +14,7 @@
 #import "ChangePwdViewController.h"
 #import "AppDelegate.h"
 #import "ComplaintViewController.h"
+#import "XBWebViewController.h"
 @interface SettingViewController ()
 @property (strong, nonatomic) IBOutlet UIView *msgView;
 @property (strong, nonatomic) IBOutlet UILabel *cacheLabel;
@@ -147,6 +148,16 @@
     [self makeToast:@"已清除缓存"];
     self.cacheLabel.text = @"0M";
     [self.alertView removeFromSuperview];
+}
+
+//陪驾协议
+- (IBAction)protocolClick:(id)sender {
+    NSString *url = @"http://www.xiaobaxueche.com/serviceprotocol-s.html";
+    XBWebViewController *nextVC = [[XBWebViewController alloc] init];
+    nextVC.mainUrl = url;
+    nextVC.titleStr = @"小巴陪驾服务协议";
+    nextVC.closeBtnHidden = YES;
+    [self.navigationController pushViewController:nextVC animated:YES];
 }
 
 //退出登录
