@@ -9,9 +9,6 @@
 #import "XBWebViewController.h"
 
 @interface XBWebViewController () <UIWebViewDelegate> {
-    NSString *_curUrl;
-    NSString *_tarUrl; // 目标网页
-    NSString *_lastUrl; // 上一网页
     NSString *_failedUrl;
     BOOL _loadSuccess;
 }
@@ -27,15 +24,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.titleLabel.text = self.titleStr;
-    _curUrl = _tarUrl = _lastUrl = self.mainUrl;
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_tarUrl]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_mainUrl]];
     [self.mainWeb loadRequest:request];
     if (self.closeBtnHidden) {
         self.closeBtn.hidden = YES;
     }
 }
 
-// 题库加载失败页面
+// 加载失败页面
 - (UIView *)loadFailView
 {
     if (!_loadFailView) {
@@ -75,15 +71,11 @@
 #pragma mark - UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-//    _tarUrl = request.URL.absoluteString;
-//    NSLog(@"_tarUrl === %@", _tarUrl);
     return YES;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-//    _lastUrl = _curUrl;
-//    _curUrl = webView.request.URL.absoluteString;
     if (_loadSuccess == NO) {
         [self.loadFailView removeFromSuperview];
     }

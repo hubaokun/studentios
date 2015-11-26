@@ -27,9 +27,8 @@
 #define EXERCISE_URL @"http://120.25.236.228/dadmin/examination/index.jsp" // 测试服
 static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 
-@interface MainViewController ()<UIGestureRecognizerDelegate, BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationServiceDelegate, TabBarViewDelegate, CoachInfoViewDelegate, UIWebViewDelegate>
+@interface MainViewController ()<UIGestureRecognizerDelegate, BMKMapViewDelegate, TabBarViewDelegate, CoachInfoViewDelegate, UIWebViewDelegate>
 {
-    BMKLocationService *_locService;
     int _actFlag; // 活动类型 0:不显示 1:跳转到url 2:内部功能
     NSUInteger _itemIndex; // 0：小巴题库 1：小巴学车 2：小巴陪驾 3：小巴服务 初始值为1
     NSUInteger _lastItemIndex;
@@ -70,7 +69,6 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 @property (weak, nonatomic) IBOutlet UIImageView *advImageView;
 @property (copy, nonatomic) NSString *actUrl;
 
-@property (copy, nonatomic) NSString *cityName; // 定位城市名
 @property (assign, nonatomic) BOOL isGetData;
 
 @end
@@ -98,6 +96,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     
     _itemIndex = 1;
     _lastItemIndex = _itemIndex;
+    carModelID = @"17";
     self.annotationsList = [NSMutableArray array];
     self.isGetData = NO;
     
@@ -109,9 +108,6 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     // 配置百度地图
     [self mapConfig];
     [self setMapLocation];
-    
-    // 检查定位城市和用户设置的城市是否一致
-    [self performSelector:@selector(searchCurrentCityName) withObject:nil afterDelay:5.0f];
     
     // 弹窗广告
     self.actView.frame = [UIScreen mainScreen].bounds;
@@ -131,17 +127,19 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     if (_itemIndex == 1 || _itemIndex == 2) {
         [_mapView viewWillAppear];
         _mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
-        _locService.delegate = self;
-        // 移除所有标注
-        [_mapView removeAnnotations:_annotationsList];
-        // 重新添加标注
-        for (int i = 0; i < self.coachList.count; i++)
-        {
-            NSDictionary *coachDic = self.coachList[i];
-            NSString *longitude = coachDic[@"longitude"];
-            NSString *latitude = coachDic[@"latitude"];
-            [self addAnnotationAtLongitude:longitude latitude:latitude andTag:i];
-        }
+        // 开启定位服务
+        AppDelegate *app = APP_DELEGATE;
+        app.openLocationService = YES;
+//        // 移除所有标注
+//        [_mapView removeAnnotations:_annotationsList];
+//        // 重新添加标注
+//        for (int i = 0; i < self.coachList.count; i++)
+//        {
+//            NSDictionary *coachDic = self.coachList[i];
+//            NSString *longitude = coachDic[@"longitude"];
+//            NSString *latitude = coachDic[@"latitude"];
+//            [self addAnnotationAtLongitude:longitude latitude:latitude andTag:i];
+//        }
     }
 }
 
@@ -149,7 +147,9 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     [super viewWillDisappear:animated];
     [_mapView viewWillDisappear];
     _mapView.delegate = nil; // 不用时，置nil
-    _locService.delegate = nil;
+    // 关闭定位服务
+    AppDelegate *app = APP_DELEGATE;
+    app.openLocationService = NO;
 }
 
 // 监视城市定位的回调
@@ -192,9 +192,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 
     // 创建百度地图
     _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 80)];
-    [self.mapContentView addSubview:_mapView];//初始化BMKLocationService
-    _locService = [[BMKLocationService alloc] init];
-    _locService.delegate = self;
+    [self.mapContentView addSubview:_mapView];
     _mapView.compassPosition = CGPointMake(8, 88);
     
     //设置地图缩放级别
@@ -293,6 +291,9 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     
     //设定地图View能否支持俯仰角
     _mapView.overlookEnabled = NO;
+    
+    _mapView.userTrackingMode = BMKUserTrackingModeFollow;
+    _mapView.showsUserLocation = YES;
 }
 
 // 设置定位圆点属性
@@ -308,76 +309,15 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     [_mapView updateLocationViewWithParam:param];
 }
 
+// 用户位置发生变化后地图变动
 - (void)setMapLocation
 {
-    /*
-     *在打开定位服务前设置
-     *指定定位的最小更新距离(米)，默认：kCLDistanceFilterNone
-     */
-//    [BMKLocationService setLocationDistanceFilter:100];
-//    + (void)setLocationDistanceFilter:(CLLocationDistance) distanceFilter;
-    
-    //地图初始位置设定
-    [_locService startUserLocationService];
     AppDelegate *appDelegate = APP_DELEGATE;
     [_mapView setCenterCoordinate:appDelegate.userCoordinate animated:NO];
-    
-    _mapView.showsUserLocation = NO;
-    _mapView.userTrackingMode = BMKUserTrackingModeFollow;
-    _mapView.showsUserLocation = YES;
-    //    [self setUserImage];
     [_mapView updateLocationData:appDelegate.userLocation];
-    NSLog(@"开启初始位置设定");
-}
-//罗盘态
--(IBAction)startFollowHeading:(id)sender
-{
-    NSLog(@"进入罗盘态");
-    
-    _mapView.showsUserLocation = NO;
-    _mapView.userTrackingMode = BMKUserTrackingModeFollowWithHeading;
-    _mapView.showsUserLocation = YES;
-    
-}
-//跟随态
--(IBAction)startFollowing:(id)sender
-{
-    NSLog(@"进入跟随态");
-    
-    _mapView.showsUserLocation = NO;
-    _mapView.userTrackingMode = BMKUserTrackingModeFollow;
-    _mapView.showsUserLocation = YES;
-    
 }
 
 #pragma mark BaiduMapDelegate
-/**
- *用户  更新后，会调用此函数
- *@param userLocation 新的用户位置
- */
-- (void)didUpdateUserHeading:(BMKUserLocation *)userLocation
-{
-    [_mapView updateLocationData:userLocation];
-//    NSLog(@"heading is %@",userLocation.heading);
-}
-
-/**
- *用户位置更新后，会调用此函数
- *@param userLocation 新的用户位置
- */
-- (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
-{
-//    NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
-    [_mapView updateLocationData:userLocation];
-    
-//    NSLog(@"didUpdateBMKUserLocation");
-//    [self makeToast:@"didUpdateBMKUserLocation"];
-    
-    // 更新存储的用户位置
-    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    appDelegate.userCoordinate = userLocation.location.coordinate;
-}
-
 // 滑动结束后回调
 - (void)mapView:(BMKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
@@ -390,7 +330,6 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     BMKPointAnnotation *annotation = [[BMKPointAnnotation alloc] init];
     
     CLLocationCoordinate2D coor;
-    
     coor.latitude = [latitude floatValue];
     coor.longitude = [longitude floatValue];
     annotation.coordinate = coor;
@@ -442,72 +381,12 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     return annotationView;
 }
 
-/**
- *返回反地理编码搜索结果
- *@param searcher 搜索对象
- *@param result 搜索结果
- *@param error 错误号，@see BMKSearchErrorCode
- */
-- (void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error {
-    
-    if (error == BMK_SEARCH_NO_ERROR) {
-        // 取得定位城市
-        NSString *cityName = result.addressDetail.city;
-        if (![CommonUtil isEmpty:cityName]) {
-            self.cityName = [cityName stringByReplacingOccurrencesOfString:@"市" withString:@""];
-            [self compareCityName];
-        }
-    }
-}
-
-// 获取当前所在城市名字
-- (void)searchCurrentCityName {
-    CommonUtil *commonUtil = [CommonUtil currentUtil];
-    if ([commonUtil isLogin:NO]) {
-        //发起反向地理编码检索
-        BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
-        AppDelegate *delegate = [UIApplication sharedApplication].delegate;
-        reverseGeoCodeSearchOption.reverseGeoPoint = delegate.userCoordinate;
-        
-        BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
-        _geoSearcher.delegate = self;
-        BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
-        if (flag) {
-            NSLog(@"地理编码检索");
-        } else {
-            NSLog(@"地理编码检索失败");
-        }
-    }
-}
-
-- (void)compareCityName {
-    // 取得用户设置的城市
-    NSString *position = [USERDICT objectForKey:@"locationname"];
-    NSArray *subStrArray = [position componentsSeparatedByString:@"-"];
-    NSString *cityName = @"";
-    if (subStrArray.count > 1) {
-        cityName = subStrArray[1];
-        cityName = [cityName stringByReplacingOccurrencesOfString:@"市" withString:@""];
-    }
-    
-    if ([CommonUtil isEmpty:cityName]) {
-        [self makeToast:@"注意：您还未设置驾考城市，请前往基本信息页面设置。" duration:5.0 position:@"bottom"];
-        return;
-    }
-    
-    // 城市名不相等
-    if (![cityName isEqualToString:self.cityName]) {
-        [self makeToast:@"注意：您设置的驾考城市不是当前城市，可前往基本信息页面修改。" duration:6.0 position:@"bottom"];
-    }
-}
-
 #pragma mark - Map Action
 // 设置用户位置为屏幕中心
 - (IBAction)setUserLocationToMid:(id)sender
 {
     //地图初始位置设定
     AppDelegate *appDelegate = APP_DELEGATE;
-    
     [_mapView setCenterCoordinate:appDelegate.userCoordinate animated:NO];
     [_mapView setZoomLevel:ZOOM_LEVEL];
     
@@ -675,8 +554,6 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     CLLocationDistance dis = BMKMetersBetweenMapPoints(mp1, mp2);
     
     NSString *pointCenter = [NSString stringWithFormat:@"%f,%f", c2.longitude, c2.latitude];
-    AppDelegate *app = APP_DELEGATE;
-    app.pointCenter = pointCenter;
     NSString *radius = [NSString stringWithFormat:@"%f", dis/1000];
     
     self.isGetData = NO;
@@ -860,14 +737,18 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     if ((_itemIndex == 1 || _itemIndex == 2) && (_lastItemIndex == 0 || _lastItemIndex == 3)) {
         [_mapView viewWillAppear];
         _mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
-        _locService.delegate = self;
+        // 开启定位服务
+        AppDelegate *app = APP_DELEGATE;
+        app.openLocationService = YES;
     }
     
     // 当不显示地图页面
     if (_itemIndex == 0 || _itemIndex == 3) {
         [_mapView viewWillDisappear];
         _mapView.delegate = nil;
-        _locService.delegate = nil;
+        // 关闭定位服务
+        AppDelegate *app = APP_DELEGATE;
+        app.openLocationService = NO;
     }
     
     // 题库
@@ -1425,5 +1306,27 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 //    navigationController.navigationBarHidden = YES;
 //    [self presentViewController:navigationController animated:YES completion:nil];
 //}
+
+//- (void)compareCityName {
+//    // 取得用户设置的城市
+//    NSString *position = [USERDICT objectForKey:@"locationname"];
+//    NSArray *subStrArray = [position componentsSeparatedByString:@"-"];
+//    NSString *cityName = @"";
+//    if (subStrArray.count > 1) {
+//        cityName = subStrArray[1];
+//        cityName = [cityName stringByReplacingOccurrencesOfString:@"市" withString:@""];
+//    }
+//
+//    if ([CommonUtil isEmpty:cityName]) {
+//        [self makeToast:@"注意：您还未设置驾考城市，请前往基本信息页面设置。" duration:5.0 position:@"bottom"];
+//        return;
+//    }
+//
+//    // 城市名不相等
+//    if (![cityName isEqualToString:self.cityName]) {
+//        [self makeToast:@"注意：您设置的驾考城市不是当前城市，可前往基本信息页面修改。" duration:6.0 position:@"bottom"];
+//    }
+//}
+
 
 @end

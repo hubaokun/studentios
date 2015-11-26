@@ -32,10 +32,12 @@
 @property (strong, nonatomic) NSMutableDictionary *searchDict; // 教练搜索条件
 
 // 用户定位
-@property (nonatomic) CLLocationCoordinate2D userCoordinate;
+@property (assign, nonatomic) CLLocationCoordinate2D userCoordinate;
 @property (strong, nonatomic) BMKUserLocation *userLocation;
-@property (copy, nonatomic) NSString *pointCenter;
+@property (copy, nonatomic) NSString *locationPoint;
+@property (nonatomic, strong) BMKReverseGeoCodeResult *locationResult; // 反地理编码结果
 @property (copy, nonatomic) NSString *locateCity; // 定位到的城市
+@property (assign, nonatomic) BOOL openLocationService; // 设为YES开启定位服务，设为NO关闭定位服务
 
 // 新浪微博
 @property (strong, nonatomic) NSString *wbtoken;
@@ -43,7 +45,7 @@
 
 // 设备号
 @property (strong, atomic) NSString *deviceToken;
-@property (nonatomic, strong) BMKReverseGeoCodeResult *locationResult;
+
 
 @end
 

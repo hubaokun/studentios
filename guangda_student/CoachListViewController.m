@@ -313,15 +313,15 @@
     
     // 定位城市名
     AppDelegate *delegate = [UIApplication sharedApplication].delegate;
-//    NSString *locateCityName = delegate.locationResult.addressDetail.city;
-//    locateCityName = [locateCityName stringByReplacingOccurrencesOfString:@"市" withString:@""]; // 去掉城市名里的“市”
-//    if (![CommonUtil isEmpty:locateCityName]) {
-//        paramDic[@"fixedposition"] = locateCityName;
-//    }
+    NSString *locateCityName = delegate.locationResult.addressDetail.city;
+    locateCityName = [locateCityName stringByReplacingOccurrencesOfString:@"市" withString:@""]; // 去掉城市名里的“市”
+    if (![CommonUtil isEmpty:locateCityName]) {
+        paramDic[@"fixedposition"] = locateCityName;
+    }
     
     // 经纬度
-    if (![CommonUtil isEmpty:delegate.pointCenter]) {
-        paramDic[@"pointcenter"] = delegate.pointCenter;
+    if (![CommonUtil isEmpty:delegate.locationPoint]) {
+        paramDic[@"pointcenter"] = delegate.locationPoint;
     }
     
     // 测试账号studentID

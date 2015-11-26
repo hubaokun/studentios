@@ -96,8 +96,8 @@
     if (!ret) {
         NSLog(@"manager start failed!");
     }
-    // Add the navigation controller's view to the window and display.
-    //    [self.window addSubview:navigationController.view];
+    
+    // 启用定位服务
     [self startLocation];
     
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
@@ -246,7 +246,6 @@
 
 #pragma mark - 定位 BMKLocationServiceDelegate
 - (void)startLocation {
-    
     //定位 初始化BMKLocationService
     _locService = [[BMKLocationService alloc] init];
     _locService.delegate = self;
@@ -255,11 +254,10 @@
      *在打开定位服务前设置
      *指定定位的最小更新距离(米)，默认：kCLDistanceFilterNone
      */
-//    [BMKLocationService setLocationDistanceFilter:100];
     _locService.distanceFilter = 100;
     
     //启动LocationService
-    [_locService startUserLocationService];
+//    [_locService startUserLocationService];
 }
 
 /**
@@ -272,11 +270,9 @@
         NSLog(@"位置不正确");
         return;
     } else  {
-        [_locService stopUserLocationService];
-        //        [CommonUtil saveObjectToUD:userLocation key:@"userLocation"];
-        NSLog(@"userLocation == %@", userLocation);
+//        NSLog(@"userLocation == %@", userLocation);
         _userLocation = userLocation;
-        
+        self.locationPoint = [NSString stringWithFormat:@"%f,%f", _userCoordinate.longitude, _userCoordinate.latitude];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"setMapLocation" object:nil];
         NSLog(@"定位成功");
     }
@@ -304,13 +300,14 @@
     
     if (error == BMK_SEARCH_NO_ERROR) {
         self.locationResult = result;
-        [self updateUserAddress];
+        NSString *locateCityName = result.addressDetail.city;
+        self.locateCity = [locateCityName stringByReplacingOccurrencesOfString:@"市" withString:@""]; // 去掉城市名里的“市”
+//        [self updateUserAddress];
+        NSLog(@"反地理编码 ------  %@",result.address);
     }
 }
 
 - (void) updateUserAddress{
-    //    NSLog(@"deviceToken ==== %@", self.deviceToken);
-    //    NSLog(@"locationResult ==== %@", self.locationResult);
     if(![CommonUtil isEmpty:self.deviceToken] && self.locationResult){
         NSString *provience = self.locationResult.addressDetail.province;
         NSString *city = self.locationResult.addressDetail.city;
@@ -340,19 +337,24 @@
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         }];
-        
     }
 }
 /**
  *定位失败后，会调用此函数
  *@param error 错误号
  */
-- (void)didFailToLocateUserWithError:(NSError *)error {
-    [_locService stopUserLocationService];
-    NSLog(@"定位失败%@", error);
-    
-    //    finishLocation = YES;
-    //    [self installApp];
+//- (void)didFailToLocateUserWithError:(NSError *)error {
+//    [_locService stopUserLocationService];
+//    NSLog(@"定位失败%@", error);
+//}
+
+- (void)setOpenLocationService:(BOOL)openLocationService{
+    _openLocationService = openLocationService;
+    if (openLocationService) {
+        [_locService startUserLocationService];
+    } else {
+        [_locService stopUserLocationService];
+    }
 }
 
 #pragma mark - 微信支付回调

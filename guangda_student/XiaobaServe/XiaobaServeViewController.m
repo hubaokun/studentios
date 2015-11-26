@@ -86,7 +86,7 @@
         paramDic[@"cityid"] = self.cityID;
     }
     AppDelegate *app = APP_DELEGATE;
-    paramDic[@"pointcenter"] = app.pointCenter;
+    paramDic[@"pointcenter"] = app.locationPoint;
     
     NSString *uri = @"/location?action=getAddressUrl";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
