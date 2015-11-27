@@ -11,7 +11,6 @@
 #import "AboutViewController.h"
 #import "LoginViewController.h"
 #import "SettingBindingViewController.h"
-#import "ChangePwdViewController.h"
 #import "AppDelegate.h"
 #import "ComplaintViewController.h"
 #import "XBWebViewController.h"
@@ -87,22 +86,6 @@
 }
 
 #pragma mark - action
-//账号绑定
-- (IBAction)clickForBinding:(id)sender {
-    if ([[CommonUtil currentUtil] isLogin]) {
-        SettingBindingViewController *nextController = [[SettingBindingViewController alloc] initWithNibName:@"SettingBindingViewController" bundle:nil];
-        [self.navigationController pushViewController:nextController animated:YES];
-    }
-}
-
-//修改密码
-- (IBAction)clickForChangePwd:(id)sender {
-    if ([[CommonUtil currentUtil] isLogin]) {
-        ChangePwdViewController *nextController = [[ChangePwdViewController alloc] initWithNibName:@"ChangePwdViewController" bundle:nil];
-        [self.navigationController pushViewController:nextController animated:YES];
-    }
-}
-
 //清除缓存
 - (IBAction)clickForClearCache:(id)sender {
     self.alertView.frame = self.view.frame;
@@ -170,4 +153,21 @@
     [[EMIMHelper defaultHelper] logOut];
     
 }
+
+//账号绑定
+//- (IBAction)clickForBinding:(id)sender {
+//    if ([[CommonUtil currentUtil] isLogin]) {
+//        SettingBindingViewController *nextController = [[SettingBindingViewController alloc] initWithNibName:@"SettingBindingViewController" bundle:nil];
+//        [self.navigationController pushViewController:nextController animated:YES];
+//    }
+//}
+
+//修改密码
+//- (IBAction)clickForChangePwd:(id)sender {
+//    if ([[CommonUtil currentUtil] isLogin]) {
+//        ChangePwdViewController *nextController = [[ChangePwdViewController alloc] initWithNibName:@"ChangePwdViewController" bundle:nil];
+//        [self.navigationController pushViewController:nextController animated:YES];
+//    }
+//}
+
 @end

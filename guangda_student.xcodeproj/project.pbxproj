@@ -1526,8 +1526,8 @@
 		B9187BEA1B09B3C300366081 /* FindPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPwdViewController.m; sourceTree = "<group>"; };
 		B9187BEB1B09B3C300366081 /* FindPwdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FindPwdViewController.xib; sourceTree = "<group>"; };
 		B952DCCA1B04DFD000229402 /* statedictionary.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = statedictionary.plist; sourceTree = "<group>"; };
-		B967087E1B26EEE400F418EB /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
-		B967087F1B26EEE400F418EB /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
+		B967087E1B26EEE400F418EB /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenUDID.h; path = ../Common/OpenUDID.h; sourceTree = "<group>"; };
+		B967087F1B26EEE400F418EB /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OpenUDID.m; path = ../Common/OpenUDID.m; sourceTree = "<group>"; };
 		B968AF661B1DC13E00806043 /* CouponListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponListViewController.h; sourceTree = "<group>"; };
 		B968AF671B1DC13E00806043 /* CouponListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponListViewController.m; sourceTree = "<group>"; };
 		B968AF681B1DC13E00806043 /* CouponListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CouponListViewController.xib; sourceTree = "<group>"; };
@@ -1907,16 +1907,14 @@
 			isa = PBXGroup;
 			children = (
 				3179E6161AC284C600AFCFAA /* Consts.h */,
-				B967087E1B26EEE400F418EB /* OpenUDID.h */,
-				B967087F1B26EEE400F418EB /* OpenUDID.m */,
-				3179E6121AC284C600AFCFAA /* CommonUtil+Date.h */,
-				3179E6131AC284C600AFCFAA /* CommonUtil+Date.m */,
-				3179E6141AC284C600AFCFAA /* CommonUtil.h */,
-				3179E6151AC284C600AFCFAA /* CommonUtil.m */,
-				B86061121AC9104000555486 /* CommonUtil+Files.h */,
-				B86061131AC9104000555486 /* CommonUtil+Files.m */,
 				702592EE1B8C3B980029F19E /* UIView+Frame.h */,
 				702592EF1B8C3B980029F19E /* UIView+Frame.m */,
+				3179E6141AC284C600AFCFAA /* CommonUtil.h */,
+				3179E6151AC284C600AFCFAA /* CommonUtil.m */,
+				3179E6121AC284C600AFCFAA /* CommonUtil+Date.h */,
+				3179E6131AC284C600AFCFAA /* CommonUtil+Date.m */,
+				B86061121AC9104000555486 /* CommonUtil+Files.h */,
+				B86061131AC9104000555486 /* CommonUtil+Files.m */,
 				3179E6201AC284C600AFCFAA /* RequestHelper.h */,
 				3179E6211AC284C600AFCFAA /* RequestHelper.m */,
 				3179E62B1AC284C600AFCFAA /* BaseViewController.h */,
@@ -1932,12 +1930,14 @@
 		3179E6281AC284C600AFCFAA /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				B967087E1B26EEE400F418EB /* OpenUDID.h */,
+				B967087F1B26EEE400F418EB /* OpenUDID.m */,
 				3179E61E1AC284C600AFCFAA /* DSButton.h */,
 				3179E61F1AC284C600AFCFAA /* DSButton.m */,
-				3179E61C1AC284C600AFCFAA /* DejalActivityView.h */,
-				3179E61D1AC284C600AFCFAA /* DejalActivityView.m */,
 				3179E6171AC284C600AFCFAA /* DateButton.h */,
 				3179E6181AC284C600AFCFAA /* DateButton.m */,
+				3179E61C1AC284C600AFCFAA /* DejalActivityView.h */,
+				3179E61D1AC284C600AFCFAA /* DejalActivityView.m */,
 				D786FE1E1B1B3571001DBFDD /* JKCountDownButton.h */,
 				D786FE1F1B1B3571001DBFDD /* JKCountDownButton.m */,
 				70CB98F31BF5CDBA00A211BF /* XBWebViewController.h */,
@@ -2000,12 +2000,7 @@
 				B860612E1AC920EC00555486 /* AboutViewController.h */,
 				B860612F1AC920EC00555486 /* AboutViewController.m */,
 				B86061301AC920EC00555486 /* AboutViewController.xib */,
-				B852422B1ACA62180032E276 /* SettingBindingViewController.h */,
-				B852422C1ACA62180032E276 /* SettingBindingViewController.m */,
-				B852422D1ACA62180032E276 /* SettingBindingViewController.xib */,
-				B8C43B8F1ACD33EE00C96629 /* ChangePwdViewController.h */,
-				B8C43B901ACD33EE00C96629 /* ChangePwdViewController.m */,
-				B8C43B911ACD33EE00C96629 /* ChangePwdViewController.xib */,
+				70BED35E1C0773850082F744 /* settingUnused */,
 			);
 			name = "setting（设置）";
 			sourceTree = "<group>";
@@ -3491,7 +3486,7 @@
 			path = sender_bubble;
 			sourceTree = "<group>";
 		};
-		709CBC461BD759C500C89C97 /* Invalid */ = {
+		709CBC461BD759C500C89C97 /* loginUnused（未使用的类） */ = {
 			isa = PBXGroup;
 			children = (
 				B85CA06E1AC3DE6000934B22 /* RegistViewController.h */,
@@ -3513,7 +3508,7 @@
 				716DB6FC1B7840C3004E532B /* RecommendCodeViewController.m */,
 				716DB6FD1B7840C3004E532B /* RecommendCodeViewController.xib */,
 			);
-			name = Invalid;
+			name = "loginUnused（未使用的类）";
 			sourceTree = "<group>";
 		};
 		70BED3551C07685D0082F744 /* Base64 */ = {
@@ -3539,6 +3534,19 @@
 				705EAD6F1B6A4B3800035F76 /* XBProvince.m */,
 			);
 			name = Address;
+			sourceTree = "<group>";
+		};
+		70BED35E1C0773850082F744 /* settingUnused */ = {
+			isa = PBXGroup;
+			children = (
+				B852422B1ACA62180032E276 /* SettingBindingViewController.h */,
+				B852422C1ACA62180032E276 /* SettingBindingViewController.m */,
+				B852422D1ACA62180032E276 /* SettingBindingViewController.xib */,
+				B8C43B8F1ACD33EE00C96629 /* ChangePwdViewController.h */,
+				B8C43B901ACD33EE00C96629 /* ChangePwdViewController.m */,
+				B8C43B911ACD33EE00C96629 /* ChangePwdViewController.xib */,
+			);
+			name = settingUnused;
 			sourceTree = "<group>";
 		};
 		70CB99081BFDA02A00A211BF /* umsdk_iOS_game_no_idfa_3.6.5.0 */ = {
@@ -3602,7 +3610,7 @@
 				B85CA0691AC3A04100934B22 /* LoginViewController.h */,
 				B85CA06A1AC3A04100934B22 /* LoginViewController.m */,
 				B85CA06B1AC3A04100934B22 /* LoginViewController.xib */,
-				709CBC461BD759C500C89C97 /* Invalid */,
+				709CBC461BD759C500C89C97 /* loginUnused（未使用的类） */,
 			);
 			name = "login（登录）";
 			sourceTree = "<group>";
