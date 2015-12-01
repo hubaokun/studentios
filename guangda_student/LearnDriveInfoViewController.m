@@ -309,7 +309,7 @@
 #pragma mark - photo
 - (CZPhotoPickerController *)photoController
 {
-    typeof(self) weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     
     return [[CZPhotoPickerController alloc] initWithPresentingViewController:self withCompletionBlock:^(UIImagePickerController *imagePickerController, NSDictionary *imageInfoDict) {
         

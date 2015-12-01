@@ -210,10 +210,10 @@
 
 
 //在线约考
-- (IBAction)onlineSignUp:(id)sender {
-    OnlineTestViewController *viewController = [[OnlineTestViewController alloc] initWithNibName:@"OnlineTestViewController" bundle:nil];
-    [self.navigationController pushViewController:viewController animated:YES];
-}
+//- (IBAction)onlineSignUp:(id)sender {
+//    OnlineTestViewController *viewController = [[OnlineTestViewController alloc] initWithNibName:@"OnlineTestViewController" bundle:nil];
+//    [self.navigationController pushViewController:viewController animated:YES];
+//}
 
 
 // 设置

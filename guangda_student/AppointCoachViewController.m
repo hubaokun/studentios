@@ -27,7 +27,7 @@
 {
     float _priceSum;   // 总价
     int _timeNum;    // 时间点的数量
-    bool _pageIndex;        // 切换用页
+    bool _pageIndex;        // 切换用页(这个页面实际只有两个childViewController，index为0和1，故用此bool值来做index)
     NSUInteger _curPageNum; // 当前页
 }
 
@@ -410,7 +410,7 @@
     }];
 }
 
-// 刷新用户余额
+// 更新用户余额
 - (void)refreshUserMoney
 {
     NSMutableDictionary *userInfoDic = [[CommonUtil getObjectFromUD:@"UserInfo"] mutableCopy];
@@ -475,11 +475,11 @@
     if (swipeGR.direction == UISwipeGestureRecognizerDirectionLeft) {
         if (_curPageNum == 9) return;
         _curPageNum++;
-        __weak id weakSelf = self;
         CourseTimetableViewController *fromVC = self.childViewControllers[_pageIndex];
         bool toIndex = !_pageIndex;
         CourseTimetableViewController *toVC = self.childViewControllers[toIndex];
         self.curVC = toVC;
+        __weak id weakSelf = self;
         [self transitionFromViewController:fromVC
                           toViewController:toVC
                                   duration:0.05
@@ -496,11 +496,11 @@
     if (swipeGR.direction == UISwipeGestureRecognizerDirectionRight) {
         if (_curPageNum == 0) return;
         _curPageNum--;
-        __weak id weakSelf = self;
         CourseTimetableViewController *fromVC = self.childViewControllers[_pageIndex];
         bool toIndex = !_pageIndex;
         CourseTimetableViewController *toVC = self.childViewControllers[toIndex];
         self.curVC = toVC;
+        __weak id weakSelf = self;
         [self transitionFromViewController:fromVC
                           toViewController:toVC
                                   duration:0.05
@@ -532,6 +532,7 @@
 
 
 #pragma mark - CourseTimetableViewControllerDelegate
+// 选择时刻点
 - (void)timeSelect:(DSButton *)sender
 {
     if (![[CommonUtil currentUtil] isLogin:NO]) {
@@ -540,7 +541,7 @@
         return;
     }
     
-    DSButton *button = (DSButton *)sender;
+//    DSButton *button = (DSButton *)sender;
     
     // 判断是否是体验课
     NSMutableDictionary *dateDic = sender.data;
@@ -550,28 +551,28 @@
             [self makeToast:@"您不是新用户，不能预约体验课。"];
             return;
         }
-        if ([self ifHasFreeCourse] && button.selected == NO) {
-            button.selected = NO;
+        if ([self ifHasFreeCourse] && sender.selected == NO) {
+            sender.selected = NO;
             [self makeToast:@"您只能预约一节免费体验课。"];
             return;
         }
     }
     
     // 最多只能选6节课
-    if (self.dateTimeSelectedList.count == 6 && button.selected == NO) {
+    if (self.dateTimeSelectedList.count == 6 && sender.selected == NO) {
         [self makeToast:@"抱歉，您一天最多只能预定6小时课程"];
         return;
     }
     
-    button.selected = !button.selected;
+    sender.selected = !sender.selected;
     
     
     // 计算总价
-    if (button.selected) {
-        _priceSum += [button.value floatValue];
+    if (sender.selected) {
+        _priceSum += [sender.value floatValue];
         _timeNum++;
     }else{
-        _priceSum -= [button.value floatValue];
+        _priceSum -= [sender.value floatValue];
         _timeNum--;
     }
 //    if (_priceSum < 0 || _timeNum == 0)
@@ -580,11 +581,11 @@
 //    }
     
     // 隐藏科目和价格
-    for (id objc in button.superview.subviews) {
+    for (id objc in sender.superview.subviews) {
         if ([objc isKindOfClass:[UILabel class]]) {
             UILabel *label = objc;
             if (label.tag != 1) {
-                label.hidden = button.selected;
+                label.hidden = sender.selected;
             }
         }
     }
@@ -643,24 +644,24 @@
         }
     }
     
-    NSDictionary *timePointDic = self.curVC.timeMutableList[button.tag-5];
+    NSDictionary *timePointDic = self.curVC.timeMutableList[sender.tag-5];
     UILabel *timeLabel = timePointDic[@"timeLabel"];
     NSString *time = timeLabel.text; //选中的时间
     
     NSString *time1; //选中时间的后一小时
-    if (button.tag-5 == 18) {
+    if (sender.tag-5 == 18) {
         time1 = @"0:00";
     }else{
-        NSDictionary *timePointDic1 = self.curVC.timeMutableList[button.tag-4];
+        NSDictionary *timePointDic1 = self.curVC.timeMutableList[sender.tag-4];
         UILabel *timeLabel1 = timePointDic1[@"timeLabel"];
         time1 = timeLabel1.text;
     }
     
     NSString *time2; //选中时间的前一小时
-    if (button.tag-5 == 0) {
+    if (sender.tag-5 == 0) {
         time2 = @"0:00";
     }else{
-        NSDictionary *timePointDic2 = self.curVC.timeMutableList[button.tag-6];
+        NSDictionary *timePointDic2 = self.curVC.timeMutableList[sender.tag-6];
         UILabel *timeLabel2 = timePointDic2[@"timeLabel"];
         time2 = timeLabel2.text;
     }
@@ -701,7 +702,7 @@
             if ([price isEqualToString:@"免费"]) {
                 price = @"0";
             }
-            NSString *addressDetail = button.name;
+            NSString *addressDetail = sender.name;
             NSString *subject = subjectLabel.text;
             if (!price) {
                 price = @" ";
@@ -818,6 +819,7 @@
     [self requestRefreshCoachSchedule];
 }
 
+// 改变相应日期的字体
 - (void)setDateLabelFont:(NSInteger)index
 {
     for (UILabel *label in self.dateLabelList) {

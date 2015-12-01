@@ -203,19 +203,7 @@
     
 }
 
-#pragma mark - 页面特性
-// 点击背景退出键盘
-- (void)keyboardHiddenFun {
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backupgroupTap:)];
-    tapGestureRecognizer.numberOfTapsRequired = 1;
-    [self.view addGestureRecognizer: tapGestureRecognizer];   // 只需要点击非文字输入区域就会响应
-    [tapGestureRecognizer setCancelsTouchesInView:NO];
-}
--(void)backupgroupTap:(id)sender {
-    [self.evaluationTextView resignFirstResponder];
-}
-
-// 评分回调
+#pragma mark - StarRatingViewDelegate
 -(void)starRatingView:(TQStarRatingView *)view score:(float)score {
     if ([view isEqual:self.teachMannerStarView]) {
         _teachMannerScoreStr = [NSString stringWithFormat:@"%0.1f", score * 5];
@@ -229,6 +217,18 @@
         _carQualityScoreStr = [NSString stringWithFormat:@"%0.1f", score * 5];
         self.carQualityScoreLabel.text = [NSString stringWithFormat:@"%@分", _carQualityScoreStr];
     }
+}
+
+#pragma mark - Custom
+// 点击背景退出键盘
+- (void)keyboardHiddenFun {
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backupgroupTap:)];
+    tapGestureRecognizer.numberOfTapsRequired = 1;
+    [self.view addGestureRecognizer: tapGestureRecognizer];   // 只需要点击非文字输入区域就会响应
+    [tapGestureRecognizer setCancelsTouchesInView:NO];
+}
+-(void)backupgroupTap:(id)sender {
+    [self.evaluationTextView resignFirstResponder];
 }
 
 // 模拟placeholder

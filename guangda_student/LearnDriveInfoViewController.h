@@ -9,9 +9,9 @@
 #import "GreyTopViewController.h"
 
 typedef enum {
-    idCardFront = 1,
+    idCardFront = 1, // 身份证正面
     idCardBack,
-    licenseFront,
+    licenseFront,   // 学员证正面
     licenseBack
 } photoType;
 

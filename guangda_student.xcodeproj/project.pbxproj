@@ -1968,8 +1968,7 @@
 				3179E6A61AC2B05700AFCFAA /* account（钱包） */,
 				3179E6A51AC2B03F00AFCFAA /* systemMessage（系统消息） */,
 				7198890B1B639C55000940D3 /* XiaobaServe（小巴服务） */,
-				3179E6A31AC2AFEB00AFCFAA /* setting（设置） */,
-				3179E6A41AC2AFF900AFCFAA /* complaint（投诉） */,
+				3179E6A31AC2AFEB00AFCFAA /* setting（系统设置） */,
 			);
 			name = class;
 			sourceTree = "<group>";
@@ -1988,7 +1987,7 @@
 			name = "MyOrder（我的订单）";
 			sourceTree = "<group>";
 		};
-		3179E6A31AC2AFEB00AFCFAA /* setting（设置） */ = {
+		3179E6A31AC2AFEB00AFCFAA /* setting（系统设置） */ = {
 			isa = PBXGroup;
 			children = (
 				3179E6BB1AC2B0CB00AFCFAA /* SettingViewController.h */,
@@ -2000,9 +1999,10 @@
 				B860612E1AC920EC00555486 /* AboutViewController.h */,
 				B860612F1AC920EC00555486 /* AboutViewController.m */,
 				B86061301AC920EC00555486 /* AboutViewController.xib */,
+				3179E6A41AC2AFF900AFCFAA /* complaint（投诉） */,
 				70BED35E1C0773850082F744 /* settingUnused */,
 			);
-			name = "setting（设置）";
+			name = "setting（系统设置）";
 			sourceTree = "<group>";
 		};
 		3179E6A41AC2AFF900AFCFAA /* complaint（投诉） */ = {
@@ -2063,9 +2063,7 @@
 				71BA02F21B61D581004C500B /* UseRuleViewController.h */,
 				71BA02F31B61D581004C500B /* UseRuleViewController.m */,
 				71BA02F41B61D581004C500B /* UseRuleViewController.xib */,
-				719889061B637691000940D3 /* UserRuleTableViewCell.h */,
-				719889071B637691000940D3 /* UserRuleTableViewCell.m */,
-				719889081B637691000940D3 /* UserRuleTableViewCell.xib */,
+				70BED35F1C0D993F0082F744 /* accountUnused */,
 			);
 			name = "account（钱包）";
 			sourceTree = "<group>";
@@ -3549,6 +3547,16 @@
 			name = settingUnused;
 			sourceTree = "<group>";
 		};
+		70BED35F1C0D993F0082F744 /* accountUnused */ = {
+			isa = PBXGroup;
+			children = (
+				719889061B637691000940D3 /* UserRuleTableViewCell.h */,
+				719889071B637691000940D3 /* UserRuleTableViewCell.m */,
+				719889081B637691000940D3 /* UserRuleTableViewCell.xib */,
+			);
+			name = accountUnused;
+			sourceTree = "<group>";
+		};
 		70CB99081BFDA02A00A211BF /* umsdk_iOS_game_no_idfa_3.6.5.0 */ = {
 			isa = PBXGroup;
 			children = (
@@ -3560,14 +3568,15 @@
 			path = umsdk_iOS_game_no_idfa_3.6.5.0;
 			sourceTree = "<group>";
 		};
-		713694931B51627700F6D573 /* OnlineTest */ = {
+		713694931B51627700F6D573 /* serveUnused */ = {
 			isa = PBXGroup;
 			children = (
+				716E271B1B53DD37009CE9E1 /* SignUpToStudy */,
 				713694941B51627700F6D573 /* OnlineTestViewController.h */,
 				713694951B51627700F6D573 /* OnlineTestViewController.m */,
 				713694961B51627700F6D573 /* OnlineTestViewController.xib */,
 			);
-			name = OnlineTest;
+			name = serveUnused;
 			path = ../OnlineTest;
 			sourceTree = "<group>";
 		};
@@ -3588,8 +3597,7 @@
 		7198890B1B639C55000940D3 /* XiaobaServe（小巴服务） */ = {
 			isa = PBXGroup;
 			children = (
-				713694931B51627700F6D573 /* OnlineTest */,
-				716E271B1B53DD37009CE9E1 /* SignUpToStudy */,
+				713694931B51627700F6D573 /* serveUnused */,
 				7198890C1B639C72000940D3 /* XiaobaServeViewController.h */,
 				7198890D1B639C72000940D3 /* XiaobaServeViewController.m */,
 				7198890E1B639C72000940D3 /* XiaobaServeViewController.xib */,

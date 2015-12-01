@@ -414,7 +414,7 @@
     }];
 }
 
-// 科目车型(需求更改导致)
+// 科目车型(需求更改导致这诡异的函数名)
 - (CGFloat)showPriceList:(NSArray *)priceArray {
     CGFloat gap = 10;
     CGFloat y = 0;

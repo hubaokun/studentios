@@ -57,8 +57,8 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 @property (strong, nonatomic) NSDictionary *coachDic;
 
 // C1、C2
-@property (weak, nonatomic) IBOutlet UIView *c1Orc2View;
-@property (weak, nonatomic) IBOutlet UIImageView *translucentLine;
+@property (weak, nonatomic) IBOutlet UIView *c1Orc2View;            // c1、c2选择栏
+@property (weak, nonatomic) IBOutlet UIImageView *translucentLine;  // 顶部半透明分隔线
 @property (weak, nonatomic) IBOutlet UIButton *c1Btn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *c1BtnLeftSpaceCon;
 @property (weak, nonatomic) IBOutlet UIButton *c2Btn;
@@ -69,22 +69,11 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 @property (weak, nonatomic) IBOutlet UIImageView *advImageView;
 @property (copy, nonatomic) NSString *actUrl;
 
-@property (assign, nonatomic) BOOL isGetData;
+//@property (assign, nonatomic) BOOL isGetData;
 
 @end
 
 @implementation MainViewController
-
-+ (MainViewController *)sharedMainController
-{
-    static MainViewController *mainVC;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        mainVC = [[self alloc] init];
-    });
-    
-    return mainVC;
-}
 
 + (NSString *)readCarModelID {
     return carModelID;
@@ -94,11 +83,12 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     [super viewDidLoad];
     [self staticViewConfig];
     
+    // 数据初始化
     _itemIndex = 1;
     _lastItemIndex = _itemIndex;
     carModelID = @"17";
     self.annotationsList = [NSMutableArray array];
-    self.isGetData = NO;
+//    self.isGetData = NO;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setMapLocation) name:@"setMapLocation" object:nil];
     // 筛选界面的观察者信息
@@ -130,16 +120,6 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
         // 开启定位服务
         AppDelegate *app = APP_DELEGATE;
         app.openLocationService = YES;
-//        // 移除所有标注
-//        [_mapView removeAnnotations:_annotationsList];
-//        // 重新添加标注
-//        for (int i = 0; i < self.coachList.count; i++)
-//        {
-//            NSDictionary *coachDic = self.coachList[i];
-//            NSString *longitude = coachDic[@"longitude"];
-//            NSString *latitude = coachDic[@"latitude"];
-//            [self addAnnotationAtLongitude:longitude latitude:latitude andTag:i];
-//        }
     }
 }
 
@@ -333,7 +313,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     coor.latitude = [latitude floatValue];
     coor.longitude = [longitude floatValue];
     annotation.coordinate = coor;
-    annotation.title = [NSString stringWithFormat:@"%d", tag];
+    annotation.title = [NSString stringWithFormat:@"%d", tag]; // title即为该图标在array中的index
     [_mapView addAnnotation:annotation];
     [self.annotationsList addObject:annotation];
 }
@@ -440,9 +420,9 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 - (void)requestGetNearByCoachInterfaceWithPointcenter:(NSString *)pointcenter
                                             andRadius:(NSString *)radius needLiadingShow:(BOOL) need
 {
-    if(self.isGetData)
-        return;
-    self.isGetData = YES;
+//    if(self.isGetData)
+//        return;
+//    self.isGetData = YES;
     
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     paramDic = [self.searchParamDic mutableCopy];
@@ -486,7 +466,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
         if(need){
             [DejalBezelActivityView removeViewAnimated:YES];
         }
-        self.isGetData = NO;
+//        self.isGetData = NO;
         if ([responseObject[@"code"] integerValue] == 1)
         {
             self.coachList = responseObject[@"coachlist"];
@@ -530,7 +510,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
         [DejalBezelActivityView removeViewAnimated:YES];
         NSLog(@"getnearbycoach err");
         [self makeToast:ERR_NETWORK];
-        self.isGetData = NO;
+//        self.isGetData = NO;
     }];
 
 }
@@ -556,7 +536,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     NSString *pointCenter = [NSString stringWithFormat:@"%f,%f", c2.longitude, c2.latitude];
     NSString *radius = [NSString stringWithFormat:@"%f", dis/1000];
     
-    self.isGetData = NO;
+//    self.isGetData = NO;
     [self requestGetNearByCoachInterfaceWithPointcenter:pointCenter andRadius:radius needLiadingShow:needLiadingShow];
 }
 
@@ -1328,5 +1308,15 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 //    }
 //}
 
+//+ (MainViewController *)sharedMainController
+//{
+//    static MainViewController *mainVC;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        mainVC = [[self alloc] init];
+//    });
+//
+//    return mainVC;
+//}
 
 @end

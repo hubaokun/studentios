@@ -17,6 +17,6 @@
 
 + (NSString *)readCarModelID; // 获取车型id
 
-+ (MainViewController *)sharedMainController;
+//+ (MainViewController *)sharedMainController;
 
 @end

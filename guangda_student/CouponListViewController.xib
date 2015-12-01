@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CouponListViewController">
@@ -24,6 +24,7 @@
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WqN-ws-VUw">
                             <rect key="frame" x="0.0" y="63" width="600" height="1"/>
+                            <animations/>
                             <color key="backgroundColor" red="0.72156862745098038" green="0.72156862745098038" blue="0.72156862745098038" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="SvG-hO-1dJ"/>
@@ -31,6 +32,7 @@
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wcH-QL-gX9">
                             <rect key="frame" x="0.0" y="20" width="90" height="44"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="90" id="4XE-eT-7u0"/>
                                 <constraint firstAttribute="height" constant="44" id="DJz-am-0dT"/>
@@ -45,6 +47,7 @@
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coupon_left_selected" translatesAutoresizingMaskIntoConstraints="NO" id="W1C-gn-xtu">
                             <rect key="frame" x="229" y="28" width="142" height="28"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="28" id="cyq-4U-Gi3"/>
                                 <constraint firstAttribute="width" constant="142" id="sRI-YU-diV"/>
@@ -52,6 +55,7 @@
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="可用" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3v9-GL-tJc">
                             <rect key="frame" x="229" y="28" width="71" height="28"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="28" id="MCw-dc-k4b"/>
                                 <constraint firstAttribute="width" constant="71" id="Or8-5f-12P"/>
@@ -62,6 +66,7 @@
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="历史" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uWU-8C-f4G">
                             <rect key="frame" x="300" y="28" width="71" height="28"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="28" id="YI3-P1-nbd"/>
                                 <constraint firstAttribute="width" constant="71" id="fOx-aD-bor"/>
@@ -72,6 +77,7 @@
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ofm-pi-ukn">
                             <rect key="frame" x="229" y="28" width="71" height="28"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="28" id="EtB-AL-nYB"/>
                                 <constraint firstAttribute="width" constant="71" id="YLh-hl-6g9"/>
@@ -85,6 +91,7 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GQf-g1-fvM">
                             <rect key="frame" x="300" y="28" width="71" height="28"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="71" id="2sD-aH-8rz"/>
                                 <constraint firstAttribute="height" constant="28" id="QqR-b6-UXG"/>
@@ -97,6 +104,7 @@
                             </connections>
                         </button>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="W1C-gn-xtu" firstAttribute="leading" secondItem="ofm-pi-ukn" secondAttribute="trailing" constant="-71" id="13I-j8-MxU"/>
@@ -119,6 +127,7 @@
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="t7w-ro-aAY">
                     <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="Z2w-ym-OpQ"/>
@@ -126,6 +135,7 @@
                     </connections>
                 </tableView>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="AyZ-OA-BJA" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="7Xv-mL-JsR"/>

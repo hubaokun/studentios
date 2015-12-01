@@ -16,15 +16,15 @@
 // 打分
 @property (strong, nonatomic) IBOutlet UIView *teachMannerView;
 @property (strong, nonatomic) IBOutlet UILabel *teachMannerScoreLabel;
-@property (copy, nonatomic) NSString *teachMannerScoreStr;
+@property (copy, nonatomic) NSString *teachMannerScoreStr; // 教学态度
 
 @property (strong, nonatomic) IBOutlet UIView *teachQualityView;
 @property (strong, nonatomic) IBOutlet UILabel *teachQualityScoreLabel;
-@property (copy, nonatomic) NSString *teachQualityScoreStr;
+@property (copy, nonatomic) NSString *teachQualityScoreStr; // 教学质量
 
 @property (strong, nonatomic) IBOutlet UIView *carQualityView;
 @property (strong, nonatomic) IBOutlet UILabel *carQualityScoreLabel;
-@property (copy, nonatomic) NSString *carQualityScoreStr;
+@property (copy, nonatomic) NSString *carQualityScoreStr; // 车容车貌
 
 // orderInfo
 @property (strong, nonatomic) IBOutlet UILabel *orderCreateDateLabel;

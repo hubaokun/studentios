@@ -273,6 +273,7 @@
 //        NSLog(@"userLocation == %@", userLocation);
         _userLocation = userLocation;
         self.locationPoint = [NSString stringWithFormat:@"%f,%f", _userCoordinate.longitude, _userCoordinate.latitude];
+        NSLog(@"=============== %@ ==============", self.locationPoint);
         [[NSNotificationCenter defaultCenter] postNotificationName:@"setMapLocation" object:nil];
         NSLog(@"定位成功");
     }

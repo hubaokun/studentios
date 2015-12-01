@@ -73,7 +73,7 @@
 #pragma mark - photo
 - (CZPhotoPickerController *)photoController
 {
-    typeof(self) weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     
     return [[CZPhotoPickerController alloc] initWithPresentingViewController:self withCompletionBlock:^(UIImagePickerController *imagePickerController, NSDictionary *imageInfoDict) {
         
@@ -246,4 +246,9 @@
     ImproveInfoViewController *targetViewController = [[ImproveInfoViewController alloc] initWithNibName:@"ImproveInfoViewController" bundle:nil];
     [self.navigationController pushViewController:targetViewController animated:YES];
 }
+
+- (void)dealloc {
+    NSLog(@"UserInfoHomeView  dealloc");
+}
+
 @end

@@ -258,47 +258,6 @@
     }
 }
 
-/**
- 对传过来的订单数据进行处理
- **/
-//- (void) getOrderArray{
-//    
-//    for (NSDictionary *dic in self.dateTimeSelectedList) {
-//        NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-//        [dictionary setObject:dic[@"date"] forKey:@"date"];//订单的日期
-//        NSArray *times = dic[@"times"];
-//        NSMutableArray *timesArray = [NSMutableArray array];
-//        int timeCount = 0;
-//        int priceAll = 0;
-//        for (NSDictionary *timDic in times) {
-//            timeCount ++;
-//            NSMutableDictionary *time = [NSMutableDictionary dictionary];
-//            NSString *price = [[timDic[@"price"] description] stringByReplacingOccurrencesOfString:@"元" withString:@""];
-//            priceAll += [price intValue];
-//            [time setObject:price forKey:@"price"];//价格
-//            [time setObject:timDic[@"time"] forKey:@"time"];//时间点
-//            [timesArray addObject:time];
-//        }
-//        //对timesArray排序－－从小到大
-//        NSArray *array = [timesArray sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-//            int price1 = [obj1[@"price"] intValue];
-//            int price2 = [obj2[@"price"] intValue];
-//            if (price1 > price2) {
-//                return NSOrderedDescending;
-//            }
-//            
-//            if (price1 < price2) {
-//                return NSOrderedAscending;
-//            }
-//            return NSOrderedSame;
-//        }];
-//        [dictionary setObject:array forKey:@"times"];
-//        [dictionary setObject:[NSString stringWithFormat:@"%d",priceAll] forKey:@"priceAll"];//总价
-//        [dictionary setObject:[NSString stringWithFormat:@"%d",timeCount] forKey:@"timecount"];//时间点的个数
-//        [self.orderArray addObject:dictionary];
-//    }
-//}
-
 #pragma mark - UITableView
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -899,8 +858,7 @@
             self.resultDetailsLabel.hidden = YES;
             self.contentViewHeight.constant = 220;
             [self.appointResultBtn setTitle:@"去充值" forState:UIControlStateNormal];
-            [self.appointResultBtn removeTarget:self action:@selector(changeTimeClick:) forControlEvents:UIControlEventTouchUpInside];
-            [self.appointResultBtn removeTarget:self action:@selector(changeTimeClick:) forControlEvents:UIControlEventTouchUpInside];
+            [self.appointResultBtn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
             [self.appointResultBtn addTarget:self action:@selector(rechargeClick:) forControlEvents:UIControlEventTouchUpInside];
             break;
             
@@ -916,8 +874,7 @@
             self.contentViewHeight.constant = 220;
             self.tipTravelTopMargin.constant = 10;
             [self.appointResultBtn setTitle:@"订单详情" forState:UIControlStateNormal];
-            [self.appointResultBtn removeTarget:self action:@selector(changeTimeClick:) forControlEvents:UIControlEventTouchUpInside];
-            [self.appointResultBtn removeTarget:self action:@selector(rechargeClick:) forControlEvents:UIControlEventTouchUpInside];
+            [self.appointResultBtn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
             [self.appointResultBtn addTarget:self action:@selector(orderDetailClick:) forControlEvents:UIControlEventTouchUpInside];
             break;
             
@@ -932,8 +889,7 @@
             self.resultStatusHeight.constant = 21;
             self.contentViewHeight.constant = 250;
             [self.appointResultBtn setTitle:@"订单详情" forState:UIControlStateNormal];
-            [self.appointResultBtn removeTarget:self action:@selector(changeTimeClick:) forControlEvents:UIControlEventTouchUpInside];
-            [self.appointResultBtn removeTarget:self action:@selector(rechargeClick:) forControlEvents:UIControlEventTouchUpInside];
+            [self.appointResultBtn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
             [self.appointResultBtn addTarget:self action:@selector(orderDetailClick:) forControlEvents:UIControlEventTouchUpInside];
             break;
             
@@ -946,9 +902,8 @@
             self.resultStatusLabel.numberOfLines = 2;
             self.resultStatusHeight.constant = 50;
             [self.appointResultBtn setTitle:@"重新选择时间" forState:UIControlStateNormal];
-            [self.appointResultBtn removeTarget:self action:@selector(orderDetailClick:) forControlEvents:UIControlEventTouchUpInside];
-            [self.appointResultBtn removeTarget:self action:@selector(rechargeClick:) forControlEvents:UIControlEventTouchUpInside];
-            [self.appointResultBtn addTarget:self action:@selector(changeTimeClick:) forControlEvents:UIControlEventTouchUpInside];
+            [self.appointResultBtn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+            [self.appointResultBtn addTarget:self action:@selector(removeResultClick:) forControlEvents:UIControlEventTouchUpInside];
             break;
             
         default:
@@ -992,12 +947,6 @@
     }else{
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
-}
-
-- (void)changeTimeClick:(id)sender
-{
-    [self.appointResultView removeFromSuperview];
-    [self backClick:sender];
 }
 
 // 充值
@@ -1088,5 +1037,45 @@
     [self payDetailStatistics];
 }
 
+/**
+ 对传过来的订单数据进行处理
+ **/
+//- (void) getOrderArray{
+//
+//    for (NSDictionary *dic in self.dateTimeSelectedList) {
+//        NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+//        [dictionary setObject:dic[@"date"] forKey:@"date"];//订单的日期
+//        NSArray *times = dic[@"times"];
+//        NSMutableArray *timesArray = [NSMutableArray array];
+//        int timeCount = 0;
+//        int priceAll = 0;
+//        for (NSDictionary *timDic in times) {
+//            timeCount ++;
+//            NSMutableDictionary *time = [NSMutableDictionary dictionary];
+//            NSString *price = [[timDic[@"price"] description] stringByReplacingOccurrencesOfString:@"元" withString:@""];
+//            priceAll += [price intValue];
+//            [time setObject:price forKey:@"price"];//价格
+//            [time setObject:timDic[@"time"] forKey:@"time"];//时间点
+//            [timesArray addObject:time];
+//        }
+//        //对timesArray排序－－从小到大
+//        NSArray *array = [timesArray sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+//            int price1 = [obj1[@"price"] intValue];
+//            int price2 = [obj2[@"price"] intValue];
+//            if (price1 > price2) {
+//                return NSOrderedDescending;
+//            }
+//
+//            if (price1 < price2) {
+//                return NSOrderedAscending;
+//            }
+//            return NSOrderedSame;
+//        }];
+//        [dictionary setObject:array forKey:@"times"];
+//        [dictionary setObject:[NSString stringWithFormat:@"%d",priceAll] forKey:@"priceAll"];//总价
+//        [dictionary setObject:[NSString stringWithFormat:@"%d",timeCount] forKey:@"timecount"];//时间点的个数
+//        [self.orderArray addObject:dictionary];
+//    }
+//}
 
 @end

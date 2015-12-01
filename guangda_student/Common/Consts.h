@@ -11,8 +11,8 @@
 
 /* 服务器地址 */
 //#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"    // 正式服
-#define REQUEST_HOST   @"http://xiaobaxueche.com:8080/dadmin2.0.0/"    // 正式服测试版
-//#define REQUEST_HOST   @"http://120.25.236.228/dadmin/"       // 测试服务器
+//#define REQUEST_HOST   @"http://xiaobaxueche.com:8080/dadmin2.0.0/"    // 正式服测试版
+#define REQUEST_HOST   @"http://120.25.236.228/dadmin/"       // 测试服务器
 //#define REQUEST_HOST   @"http://192.168.1.103:8080/"       // 胡博
 //#define REQUEST_HOST   @"http://192.168.1.188:8080/xb/"       // 卢磊
 //#define REQUEST_HOST   @"http://192.168.1.53:8080/xb/"   // 冯彦
