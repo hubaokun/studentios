@@ -174,9 +174,15 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {  //string就是此时输入的那个字符 textField就是此时正在输入的那个输入框 返回YES就是可以改变输入框的值 NO相反
     
+//    NSLog(@"range == %ld,%ld", range.location, range.length);
+    
     if (self.inputField == textField)
     {
-        return [self isPureInt:string];
+        if (range.length == 1 || [self isPureInt:string]) {
+            return YES;
+        } else {
+            return NO;
+        }
     }
     return YES;
 }

@@ -79,6 +79,10 @@
     self.appointBtn.layer.cornerRadius = 3;
     self.genderView.layer.cornerRadius = 2;
     
+    // 头像
+    self.portrait.layer.cornerRadius = self.portrait.width/2;
+    self.portrait.layer.masksToBounds = YES;
+    
     // 星级
     self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(self.name.x, 40, 58, 10)];
     [self.coachInfoView addSubview:self.starView];

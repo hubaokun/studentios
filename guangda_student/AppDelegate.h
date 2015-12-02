@@ -37,7 +37,7 @@
 @property (copy, nonatomic) NSString *locationPoint;
 @property (nonatomic, strong) BMKReverseGeoCodeResult *locationResult; // 反地理编码结果
 @property (copy, nonatomic) NSString *locateCity; // 定位到的城市
-@property (assign, nonatomic) BOOL openLocationService; // 设为YES开启定位服务，设为NO关闭定位服务
+//@property (assign, nonatomic) BOOL openLocationService; // 设为YES开启定位服务，设为NO关闭定位服务
 
 // 新浪微博
 @property (strong, nonatomic) NSString *wbtoken;

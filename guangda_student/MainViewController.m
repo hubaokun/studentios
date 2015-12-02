@@ -24,7 +24,8 @@
 
 #define ZOOM_LEVEL 14.5 // 地图缩放级别
 //#define EXERCISE_URL @"http://192.168.1.65:8080/driverweb/examination/index.jsp" // 佳宁
-#define EXERCISE_URL @"http://120.25.236.228/dadmin/examination/index.jsp" // 测试服
+//#define EXERCISE_URL @"http://120.25.236.228/dadmin/examination/index.jsp" // 测试服
+#define EXERCISE_URL @"http://xiaobaxueche.com:8080/dadmin2.0.0/examination/index.jsp" // 正式服
 static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
 
 @interface MainViewController ()<UIGestureRecognizerDelegate, BMKMapViewDelegate, TabBarViewDelegate, CoachInfoViewDelegate, UIWebViewDelegate>
@@ -90,7 +91,7 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     self.annotationsList = [NSMutableArray array];
 //    self.isGetData = NO;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setMapLocation) name:@"setMapLocation" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setMapLocation) name:@"setMapLocation" object:nil];
     // 筛选界面的观察者信息
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSearchCoachDict:) name:@"SearchCoachDict" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ResetSearchCoachDict) name:@"ResetCoachDict" object:nil];
@@ -118,8 +119,9 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
         [_mapView viewWillAppear];
         _mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
         // 开启定位服务
-        AppDelegate *app = APP_DELEGATE;
-        app.openLocationService = YES;
+//        AppDelegate *app = APP_DELEGATE;
+//        app.openLocationService = YES;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setMapLocation) name:@"setMapLocation" object:nil];
     }
 }
 
@@ -128,8 +130,9 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
     [_mapView viewWillDisappear];
     _mapView.delegate = nil; // 不用时，置nil
     // 关闭定位服务
-    AppDelegate *app = APP_DELEGATE;
-    app.openLocationService = NO;
+//    AppDelegate *app = APP_DELEGATE;
+//    app.openLocationService = NO;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"setMapLocation"  object:nil];
 }
 
 // 监视城市定位的回调
@@ -718,8 +721,9 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
         [_mapView viewWillAppear];
         _mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
         // 开启定位服务
-        AppDelegate *app = APP_DELEGATE;
-        app.openLocationService = YES;
+//        AppDelegate *app = APP_DELEGATE;
+//        app.openLocationService = YES;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setMapLocation) name:@"setMapLocation" object:nil];
     }
     
     // 当不显示地图页面
@@ -727,8 +731,9 @@ static NSString *carModelID; // 车型id 17:C1 18:C2 19:陪驾
         [_mapView viewWillDisappear];
         _mapView.delegate = nil;
         // 关闭定位服务
-        AppDelegate *app = APP_DELEGATE;
-        app.openLocationService = NO;
+//        AppDelegate *app = APP_DELEGATE;
+//        app.openLocationService = NO;
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"setMapLocation" object:nil];
     }
     
     // 题库

@@ -257,7 +257,7 @@
     _locService.distanceFilter = 100;
     
     //启动LocationService
-//    [_locService startUserLocationService];
+    [_locService startUserLocationService];
 }
 
 /**
@@ -273,7 +273,6 @@
 //        NSLog(@"userLocation == %@", userLocation);
         _userLocation = userLocation;
         self.locationPoint = [NSString stringWithFormat:@"%f,%f", _userCoordinate.longitude, _userCoordinate.latitude];
-        NSLog(@"=============== %@ ==============", self.locationPoint);
         [[NSNotificationCenter defaultCenter] postNotificationName:@"setMapLocation" object:nil];
         NSLog(@"定位成功");
     }
@@ -349,14 +348,14 @@
 //    NSLog(@"定位失败%@", error);
 //}
 
-- (void)setOpenLocationService:(BOOL)openLocationService{
-    _openLocationService = openLocationService;
-    if (openLocationService) {
-        [_locService startUserLocationService];
-    } else {
-        [_locService stopUserLocationService];
-    }
-}
+//- (void)setOpenLocationService:(BOOL)openLocationService{
+//    _openLocationService = openLocationService;
+//    if (openLocationService) {
+//        [_locService startUserLocationService];
+//    } else {
+//        [_locService stopUserLocationService];
+//    }
+//}
 
 #pragma mark - 微信支付回调
 - (void)onResp:(BaseResp*)resp {
