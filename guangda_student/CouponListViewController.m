@@ -18,7 +18,7 @@
 - (IBAction)clickForTitleLeft:(id)sender;
 - (IBAction)clickForTitleRight:(id)sender;
 @property (strong, nonatomic) IBOutlet UITableView *couponTableView;
-
+@property (strong, nonatomic) IBOutlet UIView *noDataView; // 无数据提示页
 
 @end
 
@@ -48,16 +48,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
+#pragma mark - 网络请求
 - (void) getCouponDate{
     
     [DejalBezelActivityView activityViewForView:self.view];
@@ -167,8 +158,18 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if(selectIndex == 1){
+        if (couponList.count == 0) {
+            self.noDataView.hidden = NO;
+        } else {
+            self.noDataView.hidden = YES;
+        }
         return couponList.count;
     }else{
+        if (couponHisList.count == 0) {
+            self.noDataView.hidden = NO;
+        } else {
+            self.noDataView.hidden = YES;
+        }
         return couponHisList.count;
     }
 }
@@ -237,6 +238,7 @@
     return 90;
 }
 
+// 可用小巴券
 - (IBAction)clickForTitleLeft:(id)sender {
     if(selectIndex == 1)
         return;
@@ -247,6 +249,7 @@
     [self.couponTableView reloadData];
 }
 
+// 历史小巴券
 - (IBAction)clickForTitleRight:(id)sender {
     if(selectIndex == 2)
         return;

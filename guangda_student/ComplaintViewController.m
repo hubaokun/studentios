@@ -23,6 +23,7 @@
 @property (strong, nonatomic) DSBottomPullToMoreManager *pullToMore;    // 上拉加载
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *topLineHeight;
 @property (strong, nonatomic) IBOutlet UITableView *mainTableView;
+@property (strong, nonatomic) IBOutlet UIView *noDataView;
 @property (strong, nonatomic) NSMutableArray *complainListArray;
 
 @end
@@ -188,6 +189,12 @@
             [_complainListArray removeAllObjects];
             NSArray *array = [responseObject objectForKey:@"complaintlist"];
             [_complainListArray addObjectsFromArray:array];
+            
+            if (_complainListArray.count) {
+                self.noDataView.hidden = YES;
+            } else {
+                self.noDataView.hidden = NO;
+            }
             
             // 是否还有更多
             if ([responseObject[@"hasmore"] intValue] == 0) {

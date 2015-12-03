@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CouponListViewController">
             <connections>
                 <outlet property="couponTableView" destination="t7w-ro-aAY" id="f4o-wK-6Sk"/>
+                <outlet property="noDataView" destination="kkW-cw-ifh" id="TQt-Tx-GxE"/>
                 <outlet property="titleImageView" destination="W1C-gn-xtu" id="vAc-3G-TSv"/>
                 <outlet property="titleLeftLabel" destination="3v9-GL-tJc" id="N3Q-e3-8RL"/>
                 <outlet property="titleRightLabel" destination="uWU-8C-f4G" id="cG5-1b-L9G"/>
@@ -134,13 +135,39 @@
                         <outlet property="delegate" destination="-1" id="sQo-UJ-d4Y"/>
                     </connections>
                 </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kkW-cw-ifh" userLabel="noDataView">
+                    <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="暂无小巴券" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXc-go-lsp">
+                            <rect key="frame" x="0.0" y="189" width="600" height="30"/>
+                            <animations/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="xM2-V2-IgZ"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <color key="textColor" red="0.23921568627450979" green="0.23921568627450979" blue="0.23921568627450979" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <animations/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="HXc-go-lsp" firstAttribute="centerY" secondItem="kkW-cw-ifh" secondAttribute="centerY" constant="-64" id="R0X-gv-kxY"/>
+                        <constraint firstAttribute="trailing" secondItem="HXc-go-lsp" secondAttribute="trailing" id="gUG-Uw-r8m"/>
+                        <constraint firstItem="HXc-go-lsp" firstAttribute="leading" secondItem="kkW-cw-ifh" secondAttribute="leading" id="vFD-CO-Xqg"/>
+                    </constraints>
+                </view>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="AyZ-OA-BJA" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="7Xv-mL-JsR"/>
+                <constraint firstItem="kkW-cw-ifh" firstAttribute="top" secondItem="AyZ-OA-BJA" secondAttribute="bottom" id="85w-eP-aAK"/>
                 <constraint firstItem="t7w-ro-aAY" firstAttribute="top" secondItem="AyZ-OA-BJA" secondAttribute="bottom" id="BcQ-Uw-nMZ"/>
+                <constraint firstItem="kkW-cw-ifh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="DNl-aV-Fvn"/>
+                <constraint firstAttribute="trailing" secondItem="kkW-cw-ifh" secondAttribute="trailing" id="DrN-Ic-EMk"/>
                 <constraint firstItem="AyZ-OA-BJA" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="RgW-jP-u02"/>
+                <constraint firstAttribute="bottom" secondItem="kkW-cw-ifh" secondAttribute="bottom" id="STF-zA-tqh"/>
                 <constraint firstItem="t7w-ro-aAY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Sfr-13-y8V"/>
                 <constraint firstAttribute="bottom" secondItem="t7w-ro-aAY" secondAttribute="bottom" id="mEe-er-ESH"/>
                 <constraint firstAttribute="trailing" secondItem="t7w-ro-aAY" secondAttribute="trailing" id="va7-cN-Xyh"/>
