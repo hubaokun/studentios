@@ -20,8 +20,11 @@
 // 微信
 #import "WXApi.h"
 
+<<<<<<< HEAD
 #import <PgySDK/PgyManager.h>
 
+=======
+>>>>>>> 581ae6b487d24b94cba954550c406fc13f63eb86
 // 环信
 #import "EaseMob.h"
 #import "LocalDefine.h"
@@ -106,6 +109,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
+<<<<<<< HEAD
     //    //蒲公英
     //     设置用户反馈界面激活方式为三指拖动
     //        [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeThreeFingersPan];
@@ -120,6 +124,8 @@
     //    [[PgyManager sharedPgyManager] showFeedbackView];//直接显示用户反馈画面
     [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
     
+=======
+>>>>>>> 581ae6b487d24b94cba954550c406fc13f63eb86
     //友盟社会化分享与统计
     [MobClick startWithAppkey:@"55bf12f8e0f55a95d7002184" reportPolicy:BATCH channelId:@"pgy"];
     
@@ -171,7 +177,6 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
