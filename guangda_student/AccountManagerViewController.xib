@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AccountManagerViewController">
@@ -25,6 +25,7 @@
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1c6-GG-pRK">
                             <rect key="frame" x="0.0" y="63" width="600" height="1"/>
+                            <animations/>
                             <color key="backgroundColor" red="0.78039215689999997" green="0.78039215689999997" blue="0.78039215689999997" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="k8L-gy-bN4"/>
@@ -32,6 +33,7 @@
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HwH-2e-bhu">
                             <rect key="frame" x="0.0" y="20" width="90" height="44"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="90" id="8bR-OI-MJT"/>
                                 <constraint firstAttribute="height" constant="44" id="xSZ-tK-N4J"/>
@@ -46,6 +48,7 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R2j-nC-cnS">
                             <rect key="frame" x="510" y="19" width="90" height="44"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="90" id="QEx-M1-lfe"/>
                                 <constraint firstAttribute="height" constant="44" id="pNi-oQ-1AE"/>
@@ -63,6 +66,7 @@
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="账户管理" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tLk-r2-FYb">
                             <rect key="frame" x="225" y="20" width="150" height="44"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="DIh-RI-m9I"/>
                                 <constraint firstAttribute="width" constant="150" id="zUX-qQ-UeI"/>
@@ -72,6 +76,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="R2j-nC-cnS" secondAttribute="trailing" id="5UP-Gq-1Dc"/>
@@ -88,6 +93,7 @@
                 </view>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aJK-90-Tx4" userLabel="关闭键盘">
                     <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                    <animations/>
                     <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -100,6 +106,7 @@
                     <subviews>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入您的支付宝账户" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="c5a-Rs-e1W">
                             <rect key="frame" x="10" y="0.0" width="570" height="50"/>
+                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
@@ -107,6 +114,7 @@
                             </connections>
                         </textField>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="c5a-Rs-e1W" secondAttribute="trailing" id="7aY-wA-oUY"/>
@@ -118,6 +126,7 @@
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="申请提现必须设置,提现申请通过之后, 会打到您的支付宝账户" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EDs-9r-AMI">
                     <rect key="frame" x="20" y="130" width="560" height="42"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="42" id="PLL-4n-OYy"/>
                     </constraints>
@@ -127,6 +136,7 @@
                 </label>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2fm-yN-DTH">
                     <rect key="frame" x="213" y="280" width="173" height="40"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="173" id="mym-VI-lgp"/>
                         <constraint firstAttribute="height" constant="40" id="wqi-ax-hqd"/>
@@ -140,6 +150,7 @@
                     </connections>
                 </button>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="aJK-90-Tx4" secondAttribute="trailing" id="147-Ke-0hH"/>

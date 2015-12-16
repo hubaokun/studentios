@@ -11,9 +11,9 @@
 #import "AboutViewController.h"
 #import "LoginViewController.h"
 #import "SettingBindingViewController.h"
-#import "ChangePwdViewController.h"
 #import "AppDelegate.h"
 #import "ComplaintViewController.h"
+#import "XBWebViewController.h"
 @interface SettingViewController ()
 @property (strong, nonatomic) IBOutlet UIView *msgView;
 @property (strong, nonatomic) IBOutlet UILabel *cacheLabel;
@@ -86,22 +86,6 @@
 }
 
 #pragma mark - action
-//账号绑定
-- (IBAction)clickForBinding:(id)sender {
-    if ([[CommonUtil currentUtil] isLogin]) {
-        SettingBindingViewController *nextController = [[SettingBindingViewController alloc] initWithNibName:@"SettingBindingViewController" bundle:nil];
-        [self.navigationController pushViewController:nextController animated:YES];
-    }
-}
-
-//修改密码
-- (IBAction)clickForChangePwd:(id)sender {
-    if ([[CommonUtil currentUtil] isLogin]) {
-        ChangePwdViewController *nextController = [[ChangePwdViewController alloc] initWithNibName:@"ChangePwdViewController" bundle:nil];
-        [self.navigationController pushViewController:nextController animated:YES];
-    }
-}
-
 //清除缓存
 - (IBAction)clickForClearCache:(id)sender {
     self.alertView.frame = self.view.frame;
@@ -149,6 +133,16 @@
     [self.alertView removeFromSuperview];
 }
 
+//陪驾协议
+- (IBAction)protocolClick:(id)sender {
+    NSString *url = @"http://www.xiaobaxueche.com/serviceprotocol-s.html";
+    XBWebViewController *nextVC = [[XBWebViewController alloc] init];
+    nextVC.mainUrl = url;
+    nextVC.titleStr = @"小巴陪驾服务协议";
+    nextVC.closeBtnHidden = YES;
+    [self.navigationController pushViewController:nextVC animated:YES];
+}
+
 //退出登录
 - (IBAction)clickForLoginout:(id)sender {
     
@@ -156,5 +150,24 @@
     LoginViewController *nextController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
     [self.navigationController pushViewController:nextController animated:YES];
     
+    [[EMIMHelper defaultHelper] logOut];
+    
 }
+
+//账号绑定
+//- (IBAction)clickForBinding:(id)sender {
+//    if ([[CommonUtil currentUtil] isLogin]) {
+//        SettingBindingViewController *nextController = [[SettingBindingViewController alloc] initWithNibName:@"SettingBindingViewController" bundle:nil];
+//        [self.navigationController pushViewController:nextController animated:YES];
+//    }
+//}
+
+//修改密码
+//- (IBAction)clickForChangePwd:(id)sender {
+//    if ([[CommonUtil currentUtil] isLogin]) {
+//        ChangePwdViewController *nextController = [[ChangePwdViewController alloc] initWithNibName:@"ChangePwdViewController" bundle:nil];
+//        [self.navigationController pushViewController:nextController animated:YES];
+//    }
+//}
+
 @end

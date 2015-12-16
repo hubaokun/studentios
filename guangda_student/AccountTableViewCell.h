@@ -10,10 +10,10 @@
 
 @interface AccountTableViewCell : UITableViewCell
 
-@property (strong, nonatomic) IBOutlet UILabel *inOrOut;
-@property (strong, nonatomic) IBOutlet UILabel *dateTimeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *inOrOut;        // 收入或支出文字说明
+@property (strong, nonatomic) IBOutlet UILabel *dateTimeLabel; 
 @property (strong, nonatomic) IBOutlet UILabel *moneyNum;
 
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *lineHeight;
+- (void)loadData:(NSDictionary *)data;
 
 @end

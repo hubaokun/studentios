@@ -15,34 +15,37 @@
 #import "DSPullToRefreshManager.h"
 #import "DSBottomPullToMoreManager.h"
 #import "UIImageView+WebCache.h"
-#import "TQStarRatingView.h"
 #import "UserBaseInfoViewController.h"
+#import "CoachInfoView.h"
 #import "AppDelegate.h"
 
-#define _screenWidth [UIScreen mainScreen].bounds.size.width
-#define _screenHeight [UIScreen mainScreen].bounds.size.height
-
 @interface CoachListViewController ()
-<UITableViewDataSource, UITableViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIGestureRecognizerDelegate, DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient,UIAlertViewDelegate>
+<UITableViewDataSource, UITableViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIGestureRecognizerDelegate, DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient, UIAlertViewDelegate, CoachInfoViewDelegate>
 {
     int _oldRow;
     
     NSInteger _searchPage;   // 检索页
 }
+
+@property (weak, nonatomic) IBOutlet UIView *emptyView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) DSPullToRefreshManager *pullToRefresh;    // 下拉刷新
 @property (strong, nonatomic) DSBottomPullToMoreManager *pullToMore;    // 上拉加载
+
+// 教练信息
+@property (strong, nonatomic) CoachInfoView *coachInfoView;
+@property (strong, nonatomic) UIButton *closeDetailBtn;     // 关闭底部教练信息view
 @property (strong, nonatomic) NSMutableArray *coachList;    // 教练列表
-@property (strong, nonatomic) IBOutlet UILabel *coachRealName;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coachNameLabelWidthCon;
-@property (weak, nonatomic) IBOutlet UIImageView *genderImage;
+@property (strong, nonatomic) NSDictionary *coachInfoDic;
+@property (strong, nonatomic) NSString *coachId;
 
-@property (strong, nonatomic) IBOutlet UILabel *coachDetails;
-@property (strong, nonatomic) TQStarRatingView *starView;
-
-@property (strong, nonatomic) NSDictionary *coachInfoDic;       // 教练资料
+@property (copy, nonatomic) NSString *carModelID;           // 车型
 
 - (IBAction)clickForGoMap:(id)sender;
 - (IBAction)clickForGoSearch:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UIButton *screenBtn;
+
 @property (strong, nonatomic) IBOutlet UIButton *allButton;
 - (IBAction)clickForAllData:(id)sender;
 
@@ -53,8 +56,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     _oldRow = 12138;
+    
+    // 车型
+    self.carModelID = [MainViewController readCarModelID];
     
     self.coachList = [NSMutableArray array];
     //刷新加载
@@ -66,68 +71,41 @@
     [self pullToRefreshTriggered:self.pullToRefresh];
     [_pullToMore setPullToMoreViewVisible:NO];
     
-    //     教练信息 星级View
-    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 100, 15, 87, 15)];
-    [self.chooseCoachTimeView addSubview:_starView];
+    // 教练信息
+    self.coachInfoView = [[CoachInfoView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 0)]; // 高度据内容而定
+    self.coachInfoView.delegate = self;
+    
+    // 关闭底部教练信息的按钮
+    self.closeDetailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.closeDetailBtn.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 80);
+    self.closeDetailBtn.backgroundColor = [UIColor blackColor];
+    self.closeDetailBtn.alpha = 0;
+    [self.closeDetailBtn addTarget:self action:@selector(closeCoachInfoView) forControlEvents:UIControlEventTouchUpInside];
     
     // 筛选界面的观察者信息
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSearchCoachDict:) name:@"SearchCoachDict" object:nil];
 
-    if(self.searchParamDic){
-        NSString *condition3 = self.searchParamDic[@"condition3"];
-        NSString *condition6 = self.searchParamDic[@"condition6"];
-        if([CommonUtil isEmpty:condition3] && [CommonUtil isEmpty:condition6]){
-            self.allButton.hidden = YES;
-        }else{
-            self.allButton.hidden = NO;
-        }
-    }else{
+    // 导航栏
+    if ([self.carModelID isEqualToString:@"19"]) { // 陪驾
+        self.titleLabel.text = @"陪驾列表";
+        self.screenBtn.hidden = YES;
         self.allButton.hidden = YES;
-    }
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    if (self.chooseCoachTimeView.superview) {
-        [self closeDetailsView];
-    }
-}
-
-#pragma mark - actions
-- (void)setSearchCoachDict:(id)dictionary
-{
-    
-    if (dictionary == nil) {
-        self.allButton.hidden = YES;
-        return;
-    }
-    
-    if ([dictionary isKindOfClass:[NSNotification class]])
-    {
-        NSNotification *notification = (NSNotification *)dictionary;
-        if ([CommonUtil isEmpty:notification.object])
-        {
-            self.allButton.hidden = YES;
-            self.searchParamDic = nil;
-            return;
-        }
-        self.searchParamDic = [NSMutableDictionary dictionaryWithDictionary:notification.object];
     } else {
-        self.searchParamDic = [NSMutableDictionary dictionaryWithDictionary:dictionary];
+        self.titleLabel.text = @"教练列表";
+        if(self.searchParamDic){
+            NSString *condition3 = self.searchParamDic[@"condition3"];
+            NSString *condition6 = self.searchParamDic[@"condition6"];
+            if([CommonUtil isEmpty:condition3] && [CommonUtil isEmpty:condition6]){
+                self.allButton.hidden = YES;
+            }else{
+                self.allButton.hidden = NO;
+            }
+        }else{
+            self.allButton.hidden = YES;
+        }
     }
     
-    NSString *condition3 = self.searchParamDic[@"condition3"];
-    NSString *condition6 = self.searchParamDic[@"condition6"];
-    if([CommonUtil isEmpty:condition3] && [CommonUtil isEmpty:condition6]){
-        self.allButton.hidden = YES;
-    }else{
-        self.allButton.hidden = NO;
-    }
-    
-    [self pullToRefreshTriggered:self.pullToRefresh];
-
+    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
 }
 
 #pragma mark - UIPicker
@@ -173,133 +151,90 @@
     {
         [tableView registerNib:[UINib nibWithNibName:@"CoachListTableViewCell" bundle:nil] forCellReuseIdentifier:cellident];
         cell = [tableView dequeueReusableCellWithIdentifier:cellident];
-        cell.userLogo.layer.cornerRadius = cell.userLogo.bounds.size.width / 2;
-        cell.userLogo.layer.masksToBounds = YES;
+        
     }
-    
-    NSDictionary *coachDic = self.coachList[indexPath.row];
-    NSString *logoUrl = coachDic[@"avatarurl"];
-    cell.userLogo.layer.cornerRadius = cell.userLogo.bounds.size.width/2;
-    cell.userLogo.layer.masksToBounds = YES;
-    [cell.userLogo sd_setImageWithURL:[NSURL URLWithString:logoUrl] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
-    
-    NSString *sumnum = [coachDic[@"sumnum"] description];
-    NSString *sumnumStr = [NSString stringWithFormat:@"总单数:%@",sumnum];
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:sumnumStr];
-    [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(4,sumnum.length)];
-    cell.orderCount.attributedText = string;
-    
-    cell.userName.text = coachDic[@"realname"];
-//    NSString *coachInfoStr = nil;
-    NSString *detail = coachDic[@"detail"];
-    NSString *schoolName = coachDic[@"drive_school"];
-    if ([CommonUtil isEmpty:schoolName]) {
-        cell.driveSchoolLabel.text = @"";
-    } else {
-        cell.driveSchoolLabel.text = schoolName;
-    }
-    cell.contentDetailLabel.text = detail;
-    
-    [cell.starView changeStarForegroundViewWithScore:[[coachDic[@"score"] description] floatValue]];
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-    
-    // 教练是否开课
-    int courseState = [coachDic[@"coursestate"] intValue];
-    if (courseState == 0) { // 未开课
-        cell.contentView.alpha = 0.5;
-    } else {
-        cell.contentView.alpha = 1.0;
-    }
+    cell.carModelID = self.carModelID;
+    NSDictionary *coachDic = self.coachList[indexPath.row];
+    [cell loadData:coachDic];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (_oldRow == indexPath.row && self.chooseCoachTimeView.superview) {
-        [self closeDetailsView];
-        _oldRow = 12138;
-    }else{
-        NSDictionary *coachInfoDict = self.coachList[indexPath.row];
-        NSString *avatarStr = [coachInfoDict[@"avatarurl"] description];
-        NSString *coachName = coachInfoDict[@"realname"];
-        NSString *coachdetail = coachInfoDict[@"detail"];
-        NSString *scoreStr = coachInfoDict[@"score"];
-        CGFloat score = [scoreStr floatValue];
-        int gender = [coachInfoDict[@"gender"] intValue];
-        NSString *genderStr = nil;
-        if (gender == 1) {
-            genderStr = @"男";
-            [self.genderImage setImage:[UIImage imageNamed:@"icon_male"]];
-        }else if (gender == 2)
-        {
-            genderStr = @"女";
-            [self.genderImage setImage:[UIImage imageNamed:@"icon_female"]];
-        }else{
-            genderStr = @"未设置";
-            [self.genderImage setImage:[UIImage imageNamed:@"icon_male"]];
-        }
-        
-        self.coachId = [coachInfoDict[@"coachid"] description];
-        self.userLogo.layer.cornerRadius = self.userLogo.bounds.size.width/2;
-        self.userLogo.layer.masksToBounds = YES;
-        [self.userLogo sd_setImageWithURL:[NSURL URLWithString:avatarStr] placeholderImage:[UIImage imageNamed:@"user_logo_default"]];
-        
-        // 教练名
-        self.coachRealName.text = [NSString stringWithFormat:@"%@", coachName];
-        // 设置教练名label长度
-        CGFloat realNameStrWidth = [CommonUtil sizeWithString:coachName fontSize:17 sizewidth:MAXFLOAT sizeheight:21].width;
-        self.coachNameLabelWidthCon.constant = realNameStrWidth;
-        
-//        self.coachRealName.text = coachName;
-        self.coachDetails.text = coachdetail;
-        [self.starView changeStarForegroundViewWithScore:score];
-        
-        [self carBtnClick];
-        _oldRow = (int)indexPath.row;
-        
+//    if (_oldRow == indexPath.row && self.coachInfoView.superview) {
+//        [self closeCoachInfoView];
+//        _oldRow = 12138;
+//    }else{
+//        _oldRow = (int)indexPath.row;
         self.coachInfoDic = self.coachList[indexPath.row];
-    }
+        [self.coachInfoView loadData:self.coachInfoDic withCarModelID:self.carModelID];
+        [self coachInfoViewShow];
+//    }
 }
 
-#pragma mark - actions
-- (IBAction)coachDetailsClick:(id)sender
+#pragma mark - DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [_pullToRefresh tableViewScrolled];
+    
+    [_pullToMore relocatePullToMoreView];    // 重置加载更多控件位置
+    [_pullToMore tableViewScrolled];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    [_pullToRefresh tableViewReleased];
+    [_pullToMore tableViewReleased];
+}
+
+/* 刷新处理 */
+- (void)pullToRefreshTriggered:(DSPullToRefreshManager *)manager {
+    _searchPage = 0;
+    [self requestGetCoachList];
+}
+
+/* 加载更多 */
+- (void)bottomPullToMoreTriggered:(DSBottomPullToMoreManager *)manager {
+    _searchPage = _searchPage + 1;
+    [self requestGetCoachList];
+}
+
+#pragma mark - CoachInfoViewDelegate
+- (void)coachDetailShow:(NSString *)coachID
 {
     CoachDetailViewController *nextController = [[CoachDetailViewController alloc] initWithNibName:@"CoachDetailViewController" bundle:nil];
-        nextController.coachId = self.coachId;
+    nextController.coachId = coachID;
+    nextController.carModelID = self.carModelID;
     UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
     navigationController.navigationBarHidden = YES;
     [self presentViewController:navigationController animated:YES completion:nil];
 }
 
-- (IBAction)appointCoachClick:(id)sender
+- (void)appointCoach:(NSDictionary *)coachInfoDict
 {
     AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
-    nextController.coachId = self.coachId;
-    nextController.coachInfoDic = self.coachInfoDic;
+    nextController.coachInfoDic = coachInfoDict;
+    NSString *coachID = [coachInfoDict[@"coachid"] description];
+    nextController.coachId = coachID;
+    nextController.carModelID = self.carModelID;
     UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
     navigationController.navigationBarHidden = YES;
     [self presentViewController:navigationController animated:YES completion:nil];
-    
 }
 
-#pragma mark 小汽车 button 点击事件
-- (void)carBtnClick
+#pragma mark - Custom
+- (void)coachInfoViewShow
 {
     // 添加底部的教练信息栏
-    self.chooseCoachTimeView.frame = CGRectMake(0, _screenHeight, _screenWidth, 122);
-    [self.view addSubview:self.chooseCoachTimeView];
-    
-    [UIView animateWithDuration:0.5 //时长
+    [self.view addSubview:self.closeDetailBtn];
+    [self.view addSubview:self.coachInfoView];
+    [UIView animateWithDuration:0.35 //时长
                           delay:0 //延迟时间
                         options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
                      animations:^{
-                         
                          //动画设置区域
-                         self.chooseCoachTimeView.frame=CGRectMake(0, _screenHeight - 122, _screenWidth, 122);
-                         
+                         self.coachInfoView.bottom = SCREEN_HEIGHT;
+                         self.closeDetailBtn.alpha = 0.5;
                      } completion:^(BOOL finish){
                          //动画结束时调用
                          //............
@@ -307,67 +242,57 @@
     
 }
 
-- (void)closeDetailsView
+- (void)closeCoachInfoView
 {
-    //    for (id objc in self.view.subviews) {
-    //        if ([objc isEqual:self.chooseCoachTimeView]) {
-    
-    self.chooseCoachTimeView.frame=CGRectMake(0, _screenHeight - 122, _screenWidth, _screenHeight);
-    [UIView animateWithDuration:0.5 //时长
+    [UIView animateWithDuration:0.35 //时长
                           delay:0 //延迟时间
                         options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
                      animations:^{
-                         
                          //动画设置区域
-                         self.chooseCoachTimeView.frame=CGRectMake(0, _screenHeight, _screenWidth, 292);
-                         
-                         
+                         self.coachInfoView.top = SCREEN_HEIGHT;
+                         self.closeDetailBtn.alpha = 0;
                      } completion:^(BOOL finish){
                          //动画结束时调用
-                         [self.chooseCoachTimeView removeFromSuperview];
+                         [self.coachInfoView removeFromSuperview];
+                         [self.closeDetailBtn removeFromSuperview];
                      }];
-    //        }
-    //    }
-//    [self removeCoachHeadControl];
-//    [[SliderViewController sharedSliderController] closeSideBar];
 }
 
-// 移除教练头像control
-- (void)removeCoachHeadControl
+// 添加筛选页面传递过来的条件
+- (void)setSearchCoachDict:(id)dictionary
 {
-    for (id objc in self.view.subviews)
-    {
-        if ([objc isKindOfClass:[UIControl class]])
-        {
-            UIControl *contro = (UIControl *)objc;
-            
-            // tag = 1 为教练头像control
-            if (contro.tag == 1)
-            {
-                [contro removeFromSuperview];
-            }
-        }
-    }
-}
-
-#pragma mark 展开选择教练时间段详情页
-- (void)showCoachTimeClick:(id)sender
-{
-    self.chooseCoachTimeView.frame = CGRectMake(0, _screenHeight-171, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-    [self.view addSubview:self.chooseCoachTimeView];
     
-    [UIView animateWithDuration:0.5 //时长
-                          delay:0 //延迟时间
-                        options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
-                     animations:^{
-                         
-                         //动画设置区域
-                         self.chooseCoachTimeView.frame=CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-                         
-                     } completion:^(BOOL finish){
-                     }];
-
+    if (dictionary == nil) {
+        self.allButton.hidden = YES;
+        return;
+    }
+    
+    if ([dictionary isKindOfClass:[NSNotification class]])
+    {
+        NSNotification *notification = (NSNotification *)dictionary;
+        if ([CommonUtil isEmpty:notification.object])
+        {
+            self.allButton.hidden = YES;
+            self.searchParamDic = nil;
+            return;
+        }
+        self.searchParamDic = [NSMutableDictionary dictionaryWithDictionary:notification.object];
+    } else {
+        self.searchParamDic = [NSMutableDictionary dictionaryWithDictionary:dictionary];
+    }
+    
+    NSString *condition3 = self.searchParamDic[@"condition3"];
+    NSString *condition6 = self.searchParamDic[@"condition6"];
+    if([CommonUtil isEmpty:condition3] && [CommonUtil isEmpty:condition6]){
+        self.allButton.hidden = YES;
+    }else{
+        self.allButton.hidden = NO;
+    }
+    
+    [self pullToRefreshTriggered:self.pullToRefresh];
+    
 }
+
 
 #pragma mark - 接口请求
 - (void)requestGetCoachList
@@ -381,10 +306,10 @@
     [paramDic setObject:[NSString stringWithFormat:@"%ld", (long)_searchPage] forKey:@"pagenum"];
     
     // 城市id
-    NSString *cityID = [USERDICT[@"cityid"] description];
-    if (![CommonUtil isEmpty:cityID]) {
-        paramDic[@"cityid"] = cityID;
-    }
+//    NSString *cityID = [USERDICT[@"cityid"] description];
+//    if (![CommonUtil isEmpty:cityID]) {
+//        paramDic[@"cityid"] = cityID;
+//    }
     
     // 定位城市名
     AppDelegate *delegate = [UIApplication sharedApplication].delegate;
@@ -394,18 +319,26 @@
         paramDic[@"fixedposition"] = locateCityName;
     }
     
+    // 经纬度
+    if (![CommonUtil isEmpty:delegate.locationPoint]) {
+        paramDic[@"pointcenter"] = delegate.locationPoint;
+    }
+    
     // 测试账号studentID
     AppDelegate *deleget = [UIApplication sharedApplication].delegate;
     if (![CommonUtil isEmpty:deleget.userid]) {
-        if ([deleget.userid isEqualToString:@"18"]) {
-            paramDic[@"studentid"] = deleget.userid;
-        }
+        paramDic[@"studentid"] = deleget.userid;
     }
     
     // app版本
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     [paramDic setObject:app_Version forKey:@"version"];
+    
+    // 车型ID
+    if (![CommonUtil isEmpty:self.carModelID]) {
+        [paramDic setObject:self.carModelID forKey:@"condition11"];
+    }
     
     NSString *uri = @"/sbook?action=GetCoachList";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
@@ -431,6 +364,11 @@
             if (_searchPage == 0) {
                 [self.coachList removeAllObjects];
                 self.coachList = [responseObject[@"coachlist"] mutableCopy];
+                if (self.coachList.count == 0) {
+                    self.emptyView.hidden = NO;
+                } else {
+                    self.emptyView.hidden = YES;
+                }
             }else{
                 NSArray *array = responseObject[@"coachlist"];
                 [self.coachList addObjectsFromArray:array];
@@ -474,32 +412,7 @@
     }];
 }
 
-#pragma mark - DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [_pullToRefresh tableViewScrolled];
-    
-    [_pullToMore relocatePullToMoreView];    // 重置加载更多控件位置
-    [_pullToMore tableViewScrolled];
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    [_pullToRefresh tableViewReleased];
-    [_pullToMore tableViewReleased];
-}
-
-/* 刷新处理 */
-- (void)pullToRefreshTriggered:(DSPullToRefreshManager *)manager {
-    _searchPage = 0;
-    [self requestGetCoachList];
-}
-
-/* 加载更多 */
-- (void)bottomPullToMoreTriggered:(DSBottomPullToMoreManager *)manager {
-    _searchPage = _searchPage + 1;
-    [self requestGetCoachList];
-}
-
-
+#pragma mark - Actions
 - (IBAction)clickForGoMap:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -511,13 +424,17 @@
     [self presentViewController:nextController animated:YES completion:nil];
     
 }
+
 - (IBAction)clickForAllData:(id)sender {
     self.searchParamDic = nil;
     self.allButton.hidden = YES;
     [self pullToRefreshTriggered:self.pullToRefresh];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ResetCoachDict" object:nil];
 }
 
 #pragma mark - 废弃
+//@property (strong, nonatomic) IBOutlet UIImageView *userLogo;           // 用户头像
+
 // 动画显示效果
 //- (void)animationOfBlock
 //{
@@ -538,6 +455,62 @@
 //
 //}
 
+//#pragma mark 展开选择教练时间段详情页
+//- (void)showCoachTimeClick:(id)sender
+//{
+//    self.coachInfoView.frame = CGRectMake(0, SCREEN_HEIGHT-171, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+//    [self.view addSubview:self.coachInfoView];
+//
+//    [UIView animateWithDuration:0.5 //时长
+//                          delay:0 //延迟时间
+//                        options:UIViewAnimationOptionTransitionFlipFromLeft//动画效果
+//                     animations:^{
+//
+//                         //动画设置区域
+//                         self.coachInfoView.frame=CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+//
+//                     } completion:^(BOOL finish){
+//                     }];
+//
+//}
 
+// 移除教练头像control
+//- (void)removeCoachHeadControl
+//{
+//    for (id objc in self.view.subviews)
+//    {
+//        if ([objc isKindOfClass:[UIControl class]])
+//        {
+//            UIControl *contro = (UIControl *)objc;
+//
+//            // tag = 1 为教练头像control
+//            if (contro.tag == 1)
+//            {
+//                [contro removeFromSuperview];
+//            }
+//        }
+//    }
+//}
+
+//- (IBAction)coachDetailsClick:(id)sender
+//{
+//    CoachDetailViewController *nextController = [[CoachDetailViewController alloc] initWithNibName:@"CoachDetailViewController" bundle:nil];
+//    nextController.coachId = self.coachId;
+//    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
+//    navigationController.navigationBarHidden = YES;
+//    [self presentViewController:navigationController animated:YES completion:nil];
+//}
+//
+//- (IBAction)appointCoachClick:(id)sender
+//{
+//    AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
+//    nextController.coachId = self.coachId;
+//    nextController.coachInfoDic = self.coachInfoDic;
+//    nextController.carModelID = self.carModelID;
+//    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
+//    navigationController.navigationBarHidden = YES;
+//    [self presentViewController:navigationController animated:YES completion:nil];
+//    
+//}
 
 @end

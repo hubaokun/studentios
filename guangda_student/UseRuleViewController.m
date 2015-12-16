@@ -7,8 +7,9 @@
 //
 
 #import "UseRuleViewController.h"
-#import "UserRuleTableViewCell.h"
-@interface UseRuleViewController ()<UITableViewDataSource,UITableViewDelegate>
+//#import "UserRuleTableViewCell.h"
+@interface UseRuleViewController ()
+//<UITableViewDataSource,UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *mainTableview;
 @property (weak, nonatomic) IBOutlet UIWebView *contentWebView;
 
@@ -24,28 +25,28 @@
     [self.contentWebView loadRequest:request];
 }
 #pragma mark - UITableView
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 1;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 300;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *indentifier = @"UserRuleTableViewCell";
-    UserRuleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:indentifier];
-    if (!cell) {
-        [tableView registerNib:[UINib nibWithNibName:@"UserRuleTableViewCell" bundle:nil] forCellReuseIdentifier:indentifier];
-        cell = [tableView dequeueReusableCellWithIdentifier:indentifier];
-    }
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
-}
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+//{
+//    return 1;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return 300;
+//}
+//
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    static NSString *indentifier = @"UserRuleTableViewCell";
+//    UserRuleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:indentifier];
+//    if (!cell) {
+//        [tableView registerNib:[UINib nibWithNibName:@"UserRuleTableViewCell" bundle:nil] forCellReuseIdentifier:indentifier];
+//        cell = [tableView dequeueReusableCellWithIdentifier:indentifier];
+//    }
+//    
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    return cell;
+//}
 
 
 

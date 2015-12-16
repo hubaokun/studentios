@@ -35,6 +35,7 @@
 
 //底部的view
 @property (strong, nonatomic) IBOutlet UIView *footView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footViewBottomSpaceCon;
 
 // 日期选择器
 @property (strong, nonatomic) IBOutlet UIView *selectView;

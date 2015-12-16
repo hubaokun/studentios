@@ -19,5 +19,6 @@
 
 - (instancetype)initWithDict:(NSDictionary *)dict;
 + (instancetype)coachWithDict:(NSDictionary *)dict;
++ (UIView *)createFreeCourseIcon;
 
 @end

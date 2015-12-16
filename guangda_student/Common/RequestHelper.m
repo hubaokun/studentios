@@ -105,8 +105,11 @@
     //用户ID
     NSString *userid = [[CommonUtil currentUtil] getLoginUserid];
     if (![CommonUtil isEmpty:userid]) {
-        [params setObject:userid forKey:@"userid"];
+        [params setObject:userid forKey:@"studentid"];
     }
+    
+    // 版本号
+    params[@"version"] = APP_VERSION;
     
     return params;
 }

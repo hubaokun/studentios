@@ -20,6 +20,9 @@ typedef enum {
 @property (copy, nonatomic) NSString *price;            // 价格
 @property (copy, nonatomic) NSString *subject;          // 科目
 @property (copy, nonatomic) NSString *time;             // 时间
+@property (assign, nonatomic) BOOL isFreeCourse;        // 是否是体验课
+@property (assign, nonatomic) BOOL needCar;             // 是否需要教练车(陪驾才有用)
+@property (assign, nonatomic) int rentalFee;            // 教练车租金(陪驾才有用)
 @property (assign, nonatomic) BookOrderPayType payType; // 支付方式
 @property (assign, nonatomic) BOOL isDeficit;           // 余额是否不足
 @property (assign, nonatomic) NSUInteger delMoney;      // 小巴币支付数目
@@ -27,5 +30,6 @@ typedef enum {
 - (instancetype)initWithDict:(NSDictionary *)dict;
 + (instancetype)bookOrderWithDict:(NSDictionary *)dict;
 + (NSMutableArray *)bookOrdersWithArray:(NSArray *)array;
++ (NSMutableArray *)bookOrdersWithArray:(NSArray *)array needCar:(int)rentalFee;
 
 @end

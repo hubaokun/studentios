@@ -15,7 +15,6 @@
 #import "AppDelegate.h"
 #import "DSPullToRefreshManager.h"
 #import "DSBottomPullToMoreManager.h"
-#import <BaiduMapAPI/BMapKit.h>
 #import "DSButton.h"
 #import "AppointCoachViewController.h"
 #import "LoginViewController.h"
@@ -24,7 +23,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
     OrderListTypeUncomplete = 0,    // 未完成订单
     OrderListTypeWaitEvaluate,      // 待评价订单
     OrderListTypeComplete,          // 已完成订单
-    OrderListTypeComplained,        // 已投诉订单
+    OrderListTypeComplained,        // 待处理订单
 };
 
 @interface MyOrderViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient, BMKLocationServiceDelegate, BMKGeoCodeSearchDelegate, BMKGeneralDelegate, UIAlertViewDelegate, OrderListTableViewCellDelegate> {
@@ -50,9 +49,9 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
 @property (strong, nonatomic) IBOutlet UIButton *complainedOrdersBtn;   // 已投诉
 
 //用户定位
-@property (nonatomic) CLLocationCoordinate2D userCoordinate;
-@property (strong, nonatomic) NSString *cityName;//城市
-@property (strong, nonatomic) NSString *address;//地址
+//@property (nonatomic) CLLocationCoordinate2D userCoordinate;
+//@property (strong, nonatomic) NSString *cityName;//城市
+//@property (strong, nonatomic) NSString *address;//地址
 
 // 页面数据
 @property (assign, nonatomic) OrderListType orderListType;
@@ -61,7 +60,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
 @property (copy, nonatomic) NSString *cancelOrderId;
 @property (copy, nonatomic) NSString *confirmOrderId;
 @property (copy, nonatomic) NSString *cancelComplainOrderId;
-@property (strong, nonatomic) NSTimer *confirmTimer;
+//@property (strong, nonatomic) NSTimer *confirmTimer;
 
 - (IBAction)clickForUnfinishedOrder:(id)sender;
 - (IBAction)clickForWaitEvaluateOrder:(id)sender;
@@ -75,7 +74,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
     [super viewDidLoad];
     self.orderListType = OrderListTypeUncomplete;
     _orderList = [NSMutableArray array];
-    _rowHeight = 214;
+    _rowHeight = 235;
     [self settingView];
     
     //刷新加载
@@ -274,7 +273,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
         uri = @"/sorder?action=GetCompleteOrder";
     }
     
-    // 已完成订单列表
+    // 待处理订单列表
     else if (self.targetOrderListType == OrderListTypeComplained) {
         uri = @"/sorder?action=GETCOMPLAINTORDER";
     }
@@ -549,12 +548,13 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
 // 确认上车
 - (void)postConfirmOn {
     NSString *studentId = [CommonUtil stringForID:USERDICT[@"studentid"]];
+    AppDelegate *app = APP_DELEGATE;
     // 经度
-    NSString *lat = [NSString stringWithFormat:@"%f", self.userCoordinate.latitude];
+    NSString *lat = [NSString stringWithFormat:@"%f", app.userCoordinate.latitude];
     // 纬度
-    NSString *lon = [NSString stringWithFormat:@"%f", self.userCoordinate.latitude];
+    NSString *lon = [NSString stringWithFormat:@"%f", app.userCoordinate.longitude];
     // 详细地址
-    NSString *detailAddr = self.address;
+    NSString *detailAddr = app.locationResult.address;
     
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     [paramDic setObject:studentId forKey:@"studentid"];
@@ -600,12 +600,13 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
 // 确认下车
 - (void)postConfirmDown {
     NSString *studentId = [CommonUtil stringForID:USERDICT[@"studentid"]];
+    AppDelegate *app = APP_DELEGATE;
     // 经度
-    NSString *lat = [NSString stringWithFormat:@"%f", self.userCoordinate.latitude];
+    NSString *lat = [NSString stringWithFormat:@"%f", app.userCoordinate.latitude];
     // 纬度
-    NSString *lon = [NSString stringWithFormat:@"%f", self.userCoordinate.latitude];
+    NSString *lon = [NSString stringWithFormat:@"%f", app.userCoordinate.longitude];
     // 详细地址
-    NSString *detailAddr = self.address;
+    NSString *detailAddr = app.locationResult.address;
     
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     [paramDic setObject:studentId forKey:@"studentid"];
@@ -650,111 +651,6 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
     }];
 }
 
-#pragma mark - 定位 BMKLocationServiceDelegate
-- (void)startLocation {
-    //定位 初始化BMKLocationService
-    _locService = [[BMKLocationService alloc] init];
-    _locService.delegate = self;
-    //启动LocationService
-    [_locService startUserLocationService];
-}
-
-/**
- *用户位置更新后，会调用此函数(无法调用这个方法，可能更新的百度地图.a文件有关)
- *@param userLocation 新的用户位置
- */
-- (void)didUpdateUserLocation:(BMKUserLocation *)userLocation {
-    _userCoordinate = userLocation.location.coordinate;
-    if (_userCoordinate.latitude == 0 || _userCoordinate.longitude == 0) {
-        NSLog(@"位置不正确");
-        return;
-    } else  {
-        [_locService stopUserLocationService];
-    }
-    //发起反向地理编码检索
-    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
-    reverseGeoCodeSearchOption.reverseGeoPoint = _userCoordinate;
-    
-    BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
-    _geoSearcher.delegate = self;
-    BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
-    if (flag) {
-        NSLog(@"地理编码检索");
-    } else {
-        NSLog(@"地理编码检索失败");
-    }
-}
-
-/**
- *用户位置更新后，会调用此函数(调用这个方法，可能更新的百度地图.a文件有关)
- *@param userLocation 新的用户位置
- */
-- (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
-{
-    NSLog(@"didUpdateBMKUserLocation lat %f,long %f, sutitle: %@",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude, userLocation.subtitle);
-    _userCoordinate = userLocation.location.coordinate;
-    if (_userCoordinate.latitude == 0 || _userCoordinate.longitude == 0) {
-        NSLog(@"位置不正确");
-        return;
-    } else  {
-        [_locService stopUserLocationService];
-    }
-    
-    //发起反向地理编码检索
-    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
-    reverseGeoCodeSearchOption.reverseGeoPoint = _userCoordinate;
-    
-    BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
-    _geoSearcher.delegate = self;
-    BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
-    if (flag) {
-        NSLog(@"地理编码检索");
-    } else {
-        NSLog(@"地理编码检索失败");
-    }
-}
-
-/**
- *定位失败后，会调用此函数
- *@param error 错误号
- */
-- (void)didFailToLocateUserWithError:(NSError *)error {
-    [_locService stopUserLocationService];
-    NSLog(@"定位失败%@", error);
-}
-
-/**
- *返回反地理编码搜索结果
- *@param searcher 搜索对象
- *@param result 搜索结果
- *@param error 错误号，@see BMKSearchErrorCode
- */
-- (void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error {
-    
-    if (error == BMK_SEARCH_NO_ERROR) {
-        self.cityName = result.addressDetail.city;
-        self.address = result.address;
-        [self.confirmTimer fire];
-    }
-}
-
-// 测试反地理编码
-- (void)testLocation {
-    //发起反向地理编码检索
-    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
-    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
-    reverseGeoCodeSearchOption.reverseGeoPoint = delegate.userCoordinate;
-    
-    BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
-    _geoSearcher.delegate = self;
-    BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
-    if (flag) {
-        NSLog(@"地理编码检索");
-    } else {
-        NSLog(@"地理编码检索失败");
-    }
-}
-
 #pragma mark - OrderListTableViewCellDelegate 订单操作
 // 取消订单
 - (void)cancelOrder:(GuangdaOrder *)order
@@ -784,7 +680,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
 - (void)confirmOn:(GuangdaOrder *)order
 {
     //定位
-    [self startLocation];
+//    [self startLocation];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确认上车？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     _alertType = 1;
     [alert show];
@@ -795,7 +691,7 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
 - (void)confirmDown:(GuangdaOrder *)order
 {
     //定位
-    [self startLocation];
+//    [self startLocation];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确认下车？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     _alertType = 2;
     [alert show];
@@ -806,12 +702,14 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
     if (_alertType == 1) { // 确认上车
         if (buttonIndex == 1) {
             [DejalBezelActivityView activityViewForView:self.view];
-            self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(postConfirmOn) userInfo:nil repeats:NO];
+//            self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(postConfirmOn) userInfo:nil repeats:NO];
+            [self postConfirmOn];
         }
     } else if (_alertType == 2) { // 确认下车
         if (buttonIndex == 1) {
             [DejalBezelActivityView activityViewForView:self.view];
-            self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(postConfirmDown) userInfo:nil repeats:NO];
+//            self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(postConfirmDown) userInfo:nil repeats:NO];
+            [self postConfirmDown];
         }
     } else if (_alertType == 3) { // 取消投诉
         if (buttonIndex == 1) {
@@ -830,11 +728,15 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
 }
 
 // 继续预约
-- (void)bookMore:(NSDictionary *)coachInfoDict
+- (void)bookMore:(GuangdaOrder *)order
 {
+    NSDictionary *coachInfoDict = order.coachInfoDict;
     AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
     nextController.coachInfoDic = coachInfoDict;
     nextController.coachId = [coachInfoDict[@"coachid"] description];
+    if ([order.subjectName isEqualToString:@"陪驾"]) {
+        nextController.carModelID = @"19";
+    }
     UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
     navigationController.navigationBarHidden = YES;
     [self presentViewController:navigationController animated:YES completion:nil];
@@ -878,5 +780,124 @@ typedef NS_OPTIONS(NSUInteger, OrderListType) {
 - (IBAction)clickForSureCancelOrder:(UIButton *)sender {
     [self postCancelOrder];
 }
+
+// 确认取消订单
+- (IBAction)backClick:(id)sender {
+    if (self.comeFrom == 1) {
+        NSUInteger index = self.navigationController.viewControllers.count;
+        index -= 3;
+        [self.navigationController popToViewController:self.navigationController.viewControllers[index] animated:YES];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+#pragma 废弃
+//#pragma mark - 定位 BMKLocationServiceDelegate
+//- (void)startLocation {
+//    //定位 初始化BMKLocationService
+//    _locService = [[BMKLocationService alloc] init];
+//    _locService.delegate = self;
+//    //启动LocationService
+//    [_locService startUserLocationService];
+//}
+//
+///**
+// *用户位置更新后，会调用此函数(无法调用这个方法，可能更新的百度地图.a文件有关)
+// *@param userLocation 新的用户位置
+// */
+//- (void)didUpdateUserLocation:(BMKUserLocation *)userLocation {
+//    _userCoordinate = userLocation.location.coordinate;
+//    if (_userCoordinate.latitude == 0 || _userCoordinate.longitude == 0) {
+//        NSLog(@"位置不正确");
+//        return;
+//    } else  {
+//        [_locService stopUserLocationService];
+//    }
+//    //发起反向地理编码检索
+//    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
+//    reverseGeoCodeSearchOption.reverseGeoPoint = _userCoordinate;
+//    
+//    BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
+//    _geoSearcher.delegate = self;
+//    BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
+//    if (flag) {
+//        NSLog(@"地理编码检索");
+//    } else {
+//        NSLog(@"地理编码检索失败");
+//    }
+//}
+//
+///**
+// *用户位置更新后，会调用此函数(调用这个方法，可能更新的百度地图.a文件有关)
+// *@param userLocation 新的用户位置
+// */
+//- (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
+//{
+//    NSLog(@"didUpdateBMKUserLocation lat %f,long %f, sutitle: %@",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude, userLocation.subtitle);
+//    _userCoordinate = userLocation.location.coordinate;
+//    if (_userCoordinate.latitude == 0 || _userCoordinate.longitude == 0) {
+//        NSLog(@"位置不正确");
+//        return;
+//    } else  {
+//        [_locService stopUserLocationService];
+//    }
+//    
+//    //发起反向地理编码检索
+//    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
+//    reverseGeoCodeSearchOption.reverseGeoPoint = _userCoordinate;
+//    
+//    BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
+//    _geoSearcher.delegate = self;
+//    BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
+//    if (flag) {
+//        NSLog(@"地理编码检索");
+//    } else {
+//        NSLog(@"地理编码检索失败");
+//    }
+//}
+//
+///**
+// *定位失败后，会调用此函数
+// *@param error 错误号
+// */
+//- (void)didFailToLocateUserWithError:(NSError *)error {
+//    [_locService stopUserLocationService];
+//    NSLog(@"定位失败%@", error);
+//}
+//
+///**
+// *返回反地理编码搜索结果
+// *@param searcher 搜索对象
+// *@param result 搜索结果
+// *@param error 错误号，@see BMKSearchErrorCode
+// */
+//- (void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error {
+//    
+//    if (error == BMK_SEARCH_NO_ERROR) {
+//        self.cityName = result.addressDetail.city;
+//        self.address = result.address;
+//        [self.confirmTimer fire];
+//    }
+//}
+//
+//// 测试反地理编码
+//- (void)testLocation {
+//    //发起反向地理编码检索
+//    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
+//    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+//    reverseGeoCodeSearchOption.reverseGeoPoint = delegate.userCoordinate;
+//    
+//    BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
+//    _geoSearcher.delegate = self;
+//    BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
+//    if (flag) {
+//        NSLog(@"地理编码检索");
+//    } else {
+//        NSLog(@"地理编码检索失败");
+//    }
+//}
+
+
 
 @end

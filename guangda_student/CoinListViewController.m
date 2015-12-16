@@ -49,7 +49,7 @@
     [string3 addAttribute:(NSString *)kCTFontAttributeName value:[UIFont systemFontOfSize:32] range:NSMakeRange(0,coinsum.length)];
     [string3 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0,coinsum.length)];
     self.totalCoinLabel.attributedText = string3;
-    self.fCoinSumLabel.text = [NSString stringWithFormat:@"(冻结数额: %@个)", self.fCoinSum];;
+    self.fCoinSumLabel.text = [NSString stringWithFormat:@"(冻结数额: %@个)", self.fCoinSum];
     
     [self postGetOwnerList];
 }
@@ -74,7 +74,7 @@
     }
     self.ownerListViewHeightCon.constant = ITEM_HEIGHT * count;
     
-    self.headView.frame = CGRectMake(0, 64, SCREEN_WIDTH, 144 + self.ownerListViewHeightCon.constant);
+    self.headView.frame = CGRectMake(0, 64, SCREEN_WIDTH, 119 + self.ownerListViewHeightCon.constant);
     [self.view addSubview:self.headView];
     self.contentViewTopSpace.constant = self.headView.height;
 }
@@ -91,7 +91,7 @@
     // 小巴币个数
     UILabel *numLabel = [[UILabel alloc] init];
     [itemView addSubview:numLabel];
-    CGFloat numLabelW = 54;
+    CGFloat numLabelW = 59;
     CGFloat numLabelH = itemViewH;
     CGFloat numLabelX = 24;
     CGFloat numLabelY = 0;
@@ -164,6 +164,8 @@
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     NSString *studentId = [CommonUtil stringForID:USERDICT[@"studentid"]];
     [paramDic setObject:studentId forKey:@"studentid"];
+    [paramDic setObject:[CommonUtil stringForID:USERDICT[@"token"]] forKey:@"token"];
+
     NSString *uri = @"/suser?action=GETCOINAFFILIATION";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
     
@@ -198,7 +200,7 @@
     
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     [paramDic setObject:studentId forKey:@"studentid"];
-//    [paramDic setObject:[CommonUtil stringForID:USERDICT[@"token"]] forKey:@"token"];
+    [paramDic setObject:[CommonUtil stringForID:USERDICT[@"token"]] forKey:@"token"];
     
     NSString *uri = @"/suser?action=GETSTUDENTCOINRECORDLIST";
     NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];

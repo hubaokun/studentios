@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Baidu. All rights reserved.
 //
 
-#import <BaiduMapAPI/BMKAnnotationView.h>
+#import <BaiduMapAPI_Map/BMKAnnotationView.h>
 #import "DSButton.h"
 
 @interface MyAnimatedAnnotationView : BMKAnnotationView

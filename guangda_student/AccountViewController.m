@@ -28,8 +28,9 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomLineHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *topLineHeight;
 
-- (IBAction)clickForAccountManager:(id)sender;
+@property (copy, nonatomic) NSString *balance;
 
+- (IBAction)clickForAccountManager:(id)sender;
 
 @end
 
@@ -79,6 +80,7 @@
     
     TypeinNumberViewController *viewController = [[TypeinNumberViewController alloc] initWithNibName:@"TypeinNumberViewController" bundle:nil];
     viewController.status = @"2";
+    viewController.balance = self.balance;
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
@@ -108,7 +110,7 @@
         [DejalBezelActivityView removeViewAnimated:YES];
         int code = [responseObject[@"code"] intValue];
         if (code == 1) {
-
+            self.balance = [responseObject[@"balance"] description];
             self.currentMoneyLabel.text = [NSString stringWithFormat:@"%.0f", [responseObject[@"balance"] doubleValue]];
             self.frozenMoneyLabel.text = [NSString stringWithFormat:@"(冻结金额: %@元)", responseObject[@"fmoney"]];
             self.recordList = responseObject[@"recordlist"];
@@ -162,29 +164,7 @@
     }
     
     NSDictionary *recordDic = self.recordList[indexPath.row];
-    int type = [recordDic[@"type"] intValue];
-    switch (type) {
-        case 2:
-        case 3:
-            cell.inOrOut.text = @"支出";
-            cell.moneyNum.textColor = [UIColor greenColor];
-            cell.moneyNum.text = [NSString stringWithFormat:@"-%@",[recordDic[@"amount"] description]];
-            break;
-        case 1:
-            cell.inOrOut.text = @"充值";
-            cell.moneyNum.textColor = [UIColor redColor];
-            cell.moneyNum.text = [NSString stringWithFormat:@"+%@",[recordDic[@"amount"] description]];
-            break;
-        case 0:
-            cell.inOrOut.text = @"提现";
-            cell.moneyNum.textColor = [UIColor greenColor];
-            break;
-            
-        default:
-            break;
-    }
-    cell.dateTimeLabel.text = [recordDic[@"addtime"] description];
-    cell.lineHeight.constant = 0.5;
+    [cell loadData:recordDic];
     return cell;
 }
 

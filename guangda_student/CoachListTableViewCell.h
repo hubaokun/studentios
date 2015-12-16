@@ -11,12 +11,9 @@
 
 @interface CoachListTableViewCell : UITableViewCell
 
-@property (strong, nonatomic) IBOutlet UIImageView *userLogo;
-@property (strong, nonatomic) IBOutlet UILabel *orderCount;
-@property (strong, nonatomic) IBOutlet UILabel *userName;
-@property (strong, nonatomic) IBOutlet UILabel *contentDetailLabel;
-@property (strong, nonatomic) IBOutlet UILabel *driveSchoolLabel;
+/* input */
+@property (copy, nonatomic) NSString *carModelID;
 
-@property (strong, nonatomic) TQStarRatingView *starView;
+- (void)loadData:(id)data;
 
 @end

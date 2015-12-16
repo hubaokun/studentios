@@ -11,7 +11,7 @@
 #import "MyOrderEvaluationViewController.h"
 #import "GuangdaCoach.h"
 #import "TQStarRatingView.h"
-#import <BaiduMapAPI/BMapKit.h>
+#import "AppDelegate.h"
 #import "AppointCoachViewController.h"
 #import "LoginViewController.h"
 
@@ -23,7 +23,7 @@
 @interface MyOrderDetailViewController () <StarRatingViewDelegate, BMKLocationServiceDelegate, BMKGeoCodeSearchDelegate, BMKGeneralDelegate, UIAlertViewDelegate> {
     CGFloat strHeight1;
     CGFloat strHeight2;
-    BMKLocationService *_locService;
+//    BMKLocationService *_locService;
     int _payType; // 支付方式 1.账户余额 2.学时券 3.小巴币
     int _alertType; // 提示框类型 1.确认上车 2.确认下车 3.取消投诉
 }
@@ -91,10 +91,10 @@
 @property (strong, nonatomic) NSDictionary *evaluationDic;      // 教练对我的评价
 
 //用户定位
-@property (strong, nonatomic) NSTimer *confirmTimer;
-@property (nonatomic) CLLocationCoordinate2D userCoordinate;
-@property (strong, nonatomic) NSString *cityName;//城市
-@property (strong, nonatomic) NSString *address;//地址
+//@property (strong, nonatomic) NSTimer *confirmTimer;
+//@property (nonatomic) CLLocationCoordinate2D userCoordinate;
+//@property (strong, nonatomic) NSString *cityName;//城市
+//@property (strong, nonatomic) NSString *address;//地址
 
 // 约束
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *myEvaluationLabelHeight;
@@ -336,6 +336,8 @@
     // 订单是否正在取消中
     if ((self.order.studentState == 4) && (self.order.coachState != 4) &&(self.order.minutes != -6)) {
         self.cancelOrderBannerLabel.hidden = NO;
+        self.leftBtn.hidden = YES;
+        self.rightBtn.hidden = YES;
     } else {
         self.cancelOrderBannerLabel.hidden = YES;
     }
@@ -412,17 +414,20 @@
     }];
 }
 
-// 科目车型(需求更改导致)
+// 科目车型(需求更改导致这诡异的函数名)
 - (CGFloat)showPriceList:(NSArray *)priceArray {
     CGFloat gap = 10;
     CGFloat y = 0;
     for (int i = 0; i < priceArray.count; i++) {
         // 获取数据
-        NSDictionary *hourDict = priceArray[i];
-//        int hour = [hourDict[@"hour"] intValue];
-//        NSString *start = [NSString stringWithFormat:@"%d:00", hour];
-//        NSString *end = [NSString stringWithFormat:@"%d:00", hour +1];
-//        NSString *time = [NSString stringWithFormat:@"%@~%@", start, end];
+//        NSDictionary *hourDict = priceArray[i];
+        NSString *subjectStr = self.order.subjectName;
+        if ([self.order.courseType isEqualToString:@"5"]) { // 是体验课
+            subjectStr = [NSString stringWithFormat:@"%@%@", subjectStr, @"免费体验课"];
+        }
+        if (self.order.needCar) {
+            subjectStr = [NSString stringWithFormat:@"%@ (教练提供训练用车)", subjectStr];
+        }
         
         // 创建label
         UILabel *label = [[UILabel alloc] init];
@@ -433,7 +438,7 @@
         label.frame = CGRectMake(labelX, labelY, labelW, labelH);
         label.font = [UIFont systemFontOfSize:13];
         label.textColor = RGB(61, 61, 61);
-        label.text = hourDict[@"subject"];
+        label.text = subjectStr;
         
         [self.priceView addSubview:label];
         y = CGRectGetMaxY(label.frame);
@@ -760,12 +765,13 @@
 // 确认上车
 - (void)postConfirmOn {
     NSString *studentId = [CommonUtil stringForID:USERDICT[@"studentid"]];
+    AppDelegate *app = APP_DELEGATE;
     // 经度
-    NSString *lat = [NSString stringWithFormat:@"%f", self.userCoordinate.latitude];
+    NSString *lat = [NSString stringWithFormat:@"%f", app.userCoordinate.latitude];
     // 纬度
-    NSString *lon = [NSString stringWithFormat:@"%f", self.userCoordinate.latitude];
+    NSString *lon = [NSString stringWithFormat:@"%f", app.userCoordinate.longitude];
     // 详细地址
-    NSString *detailAddr = self.address;
+    NSString *detailAddr = app.locationResult.address;
     
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     [paramDic setObject:studentId forKey:@"studentid"];
@@ -810,12 +816,13 @@
 // 确认下车
 - (void)postConfirmDown {
     NSString *studentId = [CommonUtil stringForID:USERDICT[@"studentid"]];
+    AppDelegate *app = APP_DELEGATE;
     // 经度
-    NSString *lat = [NSString stringWithFormat:@"%f", self.userCoordinate.latitude];
+    NSString *lat = [NSString stringWithFormat:@"%f", app.userCoordinate.latitude];
     // 纬度
-    NSString *lon = [NSString stringWithFormat:@"%f", self.userCoordinate.latitude];
+    NSString *lon = [NSString stringWithFormat:@"%f", app.userCoordinate.longitude];
     // 详细地址
-    NSString *detailAddr = self.address;
+    NSString *detailAddr = app.locationResult.address;
     
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
     [paramDic setObject:studentId forKey:@"studentid"];
@@ -858,94 +865,6 @@
         NSLog(@"连接失败");
         [self makeToast:ERR_NETWORK];
     }];
-}
-
-#pragma mark - 定位 BMKLocationServiceDelegate
-- (void)startLocation {
-    //定位 初始化BMKLocationService
-    _locService = [[BMKLocationService alloc] init];
-    _locService.delegate = self;
-    //启动LocationService
-    [_locService startUserLocationService];
-}
-
-/**
- *用户位置更新后，会调用此函数(无法调用这个方法，可能更新的百度地图.a文件有关)
- *@param userLocation 新的用户位置
- */
-- (void)didUpdateUserLocation:(BMKUserLocation *)userLocation {
-    _userCoordinate = userLocation.location.coordinate;
-    if (_userCoordinate.latitude == 0 || _userCoordinate.longitude == 0) {
-        NSLog(@"位置不正确");
-        return;
-    } else  {
-        [_locService stopUserLocationService];
-    }
-    //发起反向地理编码检索
-    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
-    reverseGeoCodeSearchOption.reverseGeoPoint = _userCoordinate;
-    
-    BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
-    _geoSearcher.delegate = self;
-    BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
-    if (flag) {
-        NSLog(@"地理编码检索");
-    } else {
-        NSLog(@"地理编码检索失败");
-    }
-}
-
-/**
- *用户位置更新后，会调用此函数(调用这个方法，可能更新的百度地图.a文件有关)
- *@param userLocation 新的用户位置
- */
-- (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
-{
-    NSLog(@"didUpdateBMKUserLocation lat %f,long %f, sutitle: %@",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude, userLocation.subtitle);
-    _userCoordinate = userLocation.location.coordinate;
-    if (_userCoordinate.latitude == 0 || _userCoordinate.longitude == 0) {
-        NSLog(@"位置不正确");
-        return;
-    } else  {
-        [_locService stopUserLocationService];
-    }
-    
-    //发起反向地理编码检索
-    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
-    reverseGeoCodeSearchOption.reverseGeoPoint = _userCoordinate;
-    
-    BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
-    _geoSearcher.delegate = self;
-    BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
-    if (flag) {
-        NSLog(@"地理编码检索");
-    } else {
-        NSLog(@"地理编码检索失败");
-    }
-}
-
-/**
- *定位失败后，会调用此函数
- *@param error 错误号
- */
-- (void)didFailToLocateUserWithError:(NSError *)error {
-    [_locService stopUserLocationService];
-    NSLog(@"定位失败%@", error);
-}
-
-/**
- *返回反地理编码搜索结果
- *@param searcher 搜索对象
- *@param result 搜索结果
- *@param error 错误号，@see BMKSearchErrorCode
- */
-- (void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error {
-    
-    if (error == BMK_SEARCH_NO_ERROR) {
-        self.cityName = result.addressDetail.city;
-        self.address = result.address;
-        [self.confirmTimer fire];
-    }
 }
 
 #pragma mark - 监听
@@ -1020,7 +939,7 @@
 // 确认上车
 - (void)confirmOnClick {
     //定位
-    [self startLocation];
+//    [self startLocation];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确认上车？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     _alertType = 1;
     [alert show];
@@ -1029,7 +948,7 @@
 // 确认下车
 - (void)confirmDownClick {
     //定位
-    [self startLocation];
+//    [self startLocation];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确认下车？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     _alertType = 2;
     [alert show];
@@ -1040,15 +959,16 @@
     if (_alertType == 1) {
         if (buttonIndex == 1) {
             [DejalBezelActivityView activityViewForView:self.view];
-            self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(postConfirmOn) userInfo:nil repeats:NO];
+//            self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(postConfirmOn) userInfo:nil repeats:NO];
+            [self postConfirmOn];
         }
     }
     // 确认下车
     else if (_alertType == 2) {
         if (buttonIndex == 1) {
             [DejalBezelActivityView activityViewForView:self.view];
-            self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(postConfirmDown) userInfo:nil repeats:NO];
-            //            [self performSelector:@selector(postConfirmDown:) withObject:self.confirmOrderId afterDelay:5];
+//            self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(postConfirmDown) userInfo:nil repeats:NO];
+            [self postConfirmDown];
         }
     }
     // 取消投诉
@@ -1078,6 +998,9 @@
     AppointCoachViewController *nextController = [[AppointCoachViewController alloc] initWithNibName:@"AppointCoachViewController" bundle:nil];
     nextController.coachInfoDic = self.order.coachInfoDict;
     nextController.coachId = [self.order.coachInfoDict [@"coachid"] description];
+    if ([self.order.subjectName isEqualToString:@"陪驾"]) {
+        nextController.carModelID = @"19";
+    }
     UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:nextController];
     navigationController.navigationBarHidden = YES;
     [self presentViewController:navigationController animated:YES completion:nil];
@@ -1100,5 +1023,94 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
+
+#pragma 废弃
+//#pragma mark - 定位 BMKLocationServiceDelegate
+//- (void)startLocation {
+//    //定位 初始化BMKLocationService
+//    _locService = [[BMKLocationService alloc] init];
+//    _locService.delegate = self;
+//    //启动LocationService
+//    [_locService startUserLocationService];
+//}
+//
+///**
+// *用户位置更新后，会调用此函数(无法调用这个方法，可能更新的百度地图.a文件有关)
+// *@param userLocation 新的用户位置
+// */
+//- (void)didUpdateUserLocation:(BMKUserLocation *)userLocation {
+//    _userCoordinate = userLocation.location.coordinate;
+//    if (_userCoordinate.latitude == 0 || _userCoordinate.longitude == 0) {
+//        NSLog(@"位置不正确");
+//        return;
+//    } else  {
+//        [_locService stopUserLocationService];
+//    }
+//    //发起反向地理编码检索
+//    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
+//    reverseGeoCodeSearchOption.reverseGeoPoint = _userCoordinate;
+//    
+//    BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
+//    _geoSearcher.delegate = self;
+//    BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
+//    if (flag) {
+//        NSLog(@"地理编码检索");
+//    } else {
+//        NSLog(@"地理编码检索失败");
+//    }
+//}
+//
+///**
+// *用户位置更新后，会调用此函数(调用这个方法，可能更新的百度地图.a文件有关)
+// *@param userLocation 新的用户位置
+// */
+//- (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
+//{
+//    NSLog(@"didUpdateBMKUserLocation lat %f,long %f, sutitle: %@",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude, userLocation.subtitle);
+//    _userCoordinate = userLocation.location.coordinate;
+//    if (_userCoordinate.latitude == 0 || _userCoordinate.longitude == 0) {
+//        NSLog(@"位置不正确");
+//        return;
+//    } else  {
+//        [_locService stopUserLocationService];
+//    }
+//    
+//    //发起反向地理编码检索
+//    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
+//    reverseGeoCodeSearchOption.reverseGeoPoint = _userCoordinate;
+//    
+//    BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
+//    _geoSearcher.delegate = self;
+//    BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
+//    if (flag) {
+//        NSLog(@"地理编码检索");
+//    } else {
+//        NSLog(@"地理编码检索失败");
+//    }
+//}
+//
+///**
+// *定位失败后，会调用此函数
+// *@param error 错误号
+// */
+//- (void)didFailToLocateUserWithError:(NSError *)error {
+//    [_locService stopUserLocationService];
+//    NSLog(@"定位失败%@", error);
+//}
+//
+///**
+// *返回反地理编码搜索结果
+// *@param searcher 搜索对象
+// *@param result 搜索结果
+// *@param error 错误号，@see BMKSearchErrorCode
+// */
+//- (void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error {
+//    
+//    if (error == BMK_SEARCH_NO_ERROR) {
+//        self.cityName = result.addressDetail.city;
+//        self.address = result.address;
+//        [self.confirmTimer fire];
+//    }
+//}
 
 @end

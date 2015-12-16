@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "XBBookOrder.h"
 
 @interface SureOrderTableViewCell : UITableViewCell
 
@@ -16,5 +17,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *timeLabel;
 @property (strong, nonatomic) IBOutlet UILabel *priceLabel;
 @property (strong, nonatomic) IBOutlet UILabel *addressDetailLabel;
+
+- (void)loadData:(XBBookOrder *)data;
 
 @end

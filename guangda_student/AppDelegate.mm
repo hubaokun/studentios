@@ -12,18 +12,24 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import <AlipaySDK/AlipaySDK.h>
 #import "WeiboSDK.h"
-//#import "AlixPayResult.h"
-//#import "PartnerConfig.h"
-//#import "DataVerifier.h"
-#import "MainViewController.h"
-#import <PgySDK/PgyManager.h>
 #import "MobClick.h"
 #import "UIImageView+WebCache.h"
 #import "RecommendCodeViewController.h"
 #import "ActivityViewController.h"
 
+// 微信
+#import "WXApi.h"
+
+#import <PgySDK/PgyManager.h>
+
+// 环信
+#import "EaseMob.h"
+#import "LocalDefine.h"
+#import "AppDelegate+EaseMob.h"
+
+#define WX_PAY_ALERT_TAG 10000
 @interface AppDelegate ()
-<BMKLocationServiceDelegate, WeiboSDKDelegate,BMKGeoCodeSearchDelegate>
+<BMKLocationServiceDelegate, WeiboSDKDelegate,BMKGeoCodeSearchDelegate,UIApplicationDelegate, IChatManagerDelegate, WXApiDelegate, UIAlertViewDelegate>
 {
     BMKMapManager* _mapManager;
     BMKLocationService *_locService;
@@ -60,12 +66,21 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    // 初始化环信SDK，详细内容在AppDelegate+EaseMob.m 文件中
+    //下面这句话不注释就变成环信了= =
+    //[self loginStateChange:nil];
+    [self easemobApplication:application didFinishLaunchingWithOptions:launchOptions];
+    //设置是否自动登录
+    [[EaseMob sharedInstance].chatManager setIsAutoLoginEnabled:NO];
+    
+    
     // 注册APNS
-    [self registerRemoteNotification];
+    //    [self registerRemoteNotification];
     
     // 注册微博
-//    [WeiboSDK enableDebugMode:YES];
-//    [WeiboSDK registerApp:kAppKey_Weibo];
+    //    [WeiboSDK enableDebugMode:YES];
+    //    [WeiboSDK registerApp:kAppKey_Weibo];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
@@ -78,31 +93,31 @@
     // 要使用百度地图，请先启动BaiduMapManager
     _mapManager = [[BMKMapManager alloc]init];
     // 如果要关注网络及授权验证事件，请设定     generalDelegate参数
-//    BOOL ret = [_mapManager start:@"dSZ6WetNnUrCgcNkSS35GpGG"  generalDelegate:nil];
+    //    BOOL ret = [_mapManager start:@"dSZ6WetNnUrCgcNkSS35GpGG"  generalDelegate:nil];
     BOOL ret = [_mapManager start:kAppKey_Baidu  generalDelegate:nil];
     if (!ret) {
         NSLog(@"manager start failed!");
     }
-    // Add the navigation controller's view to the window and display.
-//    [self.window addSubview:navigationController.view];
+    
+    // 启用定位服务
     [self startLocation];
     
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    //蒲公英
-    // 设置用户反馈界面激活方式为三指拖动
-    //    [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeThreeFingersPan];
-    
-    // 设置用户反馈界面激活方式为摇一摇
-    //    [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeShake];
+    //    //蒲公英
+    //     设置用户反馈界面激活方式为三指拖动
+    //        [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeThreeFingersPan];
+    //
+    //     设置用户反馈界面激活方式为摇一摇
+    //        [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeShake];
     
     [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
     [[PgyManager sharedPgyManager] setEnableFeedback:NO]; //关闭用户反馈功能
     [[PgyManager sharedPgyManager] setThemeColor:[UIColor blackColor]];
-//    [[PgyManager sharedPgyManager] setShakingThreshold:3.0];//开发者可以自定义摇一摇的灵敏度，默认为2.3，数值越小灵敏度越高。
-//    [[PgyManager sharedPgyManager] showFeedbackView];//直接显示用户反馈画面
+    //    [[PgyManager sharedPgyManager] setShakingThreshold:3.0];//开发者可以自定义摇一摇的灵敏度，默认为2.3，数值越小灵敏度越高。
+    //    [[PgyManager sharedPgyManager] showFeedbackView];//直接显示用户反馈画面
     [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
     
     //友盟社会化分享与统计
@@ -115,11 +130,19 @@
     }
     [self showAdvertisment];
     
+    // 微信注册
+    [WXApi registerApp:kAppID_Weixin withDescription:@"小巴学车"];
+    
+    //微博注册
+    [WeiboSDK enableDebugMode:YES];
+    [WeiboSDK registerApp:kAppKey_Weibo];
+    
     return YES;
 }
 
 //在此接收设备号
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+    //    [[EaseMob sharedInstance] application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     self.deviceToken = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
     [self updateUserAddress];
@@ -167,7 +190,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ReceiveTopMessage" object:nil];
     
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-
+    
     //通知更新小红点显示
     [[NSNotificationCenter defaultCenter] postNotificationName:@"haveMessageNoRead" object:self];
 }
@@ -182,56 +205,57 @@
     [SliderViewController sharedSliderController].LeftSCloseDuration=0.3;
     [SliderViewController sharedSliderController].LeftSJudgeOffset=[UIScreen mainScreen].bounds.size.width-230.00;
     [SliderViewController sharedSliderController].LeftSContentOffset = 230.0;
-
+    
     _navi = [[UINavigationController alloc] initWithRootViewController:[SliderViewController sharedSliderController]];
     _navi.navigationBarHidden = YES;
     self.window.rootViewController= _navi;
 }
 
 #pragma mark - 第三方url调用
-//- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-//    
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    
 //    NSString *string =[url absoluteString];
-//    
-//    if ([string hasPrefix:@"wb"])
-//    {
-//        return [WeiboSDK handleOpenURL:url delegate:self];
-//    }
-//    else if ([string hasPrefix:@"wx"])
-//    {
-////        return [WXApi handleOpenURL:url delegate:self];
-//    }
-//    else if ([string hasPrefix:@"tencent"])
-//    {
-//        [[NSNotificationCenter defaultCenter] postNotificationName:@"QQResp" object:nil];
-//        return [TencentOAuth HandleOpenURL:url];
-//    }
-//    
-//    return YES;
-//}
+    
+    //    if ([string hasPrefix:@"wb"])
+    //    {
+    //        return [WeiboSDK handleOpenURL:url delegate:self];
+    //    }
+    //    else if ([string hasPrefix:@"wx"])
+    //    {
+    return [WXApi handleOpenURL:url delegate:self];
+    //    }
+    //    else if ([string hasPrefix:@"tencent"])
+    //    {
+    //        [[NSNotificationCenter defaultCenter] postNotificationName:@"QQResp" object:nil];
+    //        return [TencentOAuth HandleOpenURL:url];
+    //    }
+    //
+    //    return YES;
+}
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     
     NSString *string =[url absoluteString];
     if ([string hasPrefix:@"wb"])
     {
-//        return [WeiboSDK handleOpenURL:url delegate:self];
+        return [WeiboSDK handleOpenURL:url delegate:self];
     }
     else if ([string hasPrefix:@"wx"])
     {
-//        return [WXApi handleOpenURL:url delegate:self];
+        return [WXApi handleOpenURL:url delegate:self];
     }
     else if ([string hasPrefix:@"tencent"])
     {
+        return [TencentOAuth HandleOpenURL:url];
     }
     
     if ([url.host isEqualToString:@"safepay"]) {
         
         [[AlipaySDK defaultService] processOrderWithPaymentResult:url
                                                   standbyCallback:^(NSDictionary *resultDic) {
-                                             NSLog(@"result = %@",resultDic);
-//                                             NSString *resultStr = resultDic[@"result"];
-                                         }];
+                                                      NSLog(@"result = %@",resultDic);
+                                                      //                                             NSString *resultStr = resultDic[@"result"];
+                                                  }];
         
     }
     return YES;
@@ -239,7 +263,6 @@
 
 #pragma mark - 定位 BMKLocationServiceDelegate
 - (void)startLocation {
-    
     //定位 初始化BMKLocationService
     _locService = [[BMKLocationService alloc] init];
     _locService.delegate = self;
@@ -248,7 +271,7 @@
      *在打开定位服务前设置
      *指定定位的最小更新距离(米)，默认：kCLDistanceFilterNone
      */
-    [BMKLocationService setLocationDistanceFilter:100];
+    _locService.distanceFilter = 100;
     
     //启动LocationService
     [_locService startUserLocationService];
@@ -264,11 +287,9 @@
         NSLog(@"位置不正确");
         return;
     } else  {
-        [_locService stopUserLocationService];
-//        [CommonUtil saveObjectToUD:userLocation key:@"userLocation"];
-        NSLog(@"userLocation == %@", userLocation);
+//        NSLog(@"userLocation == %@", userLocation);
         _userLocation = userLocation;
-
+        self.locationPoint = [NSString stringWithFormat:@"%f,%f", _userCoordinate.longitude, _userCoordinate.latitude];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"setMapLocation" object:nil];
         NSLog(@"定位成功");
     }
@@ -296,7 +317,10 @@
     
     if (error == BMK_SEARCH_NO_ERROR) {
         self.locationResult = result;
-        [self updateUserAddress];
+        NSString *locateCityName = result.addressDetail.city;
+        self.locateCity = [locateCityName stringByReplacingOccurrencesOfString:@"市" withString:@""]; // 去掉城市名里的“市”
+//        [self updateUserAddress];
+        NSLog(@"反地理编码 ------  %@",result.address);
     }
 }
 
@@ -330,19 +354,61 @@
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         }];
-        
     }
 }
 /**
  *定位失败后，会调用此函数
  *@param error 错误号
  */
-- (void)didFailToLocateUserWithError:(NSError *)error {
-    [_locService stopUserLocationService];
-    NSLog(@"定位失败%@", error);
-    
-//    finishLocation = YES;
-//    [self installApp];
+//- (void)didFailToLocateUserWithError:(NSError *)error {
+//    [_locService stopUserLocationService];
+//    NSLog(@"定位失败%@", error);
+//}
+
+//- (void)setOpenLocationService:(BOOL)openLocationService{
+//    _openLocationService = openLocationService;
+//    if (openLocationService) {
+//        [_locService startUserLocationService];
+//    } else {
+//        [_locService stopUserLocationService];
+//    }
+//}
+
+#pragma mark - 微信支付回调
+- (void)onResp:(BaseResp*)resp {
+    NSString *strMsg = [NSString stringWithFormat:@"errcode:%d", resp.errCode];
+    NSString *strTitle;
+    if ([resp isKindOfClass:[SendAuthResp class]]) {
+        SendAuthResp *authResp = (SendAuthResp *)resp;
+        [[NSNotificationCenter defaultCenter] postNotificationName:WeixinLogin
+                                                            object:authResp];
+        
+    }else{
+        if([resp isKindOfClass:[SendMessageToWXResp class]])
+        {
+            strTitle = [NSString stringWithFormat:@"发送媒体消息结果"];
+        }
+        if([resp isKindOfClass:[PayResp class]]){
+            //支付返回结果，实际支付结果需要去微信服务器端查询
+            strTitle = [NSString stringWithFormat:@"支付结果"];
+            
+            switch (resp.errCode) {
+                case WXSuccess:
+                    strMsg = @"支付结果：成功！";
+//                    NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
+                    break;
+                    
+                default:
+                    strMsg = [NSString stringWithFormat:@"支付失败！"];
+//                    NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
+                    break;
+            }
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            alert.tag = WX_PAY_ALERT_TAG;
+            [alert show];
+        }
+    }
 }
 
 #pragma mark - 新浪微博回掉
@@ -355,13 +421,13 @@
 {
     if ([response isKindOfClass:WBSendMessageToWeiboResponse.class])
     {
-        NSString *title = NSLocalizedString(@"发送结果", nil);
-        NSString *message = [NSString stringWithFormat:@"%@: %d\n%@: %@\n%@: %@", NSLocalizedString(@"响应状态", nil), (int)response.statusCode, NSLocalizedString(@"响应UserInfo数据", nil), response.userInfo, NSLocalizedString(@"原请求UserInfo数据", nil),response.requestUserInfo];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                        message:message
-                                                       delegate:nil
-                                              cancelButtonTitle:NSLocalizedString(@"确定", nil)
-                                              otherButtonTitles:nil];
+//        NSString *title = NSLocalizedString(@"发送结果", nil);
+//        NSString *message = [NSString stringWithFormat:@"%@: %d\n%@: %@\n%@: %@", NSLocalizedString(@"响应状态", nil), (int)response.statusCode, NSLocalizedString(@"响应UserInfo数据", nil), response.userInfo, NSLocalizedString(@"原请求UserInfo数据", nil),response.requestUserInfo];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+//                                                        message:message
+//                                                       delegate:nil
+//                                              cancelButtonTitle:NSLocalizedString(@"确定", nil)
+//                                              otherButtonTitles:nil];
         WBSendMessageToWeiboResponse* sendMessageToWeiboResponse = (WBSendMessageToWeiboResponse*)response;
         NSString* accessToken = [sendMessageToWeiboResponse.authResponse accessToken];
         if (accessToken)
@@ -372,38 +438,41 @@
         if (userID) {
             self.wbCurrentUserID = userID;
         }
-        [alert show];
-//        [alert release];
+        //        [alert show];
+        //        [alert release];
     }
     else if ([response isKindOfClass:WBAuthorizeResponse.class])
     {
-        NSString *title = NSLocalizedString(@"认证结果", nil);
-        NSString *message = [NSString stringWithFormat:@"%@: %d\nresponse.userId: %@\nresponse.accessToken: %@\n%@: %@\n%@: %@", NSLocalizedString(@"响应状态", nil), (int)response.statusCode,[(WBAuthorizeResponse *)response userID], [(WBAuthorizeResponse *)response accessToken],  NSLocalizedString(@"响应UserInfo数据", nil), response.userInfo, NSLocalizedString(@"原请求UserInfo数据", nil), response.requestUserInfo];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                        message:message
-                                                       delegate:nil
-                                              cancelButtonTitle:NSLocalizedString(@"确定", nil)
-                                              otherButtonTitles:nil];
+//        NSString *title = NSLocalizedString(@"认证结果", nil);
+//        NSString *message = [NSString stringWithFormat:@"%@: %d\nresponse.userId: %@\nresponse.accessToken: %@\n%@: %@\n%@: %@", NSLocalizedString(@"响应状态", nil), (int)response.statusCode,[(WBAuthorizeResponse *)response userID], [(WBAuthorizeResponse *)response accessToken],  NSLocalizedString(@"响应UserInfo数据", nil), response.userInfo, NSLocalizedString(@"原请求UserInfo数据", nil), response.requestUserInfo];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+//                                                        message:message
+//                                                       delegate:nil
+//                                              cancelButtonTitle:NSLocalizedString(@"确定", nil)
+//                                              otherButtonTitles:nil];
         
         self.wbtoken = [(WBAuthorizeResponse *)response accessToken];
         self.wbCurrentUserID = [(WBAuthorizeResponse *)response userID];
-        [alert show];
-//        [alert release];
+        [[NSNotificationCenter defaultCenter] postNotificationName:WeiboLogin
+                                                            object:self.wbCurrentUserID];
+        //        [alert show];
+        //        [alert release];
     }
-    else if ([response isKindOfClass:WBPaymentResponse.class])
-    {
-        NSString *title = NSLocalizedString(@"支付结果", nil);
-        NSString *message = [NSString stringWithFormat:@"%@: %d\nresponse.payStatusCode: %@\nresponse.payStatusMessage: %@\n%@: %@\n%@: %@", NSLocalizedString(@"响应状态", nil), (int)response.statusCode,[(WBPaymentResponse *)response payStatusCode], [(WBPaymentResponse *)response payStatusMessage], NSLocalizedString(@"响应UserInfo数据", nil),response.userInfo, NSLocalizedString(@"原请求UserInfo数据", nil), response.requestUserInfo];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                        message:message
-                                                       delegate:nil
-                                              cancelButtonTitle:NSLocalizedString(@"确定", nil)
-                                              otherButtonTitles:nil];
-        [alert show];
-//        [alert release];
-    }
+//    else if ([response isKindOfClass:WBPaymentResponse.class])
+//    {
+//        NSString *title = NSLocalizedString(@"支付结果", nil);
+//        NSString *message = [NSString stringWithFormat:@"%@: %d\nresponse.payStatusCode: %@\nresponse.payStatusMessage: %@\n%@: %@\n%@: %@", NSLocalizedString(@"响应状态", nil), (int)response.statusCode,[(WBPaymentResponse *)response payStatusCode], [(WBPaymentResponse *)response payStatusMessage], NSLocalizedString(@"响应UserInfo数据", nil),response.userInfo, NSLocalizedString(@"原请求UserInfo数据", nil), response.requestUserInfo];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+//                                                        message:message
+//                                                       delegate:nil
+//                                              cancelButtonTitle:NSLocalizedString(@"确定", nil)
+//                                              otherButtonTitles:nil];
+        //        [alert show];
+        //        [alert release];
+//    }
 }
 
+#pragma mark - 网络请求
 //自动登录
 - (void)autoLogin {
     
@@ -432,6 +501,10 @@
         
         NSString *code = responseObject[@"code"];
         if ([code intValue] == 1) {
+            
+            //登录环信
+            [[EMIMHelper defaultHelper] loginEasemobSDK];
+            
             NSDictionary *user = [responseObject objectForKey:@"UserInfo"];
             NSNumber *studentID = user[@"studentid"];
             self.userid = [NSString stringWithFormat:@"%@", studentID];
@@ -442,10 +515,10 @@
             int isInvited = [[responseObject objectForKey:@"isInvited"] intValue];
             self.isInvited = [NSString stringWithFormat:@"%d",isInvited];
             
-            if ([self.isInvited integerValue]== 1) {    //1代表未被邀请，0代表已被邀请
-                RecommendCodeViewController *nextController = [[RecommendCodeViewController alloc] initWithNibName:@"RecommendCodeViewController" bundle:nil];
-                [_navi pushViewController:nextController animated:YES];
-            }
+//            if ([self.isInvited integerValue]== 1) {    //1代表未被邀请，0代表已被邀请
+//                RecommendCodeViewController *nextController = [[RecommendCodeViewController alloc] initWithNibName:@"RecommendCodeViewController" bundle:nil];
+//                [_navi pushViewController:nextController animated:YES];
+//            }
             
             // 3秒后在异步线程中上传设备号
             dispatch_queue_t queue =  dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -495,7 +568,7 @@
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        [self makeToast:ERR_NETWORK];
+        //        [self makeToast:ERR_NETWORK];
     }];
 }
 
@@ -532,7 +605,7 @@
 }
 
 // 显示广告页
-- (void)showAdvertisment {    
+- (void)showAdvertisment {
     // 如果取得广告页
     if (self.advertisementConfig) {
         NSDictionary *config = self.advertisementConfig;
@@ -557,6 +630,14 @@
 - (void)removeLun:(NSTimer *)timer {
     [self.lunchView removeFromSuperview];
     self.lunchView = nil;
+}
+
+// 弹窗（目前只有微信支付成功了会有该弹窗）
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == WX_PAY_ALERT_TAG) { // 微信支付结束后弹窗
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"wxpaycomplete" object:nil];
+    }
 }
 
 @end

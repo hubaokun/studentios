@@ -18,7 +18,9 @@
 #import "UserBaseInfoViewController.h"
 #import <TencentOpenAPI/TencentOAuth.h>
 
-@interface LoginViewController ()<UITextFieldDelegate, TencentSessionDelegate>{
+#import "WXApi.h"
+
+@interface LoginViewController ()<UITextFieldDelegate,TencentSessionDelegate,TencentLoginDelegate,WXApiDelegate,WeiboSDKDelegate>{
     CGRect scrollFrame;
 }
 
@@ -43,6 +45,13 @@
 @property (strong, nonatomic) IBOutlet UIView *pwdUnderline;    // 密码下划线
 
 
+@property (strong, nonatomic) IBOutlet UIView *footView;
+
+
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *labelViewY;
+
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *footViewY;
+
 @end
 
 @implementation LoginViewController
@@ -62,6 +71,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     [self performSelector:@selector(showMainView) withObject:nil afterDelay:0.3f];
+    
+    //weixin监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weixinLogin:) name:WeixinLogin object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weiboLogin:) name:WeiboLogin object:nil];
+    
     
     // QQ登录
     _tencentOAuth = [[TencentOAuth alloc] initWithAppId:kAppID_QQ andDelegate:self];
@@ -91,6 +105,15 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    float screenH = [UIScreen mainScreen].bounds.size.height;
+    
+    self.labelViewY.constant = screenH -64-140;
+    self.footViewY.constant = screenH -64 - 120;
+    
+    if (screenH < 500) {
+        self.labelViewY.constant = 500 -140;
+        self.footViewY.constant = 500 - 120;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -103,110 +126,6 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-}
-
-#pragma mark 请求登录接口
-- (void)requestLoginInterfaceWithType:(NSString *)type andOpenid:(NSString *)openId
-{
-    NSString *phoneNum = self.loginNameTextField.text;
-    NSString *pwdStr = self.passwordTexrField.text;
-    
-    if ([type intValue] == 1)
-    {
-        if (phoneNum.length == 0
-            || pwdStr.length == 0)
-        {
-            [self makeToast:@"请输入账号/密码"];
-            return;
-        }
-        
-        if ([[phoneNum substringToIndex:1] intValue] != 1
-            || phoneNum.length != 11)
-        {
-            [self makeToast:@"请输入正确的验证码"];
-            return;
-        }
-    }
-    
-    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
-    [paramDic setObject:phoneNum forKey:@"phone"];
-    [paramDic setObject:type forKey:@"type"];
-    paramDic[@"devicetype"] = @"1"; // 设备类型
-    paramDic[@"version"] = APP_VERSION; // 版本号
-    paramDic[@"ostype"] = @"1"; // 操作平台
-    if ([type isEqualToString:@"1"])
-    {
-        [paramDic setObject:[CommonUtil md5:pwdStr] forKey:@"password"];
-    }else{
-        [paramDic setObject:openId forKey:@"phone"];
-    }
-    
-    NSString *uri = @"/suser?action=login";
-    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
-    
-    [DejalBezelActivityView activityViewForView:self.view];
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        [DejalBezelActivityView removeViewAnimated:YES];
-        
-        if ([responseObject[@"code"] integerValue] == 1) {
-            // 第三方登录 未绑定账号
-            if ([[responseObject[@"isbind"] description] isEqualToString:@"0"])
-            {
-                
-                BindingViewController *nextController = [[BindingViewController alloc] initWithNibName:@"BindingViewController" bundle:nil];
-                nextController.openId = _openId;
-                nextController.type = [NSString stringWithFormat:@"%d", ([type intValue] - 1)];
-                [self.navigationController pushViewController:nextController animated:YES];
-            }else{
-                [self makeToast:@"登录成功"];
-                    
-                AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-                NSDictionary *user_info = [responseObject objectForKey:@"UserInfo"];
-                delegate.userid = [[user_info objectForKey:@"studentid"] description];
-                [CommonUtil saveObjectToUD:user_info key:@"UserInfo"];
-                [CommonUtil saveObjectToUD:[paramDic objectForKey:@"phone"] key:@"loginusername"];
-                [CommonUtil saveObjectToUD:pwdStr key:@"loginpassword"];
-                [CommonUtil saveObjectToUD:type key:@"logintype"];
-                
-                if (![CommonUtil isEmpty:delegate.deviceToken]) {
-                    [self uploadDeviceToken:delegate.deviceToken];
-                }
-                [self.navigationController popToRootViewControllerAnimated:YES];
-            }
-            
-            // 将第三方登录的openID存在本地
-            if ([type isEqualToString:@"2"]) {
-                // QQ
-                [CommonUtil saveObjectToUD:openId key:@"QQOpenid"];
-            }else if ([type isEqualToString:@"3"]) {
-                // 微信
-                
-                
-            }else if ([type isEqualToString:@"4"]) {
-                // 微博
-                
-                
-            }
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"loginSuccess" object:nil];
-        }else{
-            NSString *message = responseObject[@"message"];
-            [self makeToast:message];
-            
-            NSLog(@"code = %@",  responseObject[@"code"]);
-            NSLog(@"message = %@", responseObject[@"message"]);
-        }
-        
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [DejalBezelActivityView removeViewAnimated:YES];
-        [self makeToast:ERR_NETWORK];
-    }];
-
 }
 
 // 上传设备号
@@ -381,7 +300,8 @@
     self.mainView.frame = frame;
     
     [self.mainScrollView addSubview:self.mainView];
-    self.mainScrollView.contentSize = CGSizeMake(0, self.sinaBtn.frame.origin.y + CGRectGetHeight(self.sinaBtn.frame) + 20);
+//    self.mainScrollView.contentSize = CGSizeMake(0, self.loginButton.frame.origin.y + CGRectGetHeight(self.loginButton.frame) + 20);
+    self.mainScrollView.contentSize = CGSizeMake(0, 500);
 }
 
 #pragma mark - action
@@ -389,7 +309,7 @@
     [self.loginNameTextField resignFirstResponder];
     [self.passwordTexrField resignFirstResponder];
 }
-#pragma mark 登录注册
+#pragma mark 登录
 - (IBAction)clickForLoginRegist:(id)sender {
     NSString *vcode = [self.passwordTexrField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *phone = [self.loginNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -438,6 +358,9 @@
             [CommonUtil saveObjectToUD:vcode key:@"loginpassword"];
             [CommonUtil saveObjectToUD:@"1" key:@"logintype"];
             
+            //环信登录
+            [[EMIMHelper defaultHelper] loginEasemobSDK];
+            
             int isregister = [[responseObject objectForKey:@"isregister"] intValue];
             delegate.isregister = [NSString stringWithFormat:@"%d",isregister];
             int isInvited = [[responseObject objectForKey:@"isInvited"] intValue];
@@ -447,17 +370,17 @@
                 [self uploadDeviceToken:delegate.deviceToken];
             }
             
-            if (isInvited == 1) {    //1代表未被邀请，0代表已被邀请
-                RecommendCodeViewController *nextController = [[RecommendCodeViewController alloc] initWithNibName:@"RecommendCodeViewController" bundle:nil];
-                if (self.comeFrom == 1) {
-                    nextController.popType = 1;
-                    [self.navigationController popViewControllerAnimated:NO];
-                }
+//            if (isInvited == 1) {    //1代表未被邀请，0代表已被邀请
+//                RecommendCodeViewController *nextController = [[RecommendCodeViewController alloc] initWithNibName:@"RecommendCodeViewController" bundle:nil];
+//                if (self.comeFrom == 1) {
+//                    nextController.popType = 1;
+//                    [self.navigationController popViewControllerAnimated:NO];
+//                }
                 
-                [self.navigationController pushViewController:nextController animated:YES];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"loginSuccess" object:nil];
-                return;
-            }
+//                [self.navigationController pushViewController:nextController animated:YES];
+//                [[NSNotificationCenter defaultCenter] postNotificationName:@"loginSuccess" object:nil];
+//                return;
+//            }
             
             if(isregister == 0){
                 if (self.comeFrom == 1) {
@@ -473,6 +396,10 @@
 //                [self.navigationController pushViewController:nextController animated:YES];
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:@"loginSuccess" object:nil];
+            if (self.afterLoginBlock) {
+                self.afterLoginBlock();
+            }
+            
         }else{
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
@@ -499,11 +426,47 @@
     
     if (button.tag == 1) {
         //QQ
-        [_tencentOAuth authorize:_permissions inSafari:NO];
-        
+//        [_tencentOAuth authorize:_permissions inSafari:NO];
+            self.tencentOAuth = [[TencentOAuth alloc] initWithAppId:kAppID_QQ andDelegate:self];
+            //    NSArray * array =  [NSArray arrayWithObjects:@"get_user_info", @"get_simple_userinfo", @"add_t", nil];
+            NSArray * array1 = [NSArray arrayWithObjects:
+                                kOPEN_PERMISSION_GET_USER_INFO,
+                                kOPEN_PERMISSION_GET_SIMPLE_USER_INFO,
+                                kOPEN_PERMISSION_ADD_ALBUM,
+                                kOPEN_PERMISSION_ADD_IDOL,
+                                kOPEN_PERMISSION_ADD_ONE_BLOG,
+                                kOPEN_PERMISSION_ADD_PIC_T,
+                                kOPEN_PERMISSION_ADD_SHARE,
+                                kOPEN_PERMISSION_ADD_TOPIC,
+                                kOPEN_PERMISSION_CHECK_PAGE_FANS,
+                                kOPEN_PERMISSION_DEL_IDOL,
+                                kOPEN_PERMISSION_DEL_T,
+                                kOPEN_PERMISSION_GET_FANSLIST,
+                                kOPEN_PERMISSION_GET_IDOLLIST,
+                                kOPEN_PERMISSION_GET_INFO,
+                                kOPEN_PERMISSION_GET_OTHER_INFO,
+                                kOPEN_PERMISSION_GET_REPOST_LIST,
+                                kOPEN_PERMISSION_LIST_ALBUM,
+                                kOPEN_PERMISSION_UPLOAD_PIC,
+                                kOPEN_PERMISSION_GET_VIP_INFO,
+                                kOPEN_PERMISSION_GET_VIP_RICH_INFO,
+                                kOPEN_PERMISSION_GET_INTIMATE_FRIENDS_WEIBO,
+                                kOPEN_PERMISSION_MATCH_NICK_TIPS_WEIBO,
+                                nil];
+            [self.tencentOAuth authorize:array1 inSafari:NO];
 
     }else if (button.tag == 2){
         //微信
+        
+        SendAuthReq* req =[[SendAuthReq alloc ] init];
+        req.scope = @"snsapi_userinfo";
+        req.state = @"123" ;
+        req.openID = kAppID_Weixin;// @"wxa508cf6ae267e0a8";
+            //第三方向微信终端发送一个SendAuthReq消息结构
+        //    [WXApi sendReq:req];
+        
+        
+            [WXApi sendAuthReq:req viewController:self delegate:self];
         
     }else if (button.tag == 3){
         //新浪微博
@@ -515,6 +478,7 @@
                              @"Other_Info_2": @[@"obj1", @"obj2"],
                              @"Other_Info_3": @{@"key1": @"obj1", @"key2": @"obj2"}};
         [WeiboSDK sendRequest:request];
+        
     }
     
 //    BindingViewController *nextController = [[BindingViewController alloc] initWithNibName:@"BindingViewController" bundle:nil];
@@ -540,13 +504,50 @@
         NSLog(@"expirationDate == %@", expirationDate);
         
         // 请求登录接口  type = 2
-        [self requestLoginInterfaceWithType:@"2" andOpenid:_openId];
+//        [self requestLoginInterfaceWithType:@"2" andOpenid:_openId];
     }
     else
     {
 //        _labelAccessToken.text = @"登录不成功 没有获取accesstoken";
         NSLog(@"登录不成功 没有获取accesstoken");
     }
+}
+
+-(void)weixinLogin:(NSNotification *)notification{
+    SendAuthResp * authResp = (SendAuthResp *) notification.object;
+    
+    NSString * url = [NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%@&secret=56ba2549a60c5d5ffaf6eeb036d26f5f&code=%@&grant_type=authorization_code",kAppID_Weixin,authResp.code];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager setResponseSerializer:[AFHTTPResponseSerializer serializer]];
+    [manager.responseSerializer setAcceptableContentTypes:[NSSet setWithObject:@"text/plain"]];
+    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation * operation, id responseObject) {
+        NSDictionary *photo = [NSJSONSerialization
+                               
+                               JSONObjectWithData:responseObject
+                               
+                               options:NSJSONReadingMutableLeaves
+                               
+                               error:nil];
+        NSString *str1 = [photo objectForKey:@"openid"];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"openid" message:str1 delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles: nil];
+        [alertView show];
+        
+        NSString *str = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSLog(@"%@",str);
+        //        UIImage *img = [UIImage imageWithData:responseObject];
+        //        [_codeImageView setImage:img];
+        //        [ProgressHUD dismiss];
+    } failure:^(AFHTTPRequestOperation * operation, NSError * error) {
+        //        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误" message:@"内部服务器错误" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles: nil];
+        //        [alertView show];
+        //        [ProgressHUD dismiss];
+    }];
+}
+
+-(void)weiboLogin:(NSNotification *)notification{
+    NSString * userid = (NSString *) notification.object;
+    NSLog(@"%@",userid);
 }
 
 - (IBAction)backClick:(id)sender
@@ -605,4 +606,110 @@
         [self makeToast:ERR_NETWORK];
     }];
 }
+
+#pragma mark - 废弃
+//#pragma mark 请求登录接口
+//- (void)requestLoginInterfaceWithType:(NSString *)type andOpenid:(NSString *)openId
+//{
+//    NSString *phoneNum = self.loginNameTextField.text;
+//    NSString *pwdStr = self.passwordTexrField.text;
+//
+//    if ([type intValue] == 1)
+//    {
+//        if (phoneNum.length == 0
+//            || pwdStr.length == 0)
+//        {
+//            [self makeToast:@"请输入账号/密码"];
+//            return;
+//        }
+//
+//        if ([[phoneNum substringToIndex:1] intValue] != 1
+//            || phoneNum.length != 11)
+//        {
+//            [self makeToast:@"请输入正确的验证码"];
+//            return;
+//        }
+//    }
+//
+//    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+//    [paramDic setObject:phoneNum forKey:@"phone"];
+//    [paramDic setObject:type forKey:@"type"];
+//    paramDic[@"devicetype"] = @"1"; // 设备类型
+//    paramDic[@"version"] = APP_VERSION; // 版本号
+//    paramDic[@"ostype"] = @"1"; // 操作平台
+//    if ([type isEqualToString:@"1"])
+//    {
+//        [paramDic setObject:[CommonUtil md5:pwdStr] forKey:@"password"];
+//    }else{
+//        [paramDic setObject:openId forKey:@"phone"];
+//    }
+//
+//    NSString *uri = @"/suser?action=login";
+//    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
+//
+//    [DejalBezelActivityView activityViewForView:self.view];
+//
+//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+//    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//
+//        [DejalBezelActivityView removeViewAnimated:YES];
+//
+//        if ([responseObject[@"code"] integerValue] == 1) {
+//            // 第三方登录 未绑定账号
+//            if ([[responseObject[@"isbind"] description] isEqualToString:@"0"])
+//            {
+//
+//                BindingViewController *nextController = [[BindingViewController alloc] initWithNibName:@"BindingViewController" bundle:nil];
+//                nextController.openId = _openId;
+//                nextController.type = [NSString stringWithFormat:@"%d", ([type intValue] - 1)];
+//                [self.navigationController pushViewController:nextController animated:YES];
+//            }else{
+//                [self makeToast:@"登录成功"];
+//
+//                AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+//                NSDictionary *user_info = [responseObject objectForKey:@"UserInfo"];
+//                delegate.userid = [[user_info objectForKey:@"studentid"] description];
+//                [CommonUtil saveObjectToUD:user_info key:@"UserInfo"];
+//                [CommonUtil saveObjectToUD:[paramDic objectForKey:@"phone"] key:@"loginusername"];
+//                [CommonUtil saveObjectToUD:pwdStr key:@"loginpassword"];
+//                [CommonUtil saveObjectToUD:type key:@"logintype"];
+//
+//                if (![CommonUtil isEmpty:delegate.deviceToken]) {
+//                    [self uploadDeviceToken:delegate.deviceToken];
+//                }
+//                [self.navigationController popToRootViewControllerAnimated:YES];
+//            }
+//
+//            // 将第三方登录的openID存在本地
+//            if ([type isEqualToString:@"2"]) {
+//                // QQ
+//                [CommonUtil saveObjectToUD:openId key:@"QQOpenid"];
+//            }else if ([type isEqualToString:@"3"]) {
+//                // 微信
+//
+//
+//            }else if ([type isEqualToString:@"4"]) {
+//                // 微博
+//
+//
+//            }
+//
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"loginSuccess" object:nil];
+//        }else{
+//            NSString *message = responseObject[@"message"];
+//            [self makeToast:message];
+//
+//            NSLog(@"code = %@",  responseObject[@"code"]);
+//            NSLog(@"message = %@", responseObject[@"message"]);
+//        }
+//
+//
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        [DejalBezelActivityView removeViewAnimated:YES];
+//        [self makeToast:ERR_NETWORK];
+//    }];
+//
+//}
+
 @end

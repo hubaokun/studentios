@@ -10,10 +10,8 @@
 @class TQStarRatingView;
 
 @protocol StarRatingViewDelegate <NSObject>
-
 @optional
 -(void)starRatingView:(TQStarRatingView *)view score:(float)score;
-
 @end
 
 @interface TQStarRatingView : UIView

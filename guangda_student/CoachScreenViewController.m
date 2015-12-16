@@ -116,10 +116,6 @@
     tapGestureRecognizer2.numberOfTapsRequired = 1;
     [self.selectView addGestureRecognizer:tapGestureRecognizer2];
     
-    
-    
-    
-    
     // 监听驾校搜索输入框
     [self.schoolNameInputField addTarget:self action:@selector(inputSchoolNameChanged:) forControlEvents:UIControlEventEditingChanged];
 }
@@ -145,9 +141,6 @@
             }else{
                 self.leftUpBtn.enabled = YES;
             }
-            
-            
-            
             
         }else{
             self.dateBeginLabel.text = @"不限";
@@ -265,20 +258,11 @@
 #pragma mark - 监听
 - (void)keyboardWillShow:(NSNotification *)notification
 {
-    CGRect footViewRect = self.footView.frame;
     NSDictionary *userInfo = [notification userInfo];
     NSValue* aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
     CGRect keyboardRect = [aValue CGRectValue];
     keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
-    
-    CGFloat keyboardTop = keyboardRect.origin.y;
-    if (self.nowTextField == nil) {
-        return;
-    }
-    
-    //获取这个textField在self.view中的位置， fromView为textField的父view
-    CGRect textFrame = self.nowTextField.superview.frame;
-    CGFloat textFieldY = textFrame.origin.y + CGRectGetHeight(textFrame);
+    CGFloat keyboardHeight = keyboardRect.size.height;
     
     // Get the duration of the animation.
     NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
@@ -287,9 +271,9 @@
 
     if (_pickerIsShown == NO) {
         //将footview始终置于键盘上方
-        footViewRect.origin.y = keyboardTop - footViewRect.size.height;
         [UIView animateWithDuration:animationDuration animations:^{
-            self.footView.frame = footViewRect;
+            self.footViewBottomSpaceCon.constant = keyboardHeight;
+            [self.view layoutIfNeeded];
         }];
     } else {
         // 上移picherView
@@ -298,16 +282,6 @@
             [self.view layoutIfNeeded];
         }];
     }
-    
-    if(textFieldY < keyboardTop) {
-        //键盘没有挡住输入框
-        return;
-    }
-    
-    //键盘遮挡了输入框
-    CGFloat _hight = textFieldY - keyboardTop;
-    self.scrollView.contentOffset = CGPointMake(0, _hight+50);
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH - 110);
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
@@ -323,7 +297,8 @@
     
     if (_pickerIsShown == NO) {
         [UIView animateWithDuration:animationDuration animations:^{
-            self.footView.frame = footViewRect;
+            self.footViewBottomSpaceCon.constant = 0;
+            [self.view layoutIfNeeded];
         }];
     } else {
         // 下移picherView
@@ -334,7 +309,6 @@
     }
     
     self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH - 110);
-    self.nowTextField = nil;
 }
 
 #pragma mark - 输入框代理
@@ -362,6 +336,29 @@
 }
 
 #pragma mark - 接口请求
+// 获取所有科目类型
+- (void)getAllSubject
+{
+    NSString *uri = @"/suser?action=GETQUERYSUBJECT";
+    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:nil RequestMethod:Request_GET];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [DejalBezelActivityView activityViewForView:self.view];
+    [manager GET:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        [DejalBezelActivityView removeViewAnimated:YES];
+        
+        if ([responseObject[@"code"] integerValue] == 1) {
+            // 添加按钮
+            NSMutableArray *subjectList = [responseObject[@"subjectlist"] mutableCopy];
+            [self addSubjectBtn:subjectList];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self makeToast:ERR_NETWORK];
+    }];
+    
+}
+
 // 获取驾校列表
 - (void)postGetSchollList
 {
@@ -397,30 +394,6 @@
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self makeToast:ERR_NETWORK];
-    }];
-    
-}
-
-// 获取所有科目类型
-- (void)getAllSubject
-{
-    NSString *uri = @"/cmy?action=GetAllSubject";
-    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:nil RequestMethod:Request_GET];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    [DejalBezelActivityView activityViewForView:self.view];
-    [manager GET:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        [DejalBezelActivityView removeViewAnimated:YES];
-        
-        if ([responseObject[@"code"] integerValue] == 1) {
-            
-            // 添加按钮
-            NSMutableArray *subjectList = [responseObject[@"subjectlist"] mutableCopy];
-            [self addSubjectBtn:subjectList];
-        }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                [self makeToast:ERR_NETWORK];
     }];
     
 }
@@ -728,57 +701,6 @@
     [self.selectView removeFromSuperview];
     _pickerIsShown = NO;
 }
-
-// 完成日期选择
-- (IBAction)clickForDateDone:(id)sender
-{
-    
-    NSString *selectedDateStr = [NSString stringWithFormat:@"%@-%@-%@", _myYear, _myMonth, _myDay];
-    NSDate *selectedDate = [CommonUtil getDateForString:selectedDateStr format:@"yyyy-MM-dd"];
-    NSInteger year = [CommonUtil getYearOfDate:selectedDate];
-    NSInteger day = [CommonUtil getdayOfDate:selectedDate];
-    NSInteger month = [CommonUtil getMonthOfDate:selectedDate];
-    
-    NSDate *now = [NSDate date];
-    NSInteger yearNow = [CommonUtil getYearOfDate:now];
-    NSInteger dayNow = [CommonUtil getdayOfDate:now];
-    NSInteger monthNow = [CommonUtil getMonthOfDate:now];
-    
-    if(year < yearNow){
-        [self makeToast:@"开始日期不能早于当前日期"];
-        return;
-    }else if(month < monthNow){
-        [self makeToast:@"开始日期不能早于当前日期"];
-        return;
-    }else if(year == yearNow && month == monthNow && day < dayNow){
-        [self makeToast:@"开始日期不能早于当前日期"];
-        return;
-    }
-    
-    if(([selectedDate timeIntervalSinceDate:self.maxDate] > 0.0)){
-        [self makeToast:@"最多只能筛选30天的数据"];
-        return;
-    }
-    
-    self.dateScreenBegin = selectedDate;
-    self.dateBeginLabel.text = selectedDateStr;
-    
-    if (([selectedDate timeIntervalSinceDate:self.maxDate] >= 0.0)) {
-        self.rightUpBtn.enabled = NO;
-    }else{
-        self.rightUpBtn.enabled = YES;
-    }
-    
-    if(([selectedDate timeIntervalSinceDate:[NSDate date]] <= 0.0)){
-        self.leftUpBtn.enabled = NO;
-    }else{
-        self.leftUpBtn.enabled = YES;
-    }
-    
-    [self.selectView removeFromSuperview];
-}
-
-
 
 // 日期
 - (IBAction)addDateClick:(id)sender

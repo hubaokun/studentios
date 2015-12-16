@@ -12,12 +12,10 @@
 
 @interface CommentTableViewCell()
 
+@property (strong, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (strong, nonatomic) TQStarRatingView *starView;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *contentHeight;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentLabelRightSpaceCon;
-@property (weak, nonatomic) IBOutlet UIImageView *arrowImageView;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *contentHeightCon;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *timeLabelLeftSpaceCon;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *nickLabelLeftSpaceCon;
 
 @end
 
@@ -25,7 +23,9 @@
 
 - (void)awakeFromNib {
     //     教练信息 星级View
-    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 99, 12, 87, 15)];
+    self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(0, 0, 68, 12)];
+    self.starView.right = SCREEN_WIDTH - 41;
+    self.starView.centerY = self.scoreLabel.centerY;
     [self.contentView addSubview:_starView];
 }
 
@@ -57,27 +57,16 @@
     
     // 评分
     [self.starView changeStarForegroundViewWithScore:self.comment.score];
-    
-    [self viewConfig];
+    self.scoreLabel.text = [NSString stringWithFormat:@"%.1f", self.comment.score];
     
     // 评论内容
     NSString *content = self.comment.content;
     if([CommonUtil isEmpty:content]){
         content = @" ";
     }
-    CGFloat textWidth = 0;
-    if (self.comment.style == CommentStyleNormal) { // 评论不可点击
-        self.contentLabelRightSpaceCon.constant = 11;
-        self.arrowImageView.hidden = YES;
-        textWidth = SCREEN_WIDTH - 23;
-    } else { // 评论可点击
-        self.contentLabelRightSpaceCon.constant = 44;
-        self.arrowImageView.hidden = NO;
-        textWidth = SCREEN_WIDTH - 56;
-    }
     self.content.text = content;
-    CGSize size = [CommonUtil sizeWithString:content fontSize:14.0 sizewidth:textWidth sizeheight:CGFLOAT_MAX];
-    self.contentHeight.constant = size.height;
+    CGSize size = [CommonUtil sizeWithString:content fontSize:12.0 sizewidth:SCREEN_WIDTH - 120 sizeheight:CGFLOAT_MAX];
+    self.contentHeightCon.constant = size.height;
 }
 
 + (CGFloat)calculateHeight:(XBComment *)comment {
@@ -85,34 +74,9 @@
     if([CommonUtil isEmpty:content]){
         content = @" ";
     }
-    CGFloat textWidth = 0;
-    if (comment.style == CommentStyleNormal) { // 评论不可点击
-        textWidth = SCREEN_WIDTH - 23;
-    } else { // 评论可点击
-        textWidth = SCREEN_WIDTH - 56;
-    }
-    CGSize size = [CommonUtil sizeWithString:content fontSize:14.0 sizewidth:textWidth sizeheight:CGFLOAT_MAX];
-    return size.height + 47.0;
-}
-
-- (void)viewConfig {
-    if (self.type == CommentCellTypeNewest ) {
-        self.nick.hidden = NO;
-        self.nickLabelLeftSpaceCon.constant = 12;
-        self.timeLabelLeftSpaceCon.constant = (SCREEN_WIDTH - self.time.width) / 2;
-        self.starView.hidden = YES;
-    }
-    else if (self.type == CommentCellTypeUniversal) {
-        self.nick.hidden = NO;
-        self.timeLabelLeftSpaceCon.constant = 12;
-        self.nickLabelLeftSpaceCon.constant = self.time.x + self.time.width + 8;
-        self.starView.hidden = NO;
-    }
-    else if (self.type == CommentCellTypePersonal) {
-        self.nick.hidden = YES;
-        self.timeLabelLeftSpaceCon.constant = 12;
-        self.starView.hidden = NO;
-}
+    CGFloat textWidth = SCREEN_WIDTH - 120;
+    CGSize size = [CommonUtil sizeWithString:content fontSize:12.0 sizewidth:textWidth sizeheight:CGFLOAT_MAX];
+    return size.height + 43.0;
 }
 
 @end

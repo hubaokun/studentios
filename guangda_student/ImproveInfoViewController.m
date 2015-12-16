@@ -634,6 +634,15 @@
     _address = [user_info objectForKey:@"address"];
     _urgentPerson = [user_info objectForKey:@"urgent_person"];
     _urgentPhone = [user_info objectForKey:@"urgent_phone"];
+    
+    if (![CommonUtil isEmpty:_birthday]) {
+        NSArray *subStr = [_birthday componentsSeparatedByString:@"-"];
+        if (subStr.count == 3) {
+            _myYear = subStr[0];
+            _myMonth = subStr[1];
+            _myDay = subStr[2];
+        }
+    }
 }
 
 #pragma mark - 点击事件
@@ -687,12 +696,24 @@
     self.cityView.hidden = YES;
     self.dateView.hidden = NO;
     
-    _myYear = @"1975";
-    _myMonth = @"01";
-    _myDay = @"01";
-    [self.datePicker selectRow:45 inComponent:0 animated:YES];
-    [self.datePicker selectRow:0 inComponent:1 animated:YES];
-    [self.datePicker selectRow:0 inComponent:2 animated:YES];
+    int yearRow = 0;
+    int monthRow = 0;
+    int dayRow = 0;
+    if ([CommonUtil isEmpty:_myYear] && [CommonUtil isEmpty:_myMonth] && [CommonUtil isEmpty:_myDay]) {
+        _myYear = @"1990";
+        _myMonth = @"01";
+        _myDay = @"15";
+        yearRow = 65;
+        dayRow = 14;
+    } else {
+        yearRow = _myYear.intValue - 1925;
+        monthRow = _myMonth.intValue - 1;
+        dayRow = _myDay.intValue - 1;
+    }
+    
+    [self.datePicker selectRow:yearRow inComponent:0 animated:YES];
+    [self.datePicker selectRow:monthRow inComponent:1 animated:YES];
+    [self.datePicker selectRow:dayRow inComponent:2 animated:YES];
     
     [self.view addSubview:self.selectView];
 }

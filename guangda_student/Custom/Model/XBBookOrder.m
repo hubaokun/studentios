@@ -24,7 +24,25 @@
         _payType = payTypeCoupon; // 默认为学时券支付
         _isDeficit = NO; // 默认余额充足
         _delMoney = 0; // 默认小巴币支付数为0
+        // 是否是体验课
+        int freeCourseState = [infoDict[@"freecoursestate"] intValue];
+        if (freeCourseState) {
+            _isFreeCourse = YES;
+        } else {
+            _isFreeCourse = NO;
+        }
     }
+    return self;
+}
+
+- (instancetype)initWithDict:(NSDictionary *)dict rentalFee:(int)rentalFee
+{
+    self = [self initWithDict:dict];
+    _needCar = YES;
+    _rentalFee = rentalFee;
+    int originPrice = [_price intValue];
+    int totalPrice = originPrice + rentalFee;
+    _price = [NSString stringWithFormat:@"%d", totalPrice];
     return self;
 }
 
@@ -39,6 +57,17 @@
     if (array.count > 0) {
         for (NSDictionary *dict in array) {
             [tempArray addObject:[XBBookOrder bookOrderWithDict:dict]];
+        }
+    }
+    return tempArray;
+}
+
++ (NSMutableArray *)bookOrdersWithArray:(NSArray *)array needCar:(int)rentalFee
+{
+    NSMutableArray *tempArray = [NSMutableArray array];
+    if (array.count > 0) {
+        for (NSDictionary *dict in array) {
+            [tempArray addObject:[[XBBookOrder alloc] initWithDict:dict rentalFee:rentalFee]];
         }
     }
     return tempArray;

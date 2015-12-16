@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_OPTIONS(NSUInteger, OrderType) {
+typedef NS_ENUM(NSUInteger, OrderType) {
     OrderTypeUncomplete = 0,    // 未完成订单
     OrderTypeWaitEvaluate,      // 待评价订单
     OrderTypeComplete,          // 已完成订单
@@ -34,9 +34,12 @@ typedef NS_OPTIONS(NSUInteger, OrderType) {
 @property (copy, nonatomic) NSString *delMoney;     // 小巴币抵价
 @property (copy, nonatomic) NSString *carLicense;   // 牌照
 @property (copy, nonatomic) NSString *modelid;      // 准教车型
+@property (copy, nonatomic) NSString *subjectID;    // 科目ID
 @property (copy, nonatomic) NSString *subjectName;  // 科目
+@property (copy, nonatomic) NSString *courseType;   // 5：代表是体验课
 @property (copy, nonatomic) NSString *reason;       // 投诉原因
 @property (copy, nonatomic) NSString *complaintContent;  // 投诉内容
+@property (assign, nonatomic) BOOL needCar;         // 是否需要教练车
 
 /* 
  * 距离订单开始的分钟数，若不为正则代表订单某个特殊状态

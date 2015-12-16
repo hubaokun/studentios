@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SelfServiceSignUpViewController">
@@ -28,12 +28,14 @@
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Okg-Sj-qGQ">
                     <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                    <animations/>
                 </scrollView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MT6-gg-0hL" userLabel="顶部栏">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="自助报名" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YTj-Gf-bJg" userLabel="注册">
                             <rect key="frame" x="74" y="20" width="452" height="44"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="DQB-bk-1SP"/>
                             </constraints>
@@ -43,10 +45,12 @@
                         </label>
                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l6n-fl-a5K" userLabel="underline">
                             <rect key="frame" x="0.0" y="63" width="600" height="1"/>
+                            <animations/>
                             <color key="backgroundColor" red="0.79607843140000001" green="0.79607843140000001" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LWT-kM-Rdr" userLabel="back">
                             <rect key="frame" x="0.0" y="20" width="60" height="44"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="60" id="H1H-GC-Wnv"/>
                                 <constraint firstAttribute="height" constant="44" id="qhc-hx-k2J"/>
@@ -60,6 +64,7 @@
                             </connections>
                         </button>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="LWT-kM-Rdr" firstAttribute="leading" secondItem="MT6-gg-0hL" secondAttribute="leading" id="6dF-Bi-SEN"/>
@@ -72,6 +77,7 @@
                     </constraints>
                 </view>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="Okg-Sj-qGQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="8ec-UO-CiO"/>
@@ -90,6 +96,7 @@
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Eb-gn-RUj">
                     <rect key="frame" x="10" y="30" width="580" height="130"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="130" id="cp8-kr-M1W"/>
                     </constraints>
@@ -102,6 +109,7 @@
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击查看所需材料" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ug6-Os-QKW">
                     <rect key="frame" x="145" y="64" width="311" height="26"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="311" id="9iL-F5-fVZ"/>
                         <constraint firstAttribute="height" constant="26" id="Bis-PC-erT"/>
@@ -112,6 +120,7 @@
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="准备所需材料" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NM3-Sf-h12">
                     <rect key="frame" x="145" y="38" width="311" height="26"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="26" id="12x-fU-Taa"/>
                         <constraint firstAttribute="width" constant="311" id="13d-OF-nCw"/>
@@ -122,6 +131,7 @@
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k6g-MY-3sw">
                     <rect key="frame" x="10" y="168" width="580" height="130"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="130" id="wd8-vN-K1b"/>
                     </constraints>
@@ -134,6 +144,7 @@
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击查看流程" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7hO-1x-g6H">
                     <rect key="frame" x="145" y="204" width="311" height="26"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="26" id="NQz-uG-90m"/>
                         <constraint firstAttribute="width" constant="311" id="Wos-JW-zab"/>
@@ -144,6 +155,7 @@
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="通过体检，科目一报名" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y3o-3u-MUi">
                     <rect key="frame" x="145" y="178" width="311" height="26"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="311" id="LIW-Wk-Xvm"/>
                         <constraint firstAttribute="height" constant="26" id="LyX-eJ-4ih"/>
@@ -154,6 +166,7 @@
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XBE-5W-OLF">
                     <rect key="frame" x="10" y="306" width="580" height="130"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="130" id="Gun-sS-dgT"/>
                     </constraints>
@@ -166,6 +179,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nrh-wk-KL6">
                     <rect key="frame" x="10" y="444" width="580" height="50"/>
+                    <animations/>
                     <color key="backgroundColor" red="0.87450980389999999" green="0.38823529410000002" blue="0.094117647060000004" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="wOt-aw-JZO"/>
@@ -181,6 +195,7 @@
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="参加理论培训，通过科目一考试" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e4X-hc-BCv">
                     <rect key="frame" x="145" y="314" width="311" height="26"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="311" id="hli-aa-KLd"/>
                         <constraint firstAttribute="height" constant="26" id="vgj-wS-csU"/>
@@ -191,6 +206,7 @@
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击查看流程" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VaR-eN-tf4">
                     <rect key="frame" x="145" y="340" width="311" height="26"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="311" id="NOI-Cs-hxI"/>
                         <constraint firstAttribute="height" constant="26" id="mOd-2J-XSz"/>
@@ -200,6 +216,7 @@
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="XBE-5W-OLF" firstAttribute="leading" secondItem="bbH-Ki-yBH" secondAttribute="leading" constant="10" id="6Lc-aC-anw"/>
@@ -255,6 +272,7 @@
             <subviews>
                 <view alpha="0.60000002384185791" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z45-gt-JdM" userLabel="背景">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <gestureRecognizers/>
                 </view>
@@ -263,6 +281,7 @@
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GMc-8X-TEN">
                             <rect key="frame" x="260" y="0.0" width="40" height="40"/>
+                            <animations/>
                             <inset key="imageEdgeInsets" minX="10" minY="-10" maxX="0.0" maxY="0.0"/>
                             <state key="normal" image="icon_close">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -273,29 +292,34 @@
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="体检通过后按照“学员须知”上的要求，根据“理论培训预约单”上的时间安排参加理论课的培训，必须完成五次理论课程后参加结业鉴定。（结业鉴定需考到85分以上，科目一考试90分通过）" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mPe-wt-n1f">
                             <rect key="frame" x="22" y="48" width="256" height="90"/>
+                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.30588235289999999" green="0.30588235289999999" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="参加理论培训，通过科目一考试" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ir3-3R-FfB">
                             <rect key="frame" x="52" y="19" width="196" height="21"/>
+                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.83921568629999999" green="0.38431372549999998" blue="0.094117647060000004" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1、在河坊街体检的凭本人受理凭证、学驾申请表和科目一培训记录卡在河坊街33号三楼阶梯教室预约科目一考试时间，按预约时间参加科目一考试。" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wS5-N9-Tys">
                             <rect key="frame" x="22" y="146" width="256" height="74"/>
+                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.30588235289999999" green="0.30588235289999999" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2、在下沙体检的凭本人受理凭证、学驾申请表和科目一培训记录卡到下沙体检中心5、6、7、8号窗口预约科目一考试，按预约时间参加科目一考试。" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zjs-eT-IMk">
                             <rect key="frame" x="22" y="228" width="256" height="76"/>
+                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.30588235289999999" green="0.30588235289999999" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="300" id="UPl-ny-B9l"/>
@@ -307,6 +331,7 @@
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HST-VW-kSP">
                             <rect key="frame" x="260" y="0.0" width="40" height="40"/>
+                            <animations/>
                             <inset key="imageEdgeInsets" minX="10" minY="-10" maxX="0.0" maxY="0.0"/>
                             <state key="normal" image="icon_close">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -317,6 +342,7 @@
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="9" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kjj-94-4CE">
                             <rect key="frame" x="22" y="68" width="256" height="126"/>
+                            <animations/>
                             <string key="text">1：体检地址：河坊街33号
 咨询电话：86090902 | 87281519
 体检流程：14、16号窗口付费→体检→17、19窗口盖章（证件复印）→2-10号窗口报名→38号窗领书→43号窗口缴理科费→下楼梯出大门左转路口河坊街45号预约上课时间。</string>
@@ -326,18 +352,21 @@
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="通过体检，科目一报名" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3O-Bt-1Rf">
                             <rect key="frame" x="80" y="19" width="140" height="21"/>
+                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.83921568629999999" green="0.38431372549999998" blue="0.094117647060000004" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="就近选择体检和报名地址：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hd4-CO-sQg">
                             <rect key="frame" x="22" y="48" width="212" height="21"/>
+                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.30588235289999999" green="0.30588235289999999" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aOm-ee-thR">
                             <rect key="frame" x="22" y="202" width="256" height="113"/>
+                            <animations/>
                             <string key="text">2：体检地址：盛安路50号2楼
 咨询电话：86090902
 体检流程：1、2号窗口缴费→体检→3、4号窗口体检盖章→5、6、7、8号窗口预约结业鉴定→9号窗口领书→10号窗口交理科费。</string>
@@ -346,6 +375,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="346" id="A5D-uh-jmQ"/>
@@ -357,6 +387,7 @@
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qtP-xr-7fP">
                             <rect key="frame" x="260" y="0.0" width="40" height="40"/>
+                            <animations/>
                             <inset key="imageEdgeInsets" minX="10" minY="-10" maxX="0.0" maxY="0.0"/>
                             <state key="normal" image="icon_close">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -367,46 +398,56 @@
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="所需材料" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7dE-jk-4gR">
                             <rect key="frame" x="119" y="19" width="62" height="21"/>
+                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.83921568629999999" green="0.38431372549999998" blue="0.094117647060000004" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="身份证钱小图标" translatesAutoresizingMaskIntoConstraints="NO" id="Ek8-Cd-DHp">
                             <rect key="frame" x="8" y="80" width="20" height="20"/>
+                            <animations/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="身份证钱小图标" translatesAutoresizingMaskIntoConstraints="NO" id="rtp-oP-swd">
                             <rect key="frame" x="8" y="168" width="20" height="20"/>
+                            <animations/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="身份证钱小图标" translatesAutoresizingMaskIntoConstraints="NO" id="Mto-uL-J4j">
                             <rect key="frame" x="8" y="246" width="20" height="20"/>
+                            <animations/>
                         </imageView>
                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cWe-HT-f51">
                             <rect key="frame" x="17" y="101" width="2" height="68"/>
+                            <animations/>
                             <color key="backgroundColor" red="0.74117647060000003" green="0.74117647060000003" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="prj-xf-h9f">
                             <rect key="frame" x="17" y="188" width="2" height="58"/>
+                            <animations/>
                             <color key="backgroundColor" red="0.74117647060000003" green="0.74117647060000003" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="有摩托车驾照的提供驾照原件及复印件一份。非杭籍摩托车驾照处理方法：注销驾照或者凭身份证、在杭居住证、摩托车驾照原件到杭州古墩路车管所（古墩路699号）转为杭州籍摩托车驾照。" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="grB-8P-y4P">
                             <rect key="frame" x="36" y="128" width="256" height="100"/>
+                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.30588235289999999" green="0.30588235289999999" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="一寸白底彩照2张" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WXp-Rp-99J">
                             <rect key="frame" x="36" y="236" width="256" height="40"/>
+                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.30588235289999999" green="0.30588235289999999" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="身份证原件及正反面复印件2份(非杭州户籍的提供临时居住证原件及复印件2份)" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WLX-Vb-0Y8">
                             <rect key="frame" x="36" y="70" width="256" height="40"/>
+                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.30588235289999999" green="0.30588235289999999" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="300" id="age-gW-pzw"/>
@@ -414,6 +455,7 @@
                     </constraints>
                 </view>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="Z45-gt-JdM" firstAttribute="top" secondItem="KNI-IK-viN" secondAttribute="top" id="7AF-72-X15"/>

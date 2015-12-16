@@ -69,6 +69,7 @@
     self.closeKeyBoard.hidden = YES;
 }
 
+#pragma mark - UITextFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
     NSString *aliaccount = user_info[@"alipay_account"];
@@ -86,17 +87,7 @@
     return  YES;
 }
 
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
+// 提交
 - (IBAction)clickForSubmit:(id)sender {
     NSString *aliaccount = [self.accountInputView.text stringByReplacingOccurrencesOfString:@" " withString:@""];
     
@@ -160,6 +151,7 @@
     }
 }
 
+// 重置支付宝账号
 - (IBAction)clickForClearAccount:(id)sender{
     
     NSDictionary *user_info = [CommonUtil getObjectFromUD:@"UserInfo"];
@@ -209,6 +201,7 @@
         [self makeToast:ERR_NETWORK];
     }];
 }
+
 - (IBAction)clickForCloseKeyBoard:(id)sender {
     [self.accountInputView resignFirstResponder];
 }

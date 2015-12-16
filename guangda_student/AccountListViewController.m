@@ -105,9 +105,9 @@
             NSString *consumeCoupon = [responseObject[@"consumeCoupon"] description];
             
             // 累计消费
-            self.usedLabel.text = [NSString stringWithFormat:@"累计消费：金额%@元 小巴币%@个 学时券%@张", consumeMoney, consumeCoin, consumeCoupon];
+            self.usedLabel.text = [NSString stringWithFormat:@"金额%@元 小巴币%@个 学时券%@张", consumeMoney, consumeCoin, consumeCoupon];
 
-            [self setLabel];
+            [self showData];
         }else if(code == 95){
             NSString *message = responseObject[@"message"];
             [self makeToast:message];
@@ -138,7 +138,7 @@
     }
 }
 
-- (void)setLabel
+- (void)showData
 {
     NSString *money = _money;
     NSString *moneyStr = [NSString stringWithFormat:@"%@ 元", money];

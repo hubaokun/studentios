@@ -41,7 +41,7 @@ CGFloat const kAnimationDuration = 0.2f;
 /*
  * Client object that observes changes
  */
-@property (nonatomic, readwrite, assign) id<DSBottomPullToMoreManagerClient> client;
+@property (nonatomic, readwrite, weak) id<DSBottomPullToMoreManagerClient> client;
 
 /*
  * Returns the correct offset to apply to the pull-to-More view, depending on contentSize

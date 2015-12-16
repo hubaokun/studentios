@@ -45,21 +45,24 @@
     self.teachMannerStarView.couldClick = YES;
     self.teachMannerStarView.delegate = self;
     [self.teachMannerView addSubview:self.teachMannerStarView];
-    _teachMannerScoreStr = [NSString stringWithFormat:@"%0.1f", 5.0];
+    [self.teachMannerStarView changeStarForegroundViewWithScore:4.0];
+    _teachMannerScoreStr = [NSString stringWithFormat:@"%0.1f", 4.0];
     
     // 教学质量
     self.teachQualityStarView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(89, 0, 93, 17) numberOfStar:5];
     self.teachQualityStarView.couldClick = YES;
     self.teachQualityStarView.delegate = self;
     [self.teachQualityView addSubview:self.teachQualityStarView];
-    _teachQualityScoreStr = [NSString stringWithFormat:@"%0.1f", 5.0];
+    [self.teachQualityStarView changeStarForegroundViewWithScore:4.0];
+    _teachQualityScoreStr = [NSString stringWithFormat:@"%0.1f", 4.0];
     
     // 车容车貌
     self.carQualityStarView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(89, 0, 93, 17) numberOfStar:5];
     self.carQualityStarView.couldClick = YES;
     self.carQualityStarView.delegate = self;
     [self.carQualityView addSubview:self.carQualityStarView];
-    _carQualityScoreStr = [NSString stringWithFormat:@"%0.1f", 5.0];
+    [self.carQualityStarView changeStarForegroundViewWithScore:4.0];
+    _carQualityScoreStr = [NSString stringWithFormat:@"%0.1f", 4.0];
     
     [self keyboardHiddenFun];
 }
@@ -200,19 +203,7 @@
     
 }
 
-#pragma mark - 页面特性
-// 点击背景退出键盘
-- (void)keyboardHiddenFun {
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backupgroupTap:)];
-    tapGestureRecognizer.numberOfTapsRequired = 1;
-    [self.view addGestureRecognizer: tapGestureRecognizer];   // 只需要点击非文字输入区域就会响应
-    [tapGestureRecognizer setCancelsTouchesInView:NO];
-}
--(void)backupgroupTap:(id)sender {
-    [self.evaluationTextView resignFirstResponder];
-}
-
-// 评分回调
+#pragma mark - StarRatingViewDelegate
 -(void)starRatingView:(TQStarRatingView *)view score:(float)score {
     if ([view isEqual:self.teachMannerStarView]) {
         _teachMannerScoreStr = [NSString stringWithFormat:@"%0.1f", score * 5];
@@ -226,6 +217,18 @@
         _carQualityScoreStr = [NSString stringWithFormat:@"%0.1f", score * 5];
         self.carQualityScoreLabel.text = [NSString stringWithFormat:@"%@分", _carQualityScoreStr];
     }
+}
+
+#pragma mark - Custom
+// 点击背景退出键盘
+- (void)keyboardHiddenFun {
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backupgroupTap:)];
+    tapGestureRecognizer.numberOfTapsRequired = 1;
+    [self.view addGestureRecognizer: tapGestureRecognizer];   // 只需要点击非文字输入区域就会响应
+    [tapGestureRecognizer setCancelsTouchesInView:NO];
+}
+-(void)backupgroupTap:(id)sender {
+    [self.evaluationTextView resignFirstResponder];
 }
 
 // 模拟placeholder

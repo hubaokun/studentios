@@ -31,6 +31,8 @@
         _carLicense = [dict[@"carlicense"] description];
         _modelid = [dict[@"modelid"] description];
         _subjectName = [dict[@"subjectname"] description];
+        _subjectID = [dict[@"subjectid"] description];
+        _courseType = [dict[@"coursetype"] description];
         _reason = [dict[@"reason"] description];
         _complaintContent = [dict[@"complaintcontent"] description];
         // 按钮信息
@@ -40,6 +42,13 @@
         _canUp = [dict[@"can_up"] intValue];
         _canDown = [dict[@"can_down"] intValue];
         _canComment = [dict[@"can_comment"] intValue];
+        
+        int attachCar = [dict[@"attachcar"] intValue];
+        if (attachCar) {
+            _needCar = YES;
+        } else {
+            _needCar = NO;
+        }
     }
     return self;
 }
