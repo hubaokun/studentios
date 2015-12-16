@@ -19,12 +19,7 @@
 
 // 微信
 #import "WXApi.h"
-
-<<<<<<< HEAD
 #import <PgySDK/PgyManager.h>
-
-=======
->>>>>>> 581ae6b487d24b94cba954550c406fc13f63eb86
 // 环信
 #import "EaseMob.h"
 #import "LocalDefine.h"
@@ -108,8 +103,6 @@
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    
-<<<<<<< HEAD
     //    //蒲公英
     //     设置用户反馈界面激活方式为三指拖动
     //        [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeThreeFingersPan];
@@ -123,9 +116,6 @@
     //    [[PgyManager sharedPgyManager] setShakingThreshold:3.0];//开发者可以自定义摇一摇的灵敏度，默认为2.3，数值越小灵敏度越高。
     //    [[PgyManager sharedPgyManager] showFeedbackView];//直接显示用户反馈画面
     [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
-    
-=======
->>>>>>> 581ae6b487d24b94cba954550c406fc13f63eb86
     //友盟社会化分享与统计
     [MobClick startWithAppkey:@"55bf12f8e0f55a95d7002184" reportPolicy:BATCH channelId:@"pgy"];
     

@@ -12,11 +12,7 @@
 /* 服务器地址 */
 //#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"    // 正式服
 #define REQUEST_HOST   @"http://xiaobaxueche.com:8080/dadmin2.0.0/"    // 正式服测试版
-<<<<<<< HEAD
 //#define REQUEST_HOST   @"http://120.25.236.228/dadmin2.0.0/"       // 测试服务器
-=======
-//#define REQUEST_HOST   @"http://120.25.236.228/dadmin/"       // 测试服务器
->>>>>>> 581ae6b487d24b94cba954550c406fc13f63eb86
 //#define REQUEST_HOST   @"http://192.168.1.103:8080/"       // 胡博
 //#define REQUEST_HOST   @"http://192.168.1.188:8080/xb/"       // 卢磊
 //#define REQUEST_HOST   @"http://192.168.1.53:8080/xb/"   // 冯彦
@@ -56,16 +52,11 @@
 #define CUSTOM_BLUE RGB(110,197,217)
 #define CUSTOM_GREEN RGB(80, 203, 140)
 
-<<<<<<< HEAD
 //蒲公英
 #define PGY_APPKEY              @"a3c621d83ef41c7a790a7c070062a9d3"
 //坤哥的id 37e76e809d2b7fc7612e14201e55b79a
 //饶宏的id a3c621d83ef41c7a790a7c070062a9d3
 //老庄的id ac484d6da6021dbfd5eb750827d8c1e4
-
-
-=======
->>>>>>> 581ae6b487d24b94cba954550c406fc13f63eb86
 #endif
 
 
